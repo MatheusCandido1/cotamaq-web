@@ -56,9 +56,15 @@
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Equipamento</label>
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input  v-model="estimate.equipment"  @change="() => (errors.equipment = 'OK')" :class="errors.equipment == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>  
-                <div v-if="errors.equipment == 'ERROR'">
+                        <select :class="errors.equipment_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.equipment_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <option value=""> Selecione... </option>
+                            <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{equipment.description}} - {{equipment.year}} ({{equipment.patrimony}})</option>
+                        </select> 
+                        <button class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
+                            <span class="m-auto"><i class="mdi mdi-plus"></i></span>
+                        </button>                               
+                </div>   
+                <div v-if="errors.equipment_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Equipamento é obrigatório.</span>
                 </div>                       
             </div>
@@ -159,13 +165,13 @@
 <script>
 import { bus } from '../../../main';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import { userService, categoryService, estimateService } from '../../../services';
+import { userService, categoryService, estimateService, equipmentService } from '../../../services';
 import { required } from 'vuelidate/lib/validators'
 
 export default {
     name: 'EstimateForm',
     components: {
-        AddressAdd
+        AddressAdd,
     },
     updated() {
         bus.$off('updatedEstimateAddress');
@@ -178,18 +184,16 @@ export default {
     created() {
         this.getAddresses()
         this.getCategories()
+        this.getEquipments();
     },
     data() {
         return {
             isAddModalVisible: false,
             addresses: [],
             categories: [],
+            equipments: [],
             estimate: {
-                equipment: null,
-                patrimony: null,
-                model: null,
-                brand: null,
-                year: null,
+                equipment_id: '',
                 observation: null,
                 delivery_id: null,
                 address_id:  null,
@@ -198,17 +202,16 @@ export default {
             errors: {
                 delivery_id: null,
                 address_id: null,
-                equipment: null,
-                category_id: null,
-                year: null,
-            }
+                equipment_id: null,
+                category_id: null
+            },
         }
     },
     methods: {
         createEstimate() {
             this.$v.$touch()
 
-                if(this.$v.estimate.equipment.$invalid) {
+                if(this.$v.estimate.equipment_id.$invalid) {
                     this.errors.equipment = 'ERROR'
                 } 
 
@@ -236,11 +239,7 @@ export default {
             if(this.$v.$anyError == false && this.errors.year != "ERROR") {
 
                 const data = {
-                    equipment: this.estimate.equipment,
-                    patrimony: this.estimate.patrimony,
-                    model: this.estimate.model,
-                    brand: this.estimate.brand,
-                    year: this.estimate.year,
+                    equipment_id: this.estimate.equipment_id,
                     observation: this.estimate.observation,
                     delivery: this.estimate.delivery_id,
                     address_id: this.estimate.address_id,
@@ -255,8 +254,6 @@ export default {
                 });
                 const estimateId = response.data.id
                 this.$router.push({name: 'editEstimate', params: {id: estimateId}})
-                
-                bus.$emit('new', true);
                 }).catch((error) => {
                     console.log(error.response.data)
                 })
@@ -286,10 +283,17 @@ export default {
                 console.log(error.response.data)
             }) 
         },
+        getEquipments() {
+            equipmentService.getEquipments().then((response) => {
+                this.equipments = response.data.data.equipments
+            }).catch((error) => {
+                console.log(error.response.data)
+            }) 
+        }
     },
     validations: {
         estimate: {
-            equipment: {
+            equipment_id: {
                 required
             },
             category_id: {
@@ -306,7 +310,5 @@ export default {
     
 }
 </script>
-
 <style>
-
 </style>

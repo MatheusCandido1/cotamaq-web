@@ -3,7 +3,7 @@
    <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
     <div class="flex -mx-3">
                         <div class="w-3/5 px-3 mb-5">
-                            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Consulta de cotações 
+                            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotações 
                                 <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                             </h2>
                         </div>
@@ -132,7 +132,7 @@
             <tr  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">#{{row.id}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.created_at | formatDate}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.equipment}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.equipment.description}} - {{row.equipment.year}} ({{row.equipment.patrimony}})</td>
                 <td v-if="row.status == 6" class="text-sm text-center text-gray-700">Não disponível</td>
 
                 <td v-else class="text-sm text-center text-gray-700">{{row.proposals.reduce((acc,e)=>{e.status == 3 ?acc++:false; return acc},0)}}</td>
