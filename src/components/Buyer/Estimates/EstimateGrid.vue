@@ -86,7 +86,7 @@
                     </div>
            
              <div class="flex items-center justify-between">
-            <button @click="playSound" class=" mb-2 mt-2 px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-md dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">                            
+            <button class=" mb-2 mt-2 px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-md dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">                            
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
@@ -118,7 +118,7 @@
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <v-th  class="text-center" style="width: 10%" sortKey="id">Cotação</v-th>
                 <v-th  class="text-center" style="width: 5%" sortKey="created_at">Data</v-th>
-                <v-th  class="text-center" style="width: 20%" sortKey="equipment">Equipamento</v-th>
+                <v-th  class="text-center" style="width: 20%" sortKey="equipment.description">Equipamento</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="proposals">Propostas</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="observation">Observação</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="status">Situação</v-th>
@@ -132,7 +132,7 @@
             <tr  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">#{{row.id}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.created_at | formatDate}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.equipment.description}} - {{row.equipment.year}} ({{row.equipment.patrimony}})</td>
+                <td class="text-sm text-center text-gray-700">{{formatEquipment(row.equipment)}}</td>
                 <td v-if="row.status == 6" class="text-sm text-center text-gray-700">Não disponível</td>
 
                 <td v-else class="text-sm text-center text-gray-700">{{row.proposals.reduce((acc,e)=>{e.status == 3 ?acc++:false; return acc},0)}}</td>
@@ -219,6 +219,8 @@ import { proposalService } from '../../../services';
 import EstimateDelete from './EstimateDelete';
 import EstimateDuplicate from './EstimateDuplicate';
 import { BarLoader } from '@saeris/vue-spinners';
+import { formatEquipment } from '@/helpers/string-helper';
+
 export default {
     name: 'ProposalGrid',
     components: {
@@ -252,7 +254,7 @@ export default {
                 end_date: null,
                 situation: 0,
                 input: {
-                    data: {value: '', keys: ['id','equipment','created_at','observation']},
+                    data: {value: '', keys: ['id','equipment.patrimony', 'equipment.year','equipment.description','created_at','observation']},
                 }
             },
             filteredEstimates: [],
@@ -265,6 +267,7 @@ export default {
         }
     },
     methods: {
+        formatEquipment,
         playSound() {
             var data = { soundurl : 'https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3'} 
             var audio = new Audio(data.soundurl);
