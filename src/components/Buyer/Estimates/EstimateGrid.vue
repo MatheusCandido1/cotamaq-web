@@ -132,7 +132,7 @@
             <tr  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">#{{row.id}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.created_at | formatDate}}</td>
-                <td class="text-sm text-center text-gray-700">{{showEquipment(row.equipment)}}</td>
+                <td class="text-sm text-center text-gray-700">{{formatEquipment(row.equipment)}}</td>
                 <td v-if="row.status == 6" class="text-sm text-center text-gray-700">Não disponível</td>
 
                 <td v-else class="text-sm text-center text-gray-700">{{row.proposals.reduce((acc,e)=>{e.status == 3 ?acc++:false; return acc},0)}}</td>
@@ -265,12 +265,11 @@ export default {
         }
     },
     methods: {
-        showEquipment(equipment) {
+        formatEquipment(equipment) {
             const formattedDescription = equipment.description ? equipment.description:''
             const formattedYear = equipment.year ? equipment.year:''
             const formattedPatrimony = equipment.patrimony ? ' ('+equipment.patrimony+')':''
             return formattedDescription + ' - ' + formattedYear + formattedPatrimony
-
         },
         playSound() {
             var data = { soundurl : 'https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3'} 

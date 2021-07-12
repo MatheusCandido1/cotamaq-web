@@ -103,7 +103,7 @@
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <v-th  class="text-center" style="width: 10%" sortKey="id">Código</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="created_at">Data</v-th>
-                <v-th  class="text-center" style="width: 20%" sortKey="equipment">Equipamento</v-th>
+                <v-th  class="text-center" style="width: 20%" sortKey="equipment.description">Equipamento</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="status">Status</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="products">Peças</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="status.id">Valor Total</v-th>
@@ -117,7 +117,7 @@
             <tr  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">#{{row.id}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.created_at | formatDate}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.equipment}}</td>
+                <td class="text-sm text-center text-gray-700">{{formatEquipment(row.equipment)}}</td>
 
                <td v-if="row.proposals_by_seller.length == 0" class="text-sm text-center text-gray-700">
                     <span>
@@ -265,7 +265,7 @@ export default {
                 end_date: null,
                 situation: 0,
                 input: {
-                    data: {value: '', keys: ['id','equipment','created_at','observation']},
+                    data: {value: '', keys: ['id','equipment.patrimony', 'equipment.year','equipment.description','created_at','observation']},
                 }
             },
             filteredEstimates: [],
@@ -284,11 +284,17 @@ export default {
         }
     },
     methods: {
-         playSound(url) {
-             if(url) {
+        formatEquipment(equipment) {
+            const formattedDescription = equipment.description ? equipment.description:''
+            const formattedYear = equipment.year ? equipment.year:''
+            const formattedPatrimony = equipment.patrimony ? ' ('+equipment.patrimony+')':''
+            return formattedDescription + ' - ' + formattedYear + formattedPatrimony
+        },
+        playSound(url) {
+            if(url) {
                 var audio = new Audio(url);
                 audio.play();
-             }
+            }
         },
         clearFilter() {
             this.filter.start_date = null
