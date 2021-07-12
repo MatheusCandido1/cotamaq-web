@@ -89,17 +89,13 @@ export default {
             const data = {
                 id: this.estimate.id,
                 status: this.selectedStatus,
-                equipment: this.estimate.equipment,
-                patrimony: this.estimate.patrimony,
-                model: this.estimate.model,
-                brand: this.estimate.brand,
-                year: this.estimate.year,
+                equipment_id: this.estimate.equipment_id,
                 observation: this.estimate.observation,
                 delivery: this.estimate.delivery,
                 address_id: this.estimate.address_id,
                 category_id: this.estimate.category_id,
             }
-            estimateService.updateStatus(data).then((response) => {
+            estimateService.updateEstimate(data).then((response) => {
             this.$toast.success(response.success_message, {
                 position: "bottom-right",
                 pauseOnHover: false,

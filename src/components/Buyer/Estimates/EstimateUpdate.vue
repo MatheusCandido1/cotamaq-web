@@ -59,11 +59,17 @@
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Equipamento</label>
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input  v-model="estimate.equipment" :disabled="loader.loading"  @change="() => (errors.equipment = 'OK')" :class="errors.equipment == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>      
-                <div v-if="errors.equipment == 'ERROR'">
+                        <select :class="errors.equipment_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.equipment_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <option disabled value=""> Selecione... </option>
+                            <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{equipment.description}} - {{equipment.year}} ({{equipment.patrimony}})</option>
+                        </select> 
+                        <button class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
+                            <span class="m-auto"><i class="mdi mdi-plus"></i></span>
+                        </button>                               
+                </div>   
+                <div v-if="errors.equipment_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Equipamento é obrigatório.</span>
-                </div>                      
+                </div>                     
             </div>
 
             <div class="w-1/2 px-3 mb-5">
@@ -78,43 +84,6 @@
                 <div v-if="errors.category_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Categoria é obrigatório.</span>
                 </div>                    
-            </div>
-        </div>
-
-        <div class="flex -mx-3">
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Patrimonio</label>
-                <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input :disabled="loader.loading" v-model="estimate.patrimony" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input :disabled="loader.loading" placeholder="" v-model="estimate.model" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input placeholder="" :disabled="loader.loading" v-model="estimate.brand" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
-                <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <the-mask @change.native="() => (errors.year = 'OK')" :class="errors.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
-                </div>    
-                <div v-if="errors.year == 'ERROR'">
-                    <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
-                </div>                      
             </div>
         </div>
 
@@ -220,7 +189,7 @@
                         <label for="" class="text-xs font-semibold px-1"></label>
                             <div class="flex">
                             <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                <button  @click="updateStatus(1)" class="w-full flex items-center justify-center  bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                <button  @click="updateEstimate(1)" class="w-full flex items-center justify-center  bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                     <span class="justify-center whitespace-nowrap">Salvar Rascunho</span>
                                 </button>                         
                             </div>   
@@ -280,7 +249,7 @@
 <script>
 import { bus } from '../../../main';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import { userService, categoryService, estimateService, productService } from '../../../services';
+import { equipmentService, userService, categoryService, estimateService, productService } from '../../../services';
 import { required } from 'vuelidate/lib/validators'
 import ProductAdd from '../Products/ProductAdd';
 import ProductDelete from '../Products/ProductDelete';
@@ -314,6 +283,7 @@ export default {
         })
     },
     created() {
+        this.getEquipments();
         this.getAddresses()
         this.getCategories()
         this.getEstimate(this.$route.params.id)
@@ -340,21 +310,18 @@ export default {
                 loading: false,
                 color: '#0bc95b',
             },
+            equipments: [],
             selectedStatus: null,
             errors: {
                 delivery_id: null,
                 address_id: null,
-                equipment: null,
+                equipment_id: null,
                 category_id: null,
                 year: null,
             },
             estimate: {
                 id: null,
-                equipment: null,
-                patrimony: null,
-                model: null,
-                brand: null,
-                year: null,
+                equipment_id: null,
                 status_id: null,
                 observation: null,
                 delivery: null,
@@ -364,42 +331,11 @@ export default {
         }
     },
     methods: {
-        updateStatus(status) {
-            const data = {
-                id: this.estimate.id,
-                status: status,
-                equipment: this.estimate.equipment,
-                patrimony: this.estimate.patrimony,
-                model: this.estimate.model,
-                brand: this.estimate.brand,
-                year: this.estimate.year,
-                observation: this.estimate.observation,
-                delivery: this.estimate.delivery,
-                address_id: this.estimate.address_id,
-                category_id: this.estimate.category_id,
-            }
-            estimateService.updateStatus(data).then((response) => {
-            this.loader.loader = true
-            this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-
-            this.loader.loading = false
-            this.$router.push({name: 'estimates'})
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
-        },
-        updateEstimate() {
+        updateEstimate(status) {
             this.$v.$touch()
-
-                if(this.$v.estimate.equipment.$invalid) {
-                    this.errors.equipment = 'ERROR'
+                if(this.$v.estimate.equipment_id.$invalid) {
+                    this.errors.equipment_id = 'ERROR'
                 } 
-
                 if(this.$v.estimate.category_id.$invalid) {
                     this.errors.category_id = 'ERROR'
                 } 
@@ -419,16 +355,11 @@ export default {
                         this.errors.year = 'ERROR'
                     }
                 }
-
-                
             if(this.$v.$anyError == false && this.errors.year != "ERROR") {
             const data = {
                 id: this.estimate.id,
-                equipment: this.estimate.equipment,
-                patrimony: this.estimate.patrimony,
-                model: this.estimate.model,
-                brand: this.estimate.brand,
-                year: this.estimate.year,
+                status: status,
+                equipment_id: this.estimate.equipment_id,
                 observation: this.estimate.observation,
                 delivery: this.estimate.delivery,
                 address_id: this.estimate.address_id,
@@ -443,6 +374,7 @@ export default {
                 timeout: 2500
             });
             this.loader.loading = false
+            this.$router.push({name: 'estimates'})
             }).catch((error) => {
                 console.log(error.response.data)
             })
@@ -473,6 +405,13 @@ export default {
             }).catch((error) => {
                 console.log(error.response.data)
             })
+        },
+        getEquipments() {
+            equipmentService.getEquipments().then((response) => {
+                this.equipments = response.data.data.equipments
+            }).catch((error) => {
+                console.log(error.response.data)
+            }) 
         },
         getCategories() {
             categoryService.getCategories().then((response) => {
@@ -534,7 +473,7 @@ export default {
     },
     validations: {
         estimate: {
-            equipment: {
+            equipment_id: {
                 required
             },
             category_id: {

@@ -10,8 +10,7 @@ export const estimateService = {
     deleteEstimate,
     duplicateEstimate,
     getAvailableEstimates,
-    getProductsByEstimate,
-    updateStatus
+    getProductsByEstimate
 };
 
 function getProductsByEstimate(id) {
@@ -53,21 +52,6 @@ function deleteEstimate(id) {
 
 function updateEstimate(data) {
     return axios.put(`${API_URL}/estimates/${data.id}`, JSON.stringify(data), {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const data = response.data
-        
-        return data;
-    })
-}
-
-function updateStatus(data) {
-    return axios.put(`${API_URL}/estimates/status/${data.id}`, JSON.stringify(data), {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,

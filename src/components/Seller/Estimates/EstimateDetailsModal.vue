@@ -42,13 +42,12 @@
                 </div>
             </div>   
             </div>
-
             <div class="flex -mx-3">
                 <div class="w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Equipamento</label>
                     <div class="flex">
                     <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span  class="justify-center whitespace-nowrap">{{estimate.equipment}}</span>
+                            <span  class="justify-center whitespace-nowrap">{{estimate.equipment.description}}</span>
                         </div>                      
                 </div>
                 </div>
@@ -56,7 +55,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
                     <div class="flex">
                      <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center whitespace-nowrap">{{estimate.model ? estimate.model:'Não Informado'}}</span>
+                            <span class="justify-center whitespace-nowrap">{{estimate.equipment.model ? estimate.equipment.model:'Não Informado'}}</span>
                         </div>                          
                 </div>
                 </div>
@@ -64,7 +63,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
                     <div class="flex">
                    <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span  class="justify-center whitespace-nowrap">{{estimate.brand ? estimate.brand:'Não Informado'}}</span>
+                            <span  class="justify-center whitespace-nowrap">{{estimate.equipment.brand ? estimate.equipment.brand:'Não Informado'}}</span>
                         </div>  
                     </div>                         
                 </div>
@@ -75,7 +74,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
                     <div class="flex">
                     <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main  rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center whitespace-nowrap">{{estimate.year ? estimate.year:'Não Informado'}}</span>
+                            <span class="justify-center whitespace-nowrap">{{estimate.equipment.year ? estimate.equipment.year:'Não Informado'}}</span>
                         </div>                      
                 </div>
                 </div>
