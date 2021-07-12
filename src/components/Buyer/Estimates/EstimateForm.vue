@@ -124,6 +124,7 @@
 
                     <equipment-add
                         v-if="isEquipmentModalVisible"
+                        origin="create"
                         @close="closeEquipmentModal"
                     ></equipment-add>
     </div>
@@ -132,7 +133,7 @@
 <script>
 import { bus } from '../../../main';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import EquipmentAdd from '../Equipments/EquipmentAdd.vue';
+import EquipmentAdd from '../Equipments/EquipmentAdd';
 import { userService, categoryService, estimateService, equipmentService } from '../../../services';
 import { required } from 'vuelidate/lib/validators'
 import { formatEquipment } from '@/helpers/string-helper';
@@ -151,8 +152,8 @@ export default {
             }
         })
 
-        bus.$off('updatedEstimateEquipment');
-        bus.$on('updatedEstimateEquipment', (data) => {
+        bus.$off('updatedEstimateEquipmentCreate');
+        bus.$on('updatedEstimateEquipmentCreate', (data) => {
             if(data) {
                this.getEquipments(); 
             }

@@ -96,11 +96,13 @@ import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: "EquipmentAdd",
+  props: ['origin'],
   components: {
   },
   data() {
       return {
             disabled: false,
+            source: this.$props.origin,
             equipment: {
                 description: '',
                 patrimony: '',
@@ -148,7 +150,11 @@ export default {
                 this.disabled = false;
                 this.clearInputs();
                 this.close();
-                bus.$emit('updatedEstimateEquipment', true);
+                if(this.source == "create") {
+                    bus.$emit('updatedEstimateEquipmentCreate', true);
+                } else {
+                    bus.$emit('updatedEstimateEquipmentUpdate', true);
+                }
             }).catch((error) => {
                 this.disabled = false;
                 console.log(error.response.data)
