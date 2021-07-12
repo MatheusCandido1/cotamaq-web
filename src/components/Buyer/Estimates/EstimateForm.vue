@@ -57,7 +57,7 @@
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                         <select :class="errors.equipment_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.equipment_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                            <option value=""> Selecione... </option>
+                            <option disabled value=""> Selecione... </option>
                             <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{equipment.description}} - {{equipment.year}} ({{equipment.patrimony}})</option>
                         </select> 
                         <button class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
@@ -74,7 +74,7 @@
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                     <select @change="() => (errors.category_id = 'OK')" :class="errors.category_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.category_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        <option value=""> Selecione... </option>
+                        <option disabled value=""> Selecione... </option>
                         <option  v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                     </select> 
                 </div> 
