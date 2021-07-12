@@ -70,7 +70,7 @@
 <script>
 import { equipmentService } from '../../../services';
 import { bus } from '../../../main';
-import { required } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators';
 
 export default {
     name: 'EquipmentForm',
