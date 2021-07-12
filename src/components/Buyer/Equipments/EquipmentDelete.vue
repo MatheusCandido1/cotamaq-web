@@ -47,11 +47,11 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                Deletar condição de pagamento?
+                  Deletar equipamento?
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500">
-                    Tem certeza que deseja excluir essa condição de pagamento?
+                   Tem certeza que deseja excluir o equipamento?
                   </p>
                 </div>
               </div>
@@ -60,13 +60,14 @@
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              @click="deletePaymentCondition()"
+              @click="deleteEquipment()"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Apagar
             </button>
             <button
               type="button"
+              :disabled="disabled"
               @click="close"
               class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
@@ -79,36 +80,38 @@
   </transition>
 </template>
 <script>
-import { bus } from '../../../../main';
-import { paymentConditionService } from '../../../../services'
-
+import { bus } from '../../../main';
+import { equipmentService } from '../../../services'
 export default {
-  name: "PaymentConditionDelete",
-  props: ['paymentCondition'],
+  name: "EquipmentDelete",
+  props: ['equipment'],
   data() {
-      return {
-        selectedPaymentCondition: JSON.parse(JSON.stringify(this.$props.paymentCondition)),
-      }
+    return {
+      disabled: false,
+      selectedEquipment: JSON.parse(JSON.stringify(this.$props.equipment)),
+    }
   },
   methods: {
     close() {
       this.$emit("close");
     },
-    deletePaymentCondition() {
-        const paymentConditionId = this.selectedPaymentCondition.id
-        paymentConditionService.deletePaymentCondition(paymentConditionId).then((response) => {
-            this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-            bus.$emit('updatePaymentCondition', true);
-            this.close()
-        }).catch((error) => {
-            console.log(error.response.data)
-        }) 
-    },
+    deleteEquipment() {
+            this.disabled = true
+            const equipmentId = this.selectedEquipment.id
+            equipmentService.deleteEquipment(equipmentId).then((response) => {
+                this.$toast.success(response.success_message, {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                });
+                bus.$emit('updatedEquipment', true);
+                this.close()
+                this.disabled = false
+            }).catch((error) => {
+                console.log(error.response.data)
+            })
+        },
   },
 };
 </script>

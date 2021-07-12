@@ -58,9 +58,9 @@
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                         <select :class="errors.equipment_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.equipment_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             <option disabled value=""> Selecione... </option>
-                            <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{equipment.description}} - {{equipment.year}} ({{equipment.patrimony}})</option>
+                            <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{formatEquipment(equipment)}}</option>
                         </select> 
-                        <button class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
+                        <button @click.prevent="showEquipmentModal()" class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
                             <span class="m-auto"><i class="mdi mdi-plus"></i></span>
                         </button>                               
                 </div>   
@@ -121,25 +121,41 @@
                         v-if="isAddModalVisible"
                         @close="closeAddModal"
                     ></address-add>
+
+                    <equipment-add
+                        v-if="isEquipmentModalVisible"
+                        origin="create"
+                        @close="closeEquipmentModal"
+                    ></equipment-add>
     </div>
 </template>
 
 <script>
 import { bus } from '../../../main';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
+import EquipmentAdd from '../Equipments/EquipmentAdd';
 import { userService, categoryService, estimateService, equipmentService } from '../../../services';
 import { required } from 'vuelidate/lib/validators'
+import { formatEquipment } from '@/helpers/string-helper';
 
 export default {
     name: 'EstimateForm',
     components: {
         AddressAdd,
+        EquipmentAdd
     },
     updated() {
         bus.$off('updatedEstimateAddress');
         bus.$on('updatedEstimateAddress', (data) => {
             if(data) {
                this.getAddresses(); 
+            }
+        })
+
+        bus.$off('updatedEstimateEquipmentCreate');
+        bus.$on('updatedEstimateEquipmentCreate', (data) => {
+            if(data) {
+               this.getEquipments(); 
             }
         })
     },
@@ -151,6 +167,7 @@ export default {
     data() {
         return {
             isAddModalVisible: false,
+            isEquipmentModalVisible: false,
             addresses: [],
             categories: [],
             equipments: [],
@@ -170,6 +187,7 @@ export default {
         }
     },
     methods: {
+        formatEquipment,
         createEstimate() {
             this.$v.$touch()
 
@@ -227,6 +245,14 @@ export default {
         },
         closeAddModal() {
             this.isAddModalVisible = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showEquipmentModal() {
+            this.isEquipmentModalVisible = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeEquipmentModal() {
+            this.isEquipmentModalVisible = false;
             bus.$emit('ModalOpen', false);
         },
         getCategories() {
