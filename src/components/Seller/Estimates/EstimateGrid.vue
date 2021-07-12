@@ -212,6 +212,7 @@ import { BarLoader } from '@saeris/vue-spinners';
 import { estimateService } from '../../../services';
 import EstimateDecline from './EstimateDecline';
 import ProposalDecline from '../Proposals/ProposalDecline';
+import { formatEquipment } from '@/helpers/string-helper';
 
 export default {
     name: 'EstimateGrid',
@@ -284,12 +285,7 @@ export default {
         }
     },
     methods: {
-        formatEquipment(equipment) {
-            const formattedDescription = equipment.description ? equipment.description:''
-            const formattedYear = equipment.year ? equipment.year:''
-            const formattedPatrimony = equipment.patrimony ? ' ('+equipment.patrimony+')':''
-            return formattedDescription + ' - ' + formattedYear + formattedPatrimony
-        },
+        formatEquipment,
         playSound(url) {
             if(url) {
                 var audio = new Audio(url);

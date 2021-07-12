@@ -219,6 +219,8 @@ import { proposalService } from '../../../services';
 import EstimateDelete from './EstimateDelete';
 import EstimateDuplicate from './EstimateDuplicate';
 import { BarLoader } from '@saeris/vue-spinners';
+import { formatEquipment } from '@/helpers/string-helper';
+
 export default {
     name: 'ProposalGrid',
     components: {
@@ -265,12 +267,7 @@ export default {
         }
     },
     methods: {
-        formatEquipment(equipment) {
-            const formattedDescription = equipment.description ? equipment.description:''
-            const formattedYear = equipment.year ? equipment.year:''
-            const formattedPatrimony = equipment.patrimony ? ' ('+equipment.patrimony+')':''
-            return formattedDescription + ' - ' + formattedYear + formattedPatrimony
-        },
+        formatEquipment,
         playSound() {
             var data = { soundurl : 'https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3'} 
             var audio = new Audio(data.soundurl);
