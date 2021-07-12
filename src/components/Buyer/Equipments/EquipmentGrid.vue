@@ -41,7 +41,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" /> </svg>
                         </button>
 
-                        <button  class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                        <button @click="showDeleteModal(row)" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /> </svg>                        
                         </button>
                     </div>  
@@ -65,24 +65,42 @@
             </div>
     </div>
 
+    <equipment-delete
+        v-if="isDeleteModalVisible"
+        :equipment="equipment"
+        @close="closeDeleteModal">
+    </equipment-delete>
+
     </span>
 </template>
 <script>
 import { BarLoader } from '@saeris/vue-spinners';
 import { equipmentService } from '../../../services';
+import { bus } from '../../../main';
+import EquipmentDelete from './EquipmentDelete';
 
 export default {
     name: 'EquipmentGrid',
     components: {
-        BarLoader
+        BarLoader,
+        EquipmentDelete
     },
     mounted() {
         this.getEquipments();
-
+    },
+    updated() {
+        bus.$off('updatedEquipment');
+        bus.$on('updatedEquipment', (data) => {
+            if(data) {
+                this.getEquipments();
+            }
+        })
     },
     data() {
         return {
+            isDeleteModalVisible: false,
             equipments: [],
+            equipment: {},
             currentPage: 1,
             totalPages: 5,
             itemsPerpage: 5,
@@ -93,6 +111,15 @@ export default {
         }
     },
     methods: {
+        showDeleteModal(data) {
+            this.equipment = data
+            this.isDeleteModalVisible = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeDeleteModal() {
+            this.isDeleteModalVisible = false;
+            bus.$emit('ModalOpen', false);
+        },
         getEquipments() {
             this.loader.loading = true
             equipmentService.getEquipments().then((response) => {
