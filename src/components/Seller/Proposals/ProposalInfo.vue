@@ -3,7 +3,7 @@
 <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
     <div class="flex -mx-3 justify-between">
         <div class="px-3 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação - {{estimate.equipment}}<span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação #{{estimate.id}}<span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
         </div>
         <div class="px-3 mb-5">
             <div class="md:flex md:items-center mb-6">
