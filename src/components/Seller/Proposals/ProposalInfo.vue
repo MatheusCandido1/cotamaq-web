@@ -4,6 +4,7 @@
     <div class="flex -mx-3 justify-between">
         <div class="px-3 mb-5">
             <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação #{{estimate.id}}<span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
+            <bar-loader class="mt-3" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
         </div>
         <div class="px-3 mb-5">
             <div class="md:flex md:items-center mb-6">
@@ -88,6 +89,19 @@
             </tr>
         </tbody>
     </v-table>
+
+    <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+            <span class="flex items-center col-span-3 whitespace-nowrap" >
+                Total: {{products.length}} registro(s)
+            </span>
+            <span class="col-span-2"></span>
+            <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+            <smart-pagination
+                :currentPage.sync="currentPage"
+                :totalPages="totalPages"
+            />
+                </span>
+            </div>
 </div>
 <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
     <div class="flex -mx-3 justify-between">
@@ -158,7 +172,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Valor Unitário</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <money  :disabled="!edit" @change.native="getProductSubTotal()"   v-bind="productMoney" placeholder="" v-model="product.value" :class="errors.value == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
+                        <money  :disabled="!edit" @change.native="getProductSubTotal()"   v-bind="productMoney" placeholder="" v-model="product.details.value" :class="errors.value == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                     </div>   
                     <div v-if="errors.value == 'ERROR'">
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Valor Unitário deve ser válido.</span>
@@ -169,7 +183,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Total</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <money disabled v-model="product.subtotal"   v-bind="productSubtotal" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 border-primary-main rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
+                        <money disabled v-model="product.details.subtotal"   v-bind="productSubtotal" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 border-primary-main rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                     </div>                         
                 </div>
 
@@ -243,90 +257,6 @@
 
     <div class="relative p-6 flex-auto">   
             <div class="flex -mx-3">
-                <div class="w-1/2 px-3 mb-5  border-r-2 border-primary-main p-8">
-                    <h3 class="text-xl font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Formas de Pagamento </h3>
-                    <span class="flex justify-center items-center mb-2">
-                    <bar-loader class="mt-3" :color="loaderMethod.color" :loading="loaderMethod.loading" :size="150"></bar-loader>
-                    </span>
-                    <div  class="flex justify-center items-center flex-wrap ">   
-                     <div class="w-30 h-30 mr-4 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green" v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" @click="togglePaymentMethod(paymentMethod.id)">
-                            <div class="flex grid justify-center items-center">
-                                <div class="flex justify-center items-center" >
-                                <div :class="selectedPaymentMethods.includes(paymentMethod.id) ? 'bg-primary-lighter':'bg-gray-400'" class="mx-auto flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
-                                    <i class="mdi mdi-checkbox-multiple-marked text-white text-sm"></i>
-                                </div>
-                                </div>
-                                <p class="text-sm font-semibold text-gray-700 mt-1">{{paymentMethod.description}}</p>
-                                
-                            </div>
-                        </div>
-
-                        <div @click="showMethodModal" class="w-30 h-30 mr-4 bg-white rounded-lg shadow-md p-6 bg-primary-lighter cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
-                            <div class="flex grid justify-center items-center">
-                                <div class="flex justify-center items-center" >
-                                <div class="mx-auto flex-shrink-0 flex items-center bg-white justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
-                                    <i class="mdi mdi-plus-box-multiple text-primary-main text-sm"></i>
-                                </div>
-                                </div>
-                                <p class="text-sm font-semibold text-white mt-1">Adicionar</p>
-                            </div>
-                        </div>
-                    </div>         
-                <div class="flex flex-wrap" v-if="selectedPaymentMethods.length > 0 && paymentMethods.length > 0">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Selecionados: </label>
-                    <span v-for="paymentMethod in selectedPaymentMethods" :key="paymentMethod" class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2">{{getPaymentMethodName(paymentMethod)}}</span>                       
-                </div>   
-                <div v-if="selectedPaymentMethods.length == 0">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Nenhuma forma de pagamento escolhida </label>
-                </div>   
-
-                <div v-if="errors.paymentMethod == 'ERROR'">
-                    <span class="text-xs text-red-500 font-semibold px-1">Você deve escolher pelo menos uma forma de pagamento.</span>
-                </div>  
-                </div>
-
-                <div class="w-1/2 px-3 mb-5  border-primary-main p-8">
-                    <h3 class="text-xl font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Condições de Pagamento </h3>
-                    <span class="flex justify-center items-center mb-2">
-                    <bar-loader class="mt-3" :color="loaderCondition.color" :loading="loaderCondition.loading" :size="150"></bar-loader>
-                    </span>
-                    <div class="flex justify-center items-center flex-wrap  ">
-                        <div @click="togglePaymentCondition(paymentCondition.id)" class="w-30 h-30  mr-4 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green"  tabindex="0" v-for="paymentCondition in paymentConditions" :key="paymentCondition.id">
-                            <div class="flex grid justify-center items-center">
-                                <div class="flex justify-center items-center" >
-                                <div :class="selectedPaymentConditions.includes(paymentCondition.id) ? 'bg-primary-lighter':'bg-gray-400'" class="mx-auto flex-shrink-0 flex items-center  justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
-                                    <i class="mdi mdi-checkbox-multiple-marked text-white text-sm"></i>
-                                </div>
-                                </div>
-                                <p class="text-sm font-semibold text-gray-700 mt-1 whitespace-no-wrap">{{paymentCondition.description}}</p>
-                                
-                            </div>
-                        </div>
-                         <div @click="showConditionModal" class="w-24 h-24 mr-4 bg-white rounded-lg shadow-md p-6 bg-primary-lighter cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
-                            <div class="flex grid justify-center items-center">
-                                <div class="flex justify-center items-center" >
-                                <div class="mx-auto flex-shrink-0 flex items-center bg-white justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
-                                    <i class="mdi mdi-plus-box-multiple text-primary-main text-sm"></i>
-                                </div>
-                                </div>
-                                <p class="text-sm font-semibold text-white mt-1">Adicionar</p>
-                            </div>
-                        </div>
-                    </div> 
-                <div class="flex flex-wrap" v-if="selectedPaymentConditions.length > 0 && paymentConditions.length > 0">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Selecionados: </label>
-                    <span v-for="paymentCondition in selectedPaymentConditions" :key="paymentCondition" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2">{{getPaymentConditionName(paymentCondition)}}</span>                       
-                </div>   
-                <div v-if="selectedPaymentConditions.length == 0">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Nenhuma condição de pagamento escolhida </label>
-                </div>  
-                 <div v-if="errors.paymentCondition== 'ERROR'">
-                    <span class="text-xs text-red-500 font-semibold px-1">Você deve escolher pelo menos uma condição de pagamento.</span>
-                </div>  
-            </div>
-
-            </div> 
-            <div class="flex -mx-3">
                 <div class="w-1/3 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Subtotal</label>
                     <div class="flex">
@@ -344,7 +274,7 @@
                 </div>
                 
                 <div class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Data de validade</label>
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Data de validade da proposta</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                         <input :min="today" @change="() => (errors.validity = 'OK')" v-model="details.validity" :class="errors.validity == 'ERROR' ? 'border-red-400':'border-primary-main'"  placeholder="" type="date" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
@@ -413,17 +343,6 @@
             @close="closeProductModal"> 
         </product-detail>
 
-        <payment-method-add
-            v-if="isMethodModalOpen"
-            @close="closeMethodModal"
-        ></payment-method-add> 
-
-        
-        <payment-condition-add
-            v-if="isConditionModalOpen"
-            @close="closeConditionModal"
-        ></payment-condition-add> 
-
         
          <estimate-details-modal
             v-if="isEstimateModalOpen"
@@ -440,9 +359,7 @@ import { bus } from '../../../main';
 import ProposalConfirm from './ProposalConfirm';
 import ProductDetail from '../Products/ProductDetail';
 import { BarLoader } from '@saeris/vue-spinners';
-import { proposalService, productService, paymentMethodService, paymentConditionService } from '../../../services';
-import PaymentConditionAdd from '../Payments/PaymentCondition/PaymentConditionAdd';
-import PaymentMethodAdd from '../Payments/PaymentMethod/PaymentMethodAdd';
+import { proposalService, productService } from '../../../services';
 import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 import {Money} from 'v-money'
 import EstimateDetailsModal from '../../../components/Seller/Estimates/EstimateDetailsModal';
@@ -452,8 +369,6 @@ export default {
     components: {
         TheMask,
         ProposalConfirm,
-        PaymentConditionAdd,
-        PaymentMethodAdd,
         ProductDetail,
         Money,
         BarLoader,
@@ -463,43 +378,18 @@ export default {
         this.getProposal()
         this.getProductsTotal()
         this.getToday()
-        this.getPaymentMethods()
-        this.getSelectedPaymentMethods()
-        this.getPaymentConditions()
-        this.getSelectedPaymentConditions()
     },
     updated() {
-        bus.$off('updatePaymentMethod');
-        bus.$on('updatePaymentMethod', (data) => {
-            if(data) {
-            this.getPaymentMethods()
-            }
-        })
-
-        bus.$off('updatePaymentCondition');
-        bus.$on('updatePaymentCondition', (data) => {
-            if(data) {
-            this.getPaymentConditions()
-            }
-        })
     },
     data() {
         return {
             isEstimateModalOpen: false,
             today: new Date(),
-            loaderMethod: {
-                loading: false,
-                color: '#0bc95b',
-            },
-            loaderCondition: {
+            loader: {
                 loading: false,
                 color: '#0bc95b',
             },
             price: 0,
-            isChooseMethodModalOpen: false,
-            isChooseConditionModalOpen: false,
-            isMethodModalOpen: false,
-            isConditionModalOpen: false,
             isConfirmModalOpen: false,
             isProductModalOpen: false,
             edit: false,
@@ -507,16 +397,17 @@ export default {
             buyer: {},
             address: {},
             estimate: {},
-            paymentMethods: [],
-            selectedPaymentMethods: [],
-            selectedPaymentConditions: [],
-            paymentConditions: [],
             itemsPerpage: 5,
             currentPage: 1,
             totalPages: 5,
             products:[],
             product: {
-                product_delivery: null
+                details: {
+                    product_delivery: null,
+                    value: null,
+                    subtotal: null,
+                    is_similar: null,
+                }
             },
             subtotalMoney: {
                 decimal: ',',
@@ -551,8 +442,6 @@ export default {
                 is_similar: null,
                 product_delivery: null,
                 validity: null,
-                paymentMethod: null,
-                paymentCondition: null,
             },
             proposal: {},
             delivery_default: 0,
@@ -562,8 +451,6 @@ export default {
                 shipping: 0,
                 subtotal: 0,
                 total: 0,
-                paymentMethods: [],
-                paymentConditions: []
             },
             isEditing: false,
             colors: ["bg-red-500", "bg-primary-main"],
@@ -580,98 +467,6 @@ export default {
             this.isEstimateModalOpen = false
             bus.$emit('ModalOpen', false);
         },
-        getPaymentMethodName(id) {
-            const { description } = this.paymentMethods.find(pay => pay.id == id)
-            return description
-        },
-        getPaymentConditionName(id) {
-            const { description } = this.paymentConditions.find(pay => pay.id == id)
-            return description
-        },
-        togglePaymentMethod(value) {
-            if(this.selectedPaymentMethods.length != 1) {
-                this.errors.paymentMethod = 'OK'
-            }
-            if(this.selectedPaymentMethods.includes(value)) {
-                for(var i = 0; i < this.selectedPaymentMethods.length; i++) {
-                    if(this.selectedPaymentMethods[i] === value) {
-                        this.selectedPaymentMethods.splice(i, 1); 
-                    }
-                }
-            } else {
-                this.selectedPaymentMethods.push(value)
-            }
-        },
-        getSelectedPaymentMethods() {
-            this.loaderMethod.loading = true
-            paymentMethodService.getPaymentMethodsByProposal(this.$route.params.id).then((response) => {
-              this.selectedPaymentMethods = response.data.data
-              this.loaderMethod.loading = false
-            }).catch((error) => {
-                console.log(error.response.data)
-                this.loaderMethod.loading = false
-            }) 
-        },
-        getPaymentMethods() {
-            this.loaderMethod.loading = true
-            paymentMethodService.getPaymentMethods().then((response) => {
-                this.paymentMethods = response.data.data.paymentMethods
-                this.loaderMethod.loading = false
-            }).catch((error) => {
-                console.log(error.response.data)
-                this.loaderMethod.loading = false
-            }) 
-        },
-        getSelectedPaymentConditions() {
-            this.loaderCondition.loading = true
-            paymentConditionService.getPaymentConditionByProposal(this.details.id).then((response) => {
-              this.selectedPaymentConditions = response.data.data
-              this.loaderCondition.loading = false
-            }).catch((error) => {
-                console.log(error.response.data)
-                this.loaderCondition.loading = false
-            }) 
-        },
-        getPaymentConditions() {
-            this.loaderCondition.loading = true
-            paymentConditionService.getPaymentConditions().then((response) => {
-                this.paymentConditions = response.data.data.paymentConditions
-                this.loaderCondition.loading = false
-            }).catch((error) => {
-                console.log(error.response.data)
-                this.loaderCondition.loading = false
-            }) 
-        },
-        togglePaymentCondition(value) {
-            if(this.selectedPaymentConditions.length != 1) {
-                this.errors.paymentCondition = 'OK'
-            }
-            if(this.selectedPaymentConditions.includes(value)) {
-                for(var i = 0; i < this.selectedPaymentConditions.length; i++) {
-                if(this.selectedPaymentConditions[i] === value) {
-                    this.selectedPaymentConditions.splice(i, 1); 
-                }
-                }
-            } else {
-                this.selectedPaymentConditions.push(value)
-            }
-        },
-        showMethodModal() {
-            this.isMethodModalOpen = true;
-            bus.$emit('ModalOpen', true);
-        },
-        closeMethodModal() {
-            this.isMethodModalOpen = false;
-            bus.$emit('ModalOpen', false);
-        },
-        showConditionModal() {
-            this.isConditionModalOpen = true;
-            bus.$emit('ModalOpen', true);
-        },
-        closeConditionModal() {
-            this.isConditionModalOpen = false;
-            bus.$emit('ModalOpen', false);
-        },
         showProductModal(data) {
             this.product = data
             this.isProductModalOpen = true;
@@ -685,7 +480,7 @@ export default {
             bus.$emit('ModalOpen', false);
         },
         showConfirmModal() {
-            const check =  this.products.filter(product => product.value != null).length;
+            const check =  this.products.filter(product => product.details.value != null).length;
             if(check != this.products.length) {
                 this.$toast.info('Você precisa cotar todos os produtos antes de enviar uma proposta!', {
                     position: "top-right",
@@ -694,19 +489,12 @@ export default {
                     timeout: 2500
                 });
             }
-            if(this.selectedPaymentConditions.length == 0) {
-                this.errors.paymentCondition = 'ERROR'
-            }
-
-            if(this.selectedPaymentMethods.length == 0) {
-                this.errors.paymentMethod = 'ERROR'
-            }
 
             if(this.details.validity == null) {
                 this.errors.validity = 'ERROR'
             } 
             
-            if(check == this.products.length && this.selectedPaymentConditions.length != 0 && this.selectedPaymentMethods.length != 0 && this.details.validity != null) {
+            if(check == this.products.length) {
                 this.isConfirmModalOpen = true;
                 bus.$emit('ModalOpen', true);
             }
@@ -745,11 +533,11 @@ export default {
         },
         getProductSubTotal() {
             this.errors.value = 'OK'
-            const subtotal = parseFloat(this.product.value) * parseInt(this.product.quantity)
-            this.product.subtotal = subtotal.toFixed(2)
+            const subtotal = parseFloat(this.product.details.value) * parseInt(this.product.quantity)
+            this.product.details.subtotal = subtotal.toFixed(2)
         },
         getProductsTotal() {
-            const total = this.products.reduce((accum,item) => accum + item.subtotal, 0)
+            const total = this.products.reduce((accum,item) => accum + item.details.subtotal, 0)
             this.details.subtotal = total.toFixed(2)
         },
         getProposalTotal() {
@@ -761,9 +549,7 @@ export default {
                 validity: this.details.validity,
                 subtotal: this.details.subtotal,
                 shipping: this.details.shipping,
-                total: this.details.total,
-                paymentMethods: this.selectedPaymentMethods,
-                paymentConditions: this.selectedPaymentConditions,
+                total: this.details.total
             }
             proposalService.saveDraft(data).then((response) => {
                 this.$toast.success(response.success_message, {
@@ -799,15 +585,15 @@ export default {
                 this.product.product_delivery = 0
             } 
 
-            if(this.$v.product.value.$invalid) {
+            if(this.$v.product.details.value.$invalid) {
                 this.errors.value = 'ERROR'
             } 
 
-            if(this.$v.product.is_similar.$invalid) {
+            if(this.$v.product.details.is_similar.$invalid) {
                 this.errors.is_similar = 'ERROR'
             } 
 
-            if(this.$v.product.product_delivery.$invalid) {
+            if(this.$v.product.details.product_delivery.$invalid) {
                 this.errors.product_delivery = 'ERROR'
             } 
 
@@ -840,13 +626,16 @@ export default {
                 quantity: data.quantity,
                 allow_similar: data.allow_similar,
                 observation: data.observation,
-                product_delivery: data.product_delivery == 0 ? 'Imediato':data.product_delivery,
-                value: data.value,
-                is_similar: data.is_similar,
-                subtotal: data.value * data.quantity
+                details: {
+                    product_delivery:data.details.product_delivery == 0 ? 'Imediato':data.details.product_delivery,
+                    value:data.details.value,
+                    is_similar:data.details.is_similar,
+                    subtotal:data.details.value * data.quantity
+                }
             }
         },
         getProposal() {
+            this.loader.loading = true
             const proposalId = this.$route.params.id
             proposalService.getProposal(proposalId).then((response) => {
                 const res = response.data.data
@@ -857,6 +646,7 @@ export default {
                 this.details = res.proposal
                 this.getProductsTotal()
                 this.getProposalTotal()
+                this.loader.loading = false
             }).catch((error) => {
                 console.log(error)
             }) 
@@ -867,17 +657,20 @@ export default {
                 quantity: {
                     required
                 },
-                value: {
-                    minValue: minValue(0.01)
-                },
-                is_similar: {
-                   required: requiredIf(function() {
-                       return this.product.allow_similar
-                   })
-                },
-                product_delivery: {
-                    required
-                },
+                details: {
+                    value: {
+                        minValue: minValue(0.01)
+                    },
+                    is_similar: {
+                        required: requiredIf(function() {
+                            return this.product.allow_similar
+                        })
+                    },
+                    product_delivery: {
+                        required
+                    },
+                }
+                
             }
         }
     

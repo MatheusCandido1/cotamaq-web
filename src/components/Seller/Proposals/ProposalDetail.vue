@@ -6,7 +6,7 @@
         <span class="flex justify-center items-center text-gray-700" v-if="products && products.length === 0" > {{ loader.loading ? 'Carregando...':'Nenhuma cotação encontrada, recarregue a página' }}</span>
     <div v-if="!loader.loading" class="flex -mx-3 justify-between">
         <div class="px-3 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação - {{estimate.equipment}} </h2>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação #{{estimate.id}} </h2>
         </div>
         
             <div v-if="details.status == 7" class="mx-3 h-10 flex items-center justify-center bg-red-500 text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center pointer-events-none	">

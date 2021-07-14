@@ -120,7 +120,7 @@ export default {
     },
     methods: {
         getHighestDelivery(row) {
-            const maxDelivery =  row.reduce((max, p) => p.product_delivery > max ? p.product_delivery : max, row[0].product_delivery);
+            const maxDelivery =  row.reduce((max, p) => p.details.product_delivery > max ? p.details.product_delivery : max, row[0].details.product_delivery);
             if(maxDelivery == 0) {
                 return 'Imediata'
             } else if(maxDelivery == 1) {
