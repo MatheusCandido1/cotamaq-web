@@ -1,9 +1,98 @@
 <template>
 <div>
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
+        <h2 class="text-2xl text-center mb-4 font-semibold text-gray-700 dark:text-gray-200">Métodos e Condições de Pagamento</h2>
+  
+        <div class="flex -mx-3">
+                <div class="w-1/2 px-3 mb-5  border-r-2 border-primary-main p-8">
+                    <h3 class="text-xl font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Formas de Pagamento </h3>
+                    <span class="flex justify-center items-center mb-2">
+                    <bar-loader class="mt-3" :color="loaderMethod.color" :loading="loaderMethod.loading" :size="150"></bar-loader>
+                    </span>
+                    <div  class="flex justify-center items-center flex-wrap ">   
+                     <div class="w-30 h-30 mr-4 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green" v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" @click="togglePaymentMethod(paymentMethod.id)">
+                            <div class="flex grid justify-center items-center">
+                                <div class="flex justify-center items-center" >
+                                <div :class="selectedPaymentMethods.includes(paymentMethod.id) ? 'bg-primary-lighter':'bg-gray-400'" class="mx-auto flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
+                                    <i class="mdi mdi-checkbox-multiple-marked text-white text-sm"></i>
+                                </div>
+                                </div>
+                                <p class="text-sm font-semibold text-gray-700 mt-1">{{paymentMethod.description}}</p>
+                                
+                            </div>
+                        </div>
+
+                        <div @click="showMethodModal" class="w-30 h-30 mr-4 bg-white rounded-lg shadow-md p-6 bg-primary-lighter cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
+                            <div class="flex grid justify-center items-center">
+                                <div class="flex justify-center items-center" >
+                                <div class="mx-auto flex-shrink-0 flex items-center bg-white justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
+                                    <i class="mdi mdi-plus-box-multiple text-primary-main text-sm"></i>
+                                </div>
+                                </div>
+                                <p class="text-sm font-semibold text-white mt-1">Adicionar</p>
+                            </div>
+                        </div>
+                    </div>         
+                <div class="flex flex-wrap" v-if="selectedPaymentMethods.length > 0 && paymentMethods.length > 0">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Selecionados: </label>
+                    <span v-for="paymentMethod in selectedPaymentMethods" :key="paymentMethod" class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2">{{getPaymentMethodName(paymentMethod)}}</span>                       
+                </div>   
+                <div v-if="selectedPaymentMethods.length == 0">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Nenhuma forma de pagamento escolhida </label>
+                </div>   
+
+                <div v-if="errors.paymentMethod == 'ERROR'">
+                    <span class="text-xs text-red-500 font-semibold px-1">Você deve escolher pelo menos uma forma de pagamento.</span>
+                </div>  
+                </div>
+
+                <div class="w-1/2 px-3 mb-5  border-primary-main p-8">
+                    <h3 class="text-xl font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Condições de Pagamento </h3>
+                    <span class="flex justify-center items-center mb-2">
+                    <bar-loader class="mt-3" :color="loaderCondition.color" :loading="loaderCondition.loading" :size="150"></bar-loader>
+                    </span>
+                    <div class="flex justify-center items-center flex-wrap  ">
+                        <div @click="togglePaymentCondition(paymentCondition.id)" class="w-30 h-30  mr-4 bg-white rounded-lg shadow-md p-6 cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green"  tabindex="0" v-for="paymentCondition in paymentConditions" :key="paymentCondition.id">
+                            <div class="flex grid justify-center items-center">
+                                <div class="flex justify-center items-center" >
+                                <div :class="selectedPaymentConditions.includes(paymentCondition.id) ? 'bg-primary-lighter':'bg-gray-400'" class="mx-auto flex-shrink-0 flex items-center  justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
+                                    <i class="mdi mdi-checkbox-multiple-marked text-white text-sm"></i>
+                                </div>
+                                </div>
+                                <p class="text-sm font-semibold text-gray-700 mt-1 whitespace-no-wrap">{{paymentCondition.description}}</p>
+                                
+                            </div>
+                        </div>
+                         <div @click="showConditionModal"  class="w-30 h-30 mr-4 bg-white rounded-lg shadow-md p-6 bg-primary-lighter cursor-pointer mb-8 hover:bg-green-lightest focus:outline-none focus:shadow-outline-green">
+                            <div class="flex grid justify-center items-center">
+                                <div class="flex justify-center items-center" >
+                                <div class="mx-auto flex-shrink-0 flex items-center bg-white justify-center h-8 w-8 rounded-full sm:mx-0 sm:h-8 sm:w-8">
+                                    <i class="mdi mdi-plus-box-multiple text-primary-main text-sm"></i>
+                                </div>
+                                </div>
+                                <p class="text-sm font-semibold text-white mt-1">Adicionar</p>
+                            </div>
+                        </div>
+                    </div> 
+                <div class="flex flex-wrap" v-if="selectedPaymentConditions.length > 0 && paymentConditions.length > 0">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Selecionados: </label>
+                    <span v-for="paymentCondition in selectedPaymentConditions" :key="paymentCondition" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2">{{getPaymentConditionName(paymentCondition)}}</span>                       
+                </div>   
+                <div v-if="selectedPaymentConditions.length == 0">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Nenhuma condição de pagamento escolhida </label>
+                </div>  
+                 <div v-if="errors.paymentCondition== 'ERROR'">
+                    <span class="text-xs text-red-500 font-semibold px-1">Você deve escolher pelo menos uma condição de pagamento.</span>
+                </div>  
+            </div>
+
+            </div>
+  </div>
+  <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
         <div class="flex -mx-3">
             <div class="w-4/5 px-3 mb-5">
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Pedido #{{order.id}}</h2>
+                <bar-loader class="mt-3" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
             </div>
             <div class="w-1/5 px-3 mb-5">
                  <div class="flex">
@@ -112,7 +201,7 @@
         </div>
         
         <div class="px-3 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação - {{proposal.estimate.equipment}} <span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação #{{proposal.estimate.id}} <span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
         </div>
         <div class="px-3 mb-5">                
             <div class="flex justify-start space-x-4">
@@ -142,10 +231,10 @@
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <v-th  class="text-center" style="width: 10%" sortKey="part_code">Código</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="description">Descrição</v-th>
-                <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="is_similar">Peça Similar?</v-th>
-                <v-th  class="text-center" style="width: 10%" sortKey="value">Valor Unitário</v-th>
-                <v-th  class="text-center" style="width: 10%" sortKey="subtotal">Subtotal</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="details.alue">Valor Unitário</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="details.subtotal">Subtotal</v-th>
                 <th class="text-center" style="width: 10%" >Ação</th>
             </tr>
         </thead>    
@@ -153,14 +242,14 @@
             <tr class="mb-5"  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.description}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
                 <td class="text-sm text-center text-gray-700">
                     <span :class="formatDefault(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatName(row.allow_similar)}}
                     </span>
-                </td>                
-                <td class="text-sm text-center text-gray-700">{{row.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
+                </td>                     
+                <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="flex justify-center mt-2">
                     <div class="flex items-center space-x-2 text-sm">
                         <button v-tooltip="{content: 'Visualizar Produto'}" @click="showProductModal(row)" class="flex items-center justify-between px-2 py-2 mb-1 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
@@ -172,8 +261,8 @@
             <tr  v-if="products && products.length !== 0"  class="rounded border-t-2 border-primary-main shadow-md py-2 px-6 outline-none h-12">
                 <td class="text-sm font-semibold text-center text-gray-900">Total:</td>
                 <td></td>
-                <td class="text-sm font-semibold text-center text-gray-900">{{getQuantitySum()}}</td>
                 <td></td>
+                <td class="text-sm font-semibold text-center text-gray-900">{{getQuantitySum()}}</td>
                 <td></td>
                 <td class="text-sm font-semibold text-center text-gray-900">R$ {{proposal.subtotal.toFixed(2)}}</td>
                 <td></td>
@@ -184,34 +273,6 @@
 
   
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
-      <div class="flex -mx-3">
-                <div v-if="proposal.payment_method[0].description" class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Forma de pagamento</label>
-                    <div class="flex">
-                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
-                        <span class="justify-center">{{proposal.payment_method[0].description}}</span>
-                    </div> 
-                </div>                         
-                </div>
-
-                <div v-if="proposal.payment_condition[0].description" class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Condição de pagamento</label>
-                    <div class="flex">
-                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
-                        <span class="justify-center">{{proposal.payment_condition[0].description}}</span>
-                    </div> 
-                </div>                       
-                </div>
-
-                <div v-if="proposal.validity" class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Data de validade</label>
-                    <div class="flex">
-                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
-                        <span class="justify-center">{{proposal.validity | formatDate}}</span>
-                    </div> 
-                </div>                          
-                </div>
-            </div>
             <div class="flex -mx-3">
                 <div v-if="proposal.subtotal" class="w-1/3 px-3 mb-5">
                     <div class="flex">
@@ -270,6 +331,23 @@
             @close="closeEstimateModal"
         >
         </estimate-details-modal>
+
+        <payment-method-add
+            v-if="isMethodModalOpen"
+            @close="closeMethodModal"
+        ></payment-method-add> 
+
+        
+        <payment-condition-add
+            v-if="isConditionModalOpen"
+            @close="closeConditionModal"
+        ></payment-condition-add> 
+
+        <order-payment-alert
+            v-if="isAlertModalOpen"
+            @close="closeAlertModal"
+        ></order-payment-alert> 
+
     </div>
 </div>
 </template>
@@ -280,6 +358,10 @@ import ProposalProduct from '../../Buyer/Proposals/ProposalProduct';
 import { orderService } from '../../../services'
 import OrderStatus from './OrderStatus';
 import EstimateDetailsModal from '../../../components/Seller/Estimates/EstimateDetailsModal.vue';
+import { BarLoader } from '@saeris/vue-spinners';
+import PaymentConditionAdd from '../Payments/PaymentCondition/PaymentConditionAdd';
+import PaymentMethodAdd from '../Payments/PaymentMethod/PaymentMethodAdd';
+import OrderPaymentAlert from './OrderPaymentAlert';
 
 
 export default {
@@ -287,23 +369,72 @@ export default {
     components: {
         ProposalProduct,
         OrderStatus,
-        EstimateDetailsModal
+        EstimateDetailsModal,
+        BarLoader,
+        PaymentConditionAdd,
+        PaymentMethodAdd,
+        OrderPaymentAlert
     },
     created() {
         this.getOrder();
+        
+    },
+    updated() {
+        bus.$off('updatePaymentMethod');
+        bus.$on('updatePaymentMethod', (data) => {
+            if(data) {
+            //this.getPaymentMethods()
+            }
+        })
+
+        bus.$off('updatePaymentCondition');
+        bus.$on('updatePaymentCondition', (data) => {
+            if(data) {
+            //this.getPaymentConditions()
+            }
+        })
     },
     data() {
         return {
+            isAlertModalOpen: false,
             isEstimateModalOpen: false,
             isStatusModalVisible: false,
+            isMethodModalOpen: false,
+            isConditionModalOpen: false,
             newStatus: null,
             oldStatus: null,
             isProductModalVisible: false,
             estimate: {},
-            buyer: {},
-            proposal: {},
+            errors: {},
+            buyer: {
+                address: {}
+            },
+            proposal: {
+                id: null,
+                estimate: {
+                    id: null,
+                }
+            },
             products: [],
-            order: {},
+            loaderMethod: {
+                loading: false,
+                color: '#0bc95b',
+            },
+            loaderCondition: {
+                loading: false,
+                color: '#0bc95b',
+            },
+            loader: {
+                loading: false,
+                color: '#0bc95b',
+            },
+            order: {
+                id: null
+            },
+            paymentMethods: [],
+            paymentConditions: [],
+            selectedPaymentMethods: [],
+            selectedPaymentConditions: [],
             colors: ["bg-red-500", "bg-primary-main"],
             defaults: ['Não', 'Sim'],
             statusName: ['Pendente','Em preparo','Em trânsito','Entregue'],
@@ -312,6 +443,66 @@ export default {
         }
     },
     methods: {
+        showAlertModal() {
+            this.isAlertModalOpen = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeAlertModal() {
+            this.isAlertModalOpen = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showMethodModal() {
+            this.isMethodModalOpen = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeMethodModal() {
+            this.isMethodModalOpen = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showConditionModal() {
+            this.isConditionModalOpen = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeConditionModal() {
+            this.isConditionModalOpen = false;
+            bus.$emit('ModalOpen', false);
+        },
+        togglePaymentMethod(value) {
+            if(this.selectedPaymentMethods.length != 1) {
+                this.errors.paymentMethod = 'OK'
+            }
+            if(this.selectedPaymentMethods.includes(value)) {
+                for(var i = 0; i < this.selectedPaymentMethods.length; i++) {
+                    if(this.selectedPaymentMethods[i] === value) {
+                        this.selectedPaymentMethods.splice(i, 1); 
+                    }
+                }
+            } else {
+                this.selectedPaymentMethods.push(value)
+            }
+        },
+        togglePaymentCondition(value) {
+            if(this.selectedPaymentConditions.length != 1) {
+                this.errors.paymentCondition = 'OK'
+            }
+            if(this.selectedPaymentConditions.includes(value)) {
+                for(var i = 0; i < this.selectedPaymentConditions.length; i++) {
+                if(this.selectedPaymentConditions[i] === value) {
+                    this.selectedPaymentConditions.splice(i, 1); 
+                }
+                }
+            } else {
+                this.selectedPaymentConditions.push(value)
+            }
+        },
+        getPaymentMethodName(id) {
+            const { description } = this.paymentMethods.find(pay => pay.id == id)
+            return description
+        },
+        getPaymentConditionName(id) {
+            const { description } = this.paymentConditions.find(pay => pay.id == id)
+            return description
+        },
         showEstimateModal() {
             this.isEstimateModalOpen = true
             bus.$emit('ModalOpen', true);
@@ -330,8 +521,10 @@ export default {
             bus.$emit('ModalOpen', false);
         },
         getOrder() {
+            this.loader.loading = true
             const orderId = this.$route.params.id
             orderService.getOrderBySeller(orderId).then((response) => {
+                this.loader.loading = false
                 const res = response.data.data
                 this.buyer = res.buyer
                 this.buyer.address = res.order.proposal.estimate.address
@@ -340,7 +533,14 @@ export default {
                 this.products = res.order.proposal.products
                 this.estimate = res.order.proposal.estimate
                 this.oldStatus = this.order.status
+                this.paymentMethods = res.paymentMethods
+                this.paymentConditions = res.paymentConditions
+
+                if(this.order.status == 1) {
+                    this.showAlertModal()
+                }
             }).catch((error) => {
+                this.loader.loading = false
                 console.log(error.response.data)
             })
         },

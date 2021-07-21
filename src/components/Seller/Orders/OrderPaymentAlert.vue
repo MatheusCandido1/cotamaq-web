@@ -23,7 +23,7 @@
           <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
               <div
-                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-primary-lighter sm:mx-0 sm:h-10 sm:w-10"
+                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-400 sm:mx-0 sm:h-10 sm:w-10"
               >
                 <!-- Heroicon name: outline/exclamation -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,14 +35,11 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                  Confirmar criação de proposta
+                  Métodos e Condições de Pagamentos
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-600">
-                   Tem certeza que deseja criar uma proposta para essa cotação?
-                  </p>
-                  <p class="text-sm text-gray-600 mt-3">
-                   Lembre-se, você precisará cotar <span class="font-bold">TODOS</span> os produtos dessa cotação!
+                   Percebemos que você ainda não selecionou Condições e Métodos de pagamento para esse pedido. Sem essas informações, o comprador não pode concluir a compra!
                   </p>
                 </div>
               </div>
@@ -51,18 +48,10 @@
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              :disabled="disabled"
-              @click="createProposal()"
-              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-lighter sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Enviar
-            </button>
-            <button
-              type="button"
               @click="close"
-              class="mt-3 w-full inline-flex justify-center rounded-md border  shadow-sm px-4 py-2 bg-gray-500 text-white text-base font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-400 text-base font-medium text-white hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-lighter sm:ml-3 sm:w-auto sm:text-sm"
             >
-              Cancelar
+              Entendi e vou preencher!
             </button>
           </div>
         </div>
@@ -71,42 +60,17 @@
   </transition>
 </template>
 <script>
-import { proposalService } from '../../../services';
 
 export default {
-  name: "EstimateConfirm",
-  props: ['proposal'],
+  name: "OrderPaymentAlert",
   data() {
     return {
-        newProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
-        disabled: false
     }
   },
   methods: {
     close() {
       this.$emit("close");
     },
-    createProposal() {
-      this.disabled = true
-        const payload = {
-            estimate_id: this.newProposal.id
-        }
-        proposalService.createProposal(payload).then((response) => {
-            this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-            const proposalId = response.data.id
-            this.close();
-            this.disabled = false
-            this.$router.push({name: 'detailProposal', params: {id: proposalId}})
-        }).catch((error) => {
-            console.log(error.response.data)
-            this.disabled = false
-        })
-        },
   },
 };
 </script>
