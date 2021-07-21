@@ -191,13 +191,13 @@
                 <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center">Entrega</label>
                     <div class="flex justify-center space-x-4 mt-3">
                         <div>
-                            <input @change="() => (errors.product_delivery = 'OK')" v-model="delivery_default"  value="0" class="hidden" id="delivery_1" type="radio" name="delivery_product">
+                            <input @click="handleSelectDelivery(true)" @change="() => (errors.product_delivery = 'OK')" v-model="delivery_default"  value="0" class="hidden" id="delivery_1" type="radio" name="delivery_product">
                             <label class="flex h-9 p-1 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="delivery_1">
                                 <span class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i class="mdi mdi-check text-gray-900 text-lg mr-1 ml-1"></i>Imediata</span>
                             </label>
                         </div>
                         <div>
-                            <input @change="() => (errors.product_delivery = 'OK')" v-model="delivery_default" value="1"  class="hidden" id="delivery_2" type="radio" name="delivery_product">
+                            <input @click="handleSelectDelivery(false)" @change="() => (errors.product_delivery = 'OK')" v-model="delivery_default" value="1"  class="hidden" id="delivery_2" type="radio" name="delivery_product">
                             <label class="flex h-9 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="delivery_2">
                                 <span class="flex items-center justify-center text-gray-900  text-sm font-semibold mr-1"><i class="mdi mdi-calendar text-gray-900 text-lg mr-1 ml-1"></i>Prazo</span>
                             </label>
@@ -207,11 +207,11 @@
                     
                 </div> 
             <div class="w-1/4 px-3 mb-5">
-                <div v-if="delivery_default != 0" class="w-full px-3 mb-5">
+                <div v-if="setDeliveryProduct == false" class="w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Prazo de entrega (em dias)</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input :class="errors.product_delivery == 'ERROR' ? 'border-red-400':'border-primary-main'" @change="() => (errors.product_delivery = 'OK')" v-model="product.product_delivery"  placeholder="Exemplo: 2" type="number" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                        <input :class="errors.product_delivery == 'ERROR' ? 'border-red-400':'border-primary-main'" @change="() => (errors.product_delivery = 'OK')" v-model="product.details.product_delivery"  placeholder="Exemplo: 2" type="number" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div> 
                     <div class="flex justify-center mt-3" v-if="errors.product_delivery == 'ERROR'">
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Entrega é obrigatório.</span>
@@ -389,6 +389,7 @@ export default {
                 loading: false,
                 color: '#0bc95b',
             },
+            setDeliveryProduct: false,
             price: 0,
             isConfirmModalOpen: false,
             isProductModalOpen: false,
@@ -404,8 +405,8 @@ export default {
             product: {
                 details: {
                     product_delivery: null,
-                    value: null,
-                    subtotal: null,
+                    value: 0,
+                    subtotal: 0,
                     is_similar: null,
                 }
             },
@@ -480,7 +481,7 @@ export default {
             bus.$emit('ModalOpen', false);
         },
         showConfirmModal() {
-            const check =  this.products.filter(product => product.details.value != null).length;
+            const check =  this.products.filter(product => product.details.value != null || product.details.value > 0).length;
             if(check != this.products.length) {
                 this.$toast.info('Você precisa cotar todos os produtos antes de enviar uma proposta!', {
                     position: "top-right",
@@ -494,7 +495,7 @@ export default {
                 this.errors.validity = 'ERROR'
             } 
             
-            if(check == this.products.length) {
+            if(check == this.products.length && this.details.validity != null) {
                 this.isConfirmModalOpen = true;
                 bus.$emit('ModalOpen', true);
             }
@@ -507,7 +508,14 @@ export default {
             bus.$emit('ModalOpen', false);
         },
         ClearProduct() {
-            this.product = {}
+            this.product = {
+                details: {
+                    product_delivery: null,
+                    value: 0,
+                    subtotal: 0,
+                    is_similar: null,
+                }
+            }
             this.edit = false
             this.isEditing = false
         },
@@ -582,22 +590,27 @@ export default {
             this.$v.$touch()
 
             if(this.delivery_default == 0){
-                this.product.product_delivery = 0
+                this.product.details.product_delivery = 0
             } 
+            
 
             if(this.$v.product.details.value.$invalid) {
                 this.errors.value = 'ERROR'
             } 
+            
 
             if(this.$v.product.details.is_similar.$invalid) {
                 this.errors.is_similar = 'ERROR'
             } 
 
-            if(this.$v.product.details.product_delivery.$invalid) {
+            let isValid = true
+            
+            if(this.setDeliveryProduct == false && this.product.details.product_delivery == 0) {
                 this.errors.product_delivery = 'ERROR'
-            } 
-
-            if(this.$v.$anyError == false) {
+                isValid = false
+            }
+            
+            if(this.$v.$anyError == false && isValid == true) {
                 const data = this.product;
                 const proposalId = this.$route.params.id
                 productService.updateProductDetail(data, proposalId).then((response) => {
@@ -617,8 +630,17 @@ export default {
                 })
             }
         },
+        handleSelectDelivery(value) {
+            if(value) {
+                this.setDeliveryProduct = true
+            } else {
+                this.setDeliveryProduct = false
+            }
+        },
         editProduct(data) {
             this.edit = true
+            data.details.product_delivery > 0 ? this.setDeliveryProduct = false :  this.setDeliveryProduct = true;
+            data.details.product_delivery > 0 ? this.delivery_default = 1 :  this.delivery_default = 0;
             this.product = {
                 id: data.id,
                 part_code: data.part_code,
@@ -627,7 +649,7 @@ export default {
                 allow_similar: data.allow_similar,
                 observation: data.observation,
                 details: {
-                    product_delivery:data.details.product_delivery == 0 ? 'Imediato':data.details.product_delivery,
+                    product_delivery:data.details.product_delivery,
                     value:data.details.value,
                     is_similar:data.details.is_similar,
                     subtotal:data.details.value * data.quantity

@@ -3,12 +3,19 @@
 <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
     <div class="flex -mx-3 justify-between">
         <div class="px-3 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Proposta #{{proposal.id}}</h2>
-        </div>
-        <div class="px-3 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação - {{estimate.equipment}}<span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação #{{estimate.id}}<span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
         </div>
     </div>
+</div>
+
+<div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
+    <div class="flex -mx-3 justify-between">
+        <div class="px-3 mb-5">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Proposta #{{proposal.id}}</h2>
+        </div>
+    </div>
+    
+        
 
     <v-table
         class="w-full whitespace-no-wrap mb-2 " 
@@ -22,6 +29,7 @@
                 <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="is_similar">Peça Similar?</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="value">Valor</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="value">Subtotal</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="product_delivery">Prazo de Entrega</v-th>
                 <th class="text-center" style="width: 10%" >Ação</th>
             </tr>
@@ -35,9 +43,10 @@
                     <span :class="formatDefault(row.is_similar == null ? '0':'1')" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatName(row.is_similar == null ? '0':'1')}}
                     </span>
-                </td>
-                <td class="text-sm text-center text-gray-700">{{row.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.product_delivery == 0 ? 'Imediato':row.product_delivery + ' dia(s)'}}</td>
+                </td>             
+                <td class="text-sm text-center text-gray-700">{{row.details.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.product_delivery == 0 ? 'Imediato':row.product_delivery + ' dia(s)'}}</td>
                 <td class="flex justify-center mt-2">
                     <div class="flex items-center space-x-2 text-sm">
                         <button v-tooltip="{content: 'Visualizar Produto'}" @click="showProductModal(row)" class="flex items-center justify-between px-2 py-2 mb-1 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
@@ -50,6 +59,7 @@
                 <td class="text-sm font-semibold text-center text-gray-900">Total:</td>
                 <td></td>
                 <td class="text-sm font-semibold text-center text-gray-900">{{getQuantitySum()}}</td>
+                <td></td>
                 <td></td>
                 <td class="text-sm font-semibold text-center text-gray-900">R$ {{proposal.subtotal.toFixed(2)}}</td>
                 <td></td>
@@ -103,34 +113,8 @@
 
     <div class="relative p-6 flex-auto">
             <div class="flex -mx-3">
-                <div class="w-1/2 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Método de pagamento</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <select v-model="proposal.payment_method_id" class="w-full -ml-10 pl-2  border-primary-main  px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        <option value="0"> Selecione... </option>
-                        <option  v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" :value="paymentMethod.id">{{paymentMethod.description}}</option>
-                    </select> 
-                </div>                          
-                </div>
-
-                <div class="w-1/2 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Condição de pagamento</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <select v-model="proposal.payment_condition_id" class="w-full -ml-10 pl-2  border-primary-main  px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        <option value="0"> Selecione... </option>
-                        <option  v-for="paymentCondition in paymentConditions" :key="paymentCondition.id" :value="paymentCondition.id">{{paymentCondition.description}}</option>
-                    </select> 
-                </div>                    
-                </div>
-
-                
-            </div>
-
-            <div class="flex -mx-3">
-                <div class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Data de validade</label>
+                <div class="w-1/4 px-3 mb-5">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Data de validade da proposta</label>
                     <div class="flex">
                     <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
                             <span class="justify-center">{{proposal.validity | formatDate}}</span>
@@ -138,7 +122,16 @@
                     </div>                         
                 </div>
 
-                <div class="w-1/3 px-3 mb-5">
+                <div class="w-1/4 px-3 mb-5">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Subtotal</label>
+                    <div class="flex">
+                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                            <span class="justify-center">{{proposal.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</span>
+                        </div> 
+                    </div>  
+                </div>
+                
+                <div class="w-1/4 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Frete</label>
                     <div class="flex">
                     <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
@@ -146,7 +139,9 @@
                         </div> 
                     </div>   
                 </div>
-                <div class="w-1/3 px-3 mb-5">
+
+
+                <div class="w-1/4 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Total</label>
                     <div class="flex">
                     <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
@@ -155,6 +150,8 @@
                     </div>  
                 </div>
             </div>
+                
+            
             <div class="flex justify-end -mx-3 -ml-10 pl-2 pr-3 py-2 ">
                         <div class="w-1/8 mb-5">
                         <label for="" class="text-xs font-semibold px-1"></label>
@@ -305,11 +302,8 @@ export default {
                 this.loader.loading = false
                 this.products = response.data.data.products
                 this.proposal = response.data.data.proposal
-                this.paymentConditions = response.data.data.paymentConditions
-                this.paymentMethods = response.data.data.paymentMethods
-                this.proposal.payment_method_id = 0;
-                this.proposal.payment_condition_id = 0;
                 this.estimate = response.data.data.estimate
+                console.log(this.products)
             }).catch((error) => {
                 console.log(error.response.data)
             }) 

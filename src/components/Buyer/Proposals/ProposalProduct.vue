@@ -37,7 +37,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Valor Unitário</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <money :disabled="!edit" v-bind="productValue" placeholder="" v-model="selectedProduct.value" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
+                        <money :disabled="!edit" v-bind="productValue" placeholder="" v-model="selectedProduct.details.value" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                     </div>                         
                 </div>
 
@@ -53,7 +53,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Valor Total</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <money :disabled="!edit" v-bind="productSubtotal" placeholder="" v-model="selectedProduct.subtotal" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
+                        <money :disabled="!edit" v-bind="productSubtotal" placeholder="" v-model="selectedProduct.details.subtotal" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                     </div>                         
                 </div>
             </div>
