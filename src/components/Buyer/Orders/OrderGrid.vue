@@ -316,6 +316,7 @@ export default {
                 this.filteredOrders = response.data.data
             }).catch((error) => {
                 console.log(error.response.data)
+                this.loader.loading = false
             })
         }
     }
