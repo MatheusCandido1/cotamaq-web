@@ -108,7 +108,7 @@
                 <td class="text-sm text-center text-gray-700">Cotação #{{row.proposal.estimate.id}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.created_at | formatDate}}</td>
                 <td class="text-sm text-center text-gray-700">
-                    {{row.proposal.estimate.equipment}}
+                    {{formatEquipment(row.proposal.estimate.equipment)}}
                 </td>
                 <td class="text-sm text-center text-gray-700">
                     <span class="flex justify-center">
@@ -167,6 +167,7 @@ import { bus } from '../../../main';
 import OrderFile from './OrderFile';
 import { orderService } from '../../../services'
 import { BarLoader } from '@saeris/vue-spinners';
+import { formatEquipment } from '@/helpers/string-helper';
 
 export default {
     name: 'OrderGrid',
@@ -205,6 +206,7 @@ export default {
         }
     },
     methods: {
+        formatEquipment,
         formatDefault(id) {
             return this.statusColor[id-1]
         },

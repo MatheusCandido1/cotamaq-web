@@ -102,8 +102,6 @@ export default {
       this.disabled = true
         const data = {
             proposal_id: this.selectedProposal.id,
-            paymentMethod: this.selectedProposal.payment_method_id,
-            paymentCondition: this.selectedProposal.payment_condition_id,
             estimate_delivery: this.selectedProposal.estimate_delivery
         }
         orderService.createOrder(data).then((response) => {

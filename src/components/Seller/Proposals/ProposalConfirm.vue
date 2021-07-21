@@ -91,8 +91,6 @@ export default {
             subtotal: this.detail.subtotal,
             shipping: this.detail.shipping,
             total: this.detail.total,
-            paymentMethods: this.selectedPaymentMethods,
-            paymentConditions: this.selectedPaymentConditions
         }
         proposalService.updateProposal(data).then((response) => {
             this.$toast.success(response.success_message, {

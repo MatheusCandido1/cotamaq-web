@@ -46,7 +46,7 @@
                 </td>             
                 <td class="text-sm text-center text-gray-700">{{row.details.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.details.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.details.product_delivery == 0 ? 'Imediato':row.product_delivery + ' dia(s)'}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.product_delivery == 0 ? 'Imediato':row.details.product_delivery + ' dia(s)'}}</td>
                 <td class="flex justify-center mt-2">
                     <div class="flex items-center space-x-2 text-sm">
                         <button v-tooltip="{content: 'Visualizar Produto'}" @click="showProductModal(row)" class="flex items-center justify-between px-2 py-2 mb-1 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
