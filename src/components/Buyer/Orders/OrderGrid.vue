@@ -85,6 +85,7 @@
         class="w-full whitespace-no-wrap mb-2" 
         :data="filteredOrders"     
         :pageSize="itemsPerpage"
+        :currentPage.sync="currentPage"
         :hideSortIcons="true"
         @totalPagesChanged="totalPages = $event"
         :filters="filter.input"

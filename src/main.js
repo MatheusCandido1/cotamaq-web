@@ -20,7 +20,7 @@ import "vue-toastification/dist/index.css";
 
 Vue.config.productionTip = false;
 
-
+/*
 import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
@@ -32,7 +32,7 @@ window.Echo = new Echo({
      wsPort: 6001,
      forceTLS: false,
      disableStats: true
-});
+}); */
 
 const options = {
   // You can set your default options here
