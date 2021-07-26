@@ -83,16 +83,25 @@
             </div>
 
             <div class="flex -mx-3 mt-4">
-              <div class="w-2/6 px-3 mb-5">
-                     <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>            
-                </div> 
-                <div class="w-4/6 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Observação</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <textarea v-model="product.observation" class="form-textarea mt-1 block resize-none w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" rows="3" placeholder=""></textarea>
-                    </div>                         
-                </div> 
+              <div class="w-full px-3 mb-5">
+                     <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>   
+                     <span @click="addFiles()" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Adicionar Imagens</span>
+                     <input ref="files" @change="onFileChange" id="files" class="hidden" multiple type="file" />         
+                    <div class="flex justify-start items-center flex-wrap mt-2">
+                      <div class="flex flex-row justify-center items-center">
+                        <div class="flex flex-col justify-center items-center"  v-for="(image, key) in files" :key="key">
+                        <img   class="h-28 w-28 rounded-lg ml-2 mr-2" :src="image" />
+                        <button @click="removeImage(key)" type="button" class="w-8 h-8 mt-1 justify-center items-center mr-2 bg-red-600 text-white p-2 rounded  leading-none flex items-center">
+                           <i class="mdi mdi-delete text-white"></i>
+                        </button>
+                        </div>
+                      </div>
+                      </div>
+              </div>
+            </div> 
+            
+            <div class="flex -mx-3 mt-4">
+                 
             </div>
           </div>
           <!--footer-->
@@ -129,12 +138,10 @@ export default {
   },
   data() {
       return {
-            teste: [],
-            index: null,
-            url: null,
+            files: [],
             disabled: false,
             hover: false,
-            newForm: new FormData,
+            form: new FormData,
             product: {
                 part_code: null,
                 description: null,
@@ -153,6 +160,19 @@ export default {
       }
   },
   methods: {
+    addFiles() {
+      this.$refs.files.click();
+    },
+    removeImage(key) {
+        this.files.splice( key, 1 );
+    },
+    onFileChange() {
+      let uploadedFiles = this.$refs.files.files;
+
+      for( var i = 0; i < uploadedFiles.length; i++ ){
+        this.files.push( uploadedFiles[i] );
+      }
+    },
     createProduct() {
         this.$v.$touch()
 
@@ -170,16 +190,18 @@ export default {
                             
         if(this.$v.$anyError == false) {
         this.disabled = true
-         const data = {
-            part_code: this.product.part_code,
-            description: this.product.description,
-            quantity: this.product.quantity,
-            allow_similar: this.product.allow_similar,
-            observation: this.product.observation,
-            brand: this.product.brand,
-            estimate_id: this.$route.params.id,
-          } 
-          productService.createProduct(data).then((response) => {
+            for(let i=0; i<this.files.length;i++){
+              this.form.append('files[]',this.files[i]);
+            }
+            this.form.append('part_code', this.product.part_code);
+            this.form.append('description', this.product.description);
+            this.form.append('quantity', this.product.quantity);
+            this.form.append('allow_similar', this.product.allow_similar);
+            this.form.append('observation', this.product.observation);
+            this.form.append('brand', this.product.brand);
+            this.form.append('estimate_id', this.product.estimate_id);
+
+          productService.createProduct(this.$route.params.id, this.form).then((response) => {
             this.$toast.success(response.success_message, {
               position: "bottom-right",
               pauseOnHover: false,

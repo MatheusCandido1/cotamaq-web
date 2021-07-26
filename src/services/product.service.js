@@ -60,12 +60,11 @@ function duplicateProduct(id, data) {
 }
 
 
-function createProduct(data) {
-    return axios.post(`${API_URL}/products/${data.estimate_id}`, JSON.stringify(data), {
+function createProduct(estimate_id,form) {
+    return axios.post(`${API_URL}/products/${estimate_id}`, form, {
         headers: { 
             ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
+            'Content-Type': 'multipart/form-data'
         }
     })
     .then(response => {
