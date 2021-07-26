@@ -163,6 +163,12 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" /> </svg>
                                 </button>
 
+                                  <button v-tooltip="{ content: 'Duplicar Produto' }" @click="showDuplicateModal(row)" class="flex items-center justify-between px-2 py-2 bg-yellow-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                                        </svg>
+                                    </button>
+
                                 <button  @click="showDeleteModal(row)" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /> </svg>                        
                                 </button>
@@ -248,6 +254,13 @@
             @close="closeEquipmentModal"
         ></equipment-add>
 
+        <product-duplicate
+            v-if="isDuplicateModalVisible"
+            :product="product"
+            :estimate_id="estimate.id"
+            @close="closeDuplicateModal"
+        ></product-duplicate>
+
     </div>
 </div>
 </template>
@@ -262,6 +275,7 @@ import ProductDelete from '../Products/ProductDelete';
 import ProductDetail from '../Products/ProductDetail';
 import EquipmentAdd from '../Equipments/EquipmentAdd';
 import EstimateConfirm from './EstimateConfirm';
+import ProductDuplicate from '../Products/ProductDuplicate';
 import { BarLoader } from '@saeris/vue-spinners'
 import { formatEquipment } from '@/helpers/string-helper';
 
@@ -274,7 +288,8 @@ export default {
         ProductDelete,
         ProductDetail,
         EstimateConfirm,
-        EquipmentAdd
+        EquipmentAdd,
+        ProductDuplicate
     },
     updated() {
         bus.$off('updatedEstimateAddress');
@@ -309,6 +324,7 @@ export default {
         return {
             isEquipmentModalVisible: false,
             isConfirmModalVisible: false,
+            isDuplicateModalVisible: false,
             isAddAddressModalVisible: false,
             isDeleteModalVisible: false,
             isDetailModalVisible: false,
@@ -413,6 +429,16 @@ export default {
         },
         closeConfirmModal() {
             this.isConfirmModalVisible = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showDuplicateModal(data) {
+            this.product = data;
+
+            this.isDuplicateModalVisible = true;
+            bus.$emit("ModalOpen", true);
+        },
+        closeDuplicateModal() {
+            this.isDuplicateModalVisible = false;
             bus.$emit('ModalOpen', false);
         },
         showAddressAddModal() {
