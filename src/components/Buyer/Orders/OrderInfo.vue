@@ -108,6 +108,26 @@
                 </div>                       
             </div>
         </div>
+
+        <div class="flex -mx-3">
+            <div class="w-1/2 px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Método de Pagamento</label>
+                <div class="flex">
+                    <div class="w-full rounded bg-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="justify-center text-white">{{order.payment_method == '' ? 'Não disponível':order.payment_method}}</span>
+                    </div> 
+                </div>                      
+            </div>
+
+            <div class="w-1/2 px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Condição de Pagamento</label>
+                <div class="flex">
+                    <div class="w-full rounded bg-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="justify-center text-white">{{order.payment_condition == '' ? 'Não disponível':order.payment_condition}}</span>
+                    </div> 
+                </div>                      
+            </div>
+        </div>
   </div>
 
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
@@ -231,6 +251,13 @@
           >
           </proposal-product>
 
+        <order-payment
+            v-if="isPaymentModalVisible"
+            :order="order"
+            @close="closePaymentModal"
+        >
+        </order-payment>
+
           <estimate-details-modal
             v-if="isEstimateModalOpen"
             :estimate="estimate"
@@ -247,21 +274,32 @@ import ProposalProduct from '../../Buyer/Proposals/ProposalProduct';
 import { orderService } from '../../../services';
 import EstimateDetailsModal from '../../../components/Seller/Estimates/EstimateDetailsModal';
 import { BarLoader } from '@saeris/vue-spinners';
+import OrderPayment from './OrderPayment';
 
 export default {
     name: 'OrderInfo',
     components: {
         ProposalProduct,
         EstimateDetailsModal,
-        BarLoader
+        BarLoader,
+        OrderPayment
     },
     created() {
         this.getOrder();
+    },
+    updated() {
+        bus.$off('updatePaymentOnOrder');
+        bus.$on('updatePaymentOnOrder', (data) => {
+            if(data) {
+               this.getOrder(); 
+            }
+        })
     },
     data() {
         return {
             isEstimateModalOpen: false,
             isProductModalVisible: false,
+            isPaymentModalVisible: false,
             estimate: {},
             seller: {
                 address: {}
@@ -303,6 +341,14 @@ export default {
             this.isEstimateModalOpen = false
             bus.$emit('ModalOpen', false);
         },
+        showPaymentModal() {
+            this.isPaymentModalVisible = true
+            bus.$emit('ModalOpen', true);
+        },
+        closePaymentModal() {
+            this.isPaymentModalVisible = false
+            bus.$emit('ModalOpen', false);
+        },
         showProductModal(data) {
             this.product = data
             this.isProductModalVisible = true
@@ -324,6 +370,9 @@ export default {
                 this.proposal = res.order.proposal
                 this.products = res.order.proposal.products
                 this.loader.loading = false
+                if(this.order.status == 2) {
+                    this.showPaymentModal()
+                }
             }).catch((error) => {
                this.loader.loading = false
                 console.log(error.response.data)

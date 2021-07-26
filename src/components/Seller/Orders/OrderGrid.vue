@@ -92,11 +92,12 @@
     >
         <thead class="rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none no-selection" slot="head">
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                <v-th  class="text-center" style="width: 10%" sortKey="id">Pedido</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="id">Descrição</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="created_at">Data</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="proposal.estimate.equipment">Equipamento</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="status">Status</v-th>
-                <v-th  class="text-center" style="width: 10%" sortKey="proposal.products.length">Peças</v-th>
+                <v-th  class="text-center" style="width: 5%" sortKey="proposal.products.length">Peças</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="proposal.total">Valor Total</v-th>
                 <th class="text-center" style="width: 20%" >Ações</th>
             </tr>
@@ -106,6 +107,7 @@
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" slot="body" slot-scope="{displayData}">
 
             <tr  v-for="row in displayData" :key="row.id">
+                <td class="text-sm text-center text-gray-700">#{{row.id}}</td>
                 <td class="text-sm text-center text-gray-700">Cotação #{{row.proposal.estimate.id}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.created_at | formatDate }}</td>
                 <td class="text-sm text-center text-gray-700">
@@ -124,6 +126,9 @@
                 <td class="text-sm text-center">{{row.proposal.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="flex justify-center mt-1 mb-1">
                     <div class="flex items-center space-x-2 text-sm">
+                        <svg v-if="row.status == 1" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 animate-bounce text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
                         <router-link :to="{name: 'OrderDetails', params: {id: row.id}}" class="flex items-center justify-between px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" /></svg>                        
                         </router-link>
@@ -210,9 +215,9 @@ export default {
                 color: '#0bc95b',
             },
             order: {},
-            statusName: ['Pendente','Em preparo','Em trânsito','Entregue'],
-            statusColor: ['bg-orange-400','bg-blue-400','bg-indigo-600','bg-primary-main'],
-            statusIcon: ['mdi mdi-progress-clock','mdi mdi-package-variant-closed','mdi mdi-truck-fast-outline','mdi mdi-calendar-check-outline']
+            statusName: ['Pendente','Pendente','Em preparo','Em trânsito','Entregue'],
+            statusColor: ['bg-orange-400','bg-orange-400','bg-blue-400','bg-indigo-600','bg-primary-main'],
+            statusIcon: ['mdi mdi-progress-clock','mdi mdi-progress-clock','mdi mdi-package-variant-closed','mdi mdi-truck-fast-outline','mdi mdi-calendar-check-outline']
         }
     },
     methods: {
@@ -324,6 +329,7 @@ export default {
                 this.loader.loading = false
                 this.orders = response.data.data
                 this.filteredOrders = response.data.data
+                console.log(response.data.data)
             }).catch((error) => {
                 console.log(error.response.data)
             })

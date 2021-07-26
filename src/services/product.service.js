@@ -43,6 +43,7 @@ function updateProduct(data) {
 }
 
 
+
 function createProduct(data) {
     return axios.post(`${API_URL}/products/${data.estimate_id}`, JSON.stringify(data), {
         headers: { 
@@ -56,6 +57,7 @@ function createProduct(data) {
         
         return data;
     })
+
 }
 
 function deleteProduct(id) {

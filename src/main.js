@@ -17,6 +17,7 @@ import './assets/css/tooltip.css';
 
 import '@/assets/css/tailwind.css';
 import "vue-toastification/dist/index.css";
+import VueLazyload from 'vue-lazyload'
 
 Vue.config.productionTip = false;
 
@@ -58,6 +59,7 @@ Vue.use(SmartTable)
 Vue.use(money, {precision: 4})
 Vue.use(VTooltip)
 Vue.use(LottieAnimation);
+Vue.use(VueLazyload)
 
 export const bus = new Vue();
 

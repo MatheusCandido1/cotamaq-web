@@ -12,7 +12,10 @@ export const orderService = {
     updateXml,
     updateBillet,
     showPdf,
-    uploadFiles
+    uploadFiles,
+    selectPaymentBySeller,
+    getPaymentOptions,
+    updatePaymentOptionsByBuyer
 };
 
 
@@ -58,6 +61,16 @@ function uploadFiles(data,id, onUploadProgress) {
     })
 }
 
+function getPaymentOptions(id) {
+    return axios.get(`${API_URL}/orders/${id}/payments`,  {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
 
 function updatePdf(data,id, onUploadProgress) {
     return axios.post(`${API_URL}/orders/${id}/pdf`, data, {
@@ -74,6 +87,22 @@ function updatePdf(data,id, onUploadProgress) {
     })
 }
 
+
+function updatePaymentOptionsByBuyer(data) {
+    return axios.post(`${API_URL}/orders/${data.id}/payments`, data, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
+
 function updateXml(data,id, onUploadProgress) {
     return axios.post(`${API_URL}/orders/${id}/xml`, data, {
         headers: { 
@@ -81,6 +110,23 @@ function updateXml(data,id, onUploadProgress) {
             'Content-Type': 'multipart/form-data'
         },
         onUploadProgress
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
+
+
+
+function selectPaymentBySeller(data) {
+    return axios.post(`${API_URL}/orders/${data.id}/payment/seller`, JSON.stringify(data), {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
     })
     .then(response => {
         const data = response.data

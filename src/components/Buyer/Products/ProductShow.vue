@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="flex -mx-3">
-                <div class="w-1/3 px-3 mb-5">
+                <div class="w-1/2 px-3 mb-5">
                 <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center">Aceita Similar?</label>
                     <div class="flex justify-center space-x-4 mt-3">
                         <div>
@@ -59,7 +59,17 @@
                     </div>
                 </div>  
 
-                <div class="w-2/3 px-3 mb-5">
+                <div class="w-1/2 px-3 mb-5">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <input  :disabled="edit" v-model="selectedProduct.brand"  placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    </div>                         
+                </div>
+            </div>
+
+            <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Observação</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>

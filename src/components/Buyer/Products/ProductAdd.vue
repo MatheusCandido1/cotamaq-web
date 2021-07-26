@@ -47,7 +47,8 @@
                     </div>                          
                 </div>
             </div>
-            <div class="flex -mx-3">
+           
+            <div class="flex -mx-3 mt-4">
                 <div class="w-1/2 px-3 mb-5">
                 <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center">Aceita Similar?</label>
                     <div class="flex justify-center space-x-4 mt-3">
@@ -72,17 +73,27 @@
                     
                 </div>    
                 
-
                 <div class="w-1/2 px-3 mb-5">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <input v-model="product.brand"  placeholder="" type="text" class="border-primary-main w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    </div>                         
+                </div> 
+            </div>
+
+            <div class="flex -mx-3 mt-4">
+              <div class="w-2/6 px-3 mb-5">
+                     <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>            
+                </div> 
+                <div class="w-4/6 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Observação</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                         <textarea v-model="product.observation" class="form-textarea mt-1 block resize-none w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" rows="3" placeholder=""></textarea>
                     </div>                         
                 </div> 
-                
             </div>
-
           </div>
           <!--footer-->
           <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -118,14 +129,21 @@ export default {
   },
   data() {
       return {
+            teste: [],
+            index: null,
+            url: null,
             disabled: false,
+            hover: false,
+            newForm: new FormData,
             product: {
                 part_code: null,
                 description: null,
                 quantity: null,
                 allow_similar: null,
                 observation: null,
+                brand: null,
                 estimate_id: null,
+                images: []
             },
             errors: {
               description: null,
@@ -151,16 +169,16 @@ export default {
         } 
                             
         if(this.$v.$anyError == false) {
-          this.disabled = true
-          const data = {
+        this.disabled = true
+         const data = {
             part_code: this.product.part_code,
             description: this.product.description,
             quantity: this.product.quantity,
             allow_similar: this.product.allow_similar,
             observation: this.product.observation,
-            estimate_id: this.$route.params.id
-          }
-
+            brand: this.product.brand,
+            estimate_id: this.$route.params.id,
+          } 
           productService.createProduct(data).then((response) => {
             this.$toast.success(response.success_message, {
               position: "bottom-right",
@@ -198,3 +216,14 @@ export default {
     }
 };
 </script>
+<style scoped>
+.image {
+  opacity: 1;
+  width: 6rem; 
+  height: 6rem;
+  border-radius: 0.5rem;
+  margin-left: 10px;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+</style>

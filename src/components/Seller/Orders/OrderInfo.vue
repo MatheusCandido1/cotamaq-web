@@ -1,8 +1,9 @@
 <template>
 <div>
-  <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
+    
+  <div v-if="order.status == 1" class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
+    <div >
         <h2 class="text-2xl text-center mb-4 font-semibold text-gray-700 dark:text-gray-200">Métodos e Condições de Pagamento</h2>
-  
         <div class="flex -mx-3">
                 <div class="w-1/2 px-3 mb-5  border-r-2 border-primary-main p-8">
                     <h3 class="text-xl font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Formas de Pagamento </h3>
@@ -87,6 +88,18 @@
             </div>
 
             </div>
+            <div class="flex justify-end -mx-3 -ml-10 pl-2 pr-3 py-2 ">
+                        <div class="w-1/7 mb-5">
+                            <label for="" class="text-xs font-semibold px-1"></label>
+                            <div class="flex">
+                            <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                                <button @click="selectPayment()" class="w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                    <span class="justify-center">Salvar</span>
+                                </button>                         
+                            </div>   
+                        </div>
+                    </div>
+    </div>
   </div>
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
         <div class="flex -mx-3">
@@ -96,7 +109,7 @@
             </div>
             <div class="w-1/5 px-3 mb-5">
                  <div class="flex">
-                    <select v-model="order.status" @change="showStatusModal()"  class="w-full -ml-10 pl-2  border-primary-main px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <select :disabled="order.status < 3" v-model="order.status" @change="showStatusModal()"  class="w-full -ml-10 pl-2  border-primary-main px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                         <option value="1"> Pendente </option>
                         <option value="2"> Em preparo </option>
                         <option value="3"> Em trânsito </option>
@@ -105,7 +118,26 @@
                     </div>  
             </div>
         </div>
+            <div v-if="order.status >= 2"  class="flex -mx-3">
+                
+            <div class="w-1/2 px-3 mb-5">
+              <label for="" class="text-sm  flex justify-start font-semibold text-gray-600 px-1">Formas de pagamento disponíveis</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                    <span v-for="paymentMethod in selectedPaymentMethods" :key="paymentMethod.id" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2 mt-2">{{getPaymentMethodName(paymentMethod)}}</span>                       
+                    </div>  
+            </div>
 
+            <div class="w-1/2 px-3 mb-5">
+                 <label for="" class="text-sm flex justify-start font-semibold text-gray-600 px-1">Condições de pagamento disponíveis</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1  text-center pointer-events-none flex items-center justify-center"></div>
+                        <span v-for="paymentCondition in selectedPaymentConditions" :key="paymentCondition.id" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2 mt-2">{{getPaymentConditionName(paymentCondition)}}</span>                       
+                    </div> 
+                     
+            </div>
+
+        </div>
         <div v-if="buyer.name"   class="flex -mx-3">
             <div class="w-1/3 px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Cliente</label>
@@ -192,6 +224,28 @@
                 </div>                       
             </div>
         </div>
+
+        <div class="flex -mx-3">
+            <div class="w-1/2 px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Método de Pagamento escolhida</label>
+                <div class="flex">
+                    <div class="w-full rounded bg-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="justify-center text-white">{{order.payment_method == '' ? 'Não disponível':order.payment_method}}</span>
+                    </div> 
+                </div>                      
+            </div>
+
+            <div class="w-1/2 px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Condição de Pagamento escolhida</label>
+                <div class="flex">
+                    <div class="w-full rounded bg-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="justify-center text-white">{{order.payment_condition == '' ? 'Não disponível':order.payment_condition}}</span>
+                    </div> 
+                </div>                      
+            </div>
+        </div>
+
+       
   </div>
 
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
@@ -383,14 +437,14 @@ export default {
         bus.$off('updatePaymentMethod');
         bus.$on('updatePaymentMethod', (data) => {
             if(data) {
-            //this.getPaymentMethods()
+                this.getPaymentMethods()
             }
         })
 
         bus.$off('updatePaymentCondition');
         bus.$on('updatePaymentCondition', (data) => {
             if(data) {
-            //this.getPaymentConditions()
+                this.getPaymentConditions()
             }
         })
     },
@@ -404,6 +458,7 @@ export default {
             newStatus: null,
             oldStatus: null,
             isProductModalVisible: false,
+            paymentEnable: false,
             estimate: {},
             errors: {},
             buyer: {
@@ -443,6 +498,27 @@ export default {
         }
     },
     methods: {
+        selectPayment() {
+            this.disabled = true
+            const payload = {
+                id: this.order.id,
+                paymentMethods: this.selectedPaymentMethods,
+                paymentConditions: this.selectedPaymentConditions,
+            }
+            orderService.selectPaymentBySeller(payload).then((response) => {
+                this.$toast.success(response.success_message, {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                });
+                this.disabled = false
+                this.getOrder();
+            }).catch((error) => {
+                console.log(error.response.data)
+                this.disabled = false
+            })
+        },
         showAlertModal() {
             this.isAlertModalOpen = true;
             bus.$emit('ModalOpen', true);
@@ -535,6 +611,8 @@ export default {
                 this.oldStatus = this.order.status
                 this.paymentMethods = res.paymentMethods
                 this.paymentConditions = res.paymentConditions
+                this.selectedPaymentMethods = res.selectedPaymentMethods
+                this.selectedPaymentConditions = res.selectedPaymentConditions
 
                 if(this.order.status == 1) {
                     this.showAlertModal()
