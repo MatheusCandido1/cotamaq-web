@@ -124,6 +124,15 @@
                 </div>  
             </div>
         </div>
+         <span class="flex justify-end text-gray-600 font-semibold">
+                    Items por página
+                    <select v-model="itemsPerpage" class="w-20 pl-4 ml-3 border-primary-main px-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none focus:border-primary-lighter">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                </span>
         <span class="flex justify-center items-center text-gray-700" v-if="products && products.length === 0" > {{ loader.loading ? 'Carregando...':'Nenhum produto encontrado...' }}</span>
         <div  v-if="products && products.length !== 0">
             <v-table
@@ -131,7 +140,7 @@
                 :data="products"     
                 :hideSortIcons="true"
                 :currentPage.sync="currentPage"
-                :pageSize="3"
+                :pageSize="itemsPerpage"
                 @totalPagesChanged="totalPages = $event"
             >
                 <thead class="rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none no-selection" slot="head">
@@ -153,8 +162,8 @@
                                 {{formatName(row.allow_similar)}}
                             </span>
                         </td>
-                        <td class="flex justify-center mt-2">
-                            <div class="flex items-center space-x-4 text-sm">
+                        <td class="flex justify-center mt-1 mb-1">
+                                <div class="flex items-center space-x-2 text-sm">
                                 <button @click="showDetailModal(row, true)"  class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"  viewBox="0 0 20 20" fill="currentColor"> <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /> </svg>
                                 </button>
@@ -333,6 +342,7 @@ export default {
             totalPages: 5,
             products: [],
             product: null,
+            itemsPerpage: 5,
             colors: ["bg-red-500", "bg-primary-main"],
             defaults: ['Não', 'Sim'],
             isAddModalVisible: false,

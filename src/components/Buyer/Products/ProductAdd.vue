@@ -93,8 +93,8 @@
                      <input ref="files" @change="onFileChange" id="files" class="hidden" multiple type="file" />         
                     <div class="flex justify-start items-center flex-wrap mt-2">
                       <div class="flex flex-row justify-center items-center">
-                        <div class="flex flex-col justify-center items-center"  v-for="(image, key) in files" :key="key">
-                        <img   class="h-28 w-28 rounded-lg ml-2 mr-2" :src="image" />
+                        <div class="flex flex-col justify-center items-center"  v-for="(file, key) in files" :key="key">
+                        <img  class="h-28 w-28 rounded-lg ml-2 mr-2" :ref="'file'" />
                         <button @click="removeImage(key)" type="button" class="w-8 h-8 mt-1 justify-center items-center mr-2 bg-red-600 text-white p-2 rounded  leading-none flex items-center">
                            <i class="mdi mdi-delete text-white"></i>
                         </button>
@@ -152,8 +152,8 @@ export default {
                 description: null,
                 quantity: null,
                 allow_similar: null,
-                observation: null,
-                brand: null,
+                observation: '',
+                brand: '',
                 estimate_id: null,
                 images: []
             },
@@ -180,11 +180,20 @@ export default {
     removeImage(key) {
         this.files.splice( key, 1 );
     },
-    onFileChange() {
-      let uploadedFiles = this.$refs.files.files;
+    onFileChange(e) {
+      let uploadedFiles = e.target.files;
 
-      for( var i = 0; i < uploadedFiles.length; i++ ){
-        this.files.push( uploadedFiles[i] );
+      for(var x = 0; x < uploadedFiles.length;x++){
+        this.files.push( uploadedFiles[x] );
+      }
+
+       for (let i = 0; i < this.files.length; i++) {
+        let reader = new FileReader();
+        reader.onload = () => {
+          this.$refs.file[i].src = reader.result;
+        };
+
+        reader.readAsDataURL(this.files[i]);
       }
     },
     createProduct() {
