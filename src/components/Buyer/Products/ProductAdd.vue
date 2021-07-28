@@ -152,8 +152,8 @@ export default {
                 description: null,
                 quantity: null,
                 allow_similar: null,
-                observation: '',
-                brand: '',
+                observation: null,
+                brand: null,
                 estimate_id: null,
                 images: []
             },
