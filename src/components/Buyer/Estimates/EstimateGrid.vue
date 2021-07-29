@@ -184,7 +184,6 @@
                                     <router-link
                                         v-tooltip="{ content: 'Visualizar Propostas' }"
                                         v-if="
-                      row.status == 1 ||
                       row.status == 2 ||
                       row.status == 3 ||
                       row.status == 5

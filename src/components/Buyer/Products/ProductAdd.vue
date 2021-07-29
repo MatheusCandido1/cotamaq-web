@@ -105,7 +105,13 @@
             </div> 
             
             <div class="flex -mx-3 mt-4">
-                 
+              <div class="w-full px-3 mb-5">
+                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Observação</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <textarea v-model="product.observation" class="form-textarea mt-1 block resize-none w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" rows="3" placeholder=""></textarea>
+                    </div> 
+              </div>
             </div>
           </div>
           <!--footer-->
@@ -178,13 +184,13 @@ export default {
       this.$refs.files.click();
     },
     removeImage(key) {
-        this.files.splice( key, 1 );
+        this.files.splice(key, 0);
     },
     onFileChange(e) {
       let uploadedFiles = e.target.files;
 
       for(var x = 0; x < uploadedFiles.length;x++){
-        this.files.push( uploadedFiles[x] );
+        this.files.push(uploadedFiles[x]);
       }
 
        for (let i = 0; i < this.files.length; i++) {
