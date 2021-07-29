@@ -183,11 +183,7 @@
 
                                     <router-link
                                         v-tooltip="{ content: 'Visualizar Propostas' }"
-                                        v-if="
-                      row.status == 2 ||
-                      row.status == 3 ||
-                      row.status == 5
-                    "
+                                        v-if="row.status == 2 || row.status == 3 || row.status == 5"
                                         :to="{ name: 'detailEstimate', params: { id: row.id } }"
                                         class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                         aria-label="Edit"

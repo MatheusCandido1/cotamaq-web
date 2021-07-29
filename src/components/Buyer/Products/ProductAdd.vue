@@ -184,7 +184,8 @@ export default {
       this.$refs.files.click();
     },
     removeImage(key) {
-        this.files.splice(key, 0);
+        let index = this.files.indexOf(key);
+        this.files.splice(index, 1);
     },
     onFileChange(e) {
       let uploadedFiles = e.target.files;
