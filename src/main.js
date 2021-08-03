@@ -1,17 +1,18 @@
 import Vue from 'vue';
-import router from '@/router';
+import router from '@/router'
 import store from '@/store'
-import App from '@/App.vue';
-import Toast from "vue-toastification";
+import App from '@/App.vue'
+import Toast from "vue-toastification"
 import Vuelidate from 'vuelidate'
 import VueTheMask from 'vue-the-mask'
 import SmartTable from 'vuejs-smart-table'
 import money from 'v-money'
-import moment from 'moment';
+import moment from 'moment'
 import VTooltip from 'v-tooltip'
 import { VueSpinners } from '@saeris/vue-spinners'
-
+import CoolLightBox from 'vue-cool-lightbox'
 import LottieAnimation from 'lottie-web-vue'
+import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css'
 
 import './assets/css/tooltip.css';
 
@@ -58,8 +59,9 @@ Vue.use(VueTheMask)
 Vue.use(SmartTable)
 Vue.use(money, {precision: 4})
 Vue.use(VTooltip)
-Vue.use(LottieAnimation);
+Vue.use(LottieAnimation)
 Vue.use(VueLazyload)
+Vue.use(CoolLightBox)
 
 export const bus = new Vue();
 

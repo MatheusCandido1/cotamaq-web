@@ -107,6 +107,9 @@ export default {
             edit: true,
       }
   },
+  destroyed() {
+      this.close()
+  },
   created() {
   },
   methods: {

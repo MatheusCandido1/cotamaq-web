@@ -91,6 +91,9 @@ export default {
       selectedProduct: JSON.parse(JSON.stringify(this.$props.product)),
     }
   },
+  destroyed() {
+      this.close()
+  },
   methods: {
     close() {
       this.$emit("close");

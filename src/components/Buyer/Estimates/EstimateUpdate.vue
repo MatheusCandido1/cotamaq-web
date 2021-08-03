@@ -494,7 +494,7 @@ export default {
             this.loader.loading = true
             productService.getProducts(estimate_id).then((response) => {
                 this.loader.loading = false
-                this.products = response.data.data
+                this.products = response.data.estimate.products
             }).catch((error) => {
                 console.log(error.response.data)
             }) 

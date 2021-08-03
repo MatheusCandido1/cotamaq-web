@@ -102,7 +102,7 @@ export default {
       this.getPaymentInformation()
   },
   destroyed() {
-      this.$emit("close");
+      this.close()
   },
   methods: {
     close() {

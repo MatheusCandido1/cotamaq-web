@@ -171,6 +171,9 @@ export default {
             }
       }
   },
+  destroyed() {
+      this.close()
+  },
   methods: {
     handleSimilarClick() {
       this.errors.allow_similar = 'OK'
@@ -250,8 +253,6 @@ export default {
               console.log(error.response.data)
             })
           }
-    },
-    clearInputs() {
     },
     close() {
       this.$emit("close");
