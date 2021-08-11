@@ -12,13 +12,13 @@ import VTooltip from 'v-tooltip'
 import { VueSpinners } from '@saeris/vue-spinners'
 import CoolLightBox from 'vue-cool-lightbox'
 import LottieAnimation from 'lottie-web-vue'
+import VueSuggestion from 'vue-suggestion'
 import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css'
-
 import './assets/css/tooltip.css';
-
 import '@/assets/css/tailwind.css';
 import "vue-toastification/dist/index.css";
 import VueLazyload from 'vue-lazyload'
+import Multiselect from 'vue-multiselect'
 
 Vue.config.productionTip = false;
 
@@ -52,6 +52,7 @@ Vue.filter('Document', function(value) {
     return value
 });
 
+Vue.component('multiselect', Multiselect)
 Vue.use(Toast, options);
 Vue.use(VueSpinners)
 Vue.use(Vuelidate)
@@ -62,6 +63,7 @@ Vue.use(VTooltip)
 Vue.use(LottieAnimation)
 Vue.use(VueLazyload)
 Vue.use(CoolLightBox)
+Vue.use(VueSuggestion)
 
 export const bus = new Vue();
 

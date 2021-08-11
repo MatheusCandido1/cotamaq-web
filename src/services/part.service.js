@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const partService = {
     getParts,
+    createPart
 };
 
 function getParts() {
@@ -15,6 +16,21 @@ function getParts() {
         }
     })
     .then(handleResponse)
+}
+
+function createPart(data) {
+    return axios.post(`${API_URL}/parts`, data, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+
 }
 
 function handleResponse(response) {

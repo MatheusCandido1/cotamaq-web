@@ -9577,10 +9577,15 @@ vue-runtime-helpers@^1.1.2:
   resolved "https://registry.yarnpkg.com/vue-runtime-helpers/-/vue-runtime-helpers-1.1.2.tgz#446b7b820888ab0c5264d2c3a32468e72e4100f3"
   integrity sha512-pZfGp+PW/IXEOyETE09xQHR1CKkR9HfHZdnMD/FVLUNI+HxYTa82evx5WrF6Kz4s82qtqHvMZ8MZpbk2zT2E1Q==
 
-vue-select@^3.11.2:
-  version "3.11.2"
-  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-3.11.2.tgz#3ef93e3f2707e133c2df0b2920a05eea78764d18"
-  integrity sha512-pIOcY8ajWNSwg8Ns4eHVr5ZWwqKCSZeQRymTnlUI8i+3QiQXF6JIM4lylK6mVfbccs4S6vOyxB7zmJBpp7tDUg==
+vue-search-select@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/vue-search-select/-/vue-search-select-2.9.3.tgz#39ee37da95179b7fdd8e1cb7636e5c0aaee39be2"
+  integrity sha512-JQBTSKKX3nAoeeEaSqg2iQDtR1YBs0qZ08os/QDOqFocGPSvAffNb4VajSnlFWJlKQDJcev3iQuBLcWM2pxr0Q==
+
+vue-select@^3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-3.12.2.tgz#b0dd89233d673dcbee567418667b1bfd5c139b64"
+  integrity sha512-KWIXQ50pC+B1wpBmaUXwuHm8yevPIL8YsZin9Hi2qCdK7C0KMbztRk6adgpIJ99bqaiccrGFQIPuXsuUNeegPw==
 
 vue-silentbox@^2.4.5:
   version "2.4.5"
@@ -9594,6 +9599,11 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   dependencies:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
+
+vue-suggestion@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-suggestion/-/vue-suggestion-1.1.0.tgz#b4ead658700b12c32e5f67f1a152c500a33551b9"
+  integrity sha512-l5NE8kyQj5p7nDzCuXTJLXXrz8WLfw92Ks+YY6ei4yhqQ0+fm+ok2wMDg1JqfapITVz3iq1sOxXpyv5XNVDOpw==
 
 vue-template-compiler@^2.6.11:
   version "2.6.12"

@@ -21,8 +21,8 @@
                 <div class="border-t-2"></div>
                 <div class="flex ">
                     <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
-                        <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-3">
-                            <NewProductItem @click="handleNewPartClick" v-if="day == today()" />
+                        <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-x-6">
+                            <NewProductItem v-if="index === orderedData.length - 1" @click="handleNewPartClick" />
                             <ProductItem v-for="(model, innerIndex) in dates(day)" :key="innerIndex"  :product="model" />
                         </div>
                     </div>
@@ -67,6 +67,7 @@ export default {
             partService.getParts().then((response) => {
                 this.products = response.data.data
                 this.orderedData = this.days.sort((a, b) => new Date(b) - new Date(a))
+                console.log(this.products)
             }).catch((error) => {
                 console.log(error.response.data)
             })
