@@ -69,7 +69,6 @@ export default {
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
                 });
-                console.log(this.orderedData)
             }).catch((error) => {
                 console.log(error.response.data)
             })

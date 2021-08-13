@@ -21,7 +21,7 @@
                      <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(product.allow_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Marca:</span> {{product.brand == '' ? 'Não informado':product.brand}}</p> 
+                     <p><span class="font-bold">Marca:</span> {{!product.brand || product.brand == ''  ? 'Não informado' : product.brand}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm">
                      <p><span class="font-bold">Equipamento:</span> {{product.equipment == null ? 'Não informado': formatEquipment(product.equipment)}}</p> 

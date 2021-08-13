@@ -35,34 +35,28 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                  Envio de Cotação
                 </h3>
                 <div class="mt-2">
-                  <h4 class="text-md font-semibold text-gray-900"> Dados da cotação </h4>
+                  <h4 class="text-lg font-semibold text-gray-900">Peça: {{selectedPart.description}} </h4>
                   
                   <div class="border-t-2 mt-2"></div>
                   <div class="flex flex-row ">
                       <div class="py-2 flex-grow whitespace-nowrap">
                     <div class="">
-                          <div class="flex space-x-2 text-gray-800 text-sm ">
-                              <p><span class="font-bold">Categoria:</span> Máquinas</p> 
-                          </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm  my-3">
-                              <p><span class="font-bold">Endereço:</span> Fazenda</p> 
-                          </div>
                           <div class="flex space-x-2 text-gray-800 text-sm  my-3">
                               <p><span class="font-bold">Cód. da peça:</span> {{selectedPart.part_code}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Descrição:</span> {{selectedPart.description}}</p> 
                           </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm">
+                              <p><span class="font-bold">Quantidade:</span> {{selectedPart.quantity}}</p> 
+                          </div>
                     </div>
                   </div>
                       <div class="px-2 py-2 flex-grow whitespace-nowrap">
                     <div class="px-2 ">
-                          <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Quantidade:</span> {{selectedPart.quantity}}</p> 
-                          </div>
+                          
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(selectedPart.allow_similar)}} </p> 
                           </div>
@@ -112,7 +106,7 @@
               :disabled="disabled"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm"
             >
-              Enviar
+              Enviar Cotação
             </button>
             <button
               type="button"
