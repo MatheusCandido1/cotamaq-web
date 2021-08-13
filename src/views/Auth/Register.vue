@@ -1,128 +1,121 @@
 <template>
-<div class="min-w-screen min-h-screen bg-gradient-to-r from-primary-darker via-primary-main to-primary-lighter flex items-center justify-center px-5 py-5">
-    <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
-        <div class="md:flex w-full">
-            <div class="hidden md:block w-1/2 bg-primary-main">
-                <img  class="object-cover h-full w-full " src="../../assets/images/tractor.png" alt="">
-            </div>
-            <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
-             <div class="text-center mb-10">
-                    <img class="mb-3 mx-auto" style="height: 50px; width: auto" src="../../assets/images/logo-01.png" alt="">
+    <div class="min-w-screen min-h-screen bg-gradient-to-r from-primary-darker via-primary-main to-primary-lighter flex items-center justify-center px-5 py-5">
+        <div class="bg-gray-100 text-gray-500 rounded-xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
+            <div class="md:flex w-full">
+                <div class="hidden md:block w-1/2 bg-primary-main">
+                    <img  class="object-cover h-full w-full " src="../../assets/images/tractor.png" alt="">
                 </div>
-                <form @submit.prevent="register">
-                    <div class="flex -mx-3">
-                        <div class="w-1/2 px-3 mb-5">
-                            <label for=""  class="text-xs font-semibold px-1">Razão social</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.company_name ? 'text-red-300':''" class="mdi mdi-information-outline text-gray-400 text-lg"></i></div>
-                                <input v-model="company_name" type="text" :class="errors.company_name ? 'border-red-300':''" class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter" >
-                            </div>
-                            <div  v-if="errors.company_name">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.company_name[0] }}</span>
-                            </div> 
-                        </div>
-                        <div class="w-1/2 px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">CPF/CNPJ</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.cnpj ? 'text-red-300':''"  class="mdi mdi-badge-account-horizontal text-gray-400 text-lg"></i></div>
-                                <the-mask :mask="['###.###.###-##', '##.###.###/####-##']" v-model="cnpj" type="text" :class="errors.cnpj ? 'border-red-300':''"  class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter" ></the-mask>
-                            </div>
-                            <div  v-if="errors.cnpj">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.cnpj[0] }}</span>
-                            </div> 
-                        </div>
+                <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
+                    <div class="text-center mb-10">
+                        <img class="mb-3 mx-auto" style="height: 50px; width: auto" src="../../assets/images/logo-01.png" alt="">
                     </div>
-                    <div class="flex -mx-3">
-                        <div class="w-1/2 px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">Nome de Usuário</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.name ? 'text-red-300':''" class="mdi mdi-account text-gray-400 text-lg"></i></div>
-                                <input v-model="name" type="text" :class="errors.name ? 'border-red-300':''" class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter">
+                    <form @submit.prevent="register">
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="company_name" class="text-sm font-semibold text-gray-600 px-1">
+                                    Razão Social
+                                </label>
+                                <input  @change="() => (errors.company_name = null)" :class="errors.company_name && errors.company_name[0] ? 'border-red-400':'border-primary-main'" id="company_name" v-model="company_name"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.company_name" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.company_name[0]}}</span>
+                                </div> 
                             </div>
-                            <div  v-if="errors.name">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.name[0] }}</span>
-                            </div>
-                        </div>
-                        <div class="w-1/2 px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">E-mail</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.email ? 'text-red-300':''" class="mdi mdi-email text-gray-400 text-lg"></i></div>
-                                <input v-model="email" type="email" :class="errors.name ? 'border-red-300':''" class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter" >
-                            </div>
-                            <div  v-if="errors.email">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.email[0] }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex -mx-3">
-                       
-                        <div class="w-full px-3 mb-5">
-                            <label for="" class="flex text-xs font-semibold px-1 justify-center ">Qual seu papel?</label>
-                            <div class="flex justify-center space-x-4 mt-3">
-
-                                <div>
-			<input v-model="role" value="2" class="hidden" id="radio_1" type="radio" name="role">
-			<label :class="errors.role_id ? 'border-red-300':''" class="flex h-9 p-1 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="radio_1">
-                <span class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i class="mdi mdi-currency-usd text-gray-900 text-lg mr-1 ml-1"></i>Comprador </span>
-
-			</label>
-		</div>
-        <div>
-			<input v-model="role" value="1" class="hidden" id="radio_2" type="radio" name="role">
-			<label :class="errors.role_id ? 'border-red-300':''" class="flex h-9 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="radio_2">
-				<span  class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i :class="errors.role_id ? 'border-red-300':''" class="mdi mdi-wallet-travel text-gray-900 text-lg mr-1 ml-1"></i>Vendedor </span>
-			</label>
-		</div>
-                            </div>
-                            <div class="flex justify-center mt-3"  v-if="errors.role_id">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.role_id[0] }}</span>
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
+                                    CPF/CNPJ
+                                </label>
+                                <the-mask :mask="['###.###.###-##', '##.###.###/####-##']" v-model="cnpj" type="text"  @change="() => (errors.cnpj = null)" :class="errors.cnpj && errors.cnpj[0] ? 'border-red-400':'border-primary-main'"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" ></the-mask>
+                                <div v-if="errors.cnpj" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.cnpj[0]}}</span>
+                                </div> 
                             </div>
                         </div>
-                        
-                    </div>
-                    
-                    <div class="flex -mx-3">
-                    <div class="w-full px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">Senha</label>
-                            <div class="flex">
-                                <div :class="errors.password ? 'text-red-300':''" class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.password ? 'text-red-300':''" class="mdi mdi-lock text-gray-400 text-lg"></i></div>
-                                <input v-model="password" type="password" :class="errors.password ? 'border-red-300':''" class="w-full  h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter" >
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="name" class="text-sm font-semibold text-gray-600 px-1">
+                                    Nome de Usuário
+                                </label>
+                                <input @change="() => (errors.name = null)" :class="errors.name && errors.name[0] ? 'border-red-400':'border-primary-main'" id="name" v-model="name"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.name" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.name[0]}}</span>
+                                </div> 
                             </div>
-                            <div  v-if="errors.password">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.password[0] }}</span>
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="email" class="text-sm font-semibold text-gray-600 px-1">
+                                    E-mail
+                                </label>
+                                <input @change="() => (errors.email = null)" :class="errors.email && errors.email[0] ? 'border-red-400':'border-primary-main'" id="email" v-model="email"  placeholder="" type="email" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.email" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.email[0]}}</span>
+                                </div> 
                             </div>
                         </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="w-full px-3 mb-5">
+                                <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center ">Qual seu papel?</label>
+                                <div class="flex justify-center space-x-4 mt-3">
+                                    <div>
+                                        <input v-model="role" value="2" class="hidden" id="radio_1" type="radio" name="role">
+                                        <label :class="errors.role_id ? 'border-red-300':''" class="flex h-9 p-1 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="radio_1">
+                                            <span class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i class="mdi mdi-currency-usd text-gray-900 text-lg mr-1 ml-1"></i>Comprador </span>
+                                        </label>
+                                        </div>
+                                    <div>
+                                        <input v-model="role" value="1" class="hidden" id="radio_2" type="radio" name="role">
+                                        <label :class="errors.role_id ? 'border-red-300':''" class="flex h-9 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="radio_2">
+                                            <span  class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i :class="errors.role_id ? 'border-red-300':''" class="mdi mdi-wallet-travel text-gray-900 text-lg mr-1 ml-1"></i>Vendedor </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div v-if="errors.role_id" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.role_id[0]}}</span>
+                                </div> 
+                            </div>
                         </div>
 
-                    <div class="flex -mx-3">
-                        <div class="w-full px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">Confirmação de senha</label>
-                            <div class="flex">
-                                <div :class="errors.password ? 'text-red-300':''" class="w-10  z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.password ? 'text-red-300':''" class="mdi mdi-lock-check text-gray-400 text-lg"></i></div>
-                                <input v-model="password_confirmation" type="password" :class="errors.password ? 'border-red-300':''" class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter" >
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="password" class="text-sm font-semibold text-gray-600 px-1">
+                                    Senha
+                                </label>
+                                <input @change="() => (errors.password = null)" :class="errors.password && errors.password[0] ? 'border-red-400':'border-primary-main'" id="password" v-model="password"  placeholder="" type="password" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.password" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.password[0]}}</span>
+                                </div> 
                             </div>
-                            <div  v-if="errors.password">
-                                <span class="text-xs text-red-300 font-semibold px-1">{{  errors.password[0] }}</span>
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="password" class="text-sm font-semibold text-gray-600 px-1">
+                                    Confirmação de Senha
+                                </label>
+                                <input @change="() => (errors.password = null)" :class="errors.password && errors.password[0] ? 'border-red-400':'border-primary-main'" id="password" v-model="password_confirmation"  placeholder="" type="password" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.password" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.password[0]}}</span>
+                                </div> 
                             </div>
                         </div>
-                    </div>
-                    <div class="flex -mx-3">
-                        <div class="w-full px-3 mb-5">
-                            <button :disabled="loader.loading" type="submit" class="flex w-full h-10 max-w-xs mx-auto bg-primary-main hover:bg-primary-lighter items-center justify-center focus:bg-primary-lighter text-white rounded-lg px-3 py-3 font-semibold">Enviar <i class="mdi mdi-login text-lg"></i></button>
+
+                        <div class="-mx-3 md:flex mt-4">
+                            <div class="md:w-full px-3">
+                                <button type="submit" class="w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                    <span class="justify-center">Criar Conta <i class="mdi mdi-login text-lg"></i></span>
+                                </button> 
+                            </div>
                         </div>
-                    </div>
-                    <span v-if="loader.loading" class="flex justify-center align-center mb-3">
-                        <bar-loader :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
-                    </span>
-                    <p class="text-sm text-center text-gray-600">Já tem uma conta? <router-link :to="{name: 'login'}">Entrar </router-link> </p>
-                    
-                    <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
-                </form>
+
+                        <div class="-mx-3 md:flex mt-4">
+                            <div class="md:w-full px-3">
+                                <span v-if="loader.loading" class="flex justify-center align-center mb-3">
+                                    <bar-loader :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
+                                </span>
+                                <p class="text-sm text-center text-gray-600">Já tem uma conta? <router-link :to="{name: 'login'}">Entrar </router-link> </p>
+                                <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
+                            </div>
+                        </div>                                    
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>  
@@ -167,7 +160,7 @@ export default {
             userService.register(payload).then((response) => {
                     this.loader.loading = false;
                     this.$store.commit('user/STORE_USER', response);
-                    this.$router.push('/')
+                    this.$router.push('/cotacoes')
 
                 }).catch((error) => {
                     this.errors = error.response.data
