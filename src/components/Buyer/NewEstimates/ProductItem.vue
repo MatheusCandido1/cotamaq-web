@@ -4,15 +4,15 @@
           
         <div class="px-6 py-4 border-b bg-primary-main">
             
-          <div class="text-md text-center text-white font-semibold">Cotação #{{product.id}}</div>
+          <div class="text-md text-center text-white font-semibold">{{product.description}}</div>
         </div>
         <div class="px-2 py-2 flex-grow">
             <ul class="flex space-x-2 justify-end">
                 <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md">{{product.category.name}} </li>
             </ul>
           <div class="mt-1 px-2 ">
-              <div class="flex space-x-2 text-gray-800 text-sm">
-                     <p><span class="font-bold">Equipamento:</span> {{product.equipment == null ? 'Não informado': formatEquipment(product.equipment)}}</p> 
+                <div class="flex space-x-2 justify-start text-gray-800 text-sm">
+                     <p><span class="w-full bg-primary-main text-sm px-2 py-1 font-medium text-white rounded-md">Cotação #{{product.id}}</span></p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Quantidade:</span> {{product.quantity}}</p> 
@@ -22,6 +22,9 @@
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Marca:</span> {{product.brand == '' ? 'Não informado':product.brand}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm">
+                     <p><span class="font-bold">Equipamento:</span> {{product.equipment == null ? 'Não informado': formatEquipment(product.equipment)}}</p> 
                 </div>
           </div>
         </div>
@@ -38,7 +41,7 @@
         <div class="border-t-2"></div>
         <div class="flex justify-between px-4 ">
                     <div class="my-2">
-                        <div :class="formatStatus(product.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-lg dark:text-white">
+                        <div :class="formatStatus(product.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
                             {{formatStatus(product.status).text}}
                         </div>
                     </div>

@@ -303,7 +303,6 @@ export default {
                 this.products = response.data.data.products
                 this.proposal = response.data.data.proposal
                 this.estimate = response.data.data.estimate
-                console.log(this.products)
             }).catch((error) => {
                 console.log(error.response.data)
             }) 
