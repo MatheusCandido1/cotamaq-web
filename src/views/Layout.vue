@@ -68,7 +68,7 @@
           </a>
           <ul class="mt-6">
             
-            <li class="relative px-6 py-3 hover:text-gray-800 " style="cursor: pointer">
+            <!--<li class="relative px-6 py-3 hover:text-gray-800 " style="cursor: pointer">
               <span
                 v-if="getRouteName == 'dashboard'"
                 class="absolute inset-y-0 left-0 w-1 bg-primary-main rounded-tr-lg rounded-br-lg"
@@ -79,7 +79,7 @@
               >
                 <i class="mdi mdi-home-outline  text-2xl"></i><span class="ml-4">Painel</span>
               </router-link>
-            </li>
+            </li> -->
 
             <li class="relative px-6 py-3 hover:text-gray-800 " style="cursor: pointer">
               <span
@@ -228,28 +228,31 @@
 
           </a>
           <ul class="mt-6">
+            <!--
             <li class="relative px-6 py-3 hover:text-gray-800 " style="cursor: pointer">
               <router-link 
                 :to="{path: '/pedidos'}" @click="togglePagesMenu"  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
                 <i class="mdi mdi-home-outline  text-2xl"></i><span class="ml-4">Painel</span>
               </router-link>
-            </li>
+            </li> -->
 
             <li class="relative px-6 py-3 hover:text-gray-800 " style="cursor: pointer">
-              <a 
+              <router-link
+                :to="{path: '/cotacoes'}"
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
                 <i class="mdi mdi-file-document-edit text-2xl"></i><span class="ml-4">Cotações</span>
-              </a>
+              </router-link>
             </li>
 
             <li class="relative px-6 py-3 hover:text-gray-800 " style="cursor: pointer">
-              <a 
+              <router-link
+                :to="{path: '/pedidos'}"
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
                 <i class="mdi mdi-format-list-numbered  text-2xl"></i><span class="ml-4">Pedidos</span>
-              </a>
+              </router-link>
             </li>
           </ul>
           <ul>
