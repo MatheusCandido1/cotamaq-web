@@ -96,7 +96,7 @@
 
                         <div class="-mx-3 md:flex mt-4">
                             <div class="md:w-full px-3">
-                                <button type="submit" class="w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                <button :disabled="loader.loading" type="submit" class="w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                     <span class="justify-center">Criar Conta <i class="mdi mdi-login text-lg"></i></span>
                                 </button> 
                             </div>
