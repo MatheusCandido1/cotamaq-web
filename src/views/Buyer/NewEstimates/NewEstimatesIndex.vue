@@ -37,6 +37,7 @@
 import ProductItem from '../../../components/Buyer/NewEstimates/ProductItem'
 import NewProductItem from '../../../components/Buyer/NewEstimates/NewProductItem'
 import { partService } from '../../../services'
+import { bus } from '../../../main';
 export default {
     name: 'NewEstimateIndex',
     components: {
@@ -45,6 +46,14 @@ export default {
     },
     created() {
         this.getParts();
+    },
+    updated() {
+        bus.$off('updateParts');
+        bus.$on('updateParts', (data) => {
+            if(data) {
+                this.getParts();
+            }
+        })
     },
     computed: {
         days() {

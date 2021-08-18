@@ -60,7 +60,8 @@
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              @click="confim()"
+               :disabled="disabled"
+              @click="duplicatePart()"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Duplicar
@@ -81,15 +82,42 @@
 </template>
 
 <script>
-// import { bus } from '../../../main';
+import { partService } from '../../../services'
+import { bus } from '../../../main';
+
 export default {
     props:['id'],
-    methods: {
-    close() {                   
-        this.$emit("close");
-      
+    data() {
+        return {
+            disabled: false            
+        
         }
     },
+    methods: {
+        close() {                   
+            this.$emit("close");
+        
+        },
+        duplicatePart(){  
+            // this.disabled = true
+
+            partService.duplicatePart(this.id).then((response)=>{
+                console.log(response)
+                 this.$toast.success(response.success_message, {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                });
+                  bus.$emit('updateParts', true);
+                   this.close()
+                this.disabled = false
+            })
+            
+        }
+
+    },
+    
 
 }
 </script>
