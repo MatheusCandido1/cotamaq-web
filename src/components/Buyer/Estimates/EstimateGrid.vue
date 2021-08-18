@@ -272,6 +272,7 @@
                     </span>
                 </div>
             </div>
+            
             <estimate-delete v-if="isDeleteModalVisible" :estimate="estimate" @close="closeDeleteModal"> </estimate-delete>
 
             <estimate-duplicate v-if="isDuplicateModalVisible" :estimate="estimate" @close="closeDuplicateModal"> </estimate-duplicate>
