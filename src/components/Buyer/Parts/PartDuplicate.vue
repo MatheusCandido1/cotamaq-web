@@ -99,7 +99,7 @@ export default {
         
         },
         duplicatePart(){  
-            // this.disabled = true
+            this.disabled = true
 
             partService.duplicatePart(this.id).then((response)=>{
                 console.log(response)

@@ -74,7 +74,10 @@
                     </div>
                 </div>
       </div>
-      <DuplicatePartsModal v-if="isDuplicateModalVisible" :id="id" @close="closeDuplicateModal"
+      <DuplicatePartsModal
+       v-if="isDuplicateModalVisible"
+        :id="product.id"
+         @close="closeDuplicateModal"
             
             ></DuplicatePartsModal>
     </div>
@@ -88,7 +91,7 @@ import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.v
 
 export default {
     name: 'ProductItem',
-    props: ['product','id'],
+    props: ['product'],
     components:{
         DuplicatePartsModal,
     },
