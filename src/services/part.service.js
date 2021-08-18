@@ -4,8 +4,12 @@ import axios from 'axios';
 
 export const partService = {
     getParts,
-    createPart
+    createPart,
+    //duplicatePart,
+    //deletePart
 };
+
+
 
 function getParts() {
     return axios.get(`${API_URL}/parts`,  {
