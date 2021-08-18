@@ -24,6 +24,7 @@ import ProposalDetailSeller from '../components/Seller/Proposals/ProposalDetail'
 import EstimateRejected from '../components/Seller/Estimates/EstimateRejected';
 import OrderDetails from '../views/OrderDetails';
 import PartAdd from '../views/Buyer/Parts/PartAdd';
+import PartDetails from '../views/Buyer/Parts/PartDetails';
 
 Vue.use(VueRouter);
 
@@ -50,7 +51,8 @@ const routes = [
       { path: '/proposta/enviada/:id', name: 'detailSellerProposal', component: ProposalDetailSeller},
       { path: '/detalhe/pedidos/:id',  name: 'OrderDetails', component: OrderDetails, props: true},
       { path: '/cotacao/rejeitada/:id',  name: 'estimateRejected', component: EstimateRejected},
-      { path: '/cotacao', name: 'partAdd', component: PartAdd}
+      { path: '/cotacao', name: 'partAdd', component: PartAdd},
+      { path: '/cotacao/:id', name: 'partDetails', component: PartDetails}
     ]
   },
   {

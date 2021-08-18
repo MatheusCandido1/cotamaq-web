@@ -5,9 +5,21 @@ import axios from 'axios';
 export const partService = {
     getParts,
     createPart,
+    getPart
     //duplicatePart,
     //deletePart
 };
+
+function getPart(id) {
+    return axios.get(`${API_URL}/parts/${id}`,  {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
 
 
 
