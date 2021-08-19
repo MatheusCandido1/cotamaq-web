@@ -7,7 +7,7 @@
 
 <script>
 import BuyerEstimates from './Buyer/NewEstimates/NewEstimatesIndex';
-import SellerEstimates from './Seller/Estimates/Estimates';
+import SellerEstimates from './Seller/NewEstimates/NewEstimatesIndex';
 
 export default {
     name: 'Estimates',

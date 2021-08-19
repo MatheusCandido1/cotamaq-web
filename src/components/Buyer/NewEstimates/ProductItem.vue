@@ -65,7 +65,7 @@
                                 </svg>
                             </button>
                             <!-- Nicholas -->
-                            <button class="flex items-center justify-between px-2 py-2 bg-yellow-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button @click="openDuplicateModal"  class="flex items-center justify-between px-2 py-2 bg-yellow-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
                                 </svg>
@@ -74,21 +74,35 @@
                     </div>
                 </div>
       </div>
+      <DuplicatePartsModal
+       v-if="isDuplicateModalVisible"
+        :id="product.id"
+         @close="closeDuplicateModal"
+            
+            ></DuplicatePartsModal>
     </div>
 </template>
 
 <script>
+import { bus } from '../../../main';
+
 import { formatEquipment, formatSimillar } from '@/helpers/string-helper';
+import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.vue'
 
 export default {
     name: 'ProductItem',
     props: ['product'],
+    components:{
+        DuplicatePartsModal,
+    },
     data() {
         return {
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Rascunho'},
                 {id: 2, bg: 'bg-blue-400', text: 'Enviada'}
             ],
+            isDuplicateModalVisible:false,
+           
         }
     },
     methods: {
@@ -100,7 +114,23 @@ export default {
         formatStatus(value) {
             let format = this.status.find(status => status.id == value)
             return format
+        },
+        openDuplicateModal(){
+            bus.$emit('ModalOpen',true)
+            this.isDuplicateModalVisible = true      
+
+        },
+        closeDuplicateModal(){
+            
+         this.isDuplicateModalVisible = false 
+          bus.$emit('ModalOpen', false);  
+          
         }
+    },
+    created(){
+        console.log(this.product)
+       
+       
     }
 
 }

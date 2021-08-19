@@ -5,8 +5,8 @@ import axios from 'axios';
 export const partService = {
     getParts,
     createPart,
-    getPart
-    //duplicatePart,
+    getPart,
+    duplicatePart,
     //deletePart
 };
 
@@ -48,6 +48,20 @@ function createPart(data) {
     })
 
 }
+function duplicatePart(data){
+    return axios.post(`${API_URL}/parts/duplicate/${data}`, null, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
 
 function handleResponse(response) {
     const data = response.data;
@@ -60,4 +74,6 @@ function handleResponse(response) {
     }
     return response;
 }
+
+
 
