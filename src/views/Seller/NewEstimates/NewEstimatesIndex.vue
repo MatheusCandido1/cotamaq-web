@@ -26,14 +26,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
+            </div>            
             
         </div>
     </span>
 </template>
 <script>
-import ProductItem from '../../../components/Seller/NewEstimates/ProductItem.vue'
+
+import ProductItem from '../../../components/Seller/NewEstimates/ProductItem'
 import { partService } from '../../../services'
 import { bus } from '../../../main';
 export default {
@@ -58,7 +58,6 @@ export default {
             
             const days = new Set();
             this.products.forEach((product )=> {              
-                                
                 days.add(product.created_at)
             })
            
