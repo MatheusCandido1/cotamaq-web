@@ -56,10 +56,23 @@ export default {
         })
     },
     computed: {
-        days() {
+        days() {    
+
+            if(this.products.length == 0){                  
+                return Array.from(days.add(this.today()));                  
+            }
+            
             const days = new Set();
-            this.products.forEach(product => days.add(product.created_at))
-            return Array.from(days); 
+            this.products.forEach((product )=> {
+                
+                if(product.created_at != this.today()){
+                  days.add(this.today())                
+                }
+                
+                days.add(product.created_at)
+            })
+           
+            return Array.from(days);
         }
     },
     data() {
