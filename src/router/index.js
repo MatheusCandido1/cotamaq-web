@@ -52,7 +52,7 @@ const routes = [
       { path: '/detalhe/pedidos/:id',  name: 'OrderDetails', component: OrderDetails, props: true},
       { path: '/cotacao/rejeitada/:id',  name: 'estimateRejected', component: EstimateRejected},
       { path: '/cotacao', name: 'partAdd', component: PartAdd},
-      { path: '/cotacao/:id', name: 'partDetails', component: PartDetails}
+      { path: '/cotacao/:id', name: 'partDetails', component: PartDetails, props: true}
     ]
   },
   {
