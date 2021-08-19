@@ -7,8 +7,25 @@ export const partService = {
     createPart,
     getPart,
     duplicatePart,
+    updatePart,
     //deletePart
 };
+
+function updatePart(id, data) {
+    return axios.post(`${API_URL}/parts/${id}`, data, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
+
+
 
 function getPart(id) {
     return axios.get(`${API_URL}/parts/${id}`,  {

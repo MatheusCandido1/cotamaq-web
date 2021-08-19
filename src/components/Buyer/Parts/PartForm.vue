@@ -250,7 +250,7 @@
 
                 <div class="-mx-3 md:flex mt-4">
                     <div class="md:w-full px-3 flex justify-end gap-2">
-                        <button type="submit" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                        <button @click="updatePart" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                             <span class="justify-center">Salvar Rascunho</span>
                         </button> 
                         <button type="submit" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
@@ -258,7 +258,7 @@
                         </button> 
                     </div>
                 </div>
-                          </form>
+            </form>
   </div>
     </div>
     <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipment" @save="createPart" @close="closeConfirmModal" />
@@ -457,6 +457,48 @@ export default {
                 reader.readAsDataURL(this.files[i]);
             }
         },
+        updatePart() {
+            for(let i=0; i<this.files.length;i++){
+                    this.form.append('files[]',this.files[i]);
+                }
+
+                this.form.append('part_code', this.part.part_code);
+                this.form.append('description', this.part.description);
+                this.form.append('quantity', this.part.quantity);
+                this.form.append('allow_similar', this.part.allow_similar);
+                this.form.append('observation', this.part.observation);
+                this.form.append('brand', this.part.brand);
+                this.form.append('address_id', this.part.address_id);
+                this.form.append('category_id', this.part.category_id);
+                this.form.append('status', 1);
+
+                if(this.equipmentForm == 1) {
+                    this.form.append('equipment_id', this.equipment.id.id);
+                }
+
+                if(this.equipmentForm == 2) {
+                    this.form.append('equipment_description', this.equipment.description);
+                    this.form.append('equipment_patrimony', this.equipment.patrimony);
+                    this.form.append('equipment_model', this.equipment.model);
+                    this.form.append('equipment_year', this.equipment.year);
+                    this.form.append('equipment_brand', this.equipment.brand);
+                }
+
+                partService.createPart(this.form).then((response) => {
+                        this.$toast.success(response.success_message, {
+                        position: "bottom-right",
+                        pauseOnHover: false,
+                        showCloseButtonOnHover: true,
+                        timeout: 2500
+                    });
+                    
+                this.$router.push({name: 'estimates'})
+                
+                this.closeConfirmModal()
+                }).catch((error) => {
+                    console.log(error.response.data)
+                })
+        },
         createPart() {
                 for(let i=0; i<this.files.length;i++){
                     this.form.append('files[]',this.files[i]);
@@ -470,6 +512,7 @@ export default {
                 this.form.append('brand', this.part.brand);
                 this.form.append('address_id', this.part.address_id);
                 this.form.append('category_id', this.part.category_id);
+                this.form.append('status', 2);
 
                 if(this.equipmentForm == 1) {
                     this.form.append('equipment_id', this.equipment.id.id);
