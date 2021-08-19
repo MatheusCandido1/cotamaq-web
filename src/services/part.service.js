@@ -5,9 +5,38 @@ import axios from 'axios';
 export const partService = {
     getParts,
     createPart,
+    getPart,
     duplicatePart,
+    updatePart,
     //deletePart
 };
+
+function updatePart(id, data) {
+    return axios.post(`${API_URL}/parts/${id}`, data, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
+
+
+
+function getPart(id) {
+    return axios.get(`${API_URL}/parts/${id}`,  {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
 
 
 

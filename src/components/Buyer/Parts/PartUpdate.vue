@@ -4,7 +4,7 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Nova Cotação
+                        Cotação #{{part.id}}
                     </h2>
                 </div>
 
@@ -213,7 +213,7 @@
                                 Equipamento
                             </label>
                             <multiselect 
-                                v-model="equipment.id" 
+                                v-model="oldEquipment" 
                                 @input="() => (errors.equipment.id = 'OK')"
                                 :options="equipments"
                                 label="patrimony"
@@ -250,7 +250,7 @@
 
                 <div class="-mx-3 md:flex mt-4">
                     <div class="md:w-full px-3 flex justify-end gap-2">
-                        <button @click="updatePart" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                        <button @click="saveDraft" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                             <span class="justify-center">Salvar Rascunho</span>
                         </button> 
                         <button type="submit" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
@@ -258,10 +258,10 @@
                         </button> 
                     </div>
                 </div>
-            </form>
+        </form>
   </div>
     </div>
-    <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipment" @save="createPart" @close="closeConfirmModal" />
+    <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipment" @save="sendPart" @close="closeConfirmModal" />
 </div>
 </template>
 
@@ -274,7 +274,7 @@ import { formatEquipment } from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
 
 export default {
-    name: 'PartForm',
+    name: 'PartUpdate',
     components: {
         Multiselect,
         PartConfirm
@@ -283,6 +283,7 @@ export default {
         this.getEquipments()
         this.getCategories()
         this.getAddresses()
+        this.getPart(this.$route.params.id)
     },
     data() {
         return {
@@ -309,8 +310,16 @@ export default {
                 equipment_id: '',
                 address_id: '',
             },
+            oldEquipment: {
+                id: '',
+                description: '',
+                patrimony: '',
+                model: '',
+                year: '',
+                brand: '',
+            },
             equipment: {
-                id: null,
+                id: '',
                 description: '',
                 patrimony: '',
                 model: '',
@@ -386,6 +395,18 @@ export default {
             this.modal.confirm = false;
             bus.$emit("ModalOpen", false);
         },
+        getPart(id) {
+            partService.getPart(id).then((response) => {
+                const data = response.data.data
+                this.part = data
+                this.oldEquipment = data.equipment
+                if(this.oldEquipment.id) {
+                    this.equipmentForm = 1
+                }
+            }).catch((error) => {
+                console.log(error.response.data)
+            })
+        },
         getEquipments() {
             this.loading = true
             equipmentService.getEquipments().then((response) => {
@@ -457,89 +478,94 @@ export default {
                 reader.readAsDataURL(this.files[i]);
             }
         },
-        updatePart() {
+        saveDraft() {
             for(let i=0; i<this.files.length;i++){
-                    this.form.append('files[]',this.files[i]);
-                }
+                this.form.append('files[]',this.files[i]);
+            }
 
-                this.form.append('part_code', this.part.part_code);
-                this.form.append('description', this.part.description);
-                this.form.append('quantity', this.part.quantity);
-                this.form.append('allow_similar', this.part.allow_similar);
-                this.form.append('observation', this.part.observation);
-                this.form.append('brand', this.part.brand);
-                this.form.append('address_id', this.part.address_id);
-                this.form.append('category_id', this.part.category_id);
-                this.form.append('status', 1);
+            this.form.append('part_code', this.part.part_code);
+            this.form.append('description', this.part.description);
+            this.form.append('quantity', this.part.quantity);
+            this.form.append('allow_similar', this.part.allow_similar);
+            this.form.append('observation', this.part.observation);
+            this.form.append('brand', this.part.brand);
+            this.form.append('address_id', this.part.address_id);
+            this.form.append('category_id', this.part.category_id);
+            this.form.append('status', 1);
 
-                if(this.equipmentForm == 1) {
-                    this.form.append('equipment_id', this.equipment.id.id);
-                }
+            if(this.equipmentForm == null) {
+                this.form.append('equipment_id', '');
+            }
 
-                if(this.equipmentForm == 2) {
-                    this.form.append('equipment_description', this.equipment.description);
-                    this.form.append('equipment_patrimony', this.equipment.patrimony);
-                    this.form.append('equipment_model', this.equipment.model);
-                    this.form.append('equipment_year', this.equipment.year);
-                    this.form.append('equipment_brand', this.equipment.brand);
-                }
+            if(this.equipmentForm == 1) {
+                this.form.append('equipment_id', this.oldEquipment.id);
+            }
 
-                partService.createPart(this.form).then((response) => {
-                        this.$toast.success(response.success_message, {
-                        position: "bottom-right",
-                        pauseOnHover: false,
-                        showCloseButtonOnHover: true,
-                        timeout: 2500
-                    });
-                    
+            if(this.equipmentForm == 2) {
+                this.form.append('equipment_description', this.equipment.description);
+                this.form.append('equipment_patrimony', this.equipment.patrimony);
+                this.form.append('equipment_model', this.equipment.model);
+                this.form.append('equipment_year', this.equipment.year);
+                this.form.append('equipment_brand', this.equipment.brand);
+            }
+
+            partService.updatePart(this.part.id, this.form).then((response) => {
+                console.log(response.success_message)
+                this.$toast.success(response.success_message, {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                });
                 this.$router.push({name: 'estimates'})
-                
-                this.closeConfirmModal()
-                }).catch((error) => {
-                    console.log(error.response.data)
-                })
+            }).catch((error) => {
+                console.log(error.response.data)
+            })
         },
-        createPart() {
-                for(let i=0; i<this.files.length;i++){
-                    this.form.append('files[]',this.files[i]);
-                }
+        sendPart() {
+            for(let i=0; i<this.files.length;i++){
+                this.form.append('files[]',this.files[i]);
+            }
 
-                this.form.append('part_code', this.part.part_code);
-                this.form.append('description', this.part.description);
-                this.form.append('quantity', this.part.quantity);
-                this.form.append('allow_similar', this.part.allow_similar);
-                this.form.append('observation', this.part.observation);
-                this.form.append('brand', this.part.brand);
-                this.form.append('address_id', this.part.address_id);
-                this.form.append('category_id', this.part.category_id);
-                this.form.append('status', 2);
+            this.form.append('part_code', this.part.part_code);
+            this.form.append('description', this.part.description);
+            this.form.append('quantity', this.part.quantity);
+            this.form.append('allow_similar', this.part.allow_similar);
+            this.form.append('observation', this.part.observation);
+            this.form.append('brand', this.part.brand);
+            this.form.append('address_id', this.part.address_id);
+            this.form.append('category_id', this.part.category_id);
+            this.form.append('status', 2);
 
-                if(this.equipmentForm == 1) {
-                    this.form.append('equipment_id', this.equipment.id.id);
-                }
+            if(this.equipmentForm == null) {
+                this.form.append('equipment_id', '');
+            }
 
-                if(this.equipmentForm == 2) {
-                    this.form.append('equipment_description', this.equipment.description);
-                    this.form.append('equipment_patrimony', this.equipment.patrimony);
-                    this.form.append('equipment_model', this.equipment.model);
-                    this.form.append('equipment_year', this.equipment.year);
-                    this.form.append('equipment_brand', this.equipment.brand);
-                }
+            if(this.equipmentForm == 1) {
+                this.form.append('equipment_id', this.oldEquipment.id);
+            }
 
-                partService.createPart(this.form).then((response) => {
-                        this.$toast.success(response.success_message, {
-                        position: "bottom-right",
-                        pauseOnHover: false,
-                        showCloseButtonOnHover: true,
-                        timeout: 2500
-                    });
-                    
+            if(this.equipmentForm == 2) {
+                this.form.append('equipment_description', this.equipment.description);
+                this.form.append('equipment_patrimony', this.equipment.patrimony);
+                this.form.append('equipment_model', this.equipment.model);
+                this.form.append('equipment_year', this.equipment.year);
+                this.form.append('equipment_brand', this.equipment.brand);
+            }
+
+            partService.updatePart(this.part.id, this.form).then((response) => {
+                console.log(response.success_message)
+                this.$toast.success(response.success_message, {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                });
                 this.$router.push({name: 'estimates'})
-                
                 this.closeConfirmModal()
-                }).catch((error) => {
-                    console.log(error.response.data)
-                })
+            }).catch((error) => {
+                console.log(error.response.data)
+            })
         }
     },
     validations: {
