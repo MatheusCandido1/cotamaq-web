@@ -46,7 +46,7 @@
             <div class="flex justify-between px-3 p-1 align-middle">
                 
                 <div class="flex  text-gray-800 text-sm mt-2">
-                     <p><span class="font-bold">Propostas enviadas</span> </p> 
+                     <p><span class="font-bold">Proposta enviada</span> </p> 
                 </div>
                
                 <button class="flex items-center  justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
