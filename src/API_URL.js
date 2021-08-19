@@ -1,5 +1,5 @@
 // Local
- export const API_URL = "http://127.0.0.1:8000/api/v1"
+ export const API_URL = "http://192.168.100.103:8000/api/v1"
 
 // Staging
 // export const API_URL = "https://plataforma.cotamaq.com.br/api/v1"
