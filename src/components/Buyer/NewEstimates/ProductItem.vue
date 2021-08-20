@@ -8,7 +8,7 @@
         </div>
         <div class="px-2 py-2 flex-grow">
             <ul class="flex space-x-2 justify-end">
-                <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md">{{product.category.name}} </li>
+                <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md mb-2">{{product.category.name}} </li>
             </ul>
           <div class="mt-1 px-2 ">
                 <div class="flex space-x-2 justify-start text-gray-800 text-sm">
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="border-t-2"></div>
-         <div class="flex justify-between px-4 cursor-pointer ">
+         <div class="flex justify-between px-4 cursor-pointer " @click="handlePartClick">
                     <div class="my-2">
                         <span class="font-semibold text-base mb-2">Propostas</span>
                     </div>
@@ -37,7 +37,6 @@
                         <span class="badge mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">0</span>
                     </div>
                 </div>
-                
         <div class="border-t-2"></div>
         <div class="flex justify-between px-4 ">
                     <div class="my-2">
