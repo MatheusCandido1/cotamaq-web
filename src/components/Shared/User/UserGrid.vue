@@ -65,6 +65,12 @@
          :user="user"
           @close="closeDeleteModal"
          ></UserDelete>
+         
+
+         <UserDetails v-if="isDetailModalVisible"
+          :user="user"
+          @close="closeDetailModal"
+         ></UserDetails>
  
     </span>
 
@@ -75,13 +81,15 @@ import { BarLoader } from '@saeris/vue-spinners';
 import { companyService } from '../../../services';
 import { bus } from '../../../main';
 import UserDelete from '../../../components/Shared/User/UserDelete'
+import UserDetails from '../../../components/Shared/User/UserDetails'
 
 
 export default {
     name: 'EquipmentGrid',
     components: {
         BarLoader,
-        UserDelete
+        UserDelete,
+        UserDetails
        
     },
     mounted() {
@@ -123,8 +131,7 @@ export default {
             this.isDeleteModalVisible = false;
             bus.$emit('ModalOpen', false);
         },
-        showDetailModal(data, editable) {
-            this.allowEdit = editable
+        showDetailModal(data) {
             this.user = data
             this.isDetailModalVisible = true;
             bus.$emit('ModalOpen', true);

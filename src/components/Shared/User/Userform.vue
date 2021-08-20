@@ -12,7 +12,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Nome</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input placeholder="Ex: Trator"  v-model="user.name"     type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
+                        <input placeholder="Ex: Fernando"  v-model="user.name"     type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
                     </div>  
                     <!-- <div v-if="errors.name == 'ERROR'">
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Nome é obrigatório.</span>
@@ -23,7 +23,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Email</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input placeholder="Ex: Trator"  v-model="user.email"     type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
+                        <input placeholder="Ex: fernando@gmail.com"  v-model="user.email"     type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
                     </div>  
                     <!-- <div v-if="errors.email == 'ERROR'">
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Email é obrigatório.</span>
@@ -35,7 +35,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Senha</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input placeholder="Ex: Trator" v-model="user.password"    type="password" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
+                        <input placeholder="Digite sua senha" v-model="user.password"    type="password" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
                     </div>  
                     <!-- <div v-if="errors.password == 'ERROR'">
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Senha é obrigatório.</span>
@@ -60,6 +60,8 @@
 
 <script>
 import { companyService} from '../../../services'
+import { bus } from '../../../main';
+
 
     export default {
         data() {
@@ -76,7 +78,13 @@ import { companyService} from '../../../services'
             createUser() {
 
                companyService.createUser(this.user).then((response)=>{
-                   console.log(response)
+                   this.$toast.success(response.success_message, {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                });
+                bus.$emit('updatedUser', true);
                })
                
             }

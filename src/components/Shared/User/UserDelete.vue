@@ -60,7 +60,7 @@
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              @click="deleteEquipment()"
+              @click="deleteUser()"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Apagar
@@ -81,7 +81,7 @@
 </template>
 <script>
 import { bus } from '../../../main';
-import { equipmentService } from '../../../services'
+import { companyService } from '../../../services'
 export default {
   name: "UserDelete",
   props: ['user'],
@@ -96,17 +96,17 @@ export default {
       this.$emit("close");
           
     },
-    deleteEquipment() {
+    deleteUser() {
             this.disabled = true
-            const equipmentId = this.selectedEquipment.id
-            equipmentService.deleteEquipment(equipmentId).then((response) => {
+            const userID = this.user.id
+            companyService.deleteUser(userID).then((response) => {
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
                     pauseOnHover: false,
                     showCloseButtonOnHover: true,
                     timeout: 2500
                 });
-                bus.$emit('updatedEquipment', true);
+                bus.$emit('updatedUser', true);
                 this.close()
                 this.disabled = false
             }).catch((error) => {
