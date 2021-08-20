@@ -188,6 +188,17 @@
                     Equipamentos
                   </router-link>
                   </li>
+
+                   <li
+                    v-if='user.role === 1'
+                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  >
+                  <router-link 
+                    :to="{path: '/usuarios'}" class="w-full text-gray-600"
+                  >
+                    Usuarios
+                  </router-link>
+                  </li>
                 </ul>
               </template>
             </li>
@@ -322,6 +333,17 @@
                     :to="{path: '/equipamentos'}" class="w-full"
                   >
                     Equipamentos
+                  </router-link>
+                  </li>
+
+                   <li
+                      v-if='user.role === 1'
+                    class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  >
+                  <router-link 
+                    :to="{path: '/usuarios'}" class="w-full"
+                  >
+                    Usuarios
                   </router-link>
                   </li>
                 </ul>
