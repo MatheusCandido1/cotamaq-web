@@ -1,13 +1,13 @@
 <template>
-    <span>
+    <span class="">
         <div class="flex -mx-3">
             <div class="w-4/5 px-3 mb-5">
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Dados do Equipamento</h2>
             </div>
         </div>
         <form @submit.prevent="createEquipment()">
-            <div class="flex -mx-3">
-                <div class="w-1/2 px-3 mb-5">
+            <div class="lg:flex md:flex -mx-3 ">
+                <div class="lg:w-1/2 md:w-1/2  sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -17,7 +17,7 @@
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Descrição é obrigatório.</span>
                     </div>                       
                 </div>
-                <div class="w-1/2 px-3 mb-5">
+                <div class="lg:w-1/2 md:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Patrimônio</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -25,8 +25,9 @@
                     </div>                       
                 </div>
             </div>
-            <div class="flex -mx-3">
-                <div class="w-1/3 px-3 mb-5">
+            <div class="lg:flex -mx-3">
+
+                <div class="lg:w-1/3 md:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -34,24 +35,26 @@
                     </div>                      
                 </div>
 
-                <div class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
-                    <div class="flex">
-                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input placeholder=" "  v-model="equipment.brand"   type="text" class="w-full -ml-10 pl-2 pr-3 py-2 border-primary-main rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                    </div>                      
-                </div>
+               
+                    <div class="xl:w-1/3 md:w-full sm:w-full px-3 mb-5">
+                        <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
+                        <div class="flex">
+                            <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                            <input placeholder=" "  v-model="equipment.brand"   type="text" class="w-full -ml-10 pl-2 pr-3 py-2 border-primary-main rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                        </div>                      
+                    </div>
 
-                <div class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
-                    <div class="flex">
-                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <the-mask @change.native="() => (errors.year = 'OK')" :class="errors.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="equipment.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
-                    </div>   
-                    <div v-if="errors.year == 'ERROR'">
-                        <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
-                    </div>                        
-                </div>
+                    <div class="xl:w-1/3 md:w-full sm:w-full px-3 mb-5">
+                        <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
+                        <div class="flex">
+                            <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                            <the-mask @change.native="() => (errors.year = 'OK')" :class="errors.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="equipment.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
+                        </div>   
+                        <div v-if="errors.year == 'ERROR'">
+                            <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
+                        </div>                        
+                    </div>
+                
             </div>
             <div class="flex -mx-3 justify-end">
                 <div class="w-1/3 px-3 mb-5 ">

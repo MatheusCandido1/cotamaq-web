@@ -16,16 +16,16 @@
             <div class="w-1/4 px-3">
                             <div class="flex" >
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                  <button @click="toggleEdit()" class="w-full -ml-10 pl-2 pr-3 py-2  flex items-center justify-center bg-primary-main text-white font-semibold rounded border-b-2 border-primary-main  hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-                                  <span class="justify-center">{{edit === true ? 'Bloquear edição':'Habilitar Edição'}}</span>
+                                  <button @click="toggleEdit()" class="w-full -ml-10 pl-2 pr-3 py-2  flex items-center justify-center bg-primary-main text-white font-semibold rounded border-b-2 border-primary-main  hover:text-white shadow-md px-6 ">
+                                  <span class="justify-center text-sm">{{edit === true ? 'Bloquear edição':'Habilitar Edição'}}</span>
                                 </button>  
                                 </div>  
                         </div>
           </div>
           <!--body-->
           <div class="relative p-6 flex-auto">
-            <div class="flex -mx-3">
-                <div class="w-1/2 px-3 mb-5">
+            <div class="lg:flex -mx-3">
+                <div class="lg:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -36,7 +36,7 @@
                     </div>                       
                 </div>
 
-                <div class="w-1/2 px-3 mb-5">
+                <div class="lg:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Patrimônio</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -44,9 +44,9 @@
                     </div>                       
                 </div>
             </div>
-            <div class="flex -mx-3">
+            <div class="lg:flex -mx-3">
                 
-                <div class="w-1/3 px-3 mb-5">
+                <div class="lg:w-1/3 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -54,15 +54,14 @@
                     </div>                      
                 </div>
 
-                <div class="w-1/3 px-3 mb-5">
+                <div class="lg:w-1/3 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                         <input :disabled="!edit" placeholder=" "  v-model="selectedEquipment.brand"   type="text" class="w-full -ml-10 pl-2 pr-3 py-2 border-primary-main rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>                      
                 </div>
-
-                <div class="w-1/3 px-3 mb-5">
+                 <div class="lg:w-1/3 sm:w-full  px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -72,6 +71,8 @@
                         <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
                     </div>                        
                 </div>
+
+               
                  
             </div>
           </div>
@@ -80,7 +81,7 @@
             <button
               type="button"
               @click="close"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full mr-1 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>
@@ -89,7 +90,7 @@
               v-if="edit"
               :disabled="disabled"
               @click="updateEquipment()"
-              class="w-full bg-primary-main hover:bg-primary-lighter inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 ml-1 w-full bg-primary-main hover:bg-primary-lighter inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:ml-3 sm:w-auto sm:text-sm"
             >
               Salvar
             </button>
