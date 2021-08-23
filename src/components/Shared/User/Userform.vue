@@ -84,6 +84,7 @@ import { required } from 'vuelidate/lib/validators'
         },
         methods: {
             createUser() {
+                this.disabled = true
                 this.$v.$touch()
               
                 if(this.$v.user.name.$invalid){
@@ -109,7 +110,7 @@ import { required } from 'vuelidate/lib/validators'
             }
 
             
-               
+                 this.disabled = false
             }
         },
         validations: {
