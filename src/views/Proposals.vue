@@ -1,17 +1,14 @@
 <template>
-    <buyer-proposal></buyer-proposal>
+    <SellerProposal></SellerProposal>
 </template>
 
 <script>
-import BuyerProposal from './Buyer/Proposals/Proposals';
-// SellerEstimates from './Seller/Estimates/Estimates';
+import SellerProposal from './Seller/Proposals/ProposalIndex';
 
 export default {
     name: 'Proposals',
-    //props: ['role'],
     components: {
-    BuyerProposal,
-      //SellerEstimates
+        SellerProposal
     },
     data() {
         return {
