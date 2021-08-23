@@ -34,7 +34,6 @@
 <script>
 
 import ProductItem from '../NewOrders/ProductItem.vue'
-import { partService } from '../../../services'
 import { bus } from '../../../main';
 export default {
     name: 'NewEstimateIndex',
@@ -139,18 +138,6 @@ export default {
             return date
         },
         getParts() {
-               console.log()
-                this.orderedData = this.days.sort(function(a, b) {
-                      return new Date(...b.split('/')) - new Date(...a.split('/'));
-                });
-            partService.getParts().then((response) => {
-                // this.products = response.data.data
-                               console.log(response)
-
-             
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
         },
         handleNewPartClick() {
             this.$router.push({name: 'partAdd'})

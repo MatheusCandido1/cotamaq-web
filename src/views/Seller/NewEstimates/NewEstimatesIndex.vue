@@ -59,7 +59,6 @@ export default {
             this.products.forEach((product )=> {              
                 days.add(product.created_at)
             })
-           
             return Array.from(days);
         }
     },
@@ -76,14 +75,11 @@ export default {
             return date
         },
         getParts() {
+            estimateService.getAvailableEstimates().then((response) => {
+                this.products = response.data.data
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
                 });
-            partService.getParts().then((response) => {
-                // this.products = response.data.data
-                               console.log(response)
-
-             
             }).catch((error) => {
                 console.log(error.response.data)
             })
