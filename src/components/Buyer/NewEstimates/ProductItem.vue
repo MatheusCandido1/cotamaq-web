@@ -58,7 +58,7 @@
                             </button>
                             
                             <!-- Alexandre -->
-                            <button class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button @click="openDeleteModal" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -74,11 +74,20 @@
                 </div>
       </div>
       <DuplicatePartsModal
-       v-if="isDuplicateModalVisible"
+        v-if="isDuplicateModalVisible"
         :id="product.id"
-         @close="closeDuplicateModal"
+        @close="closeDuplicateModal"
             
-            ></DuplicatePartsModal>
+        ></DuplicatePartsModal>
+        
+        <DeletePartsModal 
+        v-if="isDeleteModalVisible"
+        :product="product"
+        @close="closeDeleteModal"
+        >      
+
+        </DeletePartsModal>
+        
     </div>
 </template>
 
@@ -87,12 +96,14 @@ import { bus } from '../../../main';
 
 import { formatEquipment, formatSimillar } from '@/helpers/string-helper';
 import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.vue'
+import DeletePartsModal from '../../../components/Buyer/Parts/PartDelete.vue'
 
 export default {
     name: 'ProductItem',
     props: ['product'],
     components:{
         DuplicatePartsModal,
+        DeletePartsModal
     },
     data() {
         return {
@@ -101,6 +112,7 @@ export default {
                 {id: 2, bg: 'bg-blue-400', text: 'Enviada'}
             ],
             isDuplicateModalVisible:false,
+            isDeleteModalVisible:false,
            
         }
     },
@@ -124,6 +136,15 @@ export default {
          this.isDuplicateModalVisible = false 
           bus.$emit('ModalOpen', false);  
           
+        },
+        openDeleteModal(){
+            bus.$emit('ModalOpen',true)
+            this.isDeleteModalVisible = true  
+         
+        },
+        closeDeleteModal(){
+           bus.$emit('ModalOpen',false)
+           this.isDeleteModalVisible = false  
         }
     },
     created(){

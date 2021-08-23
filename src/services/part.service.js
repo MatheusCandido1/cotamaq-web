@@ -8,7 +8,7 @@ export const partService = {
     getPart,
     duplicatePart,
     updatePart,
-    //deletePart
+    deletePart,
 };
 
 function updatePart(id, data) {
@@ -67,6 +67,19 @@ function createPart(data) {
 }
 function duplicatePart(data){
     return axios.post(`${API_URL}/parts/duplicate/${data}`, null, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}function deletePart(data){
+    return axios.delete(`${API_URL}/parts/${data}`, null, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
