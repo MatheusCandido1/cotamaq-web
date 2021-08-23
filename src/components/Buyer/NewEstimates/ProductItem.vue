@@ -93,7 +93,6 @@
 
 <script>
 import { bus } from '../../../main';
-
 import { formatEquipment, formatSimillar } from '@/helpers/string-helper';
 import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.vue'
 import DeletePartsModal from '../../../components/Buyer/Parts/PartDelete.vue'

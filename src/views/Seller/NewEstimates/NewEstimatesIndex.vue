@@ -4,7 +4,7 @@
             <div class="flex">
                 <div class="w-full px-3 mb-5">
                     <h2 class="text-3xl font-semibold text-center text-primary-main dark:text-gray-200">
-                        Suas Cotações [vendedor]
+                        Suas Cotações
                     </h2>
                 </div>
             </div>
@@ -34,13 +34,12 @@
 <script>
 
 import ProductItem from '../../../components/Seller/NewEstimates/ProductItem'
-import { partService } from '../../../services'
+import { estimateService } from '../../../services'
 import { bus } from '../../../main';
 export default {
     name: 'NewEstimateIndex',
     components: {
         ProductItem,
-        
     },
     created() {
         this.getParts();
@@ -66,69 +65,7 @@ export default {
     },
     data() {
         return {
-            products:[        {
-      "id": 3,
-      "part_code": "54632432",
-      "description": "Pneu 24",
-      "quantity": 4,
-      "allow_similar": 0,
-      "brand": "Pirelli",
-      "observation": "",
-      "status": 1,
-      "delivery": 1,
-      "equipment_id": 1,
-      "address_id": 1,
-      "category_id": 1,
-      "user_id": 1,
-      "created_at": "16/08/2021",
-      "updated_at": "2021-08-19T01:01:14.000000Z",
-      "equipment": {
-        "id": 1,
-        "description": "Trator",
-        "patrimony": "21938201",
-        "model": "XF 4300",
-        "brand": "CAT",
-        "year": "2012",
-        "user_id": 1,
-        "created_at": "2021-08-18T21:48:40.000000Z",
-        "updated_at": "2021-08-18T21:48:40.000000Z"
-      },
-      "category": {
-        "id": 1,
-        "name": "Máquinas em geral"
-      }
-    },         {
-      "id": 3,
-      "part_code": "54632432",
-      "description": "Pneu 24",
-      "quantity": 4,
-      "allow_similar": 0,
-      "brand": "Pirelli",
-      "observation": "",
-      "status": 1,
-      "delivery": 1,
-      "equipment_id": 1,
-      "address_id": 1,
-      "category_id": 1,
-      "user_id": 1,
-      "created_at": "17/08/2021",
-      "updated_at": "2021-08-19T01:01:14.000000Z",
-      "equipment": {
-        "id": 1,
-        "description": "Trator",
-        "patrimony": "21938201",
-        "model": "XF 4300",
-        "brand": "CAT",
-        "year": "2012",
-        "user_id": 1,
-        "created_at": "2021-08-18T21:48:40.000000Z",
-        "updated_at": "2021-08-18T21:48:40.000000Z"
-      },
-      "category": {
-        "id": 1,
-        "name": "Máquinas em geral"
-      }
-    },],
+            products:[],
             orderedData:[]
         }
     },
@@ -139,8 +76,8 @@ export default {
             return date
         },
         getParts() {
-            partService.getParts().then((response) => {
-                // this.products = response.data.data
+            estimateService.getAvailableEstimates().then((response) => {
+                this.products = response.data.data
                 console.log(response)
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
@@ -148,9 +85,6 @@ export default {
             }).catch((error) => {
                 console.log(error.response.data)
             })
-        },
-        handleNewPartClick() {
-            this.$router.push({name: 'partAdd'})
         },
         dates(day) {
             return this.products

@@ -36,7 +36,7 @@
 <script>
 import ProductItem from '../../../components/Buyer/NewEstimates/ProductItem'
 import NewProductItem from '../../../components/Buyer/NewEstimates/NewProductItem'
-import { partService } from '../../../services'
+import { estimateService } from '../../../services'
 import { bus } from '../../../main';
 export default {
     name: 'NewEstimateIndex',
@@ -88,7 +88,7 @@ export default {
             return date
         },
         getParts() {
-            partService.getParts().then((response) => {
+            estimateService.getEstimates().then((response) => {
                 this.products = response.data.data
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));

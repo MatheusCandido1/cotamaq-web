@@ -81,7 +81,7 @@
 </template>
 <script>
 import { bus } from '../../../main';
-import{ partService } from '../../../services'
+import{ estimateService } from '../../../services'
 
 export default {
   name: "EstimateDelete",
@@ -98,7 +98,7 @@ export default {
     },
     deleteEstimate() {
         this.disabled = true
-        partService.deletePart(this.product.id).then((response)=>{
+        estimateService.deleteEstimate(this.product.id).then((response)=>{
             this.$toast.success(response.success_message, {
                     position: "bottom-right",
                     pauseOnHover: false,
