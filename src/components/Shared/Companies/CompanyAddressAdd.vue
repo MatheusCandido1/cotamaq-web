@@ -6,18 +6,18 @@
           <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
         <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none z-50  md:h-auto h-screen">
           <!--header-->
           <div class="flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 class="text-xl font-semibold">
-              Dados do endereço
+              Dados do endereço 
             </h3>
           </div>
           <!--body-->
-          <div class="relative p-6 flex-auto">
+          <div class="relative p-6 flex-auto bg-white" >
                 <form @submit.prevent="createAddress()">
-            <div class="flex -mx-3">
-                <div class="w-1/4 px-3 mb-5">
+            <div class="md:flex md:flex-wrap -mx-3">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição do endereço</label>
                     <div class="flex">
                     <div  class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -28,7 +28,7 @@
                     </div> 
                 </div>
 
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">CEP</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -42,7 +42,7 @@
                     </div> 
                 </div>
 
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">UF</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -55,7 +55,7 @@
                         <span class="text-xs text-red-400 font-semibold px-1">O campo UF é obrigatório.</span>
                     </div>                       
                 </div>
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Município</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -67,8 +67,8 @@
                 </div>
             </div>
                         
-            <div class="flex -mx-3">
-                <div class="w-1/4 px-3 mb-5">
+            <div class="md:flex md:flex-wrap -mx-3 ">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Bairro</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -79,7 +79,7 @@
                     </div>                       
                 </div>
 
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5 ">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Endereço</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -91,7 +91,7 @@
                                         
                 </div>
                 
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5 bg-white">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Número</label>
                     <div class="flex flex-wrap items-stretch w-full mb-4 relative">
                 <input @focusout="() => (errors.number = 'OK')"   v-model="address.number" :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'"  @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
@@ -110,7 +110,7 @@
                 </div>
 
 
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                 
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Complemento</label>
                     <div class="flex">
@@ -121,12 +121,12 @@
             </div>
 
             <div class="flex justify-end -mx-3">
-                <div class="w-1/4 px-3 mb-5">
+                <div class="lg:w-1/4 md:w-1/3  px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                     <div class="flex">
                     <label class="inline-flex items-center">
                         <input v-model="address.main" type="checkbox" class="form-radio h-6 w-6 text-green-500">
-                        <span class="ml-3 text-lg">Endereço padrão</span>
+                        <span class="ml-3 md:text-lg text-sm">Endereço padrão</span>
                     </label>    
                     </div>                         
                 </div>
@@ -144,7 +144,7 @@
             </form>
           </div>
           <!--footer-->
-          <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+          <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b bg-white">
             <button
               type="button"
               @click="close"
