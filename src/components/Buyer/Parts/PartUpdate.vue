@@ -268,7 +268,7 @@
 <script>
 import { bus } from "../../../main";
 import { required, requiredIf } from 'vuelidate/lib/validators'
-import { categoryService, equipmentService, userService, partService } from '../../../services';
+import { categoryService, equipmentService, userService, estimateService } from '../../../services';
 import Multiselect from 'vue-multiselect'
 import { formatEquipment } from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
@@ -396,7 +396,7 @@ export default {
             bus.$emit("ModalOpen", false);
         },
         getPart(id) {
-            partService.getPart(id).then((response) => {
+            estimateService.getEstimate(id).then((response) => {
                 const data = response.data.data
                 this.part = data
                 this.oldEquipment = data.equipment
@@ -509,7 +509,7 @@ export default {
                 this.form.append('equipment_brand', this.equipment.brand);
             }
 
-            partService.updatePart(this.part.id, this.form).then((response) => {
+            estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 console.log(response.success_message)
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
@@ -553,7 +553,7 @@ export default {
                 this.form.append('equipment_brand', this.equipment.brand);
             }
 
-            partService.updatePart(this.part.id, this.form).then((response) => {
+            estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 console.log(response.success_message)
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",

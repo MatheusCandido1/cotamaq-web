@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { partService } from '../../../services'
+import { estimateService } from '../../../services'
 import { bus } from '../../../main';
 
 export default {
@@ -101,7 +101,7 @@ export default {
         duplicatePart(){  
             this.disabled = true
 
-            partService.duplicatePart(this.id).then((response)=>{
+            estimateService.duplicateEstimate(this.id).then((response)=>{
                 console.log(response)
                  this.$toast.success(response.success_message, {
                     position: "bottom-right",
