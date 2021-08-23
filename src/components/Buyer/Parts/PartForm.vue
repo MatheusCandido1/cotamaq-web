@@ -267,7 +267,7 @@
 <script>
 import { bus } from "../../../main";
 import { required, requiredIf } from 'vuelidate/lib/validators'
-import { categoryService, equipmentService, userService, partService } from '../../../services';
+import { categoryService, equipmentService, userService, estimateService } from '../../../services';
 import Multiselect from 'vue-multiselect'
 import { formatEquipment } from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
@@ -483,7 +483,7 @@ export default {
                     this.form.append('equipment_brand', this.equipment.brand);
                 }
 
-                partService.createPart(this.form).then((response) => {
+                estimateService.createEstimate(this.form).then((response) => {
                         this.$toast.success(response.success_message, {
                         position: "bottom-right",
                         pauseOnHover: false,
@@ -525,7 +525,7 @@ export default {
                     this.form.append('equipment_brand', this.equipment.brand);
                 }
 
-                partService.createPart(this.form).then((response) => {
+                estimateService.createEstimate(this.form).then((response) => {
                         this.$toast.success(response.success_message, {
                         position: "bottom-right",
                         pauseOnHover: false,

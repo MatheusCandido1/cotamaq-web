@@ -122,7 +122,7 @@
   </transition>
 </template>
 <script>
-import { partService } from '../../../services';
+import { estimateService } from '../../../services';
 import { formatSimillar } from '@/helpers/string-helper';
 export default {
   name: "PartConfirm",
@@ -168,7 +168,7 @@ export default {
         this.form.append('equipment_brand', this.equipment.brand);
       }
       
-      partService.createPart(this.form).then((response) => {
+      estimateService.createEstimate(this.form).then((response) => {
         this.$toast.success(response.success_message, {
         position: "bottom-right",
         pauseOnHover: false,
