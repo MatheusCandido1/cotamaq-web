@@ -139,12 +139,15 @@ export default {
             return date
         },
         getParts() {
-            partService.getParts().then((response) => {
-                // this.products = response.data.data
-                console.log(response)
+               console.log()
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
                 });
+            partService.getParts().then((response) => {
+                // this.products = response.data.data
+                               console.log(response)
+
+             
             }).catch((error) => {
                 console.log(error.response.data)
             })
