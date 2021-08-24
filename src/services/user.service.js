@@ -48,7 +48,7 @@ async function me() {
             forceTLS: false,
             disableStats: true,
             enabledTransports: ['ws', 'wss'],
-            authEndpoint:"https://stage.cotamaq.com.br:8000/broadcasting/auth",
+            authEndpoint:"https://stage.cotamaq.com.br/broadcasting/auth",
             auth: {
               headers: {
                 Authorization: authHeader().Authorization,
