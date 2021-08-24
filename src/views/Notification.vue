@@ -8,12 +8,36 @@
                   </h2>
               </div>
           </div>
+          
           <div class="flex flex-row justify-center gap-2">
-            <span  v-for="index in 3" :key="index" :class="formatItem(index).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(index).text}}</span>
+            <button  v-for="index in 3" :key="index" :class="formatItem(index).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(index).text}}</button>
            </div>
-          <div class="flex justify-start">
-            <NotificationItem v-for="notification in notifications" :key="notification.id" :notification="notification" />
+
+           <section class="text-gray-600 body-font">
+            <div class="container  mx-auto flex flex-wrap flex-col">
+              <div class="flex mx-auto flex-wrap ">
+                <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+                  <i class="mdi mdi-email text-xl"></i> <span class="ml-1">Notificações não lidas</span>
+                </div>
+                <div :class="option == 2 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(2)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+                  <i class="mdi mdi-email-open-outline text-xl"></i> <span class="ml-1">Todas notificações</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="flex flex-col text-center w-full">
+            <div v-if="option == 1" class=""> 
+              <div class="flex justify-start">
+                <NotificationItem v-for="notification in notifications" :key="notification.id" :notification="notification" />
+              </div>
+            </div>
+            <div v-if="option == 2" class=""> 
+              <div class="flex justify-start">
+                <NotificationItem v-for="notification in notifications" :key="notification.id" :notification="notification" />
+              </div>
+            </div>
           </div>
+          
       </div>
   </div>
 </template>
@@ -26,6 +50,7 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
     },
     data() {
       return {
+        option: 1,
         notifications: [
           {id: 1, notification: 'Você recebeu uma nova Cotação, responda agora e saia na frente dos concorrentes!', read: 1, read_at: '24/08/2021', estimate_id: 1, proposal_id: null, order_id: null, created_at: '25/08/2021 - 10:11'}
         ],
@@ -37,6 +62,9 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
       }
     },
     methods: {
+      changeOption(value) {
+        this.option = value
+      },
       formatItem(value) {
         let format = this.formats.find(status => status.id == value)
         return format
