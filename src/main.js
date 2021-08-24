@@ -23,11 +23,6 @@ import Multiselect from 'vue-multiselect'
 Vue.config.productionTip = false;
 
 
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-var user = JSON.parse(sessionStorage.getItem('user'))
-
 // PRODUÇÃO
 
 // window.Echo = new Echo({
@@ -47,21 +42,6 @@ var user = JSON.parse(sessionStorage.getItem('user'))
 //   }
 // });
 
-// DEVELOP
-window.Echo = new Echo({
-  broadcaster: "pusher",
-  key: "local",
-  wsHost: "127.0.0.1",
-  wsPort: 6001,
-  forceTLS: false,
-  disableStats: true,
-  authEndpoint:"http://127.0.0.1:8000/broadcasting/auth",
-  auth: {
-    headers: {
-      Authorization: "Bearer " +  user.token
-    }
-  }
-});
 
 const options = {
   // You can set your default options here
