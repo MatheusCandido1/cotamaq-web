@@ -40,12 +40,11 @@ async function me() {
         }
         window.Echo = new Echo({
             broadcaster: "pusher",
-            key: "2cc40f9f593ed9b8be4a",
+            key: "local",
             wsHost: "stage.cotamaq.com.br",
             wsPort: 6001,
             encrypted: false,
             wssPort: 6001,
-            forceTLS: false,
             disableStats: true,
             enabledTransports: ['ws', 'wss'],
             authEndpoint:"https://stage.cotamaq.com.br/broadcasting/auth",
