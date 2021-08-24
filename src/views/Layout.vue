@@ -184,11 +184,28 @@
                 class="absolute inset-y-0 left-0 w-1 bg-primary-main rounded-tr-lg rounded-br-lg"
                 aria-hidden="true"
               ></span>
-              <button
-                class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 text-gray-700"
+             <button
+                class="inline-flex text-gray-700 items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                 @click="togglePagesMenu"
                 aria-haspopup="true"
-              ></button>
+              >
+                <span class="inline-flex items-center">
+                  <i class="mdi mdi-cog-sync  text-2xl"></i>
+                  <span class="ml-4">Configurações</span>
+                </span>
+                <svg
+                  class="w-4 h-4"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
               <template v-if="isPagesMenuOpen">
                 <ul
                   transition:enter="transition-all ease-in-out duration-300"
@@ -508,9 +525,9 @@
                     <NotificationPreview />
                     <NotificationPreview />
                     <div class="flex justify-end ">
-                     <router-link to="/notificacoes">
+                     <button @click="handleNotificationClick">
                       <p class="text-primary-main font-semibold mt-2 text-sm">Ver todas...</p>
-                     </router-link>
+                     </button>
                     </div>
                   </ul>
                 </template>
@@ -660,11 +677,14 @@ export default {
     console.log(categories)
 
     categories.forEach((data)=>{
-
-       window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+      window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
       this.notification = true
-      console.log(event)
-      
+      this.$toast.success(event.message.notification, {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 3500,
+      });
     })
 
     })
@@ -705,12 +725,6 @@ export default {
     });
 
     await this.getUser()
-   
-     
-
-      
-
-    
   },
   computed: {
     getRouteName() {
@@ -761,6 +775,10 @@ export default {
         .catch((error) => {
           console.log(error.response.data);
         });
+    },
+    handleNotificationClick() {
+      this.isNotificationOpen = false
+      this.$router.push({name: 'notifications'})
     },
     toggleCategories(value) {
       if (this.selectedCategories.includes(value)) {
@@ -842,6 +860,17 @@ export default {
 </script>
 
 <style >
+* {
+  box-shadow: none;
+    border: none;
+    -webkit-appearance: none;
+	outline: none;
+}
+
+*:focus {
+  outline: none;
+}
+
 .rounded-50{
   border-radius: 50%;
   margin-bottom:  -11px

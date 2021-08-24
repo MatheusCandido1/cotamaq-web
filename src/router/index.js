@@ -56,7 +56,7 @@ const routes = [
       { path: '/cotacao', name: 'partAdd', component: PartAdd},
       { path: '/cotacao/:id', name: 'partDetails', component: PartDetails, props: true},
       {path:  '/usuarios',name:'usuarios', component:Users},
-      {path:  '/notificacoes',name:'notificações', component:Notification},
+      {path:  '/notificacoes', name:'notifications', component:Notification},
     ]
   },
   {
