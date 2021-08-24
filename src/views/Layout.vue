@@ -547,7 +547,7 @@
                     
 
                     <div class="flex justify-end ">
-                     <router-link to="/cotacos">
+                     <router-link to="/notificacoes">
                       <p class="text-green-500 mt-2 text-sm">Ver todas...</p>
                      </router-link>
                     </div>
