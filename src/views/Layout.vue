@@ -757,7 +757,6 @@ export default {
     toggleNotificationMenu(){
       this.isNotificationOpen = !this.isNotificationOpen
       this.notification = false
-
     },
     getCategories() {
       this.loader.loading = true;
