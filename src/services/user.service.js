@@ -41,7 +41,7 @@ async function me() {
         window.Echo = new Echo({
             broadcaster: "pusher",
             key: "local",
-            wsHost: "https://stage.cotamaq.com.br",
+            wsHost: "stage.cotamaq.com.br",
             wsPort: 6001,
             encrypted: false,
             wssPort: 6001,
