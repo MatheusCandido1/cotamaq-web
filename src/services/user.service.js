@@ -19,9 +19,9 @@ export const userService = {
     recoverPassword,
     resetPassword
 };
-
-function me() {
-    return axios.get(`${API_URL}/users/me`, {
+ 
+async function me() {
+    return await axios.get(`${API_URL}/users/me`, {
         headers: { 
             ...authHeader(),
             'Accept': 'application/json',
