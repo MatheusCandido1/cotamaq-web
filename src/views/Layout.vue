@@ -474,7 +474,7 @@
                 />
               </div>
             </div>
-            <ul class="flex items-center flex-shrink-0 space-x-6">
+            <ul class="flex items-center flex-shrink-0 space-x-2">
               <!-- Profile menu -->
               <span class="text-black ">Olá, {{ this.user.name }}</span>
               <li class="relative">
@@ -485,14 +485,11 @@
                   aria-label="Account"
                   aria-haspopup="true"
                 >
-                 <div :class="{notification:notification}"  class=" bg-yellow-50 rounded-50 ml-5  p-auto w-3    text-center text-xs"><p>3</p></div>
-                <svg :class="{notification:notification}" xmlns="http://www.w3.org/2000/svg"  class="object-cover  w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  <svg xmlns="http://www.w3.org/2000/svg"  class="text-black object-cover  w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-                
+                  <span class="badge font-bold text-white">2</span>
                 </button>
-
-
                 <template v-if="isNotificationOpen">
                   <ul
                     transition:leave="transition ease-in duration-150"
@@ -500,60 +497,22 @@
                     transition:leave-end="opacity-0"
                     @click="closeProfileMenu"
                     @keydown.escape="closeProfileMenu"
-                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                    class="absolute right-0 w-72 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
                     aria-label="submenu"
-                  >
-                    
-                    <li class="flex">
-                     
-                      <router-link
-                        :to="{ path: '/perfil' }"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                       
-                        <span>Nova cotação foi adicionada</span>
-                      </router-link>
-                      <span class="mb-2 hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 cursor-pointer ">x</span>
-                    </li>
-
-                      <li class="flex">
-                     
-                      <router-link
-                        :to="{ path: '/perfil' }"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                       
-                        <span>Nova cotação foi adicionada</span>
-                      </router-link>
-                      <span class="mb-2 hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 cursor-pointer ">x</span>
-                    </li>
-
-                      <li class="flex">
-                     
-                      <router-link
-                        :to="{ path: '/perfil' }"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                       
-                        <span>Nova cotação foi adicionada</span>
-                      </router-link>
-                      <span class="mb-2 hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 cursor-pointer ">x</span>
-                    </li>
-
-                    
-                    
-
+                  > 
+                  <div class="flex justify-start">
+                    <div class="w-full">
+                      <button class="text-xs  bg-primary-main rounded px-2 py-1 text-white">Marcar todas como lidas</button>
+                    </div>
+                  </div>
+                    <NotificationPreview />
+                    <NotificationPreview />
                     <div class="flex justify-end ">
                      <router-link to="/notificacoes">
-                      <p class="text-green-500 mt-2 text-sm">Ver todas...</p>
+                      <p class="text-primary-main font-semibold mt-2 text-sm">Ver todas...</p>
                      </router-link>
                     </div>
                   </ul>
-
-                  
                 </template>
                
               </li>
@@ -565,12 +524,10 @@
                   aria-label="Account"
                   aria-haspopup="true"
                 >
-                  <img
-                    class="object-cover w-8 h-8 rounded-full"
-                    src="https://static.thenounproject.com/png/2518416-200.png"
-                    alt=""
-                    aria-hidden="true"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-black object-cover w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+
                 </button>
 
                 <template v-if="isProfileMenuOpen">
@@ -662,19 +619,21 @@
 import { userService, categoryService } from "../services";
 import { BarLoader } from "@saeris/vue-spinners";
 import { bus } from "../main";
+import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
 
 export default {
   name: "Layout",
   components: {
     BarLoader,
+    NotificationPreview
   },
   data() {
     return {
       loader: {
         loading: false,
         color: "#0bc95b",
-        
       },
+
       categories: [],
       selectedCategories: [],
       isSideMenuOpen: false,
@@ -789,7 +748,7 @@ export default {
     toggleNotificationMenu(){
       this.isNotificationOpen = !this.isNotificationOpen
       this.notification = false
-
+      this.isProfileMenuOpen = false
     },
     getCategories() {
       this.loader.loading = true;
@@ -829,6 +788,7 @@ export default {
     toggleProfileMenu() {
       this.isProfileMenuOpen = !this.isProfileMenuOpen;
       this.closeSideMenu();
+      this.isNotificationOpen = false
     },
     closePagesMenu() {
       this.isPagesMenuOpen = false;
@@ -893,6 +853,20 @@ export default {
   animation: pulse 2s infinite;
 }
 
+.badge {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #000;
+  color: #d7e6fd;
+  right: 0;
+  border-radius: 9999px;
+  font-size: 12px;
+  min-width: 18px;
+  line-height: 18px;
+  min-height: 18px;
+  text-align: center;
+}
 
 
 @keyframes pulse {
