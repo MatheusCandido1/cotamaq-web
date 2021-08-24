@@ -41,20 +41,20 @@ async function me() {
         window.Echo = new Echo({
             broadcaster: "pusher",
             key: "local",
-            wsHost: "127.0.0.1",
+            wsHost: "https://stage.cotamaq.com.br",
             wsPort: 6001,
+            encrypted: false,
+            wssPort: 6001,
             forceTLS: false,
             disableStats: true,
-            authEndpoint:"http://127.0.0.1:8000/broadcasting/auth",
+            enabledTransports: ['ws', 'wss'],
+            authEndpoint:"https://stage.cotamaq.com.br:8000/broadcasting/auth",
             auth: {
               headers: {
                 Authorization: authHeader().Authorization,
               }
             }
           });
-
-          console.log(authHeader().Authorization)
-
         return response;
     })
 }
