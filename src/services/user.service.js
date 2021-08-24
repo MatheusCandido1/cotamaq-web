@@ -40,7 +40,7 @@ async function me() {
         }
         window.Echo = new Echo({
             broadcaster: "pusher",
-            key: "local",
+            key: "e0844b9cb2497f9a530d",
             wsHost: "stage.cotamaq.com.br",
             wsPort: 6001,
             encrypted: false,
