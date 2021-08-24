@@ -17,7 +17,10 @@
             <div class="container  mx-auto flex flex-wrap flex-col">
               <div class="flex mx-auto flex-wrap ">
                 <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
-                  <i class="mdi mdi-email text-xl"></i> <span class="ml-1">Notificações não lidas</span>
+                  <i class="mdi mdi-email text-xl"></i> 
+                    <span class="ml-1">Notificações não lidas</span>
+                    <span class="ml-1 inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-semibold leading-none text-white bg-primary-main rounded-full">1</span>
+
                 </div>
                 <div :class="option == 2 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(2)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
                   <i class="mdi mdi-email-open-outline text-xl"></i> <span class="ml-1">Todas notificações</span>
@@ -73,6 +76,19 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
         
   }
 </script>
-<style lang="scss" scoped>
-
+<style>
+  .badge {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: #000;
+    color: #d7e6fd;
+    right: 0;
+    border-radius: 9999px;
+    font-size: 12px;
+    min-width: 18px;
+    line-height: 18px;
+    min-height: 18px;
+    text-align: center;
+  }
 </style>
