@@ -688,30 +688,48 @@ export default {
         has_categories: null,
         name: null,
         company: null,
+        id:null,
+        categories:[],
       },
-      notification:true,
+      notification:false,
       isNotificationOpen:false,
+     
     };
   },
-  mounted() {},
-  created() {
+  mounted() {
+    const categories = JSON.parse(sessionStorage.getItem('categories'))
+    console.log(categories)
+
+    categories.forEach((data)=>{
+
+       window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+      this.notification = true
+      console.log(event)
+      
+    })
+
+    })
+     
+  },
+ async created() {
     bus.$off("ModalOpen");
     bus.$on("ModalOpen", (data) => {
       this.ModalOpen = data;
     });
-
+    window.user = null 
+   
     bus.$off("updatedUser");
     bus.$on("updatedUser", (data) => {
       if (data) {
-        userService
-          .me()
-          .then((response) => {
+        userService.me().then((response) => {
             const data = response.data.data;
             this.user.company = data.company.fantasy_name;
             this.user.role = data.role_id;
             this.user.first_login = data.first_login;
             this.user.has_categories = data.has_categories;
             this.user.name = data.name;
+            this.user.id = 1;
+            sessionStorage.setItem('userId', data.id)
             if (
               this.user.first_login == 0 &&
               this.user.role == 1 &&
@@ -726,15 +744,35 @@ export default {
           });
       }
     });
-    userService
-      .me()
-      .then((response) => {
+
+    await this.getUser()
+   
+     
+
+      
+
+    
+  },
+  computed: {
+    getRouteName() {
+      return this.$route.name;
+    },
+  },
+  methods: {
+      async getUser(){
+      await userService.me().then((response) => {
+       
         const data = response.data.data;
         this.user.company = data.company.fantasy_name;
         this.user.role = data.role_id;
         this.user.first_login = data.first_login;
         this.user.has_categories = data.has_categories;
         this.user.name = data.name;
+        this.user.id = data.id;
+        sessionStorage.setItem('userId', data.id)
+        sessionStorage.setItem('categories', JSON.stringify(data.categories))
+        
+        
         if (
           this.user.first_login == 0 &&
           this.user.role == 1 &&
@@ -747,13 +785,7 @@ export default {
       .catch((error) => {
         console.log(error.response.data);
       });
-  },
-  computed: {
-    getRouteName() {
-      return this.$route.name;
     },
-  },
-  methods: {
     toggleNotificationMenu(){
       this.isNotificationOpen = !this.isNotificationOpen
       this.notification = false
@@ -835,6 +867,7 @@ export default {
           });
       }
     },
+
     logout() {
       userService
         .logout()

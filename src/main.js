@@ -22,19 +22,46 @@ import Multiselect from 'vue-multiselect'
 
 Vue.config.productionTip = false;
 
-/*
+
 import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
+var user = JSON.parse(sessionStorage.getItem('user'))
+
+// PRODUÇÃO
+
+// window.Echo = new Echo({
+//   broadcaster: "pusher",
+//   key: "local",
+//   wsHost: "dominio",
+//   wsPort: 6001,
+//   encrypted: false,
+//   wssPort: 6001,
+//   disableStats: true,
+//   enabledTransports: ['ws', 'wss'],
+//   authEndpoint:"endpoint completo",
+//   auth: {
+//     headers: {
+//       Authorization: "Bearer " + localStorage.getItem("token")
+//     }
+//   }
+// });
+
+// DEVELOP
 window.Echo = new Echo({
-     broadcaster: 'pusher',
-     key: process.env.VUE_APP_PUSHER_APP_KEY,
-     cluster: process.env.VUE_APP_PUSHER_APP_SECRET,
-     wsHost: '127.0.0.1',
-     wsPort: 6001,
-     forceTLS: false,
-     disableStats: true
-}); */
+  broadcaster: "pusher",
+  key: "local",
+  wsHost: "127.0.0.1",
+  wsPort: 6001,
+  forceTLS: false,
+  disableStats: true,
+  authEndpoint:"http://127.0.0.1:8000/broadcasting/auth",
+  auth: {
+    headers: {
+      Authorization: "Bearer " +  user.token
+    }
+  }
+});
 
 const options = {
   // You can set your default options here
