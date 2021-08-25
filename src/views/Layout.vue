@@ -637,6 +637,7 @@ import { userService, categoryService } from "../services";
 import { BarLoader } from "@saeris/vue-spinners";
 import { bus } from "../main";
 import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
+import Echo from "laravel-echo"
 
 export default {
   name: "Layout",
@@ -675,7 +676,7 @@ export default {
   mounted() {
 
 
-      window.Echo.private(`category.1`).listen('.newEstimate', event =>{
+      Echo.private(`category.1`).listen('.newEstimate', event =>{
         console.log(event)
       this.notification = true
       this.$toast.success(event.message.notification, {

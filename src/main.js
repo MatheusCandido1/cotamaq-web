@@ -22,26 +22,7 @@ import Multiselect from 'vue-multiselect'
 
 Vue.config.productionTip = false;
 
-
-// PRODUÇÃO
-
-// window.Echo = new Echo({
-//   broadcaster: "pusher",
-//   key: "local",
-//   wsHost: "dominio",
-//   wsPort: 6001,
-//   encrypted: false,
-//   wssPort: 6001,
-//   disableStats: true,
-//   enabledTransports: ['ws', 'wss'],
-//   authEndpoint:"endpoint completo",
-//   auth: {
-//     headers: {
-//       Authorization: "Bearer " + localStorage.getItem("token")
-//     }
-//   }
-// });
-
+window.Pusher = require('pusher-js');
 
 const options = {
   // You can set your default options here
