@@ -7,7 +7,7 @@ export const echoService = {
 export function connect() {
     
 var token = sessionStorage.getItem('token')
-console.log('executou')
+console.log('connecting to socket....')
 window.Echo = new Echo({
   broadcaster: "pusher",
   key: "83cb60f1b6a7a39928a5",

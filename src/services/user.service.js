@@ -69,7 +69,7 @@ function login(credentials) {
             if (user.token) {
                 // store user details and jwt token in session storage to keep user logged in between page refreshes
                 sessionStorage.setItem('user', JSON.stringify(Object.assign({}, user, {id, name, email})) );
-                sessionStorage.setItem('token', JSON.stringify(user.token) );
+                sessionStorage.setItem('token', user.token);
             }
 
             return user;
