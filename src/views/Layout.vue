@@ -637,7 +637,6 @@ import { userService, categoryService } from "../services";
 import { BarLoader } from "@saeris/vue-spinners";
 import { bus } from "../main";
 import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
-import Echo from "laravel-echo"
 
 export default {
   name: "Layout",
@@ -674,10 +673,11 @@ export default {
     };
   },
   mounted() {
+    const categories = JSON.parse(sessionStorage.getItem('categories'))
+    console.log(categories)
 
-
-      Echo.private(`category.1`).listen('.newEstimate', event =>{
-        console.log(event)
+    categories.forEach((data)=>{
+      window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
       this.notification = true
       this.$toast.success(event.message.notification, {
           position: "bottom-right",
@@ -685,6 +685,8 @@ export default {
           showCloseButtonOnHover: true,
           timeout: 3500,
       });
+    })
+
     })
      
   },
