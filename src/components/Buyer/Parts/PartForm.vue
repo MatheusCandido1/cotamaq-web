@@ -7,19 +7,7 @@
                         Nova Cotação
                     </h2>
                 </div>
-
-                <div @click="()=>(open = !open)" class="py-1">
-                    <button  class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
-                        <svg v-if="open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-main" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
-                        </svg>
-                        <svg v-if="!open"  xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-main" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
-                        </svg>                        
-                    </button>
-                </div>
             </div>
-            <div v-if="open">
             <form @submit.prevent="showConfirmModal">
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/2 px-3 mb-2 md:mb-0">
@@ -258,7 +246,6 @@
                     </div>
                 </div>
             </form>
-  </div>
     </div>
     <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipment" @save="createPart" @close="closeConfirmModal" />
 </div>
@@ -291,7 +278,6 @@ export default {
             files: [],
             addresses: [],
             equipments: [],
-            open: true,
             loading: false,
             isSimilar: false,
             equipmentForm: null,

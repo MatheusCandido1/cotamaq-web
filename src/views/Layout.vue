@@ -184,11 +184,28 @@
                 class="absolute inset-y-0 left-0 w-1 bg-primary-main rounded-tr-lg rounded-br-lg"
                 aria-hidden="true"
               ></span>
-              <button
-                class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 text-gray-700"
+             <button
+                class="inline-flex text-gray-700 items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                 @click="togglePagesMenu"
                 aria-haspopup="true"
-              ></button>
+              >
+                <span class="inline-flex items-center">
+                  <i class="mdi mdi-cog-sync  text-2xl"></i>
+                  <span class="ml-4">Configurações</span>
+                </span>
+                <svg
+                  class="w-4 h-4"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
               <template v-if="isPagesMenuOpen">
                 <ul
                   transition:enter="transition-all ease-in-out duration-300"
@@ -474,7 +491,7 @@
                 />
               </div>
             </div>
-            <ul class="flex items-center flex-shrink-0 space-x-6">
+            <ul class="flex items-center flex-shrink-0 space-x-2">
               <!-- Profile menu -->
               <span class="text-black ">Olá, {{ this.user.name }}</span>
               <li class="relative">
@@ -485,14 +502,11 @@
                   aria-label="Account"
                   aria-haspopup="true"
                 >
-                 <div :class="{notification:notification}"  class=" bg-yellow-50 rounded-50 ml-5  p-auto w-3    text-center text-xs"><p>3</p></div>
-                <svg :class="{notification:notification}" xmlns="http://www.w3.org/2000/svg"  class="object-cover  w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  <svg xmlns="http://www.w3.org/2000/svg"  class="text-black object-cover  w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-                
+                  <span class="badge font-bold text-white">2</span>
                 </button>
-
-
                 <template v-if="isNotificationOpen">
                   <ul
                     transition:leave="transition ease-in duration-150"
@@ -500,60 +514,22 @@
                     transition:leave-end="opacity-0"
                     @click="closeProfileMenu"
                     @keydown.escape="closeProfileMenu"
-                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                    class="absolute right-0 w-72 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
                     aria-label="submenu"
-                  >
-                    
-                    <li class="flex">
-                     
-                      <router-link
-                        :to="{ path: '/perfil' }"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                       
-                        <span>Nova cotação foi adicionada</span>
-                      </router-link>
-                      <span class="mb-2 hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 cursor-pointer ">x</span>
-                    </li>
-
-                      <li class="flex">
-                     
-                      <router-link
-                        :to="{ path: '/perfil' }"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                       
-                        <span>Nova cotação foi adicionada</span>
-                      </router-link>
-                      <span class="mb-2 hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 cursor-pointer ">x</span>
-                    </li>
-
-                      <li class="flex">
-                     
-                      <router-link
-                        :to="{ path: '/perfil' }"
-                        class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                        href="#"
-                      >
-                       
-                        <span>Nova cotação foi adicionada</span>
-                      </router-link>
-                      <span class="mb-2 hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 cursor-pointer ">x</span>
-                    </li>
-
-                    
-                    
-
+                  > 
+                  <div class="flex justify-start">
+                    <div class="w-full">
+                      <button class="text-xs  bg-primary-main rounded px-2 py-1 text-white">Marcar todas como lidas</button>
+                    </div>
+                  </div>
+                    <NotificationPreview />
+                    <NotificationPreview />
                     <div class="flex justify-end ">
-                     <router-link to="/notificacoes">
-                      <p class="text-green-500 mt-2 text-sm">Ver todas...</p>
-                     </router-link>
+                     <button @click="handleNotificationClick">
+                      <p class="text-primary-main font-semibold mt-2 text-sm">Ver todas...</p>
+                     </button>
                     </div>
                   </ul>
-
-                  
                 </template>
                
               </li>
@@ -565,12 +541,10 @@
                   aria-label="Account"
                   aria-haspopup="true"
                 >
-                  <img
-                    class="object-cover w-8 h-8 rounded-full"
-                    src="https://static.thenounproject.com/png/2518416-200.png"
-                    alt=""
-                    aria-hidden="true"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-black object-cover w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+
                 </button>
 
                 <template v-if="isProfileMenuOpen">
@@ -662,19 +636,23 @@
 import { userService, categoryService } from "../services";
 import { BarLoader } from "@saeris/vue-spinners";
 import { bus } from "../main";
+import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
+window.Pusher = require('pusher-js');
+import { echoService } from '../services'
 
 export default {
   name: "Layout",
   components: {
     BarLoader,
+    NotificationPreview
   },
   data() {
     return {
       loader: {
         loading: false,
         color: "#0bc95b",
-        
       },
+
       categories: [],
       selectedCategories: [],
       isSideMenuOpen: false,
@@ -688,30 +666,44 @@ export default {
         has_categories: null,
         name: null,
         company: null,
+        id:null,
+        categories:[],
       },
-      notification:true,
+      notification:false,
       isNotificationOpen:false,
+     
     };
   },
-  mounted() {},
-  created() {
+  beforeMount() {
+    
+  },
+ async mounted() {
+    await this.getUser()
+    
+
+          
+  },
+ async created() {
+   echoService.connect()
+
     bus.$off("ModalOpen");
     bus.$on("ModalOpen", (data) => {
       this.ModalOpen = data;
     });
-
+    window.user = null 
+   
     bus.$off("updatedUser");
     bus.$on("updatedUser", (data) => {
       if (data) {
-        userService
-          .me()
-          .then((response) => {
+        userService.me().then((response) => {
             const data = response.data.data;
             this.user.company = data.company.fantasy_name;
             this.user.role = data.role_id;
             this.user.first_login = data.first_login;
             this.user.has_categories = data.has_categories;
             this.user.name = data.name;
+            this.user.id = 1;
+            sessionStorage.setItem('userId', data.id)
             if (
               this.user.first_login == 0 &&
               this.user.role == 1 &&
@@ -726,15 +718,47 @@ export default {
           });
       }
     });
-    userService
-      .me()
-      .then((response) => {
+
+    
+  },
+  computed: {
+    getRouteName() {
+      return this.$route.name;
+    },
+  },
+  methods: {
+      async getUser(){
+      await userService.me().then((response) => {
+       
         const data = response.data.data;
         this.user.company = data.company.fantasy_name;
         this.user.role = data.role_id;
         this.user.first_login = data.first_login;
         this.user.has_categories = data.has_categories;
         this.user.name = data.name;
+        this.user.id = data.id;
+        sessionStorage.setItem('userId', data.id)
+        sessionStorage.setItem('categories', JSON.stringify(data.categories))
+
+
+         if(data.categories != null && data.categories.length > 0){
+           data.categories.forEach((data)=>{
+             window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+            console.log(event)
+
+              this.notification = true
+              this.$toast.success(event.message.notification, {
+                  position: "bottom-right",
+                  pauseOnHover: false,
+                  showCloseButtonOnHover: true,
+                  timeout: 3500,
+              });
+
+            })
+           })
+            
+        }
+        
         if (
           this.user.first_login == 0 &&
           this.user.role == 1 &&
@@ -743,20 +767,17 @@ export default {
           this.openCategoriesModal();
           this.getCategories();
         }
+
+       
       })
       .catch((error) => {
         console.log(error.response.data);
       });
-  },
-  computed: {
-    getRouteName() {
-      return this.$route.name;
     },
-  },
-  methods: {
     toggleNotificationMenu(){
       this.isNotificationOpen = !this.isNotificationOpen
       this.notification = false
+      this.isProfileMenuOpen = false
     },
     getCategories() {
       this.loader.loading = true;
@@ -769,6 +790,10 @@ export default {
         .catch((error) => {
           console.log(error.response.data);
         });
+    },
+    handleNotificationClick() {
+      this.isNotificationOpen = false
+      this.$router.push({name: 'notifications'})
     },
     toggleCategories(value) {
       if (this.selectedCategories.includes(value)) {
@@ -796,6 +821,7 @@ export default {
     toggleProfileMenu() {
       this.isProfileMenuOpen = !this.isProfileMenuOpen;
       this.closeSideMenu();
+      this.isNotificationOpen = false
     },
     closePagesMenu() {
       this.isPagesMenuOpen = false;
@@ -834,6 +860,7 @@ export default {
           });
       }
     },
+
     logout() {
       userService
         .logout()
@@ -848,6 +875,17 @@ export default {
 </script>
 
 <style >
+* {
+  box-shadow: none;
+    border: none;
+    -webkit-appearance: none;
+	outline: none;
+}
+
+*:focus {
+  outline: none;
+}
+
 .rounded-50{
   border-radius: 50%;
   margin-bottom:  -11px
@@ -859,6 +897,20 @@ export default {
   animation: pulse 2s infinite;
 }
 
+.badge {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #000;
+  color: #d7e6fd;
+  right: 0;
+  border-radius: 9999px;
+  font-size: 12px;
+  min-width: 18px;
+  line-height: 18px;
+  min-height: 18px;
+  text-align: center;
+}
 
 
 @keyframes pulse {

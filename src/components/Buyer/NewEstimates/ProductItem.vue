@@ -29,12 +29,12 @@
           </div>
         </div>
         <div class="border-t-2"></div>
-         <div class="flex justify-between px-4 cursor-pointer " @click="handlePartClick">
+         <div class="flex justify-between px-4">
                     <div class="my-2">
                         <span class="font-semibold text-base mb-2">Propostas</span>
                     </div>
                     <div class="my-2">
-                        <span class="badge mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">0</span>
+                        <span class="mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">0</span>
                     </div>
                 </div>
         <div class="border-t-2"></div>
@@ -46,12 +46,12 @@
                     </div>
                     <div class="my-2 ml-2">
                         <div class="flex items-center space-x-1 text-sm">
-                            <button v-if="product.status == 1" @click="handlePartClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button v-if="product.status == 1" @click="handleEditClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                 </svg>
                             </button>
-                            <button v-if="product.status == 2" @click="handlePartClick" class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button v-if="product.status == 2" @click="handleProposalClick" class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
                                 </svg>
@@ -118,8 +118,11 @@ export default {
     methods: {
         formatEquipment,
         formatSimillar,
-        handlePartClick() {
-            this.$router.push({name: 'partDetails', params: {id: this.product.id, status: this.product.status}})
+        handleProposalClick() {
+            this.$router.push({name: 'ProposalsByEstimate', params: {id: this.product.id}})
+        },
+        handleEditClick() {
+            this.$router.push({name: 'editEstimate', params: {id: this.product.id}})
         },
         formatStatus(value) {
             let format = this.status.find(status => status.id == value)
@@ -127,14 +130,11 @@ export default {
         },
         openDuplicateModal(){
             bus.$emit('ModalOpen',true)
-            this.isDuplicateModalVisible = true      
-
+            this.isDuplicateModalVisible = true    
         },
         closeDuplicateModal(){
-            
-         this.isDuplicateModalVisible = false 
-          bus.$emit('ModalOpen', false);  
-          
+            this.isDuplicateModalVisible = false 
+            bus.$emit('ModalOpen', false); 
         },
         openDeleteModal(){
             bus.$emit('ModalOpen',true)
@@ -147,9 +147,6 @@ export default {
         }
     },
     created(){
-       
-       
-       
     }
 
 }

@@ -19,9 +19,9 @@ export const userService = {
     recoverPassword,
     resetPassword
 };
-
-function me() {
-    return axios.get(`${API_URL}/users/me`, {
+ 
+async function me() {
+    return await axios.get(`${API_URL}/users/me`, {
         headers: { 
             ...authHeader(),
             'Accept': 'application/json',
@@ -69,6 +69,7 @@ function login(credentials) {
             if (user.token) {
                 // store user details and jwt token in session storage to keep user logged in between page refreshes
                 sessionStorage.setItem('user', JSON.stringify(Object.assign({}, user, {id, name, email})) );
+                sessionStorage.setItem('token', user.token);
             }
 
             return user;

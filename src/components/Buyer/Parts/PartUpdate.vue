@@ -400,6 +400,11 @@ export default {
                 const data = response.data.data
                 this.part = data
                 this.oldEquipment = data.equipment
+                if(this.part.allow_similar == 1) {
+                    this.isSimilar = false
+                } else {
+                    this.isSimilar = true
+                }
                 if(this.oldEquipment.id) {
                     this.equipmentForm = 1
                 }
@@ -493,6 +498,7 @@ export default {
             this.form.append('category_id', this.part.category_id);
             this.form.append('status', 1);
 
+
             if(this.equipmentForm == null) {
                 this.form.append('equipment_id', '');
             }
@@ -510,7 +516,6 @@ export default {
             }
 
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
-                console.log(response.success_message)
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
                     pauseOnHover: false,
@@ -554,7 +559,6 @@ export default {
             }
 
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
-                console.log(response.success_message)
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
                     pauseOnHover: false,

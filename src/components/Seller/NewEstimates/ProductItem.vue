@@ -50,8 +50,8 @@
                 <div class="border-t-2"></div>    
                <div class="flex justify-between px-4 ">
                     <div  v-if="product.proposals_by_seller.length == 0" class="my-2">
-                        <div :class="formatEstimateStatus(proposals_by_seller.length >= 1 ? product.proposals_by_seller[0].status:product.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
-                            {{formatEstimateStatus(proposals_by_seller.length >= 1 ? product.proposals_by_seller[0].status:product.status).text}}
+                        <div :class="formatEstimateStatus(product.proposals_by_seller.length >= 1 ? product.proposals_by_seller[0].status:product.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+                            {{formatEstimateStatus(product.proposals_by_seller.length >= 1 ? product.proposals_by_seller[0].status:product.status).text}}
                         </div>
                     </div>
                     <div v-else class="my-2">

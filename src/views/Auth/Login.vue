@@ -96,7 +96,6 @@ export default {
                 
                 if(this.$v.$anyError == false) {
                     this.loader.loading = true;
-
                     const payload = {
                         email: this.user.email,
                         password: this.user.password
