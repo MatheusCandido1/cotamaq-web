@@ -675,20 +675,29 @@ export default {
   },
   mounted() {
 
+    var categories =   JSON.parse(sessionStorage.getItem('categories'))
+
+    if(categories != null && categories.length > 0){
+      categories.forEach((data)=>{
+          window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+          console.log(event)
+
+          this.notification = true
+          this.$toast.success(event.message.notification, {
+              position: "bottom-right",
+              pauseOnHover: false,
+              showCloseButtonOnHover: true,
+              timeout: 3500,
+          });
+
+        })
+      })
+      
+    }
 
 
-      window.Echo.private(`category.1`).listen('.newEstimate', event =>{
-        console.log(event)
 
-      this.notification = true
-      this.$toast.success(event.message.notification, {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 3500,
-      });
-
-    })
+    
      
   },
  async created() {
