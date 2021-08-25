@@ -675,27 +675,17 @@ export default {
     };
   },
   beforeMount() {
-    echoService.connect()
+    
   },
-  mounted() {
+ async mounted() {
+    await this.getUser()
+    
 
-    var categories =   JSON.parse(sessionStorage.getItem('categories'))
-    console.log(categories)
-
-          window.Echo.private(`category.1`).listen('.newEstimate', event =>{
-          console.log(event)
-
-          this.notification = true
-          this.$toast.success(event.message.notification, {
-              position: "bottom-right",
-              pauseOnHover: false,
-              showCloseButtonOnHover: true,
-              timeout: 3500,
-          });
-
-        })
+          
   },
  async created() {
+   echoService.connect()
+
     bus.$off("ModalOpen");
     bus.$on("ModalOpen", (data) => {
       this.ModalOpen = data;
@@ -729,7 +719,7 @@ export default {
       }
     });
 
-    await this.getUser()
+    
   },
   computed: {
     getRouteName() {
@@ -749,7 +739,25 @@ export default {
         this.user.id = data.id;
         sessionStorage.setItem('userId', data.id)
         sessionStorage.setItem('categories', JSON.stringify(data.categories))
-        
+
+
+         if(data.categories != null && data.categories.length > 0){
+           data.categories.forEach((data)=>{
+             window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+            console.log(event)
+
+              this.notification = true
+              this.$toast.success(event.message.notification, {
+                  position: "bottom-right",
+                  pauseOnHover: false,
+                  showCloseButtonOnHover: true,
+                  timeout: 3500,
+              });
+
+            })
+           })
+            
+        }
         
         if (
           this.user.first_login == 0 &&
@@ -759,6 +767,8 @@ export default {
           this.openCategoriesModal();
           this.getCategories();
         }
+
+       
       })
       .catch((error) => {
         console.log(error.response.data);
