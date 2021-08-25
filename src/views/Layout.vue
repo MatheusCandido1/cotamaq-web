@@ -675,14 +675,11 @@ export default {
   },
   mounted() {
 
-<<<<<<< HEAD
-      window.Echo.private(`category.1`).listen('.newEstimate', event =>{
-=======
-<<<<<<< HEAD
 
-      Echo.private(`category.1`).listen('.newEstimate', event =>{
+
+      window.Echo.private(`category.1`).listen('.newEstimate', event =>{
         console.log(event)
->>>>>>> 791a3a0 (start)
+
       this.notification = true
       this.$toast.success(event.message.notification, {
           position: "bottom-right",
@@ -690,20 +687,7 @@ export default {
           showCloseButtonOnHover: true,
           timeout: 3500,
       });
-=======
-    categories.forEach((data)=>{
-      console.log(`category.${data.id}`)
-    //   window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
-    //   this.notification = true
-    //   this.$toast.success(event.message.notification, {
-    //       position: "bottom-right",
-    //       pauseOnHover: false,
-    //       showCloseButtonOnHover: true,
-    //       timeout: 3500,
-    //   });
-    // })
 
->>>>>>> 59a8dc0 (start)
     })
      
   },
