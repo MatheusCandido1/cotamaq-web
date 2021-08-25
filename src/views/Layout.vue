@@ -677,6 +677,7 @@ export default {
 
     categories.forEach((data)=>{
       window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+        console.log(event)
       this.notification = true
       this.$toast.success(event.message.notification, {
           position: "bottom-right",
