@@ -39,10 +39,11 @@ window.Pusher = require('pusher-js');
     authEndpoint:"https://stage.cotamaq.com.br/broadcasting/auth",
     auth: {
       headers: {
-        authorization: token ? `Bearer ${token}`:null
+        Authorization: token ? `Bearer ${token}`:null
       }
     }
   });
+  
 
 
 const options = {
