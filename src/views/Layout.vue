@@ -638,6 +638,7 @@ import { BarLoader } from "@saeris/vue-spinners";
 import { bus } from "../main";
 import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
 window.Pusher = require('pusher-js');
+import { echoService } from '../services'
 
 export default {
   name: "Layout",
@@ -672,6 +673,9 @@ export default {
       isNotificationOpen:false,
      
     };
+  },
+  beforeMount() {
+    echoService.connect()
   },
   mounted() {
 
