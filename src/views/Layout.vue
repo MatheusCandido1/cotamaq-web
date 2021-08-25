@@ -675,7 +675,7 @@ export default {
   },
   mounted() {
 
-      this.$echo.private(`category.1`).listen('.newEstimate', event =>{
+      window.Echo.private(`category.1`).listen('.newEstimate', event =>{
       this.notification = true
       this.$toast.success(event.message.notification, {
           position: "bottom-right",
