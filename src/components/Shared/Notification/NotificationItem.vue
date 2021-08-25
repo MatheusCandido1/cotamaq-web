@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white w-full mx-auto my-8 border border-grey-light">
+    <div class="bg-white w-full mx-auto my-4 border border-grey-light">
         <div class="flex pt-4 px-4">
             <div class="px-2 pt-2 flex-grow">
                 <div class="flex flex-row justify-between">
