@@ -673,11 +673,9 @@ export default {
     };
   },
   mounted() {
-    const categories = JSON.parse(sessionStorage.getItem('categories'))
-    console.log(categories)
 
-    categories.forEach((data)=>{
-      window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+
+      window.Echo.private(`category.1`).listen('.newEstimate', event =>{
         console.log(event)
       this.notification = true
       this.$toast.success(event.message.notification, {
@@ -686,8 +684,6 @@ export default {
           showCloseButtonOnHover: true,
           timeout: 3500,
       });
-    })
-
     })
      
   },
