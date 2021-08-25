@@ -2,8 +2,6 @@ import { authHeader, refreshToken } from '../helpers';
 import { API_URL } from '../API_URL.js'
 import jsonWebTokenService from 'jsonwebtoken'
 import axios from 'axios';
-import Echo from 'laravel-echo';
-window.Pusher = require('pusher-js');
 
 export const userService = {
     login,
@@ -29,34 +27,7 @@ async function me() {
             'Accept': 'application/json',
             'Content-Type': 'application/json' 
         }
-    }).then(response => {
-        const data = response.data;
-        if (response.status !== 200) {
-            if (response.status === 401) {
-                refreshToken()
-            }
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-        window.Echo = new Echo({
-            broadcaster: "pusher",
-            key: "83cb60f1b6a7a39928a5",
-            wsHost: "stage.cotamaq.com.br",
-            wsPort: 6002,
-            encrypted: false,
-            wssPort: 6002,
-            cluster: 'mt1',
-            disableStats: true,
-            enabledTransports: ['ws', 'wss'],
-            authEndpoint:"https://stage.cotamaq.com.br/broadcasting/auth",
-            auth: {
-              headers: {
-                Authorization: authHeader().Authorization,
-              }
-            }
-          });
-        return response;
-    })
+    }).then(handleResponse)
 }
 
 function resetPassword(data) {
@@ -98,6 +69,7 @@ function login(credentials) {
             if (user.token) {
                 // store user details and jwt token in session storage to keep user logged in between page refreshes
                 sessionStorage.setItem('user', JSON.stringify(Object.assign({}, user, {id, name, email})) );
+                sessionStorage.setItem('token', JSON.stringify(user.token) );
             }
 
             return user;
@@ -248,4 +220,17 @@ function toggleCategories(categories) {
         const data = response.data
         return data;
     })
+}
+
+function handleResponse(response) {
+    const data = response.data;
+    if (response.status !== 200) {
+        if (response.status === 401) {
+            // auto logout if 401 response returned from api
+            refreshToken()
+        }
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+    }
+    return response;
 }
