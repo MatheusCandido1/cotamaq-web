@@ -679,11 +679,9 @@ export default {
   },
   mounted() {
 
-    var categories =   JSON.parse(sessionStorage.getItem('categories'))
+    console.log(categories)
 
-    if(categories != null && categories.length > 0){
-      categories.forEach((data)=>{
-          window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+          window.Echo.private(`category.1`).listen('.newEstimate', event =>{
           console.log(event)
 
           this.notification = true
@@ -695,14 +693,6 @@ export default {
           });
 
         })
-      })
-      
-    }
-
-
-
-    
-     
   },
  async created() {
     bus.$off("ModalOpen");
