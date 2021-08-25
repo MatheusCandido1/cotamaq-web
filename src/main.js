@@ -23,7 +23,7 @@ import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
 Vue.config.productionTip = false;
-
+var token = sessionStorage.getItem('token')
 window.Pusher = require('pusher-js');
 
   window.Echo = new Echo({
@@ -39,7 +39,7 @@ window.Pusher = require('pusher-js');
     authEndpoint:"https://stage.cotamaq.com.br/broadcasting/auth",
     auth: {
       headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        authorization: token ? `Bearer ${token}`:null
       }
     }
   });
