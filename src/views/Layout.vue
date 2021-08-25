@@ -679,6 +679,7 @@ export default {
   },
   mounted() {
 
+    var categories =   JSON.parse(sessionStorage.getItem('categories'))
     console.log(categories)
 
           window.Echo.private(`category.1`).listen('.newEstimate', event =>{
