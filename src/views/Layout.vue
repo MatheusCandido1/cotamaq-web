@@ -674,6 +674,7 @@ export default {
   },
   mounted() {
     const categories = JSON.parse(sessionStorage.getItem('categories'))
+    console.log(categories)
 
     categories.forEach((data)=>{
       window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
