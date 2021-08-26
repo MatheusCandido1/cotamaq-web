@@ -1,67 +1,64 @@
 <template>
-
-<div class="min-w-screen min-h-screen bg-gradient-to-r from-primary-darker via-primary-main to-primary-lighter flex items-center justify-center px-5 py-5">
-    <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
-        <div class="md:flex w-full">
-            <div class="hidden md:block w-1/2 bg-primary-main">
-                <img  class="object-cover h-full w-full " src="../../assets/images/tractor.png" alt="">
-            </div>
-            <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
-                <div class="text-center mb-10">
-                    <img class="mb-3 mx-auto" style="height: 90px; width: auto" src="../../assets/images/logo-01.png" alt="">
+    <div class="min-w-screen min-h-screen bg-gradient-to-r from-primary-darker via-primary-main to-primary-lighter flex items-center justify-center px-5 py-5">
+        <div class="bg-gray-100 text-gray-500 rounded-xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
+            <div class="md:flex w-full">
+                <div class="hidden md:block w-1/2 bg-primary-main">
+                    <img  class="object-cover h-full w-full " src="../../assets/images/tractor.png" alt="">
                 </div>
-                <form @submit.prevent="login">
-                    <div class="flex -mx-3">
-                        <div class="w-full px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">E-mail</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i  :class="errors.email == 'ERROR'? 'text-red-300':''" class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                <input @focus="() => (errors.email = 'OK')" :class="errors.email == 'ERROR'? 'border-red-300':''" v-model="email" type="email" class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none  focus:border-primary-lighter">
-                        </div>
-                            <div  v-if="errors.email == 'ERROR'">
-                                <span class="text-xs text-red-300 font-semibold px-1">O campo e-mail é obrigatório.</span>
-                            </div>                            
-                        </div>
-
+                <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
+                    <div class="text-center mb-10">
+                        <img class="mb-3 mx-auto" style="height: 50px; width: auto" src="../../assets/images/logo-01.png" alt="">
                     </div>
-                    <div class="flex -mx-3">
-                        <div class="w-full px-3 mb-12">
-                            <label for="" class="text-xs font-semibold px-1">Senha</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i :class="errors.password == 'ERROR'? 'text-red-300':''" class="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
-                                <input @focus="() => (errors.password = 'OK')" :class="errors.password == 'ERROR'? 'border-red-300':''" v-model="password" type="password" class="w-full h-9 -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-primary-lighter" >
+                    <form @submit.prevent="login">
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-full px-3 mb-2 md:mb-0">
+                                <label for="email" class="text-sm font-semibold text-gray-600 px-1">
+                                    E-mail
+                                </label>
+                                <input id="email" @change="() => (errors.user.email = 'OK')" :class="errors.user.email == 'ERROR'? 'border-red-400':'border-primary-main'" v-model="user.email" type="email" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.user.email == 'ERROR'" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo é obrigatório.</span>
+                                </div> 
                             </div>
-                            <div  v-if="errors.password == 'ERROR'">
-                                <span class="text-xs text-red-300 font-semibold px-1">O campo senha é obrigatório.</span>
-                            </div> 
                         </div>
-                    </div>
-                    <div class="flex -mx-3">
-                        <div class="w-full px-3 mb-5">
-                            <button :disabled="loader.loading" type="submit" class="block w-full max-w-xs mx-auto bg-primary-main hover:bg-primary-lighter focus:bg-primary-lighter text-white rounded-lg px-3 py-3 font-semibold">Entrar <i class="mdi mdi-login text-lg"></i></button>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-full px-3 mb-2 md:mb-0">
+                                <label for="password" class="text-sm font-semibold text-gray-600 px-1">
+                                    Senha
+                                </label>
+                                <input id="password" @change="() => (errors.user.password = 'OK')" :class="errors.user.password == 'ERROR'? 'border-red-400':'border-primary-main'" v-model="user.password" type="password" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <div v-if="errors.user.password == 'ERROR'" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo é obrigatório.</span>
+                                </div> 
+                            </div>
                         </div>
-                    </div>
-                    <span v-if="loader.loading" class="flex justify-center align-center mb-3">
-                        <bar-loader :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
-                    </span>
-
-                    <p class="text-sm text-center text-gray-600">Ainda não tem uma conta? <router-link :to="{name: 'register'}">Registre-se. </router-link> </p>
-
-                    <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
-
-                </form>
-
+                        <div class="-mx-3 md:flex mt-4">
+                            <div class="md:w-full px-3">
+                                <button :disabled="loader.loading" type="submit" class="w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                    <span class="justify-center">Entrar <i class="mdi mdi-login text-lg"></i></span>
+                                </button> 
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mt-4">
+                            <div class="md:w-full px-3">
+                                <span v-if="loader.loading" class="flex justify-center align-center mb-3">
+                                    <bar-loader :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
+                                </span>
+                                <p class="text-sm text-center text-gray-600">Ainda não tem uma conta? <router-link :to="{name: 'register'}">Registre-se. </router-link> </p>
+                                <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
 import { userService } from '../../services'
 import { BarLoader } from '@saeris/vue-spinners'
 import { required } from 'vuelidate/lib/validators'
-
 
 export default {
 
@@ -75,62 +72,62 @@ export default {
                 loading: false,
                 color: '#0bc95b',
             },
-            email: null,
-            password: null,
+            user: {
+                email: '',
+                password: '',
+            },
             errors: {
-                email: null,
-                password: null
+                user: {
+                    email: null,
+                    password: null
+                }
             },
         }
     },
     methods: {
         login() {
             this.$v.$touch()
-                if(this.$v.email.$invalid) {
-                    this.errors.email = 'ERROR'
+                if(this.$v.user.email.$invalid) {
+                    this.errors.user.email = 'ERROR'
                 } 
-                if(this.$v.password.$invalid) {
-                    this.errors.password = 'ERROR'
+                if(this.$v.user.password.$invalid) {
+                    this.errors.user.password = 'ERROR'
                 } 
-                else {
-                this.loader.loading = true;
+                
+                if(this.$v.$anyError == false) {
+                    this.loader.loading = true;
+                    const payload = {
+                        email: this.user.email,
+                        password: this.user.password
+                    };
+                    userService.login(payload).then((response) => {
+                        this.loader.loading = false;
+                        this.$store.commit('user/STORE_USER', response);
+                        this.$router.push('/cotacoes')
 
-                const payload = {
-                    email: this.email,
-                    password: this.password
-                };
-                userService.login(payload).then((response) => {
-                    this.loader.loading = false;
-                    this.$store.commit('user/STORE_USER', response);
-                    this.$router.push('/')
-
-                }).catch((error) => {
-                    const err = error.response.data.error
-                    this.loader.loading = false;
-                    this.$toast.error(err, {
-                        position: "bottom-right",
-                        pauseOnHover: false,
-                        showCloseButtonOnHover: true,
-                        timeout: 2500
-                    });
+                    }).catch((error) => {
+                        const err = error.response.data.error
+                        this.loader.loading = false;
+                        this.$toast.error(err, {
+                            position: "bottom-right",
+                            pauseOnHover: false,
+                            showCloseButtonOnHover: true,
+                            timeout: 2500
+                        });
                     this.password = '';
-                    
                 });
             } 
         },
     },
     validations: {
-        email: {
-            required
-        },
-        password: {
-            required
+        user: {
+            email: {
+                required
+            },
+            password: {
+                required
+            }
         }
     }
 }
 </script>
-
-<style>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
-
-</style>

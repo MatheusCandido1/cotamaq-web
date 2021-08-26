@@ -1,38 +1,28 @@
 import Vue from 'vue';
-import router from '@/router';
+import router from '@/router'
 import store from '@/store'
-import App from '@/App.vue';
-import Toast from "vue-toastification";
+import App from '@/App.vue'
+import Toast from "vue-toastification"
 import Vuelidate from 'vuelidate'
 import VueTheMask from 'vue-the-mask'
 import SmartTable from 'vuejs-smart-table'
 import money from 'v-money'
-import moment from 'moment';
+import moment from 'moment'
 import VTooltip from 'v-tooltip'
 import { VueSpinners } from '@saeris/vue-spinners'
-
+import CoolLightBox from 'vue-cool-lightbox'
 import LottieAnimation from 'lottie-web-vue'
-
+import VueSuggestion from 'vue-suggestion'
+import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css'
 import './assets/css/tooltip.css';
-
 import '@/assets/css/tailwind.css';
 import "vue-toastification/dist/index.css";
+import VueLazyload from 'vue-lazyload'
+import Multiselect from 'vue-multiselect'
 
 Vue.config.productionTip = false;
+  
 
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-     broadcaster: 'pusher',
-     key: process.env.VUE_APP_PUSHER_APP_KEY,
-     cluster: process.env.VUE_APP_PUSHER_APP_SECRET,
-     wsHost: process.env.VUE_APP_PUSHER_APP_SERVER,
-     wsPort: 6001,
-     forceTLS: false,
-     disableStats: true
-});
 
 const options = {
   // You can set your default options here
@@ -50,6 +40,7 @@ Vue.filter('Document', function(value) {
     return value
 });
 
+Vue.component('multiselect', Multiselect)
 Vue.use(Toast, options);
 Vue.use(VueSpinners)
 Vue.use(Vuelidate)
@@ -57,7 +48,10 @@ Vue.use(VueTheMask)
 Vue.use(SmartTable)
 Vue.use(money, {precision: 4})
 Vue.use(VTooltip)
-Vue.use(LottieAnimation);
+Vue.use(LottieAnimation)
+Vue.use(VueLazyload)
+Vue.use(CoolLightBox)
+Vue.use(VueSuggestion)
 
 export const bus = new Vue();
 

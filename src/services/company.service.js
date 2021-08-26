@@ -9,7 +9,10 @@ export const companyService = {
     updateAddress,
     createAddress,
     deleteAddress,
-    setDefaultAddress
+    setDefaultAddress,
+    createUser,
+    getUsers,
+    deleteUser
 };
 
 function getCompanies() {
@@ -108,6 +111,49 @@ function getAddresses() {
         return data;
     })
 }
+
+function getUsers() {
+    return axios.get(`${API_URL}/companies/users`, {
+        headers: { 
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        }
+    }).then(response => {
+        const data = response.data
+
+        return data;
+    })
+}
+
+function createUser(user) {
+    return axios.post(`${API_URL}/companies/users`, user, {
+        headers: { 
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        }
+    }).then(response => {
+        const data = response.data
+
+        return data;
+    })
+}
+
+function deleteUser(user) {
+    return axios.delete(`${API_URL}/companies/users/${user}`,  {
+        headers: { 
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        }
+    }).then(response => {
+        const data = response.data
+
+        return data;
+    })
+}
+
 
 function handleResponse(response) {
     const data = response.data;

@@ -17,11 +17,12 @@ export const userService = {
     changePassword,
     updateUser,
     recoverPassword,
-    resetPassword
+    resetPassword,
+    notifications
 };
-
-function me() {
-    return axios.get(`${API_URL}/users/me`, {
+ 
+async function me() {
+    return await axios.get(`${API_URL}/users/me`, {
         headers: { 
             ...authHeader(),
             'Accept': 'application/json',
@@ -29,6 +30,17 @@ function me() {
         }
     }).then(handleResponse)
 }
+ function notifications() {
+    return  axios.get(`${API_URL}/users/me`, {
+        headers: { 
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        }
+    }).then(handleResponse)
+}
+
+
 
 function resetPassword(data) {
     return axios.post(`${API_URL}/auth/reset-password`, JSON.stringify(data), {
@@ -69,6 +81,7 @@ function login(credentials) {
             if (user.token) {
                 // store user details and jwt token in session storage to keep user logged in between page refreshes
                 sessionStorage.setItem('user', JSON.stringify(Object.assign({}, user, {id, name, email})) );
+                sessionStorage.setItem('token', user.token);
             }
 
             return user;

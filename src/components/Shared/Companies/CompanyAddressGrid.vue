@@ -11,7 +11,7 @@
                 <label for="" class="text-xs font-semibold px-1"></label>
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <button @click="showAddModal" class="w-full -ml-10 pl-2 pr-3 py-2  flex items-center justify-center bg-primary-main text-white hover:bg-primary-darker font-semibold rounded border-b-2 border-primary-main  hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                    <button @click="showAddModal" class="md:w-full -ml-10 md:pl-2 md:pr-3 pl-1 pr-2  py-2  flex items-center justify-center bg-primary-main text-white hover:bg-primary-darker font-semibold rounded border-b-2 border-primary-main  hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                         <span class="justify-center ml-2">Adicionar</span>
                     </button>  
                 </div>  

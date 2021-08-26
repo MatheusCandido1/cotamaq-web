@@ -3,7 +3,7 @@
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-6xl">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -50,17 +50,17 @@
                 </div>
             </div>
             <div class="flex -mx-3">
-                <div class="w-1/3 px-3 mb-5">
+                <div class="w-1/2 px-3 mb-5">
                 <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center">Aceita Similar?</label>
                     <div class="flex justify-center space-x-4 mt-3">
                         <div>
-                            <input :disabled="!edit" v-model="selectedProduct.allow_similar"  value="1" class="hidden" id="similar_1" type="radio" name="similar">
+                            <input @change="handleSimilarClick()" :disabled="!edit" v-model="selectedProduct.allow_similar"  value="1" class="hidden" id="similar_1" type="radio" name="similar">
                             <label class="flex h-9 p-1 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="similar_1">
                                 <span class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i class="mdi mdi-check text-gray-900 text-lg mr-1 ml-1"></i>Sim </span>
                             </label>
                         </div>
                         <div>
-                            <input :disabled="!edit" v-model="selectedProduct.allow_similar"  value="0" class="hidden" id="similar_2" type="radio" name="similar">
+                            <input @change="handleSimilarClick()" :disabled="!edit" v-model="selectedProduct.allow_similar"  value="0" class="hidden" id="similar_2" type="radio" name="similar">
                             <label class="flex h-9 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="similar_2">
                                 <span class="flex items-center justify-center text-gray-900  text-sm font-semibold mr-1"><i class="mdi mdi-close text-gray-900 text-lg mr-1 ml-1"></i>Não </span>
                             </label>
@@ -68,7 +68,55 @@
                     </div>
                 </div>  
 
-                <div class="w-2/3 px-3 mb-5">
+                <div class="w-1/2 px-3 mb-5">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <input v-if="isSimilar" :disabled="!edit" v-model="selectedProduct.brand"  placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    </div>                         
+                </div>
+            </div>
+        
+            <div v-if="!edit" class="flex -mx-3 mt-4">
+                <CoolLightBox 
+                :items="images" 
+                :index="index"
+                :effect="'fade'"
+                @close="index = null">
+              </CoolLightBox>
+              <div class="w-full px-3 mb-5">
+                     <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>   
+                    <div class="flex justify-start items-center flex-wrap mt-2">
+                      <div class="flex flex-row justify-center items-center">
+                        <div class="flex flex-col justify-center items-center"  v-for="(file, key) in selectedProduct.images" :key="key">
+                          <img  class="h-28 w-28 rounded-lg ml-2 mr-2 cursor-pointer" @click="index = key" :src="file.image_path" />
+                        </div>
+                      </div>
+                      </div>
+              </div>
+            </div> 
+            
+            <div v-if="edit" class="flex -mx-3 mt-4">
+              <div class="w-full px-3 mb-5">
+                <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>   
+                  <span @click="addFiles()" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Adicionar Imagens</span>
+                  <input ref="files" @change="onFileChange" id="files" class="hidden" multiple type="file" />         
+                    <div class="flex justify-start items-center flex-wrap mt-2">
+                      <div class="flex flex-row justify-center items-center">
+                        <div class="flex flex-col justify-center items-center"  v-for="(file, key) in selectedProduct.images" :key="key">
+                        <img  class="h-28 w-28 rounded-lg ml-2 mr-2" :src="file.image_path" />
+                        <button @click="removeImage(key)" type="button" class="w-8 h-8 mt-1 justify-center items-center mr-2 bg-red-600 text-white p-2 rounded  leading-none flex items-center">
+                           <i class="mdi mdi-delete text-white"></i>
+                        </button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div> 
+
+
+            <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Observação</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -82,7 +130,7 @@
             <button
               type="button"
               @click="close"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>
@@ -116,12 +164,44 @@ export default {
       return {
             selectedProduct: JSON.parse(JSON.stringify(this.$props.product)),
             edit: this.$props.allowEdit,
-            disabled: false
+            disabled: false,
+            isSimilar: false,
+            index: null,
+            images: [],
       }
   },
-  created() {
+  mounted() {
+    this.formatProduct()
+    this.handleImages()
+    
+  },
+  destroyed() {
+      this.close()
   },
   methods: {
+    handleImages() {
+      let imgs = []
+      this.selectedProduct.images.forEach(function(value) {
+       imgs.push(value.image_path)
+      });
+      this.images = imgs
+    },
+    formatProduct() {
+      if(this.selectedProduct.allow_similar == 0) {
+        this.isSimilar = true
+      }
+
+      if(this.selectedProduct.observation == 'null') {
+        this.selectedProduct.observation = ''
+      }
+    },
+    handleSimilarClick() {
+      if(this.selectedProduct.allow_similar == 1) {
+        this.isSimilar = false
+      } else {
+        this.isSimilar = true
+      }
+    },
     updateProduct() {
         this.disabled = true
         const data = {
@@ -130,6 +210,7 @@ export default {
             description: this.selectedProduct.description,
             quantity: this.selectedProduct.quantity,
             allow_similar: this.selectedProduct.allow_similar,
+            brand: this.selectedProduct.brand,
             observation: this.selectedProduct.observation,
             estimate_id: this.$route.params.id
         }

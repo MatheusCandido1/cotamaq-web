@@ -4,6 +4,7 @@
         <div class="flex -mx-3">
             <div class="w-3/5 px-3 mb-5">
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Pedido #{{order.id}}</h2>
+                <bar-loader class="mt-3" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
             </div>
             <div class="w-1/5 px-3 mb-5">
                  <div class="flex">
@@ -107,6 +108,26 @@
                 </div>                       
             </div>
         </div>
+
+        <div class="flex -mx-3">
+            <div class="w-1/2 px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Método de Pagamento</label>
+                <div class="flex">
+                    <div class="w-full rounded bg-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="justify-center text-white">{{order.payment_method == '' ? 'Não disponível':order.payment_method}}</span>
+                    </div> 
+                </div>                      
+            </div>
+
+            <div class="w-1/2 px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Condição de Pagamento</label>
+                <div class="flex">
+                    <div class="w-full rounded bg-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="justify-center text-white">{{order.payment_condition == '' ? 'Não disponível':order.payment_condition}}</span>
+                    </div> 
+                </div>                      
+            </div>
+        </div>
   </div>
 
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
@@ -115,7 +136,7 @@
             <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Proposta #{{proposal.id}}</h2>
         </div>
         <div class="px-3 mb-5">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação - {{proposal.estimate.equipment}} <span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Cotação #{{proposal.estimate.id}} <span @click="showEstimateModal" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Exibir detalhes do equipamento</span></h2>
         </div>
         <div class="px-3 mb-5">                
             <div class="flex justify-start space-x-4">
@@ -145,9 +166,10 @@
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <v-th  class="text-center" style="width: 10%" sortKey="part_code">Código</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="description">Descrição</v-th>
-                <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="allow_similar">Peça Similar?</v-th>
-                <v-th  class="text-center" style="width: 10%" sortKey="value">Valor</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="details.value">Valor</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="details.subtotal">Subtotal</v-th>
                 <th class="text-center" style="width: 10%" >Ação</th>
             </tr>
         </thead>    
@@ -155,13 +177,14 @@
             <tr class="mb-5"  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.description}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
-                <td class="text-sm text-center text-gray-700">
+                 <td class="text-sm text-center text-gray-700">
                     <span :class="formatDefault(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatName(row.allow_similar)}}
                     </span>
                 </td>
-                <td class="text-sm text-center text-gray-700">{{row.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.details.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="flex justify-center mt-2">
                     <div class="flex items-center space-x-2 text-sm">
                         <button v-tooltip="{content: 'Visualizar Produto'}" @click="showProductModal(row)" class="flex items-center justify-between px-2 py-2 mb-1 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
@@ -172,6 +195,7 @@
             </tr>
             <tr  v-if="products && products.length !== 0"  class="rounded border-t-2 border-primary-main shadow-md py-2 px-6 outline-none h-12">
                 <td class="text-sm font-semibold text-center text-gray-900">Total:</td>
+                <td></td>
                 <td></td>
                 <td class="text-sm font-semibold text-center text-gray-900">{{getQuantitySum()}}</td>
                 <td></td>
@@ -184,34 +208,7 @@
 
   
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
-      <div class="flex -mx-3">
-                <div v-if="proposal.payment_method[0].description" class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Forma de pagamento</label>
-                    <div class="flex">
-                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
-                        <span class="justify-center">{{proposal.payment_method[0].description}}</span>
-                    </div> 
-                </div>                         
-                </div>
-
-                <div v-if="proposal.payment_condition[0].description" class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Condição de pagamento</label>
-                    <div class="flex">
-                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
-                        <span class="justify-center">{{proposal.payment_condition[0].description}}</span>
-                    </div> 
-                </div>                       
-                </div>
-
-                <div v-if="proposal.validity" class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Data de validade</label>
-                    <div class="flex">
-                    <div class="w-full rounded border-b-2 border-primary-main flex items-center justify-center bg-white text-gray-800 font-semibold rounded   shadow-md py-2 px-6 inline-flex items-center">
-                        <span class="justify-center">{{proposal.validity | formatDate}}</span>
-                    </div> 
-                </div>                          
-                </div>
-            </div>
+      
             <div class="flex -mx-3">
                 <div v-if="proposal.subtotal" class="w-1/3 px-3 mb-5">
                     <div class="flex">
@@ -254,6 +251,13 @@
           >
           </proposal-product>
 
+        <order-payment
+            v-if="isPaymentModalVisible"
+            :order="order"
+            @close="closePaymentModal"
+        >
+        </order-payment>
+
           <estimate-details-modal
             v-if="isEstimateModalOpen"
             :estimate="estimate"
@@ -269,25 +273,51 @@ import { bus } from '../../../main';
 import ProposalProduct from '../../Buyer/Proposals/ProposalProduct';
 import { orderService } from '../../../services';
 import EstimateDetailsModal from '../../../components/Seller/Estimates/EstimateDetailsModal';
+import { BarLoader } from '@saeris/vue-spinners';
+import OrderPayment from './OrderPayment';
 
 export default {
     name: 'OrderInfo',
     components: {
         ProposalProduct,
-        EstimateDetailsModal
+        EstimateDetailsModal,
+        BarLoader,
+        OrderPayment
     },
     created() {
         this.getOrder();
+    },
+    updated() {
+        bus.$off('updatePaymentOnOrder');
+        bus.$on('updatePaymentOnOrder', (data) => {
+            if(data) {
+               this.getOrder(); 
+            }
+        })
     },
     data() {
         return {
             isEstimateModalOpen: false,
             isProductModalVisible: false,
+            isPaymentModalVisible: false,
             estimate: {},
-            seller: {},
-            proposal: {},
+            seller: {
+                address: {}
+            },
+            loader: {
+                loading: false,
+                color: '#0bc95b',
+            },
+            proposal: {
+                id: null,
+                estimate: {
+                    id: null,
+                }
+            },
             products: [],
-            order: {},
+            order: {
+                id: null,
+            },
             colors: ["bg-red-500", "bg-primary-main"],
             defaults: ['Não', 'Sim'],
             statusName: ['Pendente','Em preparo','Em trânsito','Entregue'],
@@ -311,6 +341,14 @@ export default {
             this.isEstimateModalOpen = false
             bus.$emit('ModalOpen', false);
         },
+        showPaymentModal() {
+            this.isPaymentModalVisible = true
+            bus.$emit('ModalOpen', true);
+        },
+        closePaymentModal() {
+            this.isPaymentModalVisible = false
+            bus.$emit('ModalOpen', false);
+        },
         showProductModal(data) {
             this.product = data
             this.isProductModalVisible = true
@@ -321,6 +359,7 @@ export default {
             bus.$emit('ModalOpen', false);
         },
         getOrder() {
+            this.loader.loading = true
             const orderId = this.$route.params.id
             orderService.getOrderByBuyer(orderId).then((response) => {
                 const res = response.data.data
@@ -330,7 +369,12 @@ export default {
                 this.order = res.order
                 this.proposal = res.order.proposal
                 this.products = res.order.proposal.products
+                this.loader.loading = false
+                if(this.order.status == 2) {
+                    this.showPaymentModal()
+                }
             }).catch((error) => {
+               this.loader.loading = false
                 console.log(error.response.data)
             })
         },

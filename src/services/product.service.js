@@ -9,7 +9,8 @@ export const productService = {
     updateProduct,
     getProductsByProposal,
     getProductsByEstimate,
-    updateProductDetail
+    updateProductDetail,
+    duplicateProduct
 };
 
 function updateProductDetail(data, proposalId) {
@@ -42,9 +43,8 @@ function updateProduct(data) {
     })
 }
 
-
-function createProduct(data) {
-    return axios.post(`${API_URL}/products/${data.estimate_id}`, JSON.stringify(data), {
+function duplicateProduct(id, data) {
+    return axios.post(`${API_URL}/products/duplicate/${id}`, JSON.stringify(data), {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -56,6 +56,23 @@ function createProduct(data) {
         
         return data;
     })
+
+}
+
+
+function createProduct(estimate_id,form) {
+    return axios.post(`${API_URL}/products/${estimate_id}`, form, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+
 }
 
 function deleteProduct(id) {

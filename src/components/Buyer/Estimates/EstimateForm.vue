@@ -56,9 +56,15 @@
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Equipamento</label>
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input  v-model="estimate.equipment"  @change="() => (errors.equipment = 'OK')" :class="errors.equipment == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>  
-                <div v-if="errors.equipment == 'ERROR'">
+                        <select :class="errors.equipment_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.equipment_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <option disabled value=""> Selecione... </option>
+                            <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{formatEquipment(equipment)}}</option>
+                        </select> 
+                        <button @click.prevent="showEquipmentModal()" class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
+                            <span class="m-auto"><i class="mdi mdi-plus"></i></span>
+                        </button>                               
+                </div>   
+                <div v-if="errors.equipment_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Equipamento é obrigatório.</span>
                 </div>                       
             </div>
@@ -68,51 +74,13 @@
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                     <select @change="() => (errors.category_id = 'OK')" :class="errors.category_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.category_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        <option value=""> Selecione... </option>
+                        <option disabled value=""> Selecione... </option>
                         <option  v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                     </select> 
                 </div> 
                 <div v-if="errors.category_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Categoria é obrigatório.</span>
                 </div>                       
-            </div>
-        </div>
-
-        <div class="flex -mx-3">
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Patrimonio</label>
-                <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input v-model="estimate.patrimony" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input placeholder="" v-model="estimate.model" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input placeholder="" v-model="estimate.brand" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
-                <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <the-mask @change.native="() => (errors.year = 'OK')" :class="errors.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
-                 
-                </div>   
-                <div v-if="errors.year == 'ERROR'">
-                    <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
-                </div>                        
             </div>
         </div>
 
@@ -153,19 +121,28 @@
                         v-if="isAddModalVisible"
                         @close="closeAddModal"
                     ></address-add>
+
+                    <equipment-add
+                        v-if="isEquipmentModalVisible"
+                        origin="create"
+                        @close="closeEquipmentModal"
+                    ></equipment-add>
     </div>
 </template>
 
 <script>
 import { bus } from '../../../main';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import { userService, categoryService, estimateService } from '../../../services';
+import EquipmentAdd from '../Equipments/EquipmentAdd';
+import { userService, categoryService, estimateService, equipmentService } from '../../../services';
 import { required } from 'vuelidate/lib/validators'
+import { formatEquipment } from '@/helpers/string-helper';
 
 export default {
     name: 'EstimateForm',
     components: {
-        AddressAdd
+        AddressAdd,
+        EquipmentAdd
     },
     updated() {
         bus.$off('updatedEstimateAddress');
@@ -174,22 +151,28 @@ export default {
                this.getAddresses(); 
             }
         })
+
+        bus.$off('updatedEstimateEquipmentCreate');
+        bus.$on('updatedEstimateEquipmentCreate', (data) => {
+            if(data) {
+               this.getEquipments(); 
+            }
+        })
     },
     created() {
         this.getAddresses()
         this.getCategories()
+        this.getEquipments();
     },
     data() {
         return {
             isAddModalVisible: false,
+            isEquipmentModalVisible: false,
             addresses: [],
             categories: [],
+            equipments: [],
             estimate: {
-                equipment: null,
-                patrimony: null,
-                model: null,
-                brand: null,
-                year: null,
+                equipment_id: '',
                 observation: null,
                 delivery_id: null,
                 address_id:  null,
@@ -198,17 +181,17 @@ export default {
             errors: {
                 delivery_id: null,
                 address_id: null,
-                equipment: null,
-                category_id: null,
-                year: null,
-            }
+                equipment_id: null,
+                category_id: null
+            },
         }
     },
     methods: {
+        formatEquipment,
         createEstimate() {
             this.$v.$touch()
 
-                if(this.$v.estimate.equipment.$invalid) {
+                if(this.$v.estimate.equipment_id.$invalid) {
                     this.errors.equipment = 'ERROR'
                 } 
 
@@ -236,11 +219,7 @@ export default {
             if(this.$v.$anyError == false && this.errors.year != "ERROR") {
 
                 const data = {
-                    equipment: this.estimate.equipment,
-                    patrimony: this.estimate.patrimony,
-                    model: this.estimate.model,
-                    brand: this.estimate.brand,
-                    year: this.estimate.year,
+                    equipment_id: this.estimate.equipment_id,
                     observation: this.estimate.observation,
                     delivery: this.estimate.delivery_id,
                     address_id: this.estimate.address_id,
@@ -255,8 +234,6 @@ export default {
                 });
                 const estimateId = response.data.id
                 this.$router.push({name: 'editEstimate', params: {id: estimateId}})
-                
-                bus.$emit('new', true);
                 }).catch((error) => {
                     console.log(error.response.data)
                 })
@@ -268,6 +245,14 @@ export default {
         },
         closeAddModal() {
             this.isAddModalVisible = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showEquipmentModal() {
+            this.isEquipmentModalVisible = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeEquipmentModal() {
+            this.isEquipmentModalVisible = false;
             bus.$emit('ModalOpen', false);
         },
         getCategories() {
@@ -286,10 +271,17 @@ export default {
                 console.log(error.response.data)
             }) 
         },
+        getEquipments() {
+            equipmentService.getEquipments().then((response) => {
+                this.equipments = response.data.data.equipments
+            }).catch((error) => {
+                console.log(error.response.data)
+            }) 
+        }
     },
     validations: {
         estimate: {
-            equipment: {
+            equipment_id: {
                 required
             },
             category_id: {
@@ -306,7 +298,5 @@ export default {
     
 }
 </script>
-
 <style>
-
 </style>

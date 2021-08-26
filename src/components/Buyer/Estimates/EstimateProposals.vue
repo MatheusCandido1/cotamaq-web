@@ -28,7 +28,7 @@
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" slot="body" slot-scope="{displayData}">
                     <tr  v-for="row in displayData" :key="row.id">
                         <td class="text-sm text-center text-gray-700">#{{row.id}}</td>
-                        <td class="text-sm text-center text-gray-700">{{ getHigherDelivery(row.products) }} </td>
+                        <td class="text-sm text-center text-gray-700">{{ getHighestDelivery(row.products) }} </td>
                         <td class="text-sm text-center text-gray-700">{{row.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                         <td class="flex justify-center mt-2">
                             <div class="flex items-center space-x-4 text-sm">
@@ -62,7 +62,7 @@
                         <label for="" class="text-xs font-semibold px-1"></label>
                             <div class="flex">
                             <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                <router-link :to="{name: 'estimates'}" class="w-full flex items-center justify-center  bg-gray-600 text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                <router-link :to="{name: 'estimates'}" class="w-full flex items-center justify-center  bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                     <span class="justify-center">Voltar</span>
                                 </router-link>                         
                             </div>   
@@ -119,8 +119,8 @@ export default {
         }
     },
     methods: {
-        getHigherDelivery(row) {
-            const maxDelivery =  row.reduce((max, p) => p.product_delivery > max ? p.product_delivery : max, row[0].product_delivery);
+        getHighestDelivery(row) {
+            const maxDelivery =  row.reduce((max, p) => p.details.product_delivery > max ? p.details.product_delivery : max, row[0].details.product_delivery);
             if(maxDelivery == 0) {
                 return 'Imediata'
             } else if(maxDelivery == 1) {

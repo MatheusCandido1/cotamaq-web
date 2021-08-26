@@ -14,7 +14,6 @@ import Payments from '../views/Payments';
 import Profile from '../views/Profile';
 import Equipments from '../views/Equipments';
 import EstimateAdd from '../views/Buyer/Estimates/EstimateAdd';
-import EstimateEdit from '../views/Buyer/Estimates/EstimateEdit';
 import EstimateDetail from '../views/Buyer/Estimates/EstimateDetail';
 import ProposalDetail from '../views/Seller/Proposals/ProposalDetail';
 import Proposals from '../views/Proposals';
@@ -23,7 +22,11 @@ import EstimateDetailSeller from '../views/Seller/Estimates/EstimateDetails';
 import ProposalDetailSeller from '../components/Seller/Proposals/ProposalDetail';
 import EstimateRejected from '../components/Seller/Estimates/EstimateRejected';
 import OrderDetails from '../views/OrderDetails';
-
+import PartAdd from '../views/Buyer/Parts/PartAdd';
+import Users from '../views/Shared/Users.vue'
+import Notification from '../views/Notification.vue'
+import ProposalsByEstimate from '../components/Buyer/Proposals/ProposalsByEstimate'
+import UpdateEstimate from '../components/Buyer/Parts/PartUpdate'
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -40,7 +43,6 @@ const routes = [
       { path: '/pagamentos',  name: 'payments', component: Payments},
       { path: '/perfil',  name: 'profile', component: Profile, props: true},
       { path: '/criar/cotacao',  name: 'addEstimate', component: EstimateAdd},
-      { path: '/editar/cotacao/:id',  name: 'editEstimate', component: EstimateEdit},
       { path: '/propostas/cotacao/:id',  name: 'detailEstimate', component: EstimateDetail},
       { path: '/proposta/:id',  name: 'detailProposal', component: ProposalDetail},
       { path: '/propostas', name: 'Proposals', component: Proposals},
@@ -49,6 +51,11 @@ const routes = [
       { path: '/proposta/enviada/:id', name: 'detailSellerProposal', component: ProposalDetailSeller},
       { path: '/detalhe/pedidos/:id',  name: 'OrderDetails', component: OrderDetails, props: true},
       { path: '/cotacao/rejeitada/:id',  name: 'estimateRejected', component: EstimateRejected},
+      { path: '/cotacao', name: 'partAdd', component: PartAdd},
+      { path: '/cotacao/:id/propostas', name: 'ProposalsByEstimate', component: ProposalsByEstimate},
+      { path: '/cotacao/:id', name: 'editEstimate', component: UpdateEstimate},
+      {path:  '/usuarios',name:'usuarios', component:Users},
+      {path:  '/notificacoes', name:'notifications', component:Notification},
     ]
   },
   {

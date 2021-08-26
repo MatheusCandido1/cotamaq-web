@@ -59,11 +59,17 @@
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Equipamento</label>
                 <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input  v-model="estimate.equipment" :disabled="loader.loading"  @change="() => (errors.equipment = 'OK')" :class="errors.equipment == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>      
-                <div v-if="errors.equipment == 'ERROR'">
+                        <select :class="errors.equipment_id == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.equipment_id" class="w-full -ml-10 pl-2   px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <option disabled value=""> Selecione... </option>
+                            <option   v-for="equipment in equipments" :key="equipment.id" :value="equipment.id">{{formatEquipment(equipment)}}</option>
+                        </select> 
+                        <button @click.prevent="showEquipmentModal()" class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
+                            <span class="m-auto"><i class="mdi mdi-plus"></i></span>
+                        </button>                               
+                </div>   
+                <div v-if="errors.equipment_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Equipamento é obrigatório.</span>
-                </div>                      
+                </div>                     
             </div>
 
             <div class="w-1/2 px-3 mb-5">
@@ -78,43 +84,6 @@
                 <div v-if="errors.category_id == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Categoria é obrigatório.</span>
                 </div>                    
-            </div>
-        </div>
-
-        <div class="flex -mx-3">
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Patrimonio</label>
-                <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input :disabled="loader.loading" v-model="estimate.patrimony" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input :disabled="loader.loading" placeholder="" v-model="estimate.model" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <input placeholder="" :disabled="loader.loading" v-model="estimate.brand" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>                         
-            </div>
-
-            <div class="w-1/4 px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
-                <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                    <the-mask @change.native="() => (errors.year = 'OK')" :class="errors.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="estimate.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
-                </div>    
-                <div v-if="errors.year == 'ERROR'">
-                    <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
-                </div>                      
             </div>
         </div>
 
@@ -136,11 +105,11 @@
                     ></address-add>
   </div>
 
-                    <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
-        <bar-loader class="mt-3" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
+    <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
         <div class="flex -mx-3">
             <div class="w-4/5 px-3 mb-5">
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Produtos</h2>
+                <bar-loader class="mt-3" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
             </div>
             <div class="w-1/5 px-3 mb-5">
                 <label for="" class="text-xs font-semibold px-1"></label>
@@ -155,6 +124,15 @@
                 </div>  
             </div>
         </div>
+         <span class="flex justify-end text-gray-600 font-semibold">
+                    Items por página
+                    <select v-model="itemsPerpage" class="w-20 pl-4 ml-3 border-primary-main px-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none focus:border-primary-lighter">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                </span>
         <span class="flex justify-center items-center text-gray-700" v-if="products && products.length === 0" > {{ loader.loading ? 'Carregando...':'Nenhum produto encontrado...' }}</span>
         <div  v-if="products && products.length !== 0">
             <v-table
@@ -162,7 +140,7 @@
                 :data="products"     
                 :hideSortIcons="true"
                 :currentPage.sync="currentPage"
-                :pageSize="3"
+                :pageSize="itemsPerpage"
                 @totalPagesChanged="totalPages = $event"
             >
                 <thead class="rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none no-selection" slot="head">
@@ -184,8 +162,8 @@
                                 {{formatName(row.allow_similar)}}
                             </span>
                         </td>
-                        <td class="flex justify-center mt-2">
-                            <div class="flex items-center space-x-4 text-sm">
+                        <td class="flex justify-center mt-1 mb-1">
+                                <div class="flex items-center space-x-2 text-sm">
                                 <button @click="showDetailModal(row, true)"  class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"  viewBox="0 0 20 20" fill="currentColor"> <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /> </svg>
                                 </button>
@@ -193,6 +171,12 @@
                                 <button @click="showDetailModal(row, false)" class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" /> </svg>
                                 </button>
+
+                                  <button v-tooltip="{ content: 'Duplicar Produto' }" @click="showDuplicateModal(row)" class="flex items-center justify-between px-2 py-2 bg-yellow-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                                        </svg>
+                                    </button>
 
                                 <button  @click="showDeleteModal(row)" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /> </svg>                        
@@ -220,7 +204,7 @@
                         <label for="" class="text-xs font-semibold px-1"></label>
                             <div class="flex">
                             <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                <button  @click="updateStatus(1)" class="w-full flex items-center justify-center  bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                <button  @click="updateEstimate(1)" class="w-full flex items-center justify-center  bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                     <span class="justify-center whitespace-nowrap">Salvar Rascunho</span>
                                 </button>                         
                             </div>   
@@ -273,6 +257,19 @@
             @close="closeConfirmModal"
         ></estimate-confirm>
 
+        <equipment-add
+            v-if="isEquipmentModalVisible"
+            origin="update"
+            @close="closeEquipmentModal"
+        ></equipment-add>
+
+        <product-duplicate
+            v-if="isDuplicateModalVisible"
+            :product="product"
+            :estimate_id="estimate.id"
+            @close="closeDuplicateModal"
+        ></product-duplicate>
+
     </div>
 </div>
 </template>
@@ -280,13 +277,16 @@
 <script>
 import { bus } from '../../../main';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import { userService, categoryService, estimateService, productService } from '../../../services';
+import { equipmentService, userService, categoryService, estimateService, productService } from '../../../services';
 import { required } from 'vuelidate/lib/validators'
 import ProductAdd from '../Products/ProductAdd';
 import ProductDelete from '../Products/ProductDelete';
 import ProductDetail from '../Products/ProductDetail';
+import EquipmentAdd from '../Equipments/EquipmentAdd';
 import EstimateConfirm from './EstimateConfirm';
+import ProductDuplicate from '../Products/ProductDuplicate';
 import { BarLoader } from '@saeris/vue-spinners'
+import { formatEquipment } from '@/helpers/string-helper';
 
 export default {
     name: 'EstimateUpdate',
@@ -296,7 +296,9 @@ export default {
         ProductAdd,
         ProductDelete,
         ProductDetail,
-        EstimateConfirm
+        EstimateConfirm,
+        EquipmentAdd,
+        ProductDuplicate
     },
     updated() {
         bus.$off('updatedEstimateAddress');
@@ -312,8 +314,16 @@ export default {
                 this.getProducts();
             }
         })
+
+        bus.$off('updatedEstimateEquipmentUpdate');
+        bus.$on('updatedEstimateEquipmentUpdate', (data) => {
+            if(data) {
+               this.getEquipments(); 
+            }
+        })
     },
     created() {
+        this.getEquipments();
         this.getAddresses()
         this.getCategories()
         this.getEstimate(this.$route.params.id)
@@ -321,7 +331,9 @@ export default {
     },
     data() {
         return {
+            isEquipmentModalVisible: false,
             isConfirmModalVisible: false,
+            isDuplicateModalVisible: false,
             isAddAddressModalVisible: false,
             isDeleteModalVisible: false,
             isDetailModalVisible: false,
@@ -330,6 +342,7 @@ export default {
             totalPages: 5,
             products: [],
             product: null,
+            itemsPerpage: 5,
             colors: ["bg-red-500", "bg-primary-main"],
             defaults: ['Não', 'Sim'],
             isAddModalVisible: false,
@@ -340,21 +353,18 @@ export default {
                 loading: false,
                 color: '#0bc95b',
             },
+            equipments: [],
             selectedStatus: null,
             errors: {
                 delivery_id: null,
                 address_id: null,
-                equipment: null,
+                equipment_id: null,
                 category_id: null,
                 year: null,
             },
             estimate: {
                 id: null,
-                equipment: null,
-                patrimony: null,
-                model: null,
-                brand: null,
-                year: null,
+                equipment_id: null,
                 status_id: null,
                 observation: null,
                 delivery: null,
@@ -364,42 +374,12 @@ export default {
         }
     },
     methods: {
-        updateStatus(status) {
-            const data = {
-                id: this.estimate.id,
-                status: status,
-                equipment: this.estimate.equipment,
-                patrimony: this.estimate.patrimony,
-                model: this.estimate.model,
-                brand: this.estimate.brand,
-                year: this.estimate.year,
-                observation: this.estimate.observation,
-                delivery: this.estimate.delivery,
-                address_id: this.estimate.address_id,
-                category_id: this.estimate.category_id,
-            }
-            estimateService.updateStatus(data).then((response) => {
-            this.loader.loader = true
-            this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-
-            this.loader.loading = false
-            this.$router.push({name: 'estimates'})
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
-        },
-        updateEstimate() {
+        formatEquipment,
+        updateEstimate(status) {
             this.$v.$touch()
-
-                if(this.$v.estimate.equipment.$invalid) {
-                    this.errors.equipment = 'ERROR'
+                if(this.$v.estimate.equipment_id.$invalid) {
+                    this.errors.equipment_id = 'ERROR'
                 } 
-
                 if(this.$v.estimate.category_id.$invalid) {
                     this.errors.category_id = 'ERROR'
                 } 
@@ -419,16 +399,11 @@ export default {
                         this.errors.year = 'ERROR'
                     }
                 }
-
-                
             if(this.$v.$anyError == false && this.errors.year != "ERROR") {
             const data = {
                 id: this.estimate.id,
-                equipment: this.estimate.equipment,
-                patrimony: this.estimate.patrimony,
-                model: this.estimate.model,
-                brand: this.estimate.brand,
-                year: this.estimate.year,
+                status: status,
+                equipment_id: this.estimate.equipment_id,
                 observation: this.estimate.observation,
                 delivery: this.estimate.delivery,
                 address_id: this.estimate.address_id,
@@ -443,10 +418,19 @@ export default {
                 timeout: 2500
             });
             this.loader.loading = false
+            this.$router.push({name: 'estimates'})
             }).catch((error) => {
                 console.log(error.response.data)
             })
             }
+        },
+        showEquipmentModal() {
+            this.isEquipmentModalVisible = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeEquipmentModal() {
+            this.isEquipmentModalVisible = false;
+            bus.$emit('ModalOpen', false);
         },
         showConfirmModal(status) {
             this.selectedStatus = status
@@ -455,6 +439,16 @@ export default {
         },
         closeConfirmModal() {
             this.isConfirmModalVisible = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showDuplicateModal(data) {
+            this.product = data;
+
+            this.isDuplicateModalVisible = true;
+            bus.$emit("ModalOpen", true);
+        },
+        closeDuplicateModal() {
+            this.isDuplicateModalVisible = false;
             bus.$emit('ModalOpen', false);
         },
         showAddressAddModal() {
@@ -473,6 +467,13 @@ export default {
             }).catch((error) => {
                 console.log(error.response.data)
             })
+        },
+        getEquipments() {
+            equipmentService.getEquipments().then((response) => {
+                this.equipments = response.data.data.equipments
+            }).catch((error) => {
+                console.log(error.response.data)
+            }) 
         },
         getCategories() {
             categoryService.getCategories().then((response) => {
@@ -493,7 +494,7 @@ export default {
             this.loader.loading = true
             productService.getProducts(estimate_id).then((response) => {
                 this.loader.loading = false
-                this.products = response.data.data
+                this.products = response.data.estimate.products
             }).catch((error) => {
                 console.log(error.response.data)
             }) 
@@ -534,7 +535,7 @@ export default {
     },
     validations: {
         estimate: {
-            equipment: {
+            equipment_id: {
                 required
             },
             category_id: {

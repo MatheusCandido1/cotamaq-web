@@ -3,7 +3,7 @@
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-6xl">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -16,7 +16,7 @@
           <!--body-->
           <div class="relative p-6 flex-auto">
             <div class="flex -mx-3">
-                <div class="w-1/2 px-3 mb-5">
+                <div class="w-1/3 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Código da peça</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -24,20 +24,11 @@
                     </div>                         
                 </div>
 
-                <div class="w-1/2 px-3 mb-5">
+                <div class="w-1/3 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                         <input :disabled="!edit" v-model="selectedProduct.description"  placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                    </div>                         
-                </div>
-            </div>
-            <div class="flex -mx-3">
-                <div class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Valor Unitário</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <money :disabled="!edit" v-bind="productValue" placeholder="" v-model="selectedProduct.value" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                     </div>                         
                 </div>
 
@@ -48,17 +39,9 @@
                         <input  :disabled="!edit" v-model="selectedProduct.quantity"  placeholder="" type="number" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>                         
                 </div>
-
-                <div class="w-1/3 px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Valor Total</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <money :disabled="!edit" v-bind="productSubtotal" placeholder="" v-model="selectedProduct.subtotal" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
-                    </div>                         
-                </div>
             </div>
             <div class="flex -mx-3">
-                <div class="w-1/3 px-3 mb-5">
+                <div class="w-1/2 px-3 mb-5">
                 <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center">Aceita Similar?</label>
                     <div class="flex justify-center space-x-4 mt-3">
                         <div>
@@ -76,7 +59,18 @@
                     </div>
                 </div>  
 
-                <div class="w-2/3 px-3 mb-5">
+                <div class="w-1/2 px-3 mb-5">
+                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <input :disabled="!edit" v-model="selectedProduct.brand"  placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    </div>                         
+                </div>
+
+            </div>
+
+            <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Observação</label>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -91,7 +85,7 @@
             <button
               type="button"
               @click="close"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>
@@ -103,13 +97,11 @@
   </transition>
 </template>
 <script>
-import {Money} from 'v-money'
 
 export default {
   name: "ProductDetail",
   props: ["product","allowEdit"],
   components: {
-    Money
   },
   data() {
       return {

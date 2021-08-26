@@ -3,7 +3,7 @@
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-6xl">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -42,13 +42,12 @@
                 </div>
             </div>   
             </div>
-
             <div class="flex -mx-3">
                 <div class="w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Equipamento</label>
                     <div class="flex">
                     <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span  class="justify-center whitespace-nowrap">{{estimate.equipment}}</span>
+                            <span  class="justify-center whitespace-nowrap">{{estimate.equipment.description}}</span>
                         </div>                      
                 </div>
                 </div>
@@ -56,7 +55,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Modelo</label>
                     <div class="flex">
                      <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center whitespace-nowrap">{{estimate.model ? estimate.model:'Não Informado'}}</span>
+                            <span class="justify-center whitespace-nowrap">{{estimate.equipment.model ? estimate.equipment.model:'Não Informado'}}</span>
                         </div>                          
                 </div>
                 </div>
@@ -64,7 +63,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Marca</label>
                     <div class="flex">
                    <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span  class="justify-center whitespace-nowrap">{{estimate.brand ? estimate.brand:'Não Informado'}}</span>
+                            <span  class="justify-center whitespace-nowrap">{{estimate.equipment.brand ? estimate.equipment.brand:'Não Informado'}}</span>
                         </div>  
                     </div>                         
                 </div>
@@ -75,7 +74,7 @@
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
                     <div class="flex">
                     <div class="w-full flex items-center justify-center rounded border-b-2 border-primary-main  rounded  shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center whitespace-nowrap">{{estimate.year ? estimate.year:'Não Informado'}}</span>
+                            <span class="justify-center whitespace-nowrap">{{estimate.equipment.year ? estimate.equipment.year:'Não Informado'}}</span>
                         </div>                      
                 </div>
                 </div>
@@ -96,7 +95,7 @@
             <button
               type="button"
               @click="close"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>

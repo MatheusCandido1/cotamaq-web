@@ -5,7 +5,7 @@
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
 
         <!-- This element is to trick the browser into centering the modal contents. -->
@@ -60,7 +60,7 @@
             <button
               type="button"
               @click="close"
-              class="mt-3 w-full inline-flex justify-center rounded-md border  shadow-sm px-4 py-2 bg-gray-500 text-white text-base font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border  shadow-sm px-4 py-2 bg-gray-500 text-white text-base font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>
