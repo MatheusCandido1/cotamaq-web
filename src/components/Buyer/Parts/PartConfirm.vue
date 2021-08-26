@@ -70,32 +70,18 @@
                   </div>
                   </div>
                 </div>
-                  <!--
                 <div>
-                  <h4 class="text-md font-medium text-gray-900"> Dados do Equipamento </h4>
-                  <div class="border-t-2 mt-2"></div>
+                  <div class="border-t-2"></div>
                   <div class="flex flex-row">
                       <div class="py-2 flex-grow">
                     <div>
-                          <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Descrição:</span> {{selectedEquipment}}</p> 
-                          </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm  my-3">
-                              <p><span class="font-bold">Patrimônio:</span> 65743543</p> 
-                          </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm  my-3">
-                              <p><span class="font-bold">Modelo:</span>XF 4300</p> 
-                          </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Marca:</span> CAT</p> 
-                          </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Ano:</span> 2019</p> 
-                          </div>
+                      <div class="flex space-x-2 text-gray-800 text-sm">
+                        <p><span class="font-bold">Equipamento:</span> {{formatEquipment(selectedEquipment)}}</p> 
+                      </div>
                     </div>
                   </div>
                   </div>
-                </div>-->
+                </div>
               </div>
             </div>
           </div>
@@ -123,7 +109,7 @@
 </template>
 <script>
 import { estimateService } from '../../../services';
-import { formatSimillar } from '@/helpers/string-helper';
+import { formatSimillar, formatEquipment } from '@/helpers/string-helper';
 export default {
   name: "PartConfirm",
   props: ['part','equipment'],
@@ -135,6 +121,7 @@ export default {
     }
   },
   methods: {
+    formatEquipment,
     formatSimillar,
     close() {
       this.$emit("close");

@@ -752,8 +752,6 @@ export default {
          this.notificationList.splice(index, 1)
 
          console.log('dps que deletou',this.notificationList)
-
-         
        }
      })
     //  this.notificationList.splice(1,3)

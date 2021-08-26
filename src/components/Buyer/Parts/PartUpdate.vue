@@ -213,7 +213,7 @@
                                 Equipamento
                             </label>
                             <multiselect 
-                                v-model="oldEquipment" 
+                                v-model="part.equipment" 
                                 @input="() => (errors.equipment.id = 'OK')"
                                 :options="equipments"
                                 label="patrimony"
@@ -261,7 +261,7 @@
         </form>
   </div>
     </div>
-    <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipment" @save="sendPart" @close="closeConfirmModal" />
+    <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipmentForm == 1 ? part.equipment:equipment" @save="sendPart" @close="closeConfirmModal" />
 </div>
 </template>
 
@@ -308,6 +308,7 @@ export default {
                 category_id: '',
                 delivery: '',
                 equipment_id: '',
+                equipment: '',
                 address_id: '',
             },
             oldEquipment: {
@@ -334,6 +335,7 @@ export default {
                     allow_similar: null,
                     brand: null,
                     address_id: null,
+                    equipment: null,
                 },
                 equipment: {
                     id: null,
@@ -381,7 +383,7 @@ export default {
 
             // Only Validate if select is enable
             if(this.equipmentForm == 1) {
-                if(this.$v.equipment.id.$invalid) {
+                if(this.$v.part.equipment.$invalid) {
                     this.errors.equipment.id = 'ERROR'
                 }
             }
@@ -504,7 +506,7 @@ export default {
             }
 
             if(this.equipmentForm == 1) {
-                this.form.append('equipment_id', this.oldEquipment.id);
+                this.form.append('equipment_id', this.part.equipment.id);
             }
 
             if(this.equipmentForm == 2) {
@@ -547,7 +549,7 @@ export default {
             }
 
             if(this.equipmentForm == 1) {
-                this.form.append('equipment_id', this.oldEquipment.id);
+                this.form.append('equipment_id', this.part.equipment.id);
             }
 
             if(this.equipmentForm == 2) {
@@ -574,11 +576,6 @@ export default {
     },
     validations: {
         equipment: {
-            id: {
-                required: requiredIf(function() {
-                    return this.equipmentForm == 1
-                })
-            },
             description: {
                 required: requiredIf(function() {
                     return this.equipmentForm == 2
@@ -600,6 +597,11 @@ export default {
             },
             allow_similar: {
                 required
+            },
+            equipment: {
+                required: requiredIf(function() {
+                    return this.equipmentForm == 1
+                })
             },
             brand: {
               required: requiredIf(function() {

@@ -16,7 +16,7 @@
                             <line x1="8" y1="2" x2="8" y2="6"></line>
                             <line x1="3" y1="10" x2="21" y2="10"></line>
                         </svg>
-                        <span>{{currentNotification.created_at}}</span>
+                        <span>{{currentNotification.created_at.fromNow() }}</span>
                     </div>
                 </header>
                 <article class="py-4 text-grey-darkest text-left">
