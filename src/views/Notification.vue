@@ -29,14 +29,14 @@
             </div>
           </section>
           <div class="flex  text-center w-full">
-            <div v-if="option == 1" class=""> 
+            <div v-if="option == 1" class=" w-full"> 
               <div class="   justify-start">
                 <NotificationItem  v-for="(notification, index) in notificationNotRead" :key="notification.id"
                  :index="index" :notification="notification" @markAsRead="MarkAsReadClick" />
 
               </div>
             </div>
-            <div v-if="option == 2" class=""> 
+            <div v-if="option == 2" class=" w-full"> 
               <div class="  justify-start">
                 <NotificationItem v-for="(notification,index) in notificationList" :key="notification.id" 
                 :index="index" :notification="notification" @markAsNotRead="markAsNotRead" />

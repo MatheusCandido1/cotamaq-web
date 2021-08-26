@@ -523,16 +523,10 @@
                         @deleteNotification="deleteNotification"
                       />
                   </div>
-
-                 
-
                  </div>
                   <div v-else class="text-center"> 
-                    <p>Sem novas Notificações</p>
+                    <p>Sem novas notificações</p>
                   </div>
-                 
-                   
-                   
                     <div class="flex justify-end ">
                      <button @click="handleNotificationClick">
                       <p class="text-primary-main font-semibold mt-2 text-sm">Ver todas...</p>
