@@ -62,7 +62,12 @@ export default {
                   timeout: 3500,
               });
             } else {
+<<<<<<< HEAD
                 this.currentNotification.read = 1               
+=======
+                this.currentNotification.read = 1
+               
+>>>>>>> e575c20 (make-system-notification)
                 
                 this.$emit('markAsRead',this.index, this.notification)
 
