@@ -737,33 +737,7 @@ export default {
     },
   },
   methods: {
-    checkRead(){
-      var list = []
     
-     this.notificationList.forEach((data, index)=>{
-       
-       if(index <= 5){
-         console.log('antes de delete',this.notificationList)
-
-         console.log('delete',index)
-
-          list.push(data)
-
-         this.notificationList.splice(index, 1)
-
-         console.log('dps que deletou',this.notificationList)
-
-         
-       }
-     })
-    //  this.notificationList.splice(1,3)
-     
-     console.log('lista com ',list)
-
-
-     ///CHAMADA PRO BACK END
-
-    },
     deleteNotification(index){
       this.notificationList.splice(index,1)
 
@@ -797,10 +771,12 @@ export default {
          if(data.categories != null && data.categories.length > 0){
            data.categories.forEach((data)=>{
              window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
-              console.log(event)
+              
 
               this.notificationList.push(event.message)
-              console.log(this.notificationList)
+
+              this.$store.commit('setNotification', this.notificationList)
+
               this.notification = true
               this.$toast.success(event.message.notification, {
                   position: "bottom-right",

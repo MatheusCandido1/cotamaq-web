@@ -86,12 +86,7 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
         
         console.warn(this.notificationsList)
 
-<<<<<<< HEAD
         this.notificationList.forEach((data)=>{         
-=======
-        this.notificationList.forEach((data)=>{
-         
->>>>>>> e575c20 (make-system-notification)
 
           if(data.id == notification.id){
             list.push({
