@@ -19,7 +19,7 @@
                         </label>
                         <select @change="() => (errors.proposal.seller_id = 'OK')" :class="errors.proposal.seller_id == 'ERROR' ? 'border-red-400':'border-primary-main'"  id="seller_id" v-model="proposal.seller_id"   class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             <option disabled value=""> Selecione... </option>
-                            <option v-for="user in users" :key="user.id" value="user.id">{{user.name}}</option>
+                            <option v-for="user in users" :key="user.id" :value="user.id">{{user.name}}</option>
                         </select> 
                         <div v-if="errors.proposal.seller_id == 'ERROR'" class="flex justify-center align-items">
                             <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Vendedor é obrigatório.</span>
@@ -385,8 +385,7 @@ export default {
         goBack() {
 
         },
-        sendProposal() {
-
+        sendProposal(redirect) {
             this.form.append('estimate_id', this.estimate.id);
             this.form.append('seller_id', this.proposal.seller_id);
             this.form.append('value', this.proposal.value);
@@ -401,7 +400,6 @@ export default {
             this.form.append('observation', this.proposal.observation);
             this.form.append('discount', this.proposal.discount);
             this.form.append('status', 2);
-
             proposalService.createProposal(this.form).then((response) => {
                 this.$toast.success(response.success_message, {
                 position: "bottom-right",
@@ -410,6 +408,11 @@ export default {
                 timeout: 2500
             });
                 this.closeConfirmModal()
+                if(redirect) {
+                    this.$router.push({name: 'estimates'})
+                } else {
+                    this.$router.push({name: 'estimates'})
+                }
             }).catch((error) => {
                 console.log(error.response.data)
             })

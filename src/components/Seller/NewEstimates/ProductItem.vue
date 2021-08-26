@@ -7,7 +7,7 @@
         <div class="px-2 py-2 flex-grow">
             <div class="flex justify-between">
                 <div class="bg-blue-400 text-white text-xs text-md px-2 py-1 rounded-md mb-2">{{product.category.name}} </div>
-                <div class="bg-indigo-600 text-white text-xs text-md px-2 py-1 rounded-md mb-2">R$ 200,00 </div>
+                <div class="bg-indigo-600 text-white text-xs text-md px-2 py-1 rounded-md mb-2">{{getLowestTotal().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}} </div>
             </div>
           <div class="mt-1 ">
               <div class="flex space-x-2 justify-start text-gray-800 text-sm">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="my-2">
                     <span class="mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">
-                        {{ product.proposals_by_seller.reduce((acc, e) => { e.status == 2  ? acc++ : false; return acc; }, 0) }}
+                        {{ getSentProposals() }}
                     </span>
                 </div>   
             </div> 
@@ -117,6 +117,9 @@ export default {
         EstimateDecline,
         EstimateAccept
     },
+    created() {
+       this.getLowestTotal()
+    },
     data() {
         return {
             modal: {
@@ -142,11 +145,22 @@ export default {
            
         }
     },
+    computed: {
+        sentProposals: function () {
+            return this.selectedEstimate.proposals_by_seller.filter(proposal => proposal.status == 2)
+        }
+    },
     methods: {
         formatEquipment,
         formatSimillar,
+        getLowestTotal() {
+            return this.sentProposals.reduce((min, p) => p.total < min ? p.total : min, this.sentProposals[0].total);
+        },
+        getSentProposals() {
+            return this.sentProposals.length
+        },
         handleNewProposalClick() {
-            this.$router.push({name: 'proposals', params: {id: this.product.id}})
+            this.$router.push({name: 'addProposal', params: {estimate_id: this.selectedEstimate.id}})
         },
         handleAcceptOpenClick() {
             this.modal.accept = true;
@@ -174,10 +188,6 @@ export default {
         },
        
     },
-    created(){
-       
-       
-    }
 
 }
 </script>
