@@ -4,14 +4,14 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Nova Proposta
+                        Proposta #1
                     </h2>
                 </div>
                 <div class="py-1">
-                    <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                    <span class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
                 </div>
             </div>
-            <form @submit.prevent="showConfirmModal">
+            <form @submit.prevent="sendProposal">
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/4 px-3 mb-2 md:mb-0">
                         <label  class="text-sm font-semibold text-gray-600 px-1">
@@ -19,7 +19,7 @@
                         </label>
                         <select @change="() => (errors.proposal.seller_id = 'OK')" :class="errors.proposal.seller_id == 'ERROR' ? 'border-red-400':'border-primary-main'"  id="seller_id" v-model="proposal.seller_id"   class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             <option disabled value=""> Selecione... </option>
-                            <option v-for="user in users" :key="user.id" value="user.id">{{user.name}}</option>
+                            <option value="1"> Matheus </option>
                         </select> 
                         <div v-if="errors.proposal.seller_id == 'ERROR'" class="flex justify-center align-items">
                             <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Vendedor é obrigatório.</span>
@@ -29,7 +29,7 @@
                         <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                             Categoria
                         </label>
-                        <input disabled id="category_id" v-model="estimate.category.name"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                        <input disabled id="category_id" v-model="estimate.category_id"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>
                     <div class="md:w-1/4 px-3 mb-2 md:mb-0">
                         <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
@@ -250,36 +250,19 @@
                     </div>
             </form>
     </div>
-    <ProposalConfirm v-if="modal.confirm" @save="sendProposal" @close="closeConfirmModal" />
-    <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment" @close="closeEquipmentModal" />
 </div>
 </template>
 
 <script>
-import { bus } from "../../../main";
 import { Money } from 'v-money'
 import { required, requiredIf } from 'vuelidate/lib/validators'
-import ProposalConfirm from './ProposalConfirm'
-import { proposalService, estimateService, companyService } from '../../../services'
-import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
 export default {
     name: 'ProposalUpdate',
     components: {
-        Money,
-        ProposalConfirm,
-        EquipmentDetails
-    },
-    mounted() {
-        this.getEstimate()
-        this.getSellers()
+        Money
     },
     data() {
         return {
-            modal: {
-                confirm: false,
-                equipment: false,
-            },
-            form: new FormData,
             proposalTotalMoney: {
                 decimal: ',',
                 thousands: '.',
@@ -309,22 +292,25 @@ export default {
                 masked: false
             },
             estimate: {
-                equipment: {},
                 part_code: '',
                 description: '',
-                allow_similar: null,
+                allow_similar: 0,
                 category_id: '',
-                category: '',
-                quantity: null,
+                quantity: 4,
                 brand: '',
                 observation: ''
             },
             proposal: {
                 seller_id: '',
+                description: '',
+                quantity: '',
                 value: '',
                 subtotal: '',
                 total: '',
+                pickup: '',
+                allow_pickup: '',
                 shipping: '',
+                allow_shipping: '',
                 delivery: '',
                 delivery_time: '',
                 validity: '',
@@ -333,7 +319,6 @@ export default {
                 observation: '',
                 discount: ''
             },
-            users:[],
             errors: {
                 proposal: {
                     seller_id: null,
@@ -350,23 +335,6 @@ export default {
         }
     },
     methods: {
-        getSellers() {
-            companyService.getUsers().then((response) => {
-                const data = response.data
-                this.users = data;
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
-        },
-        getEstimate() {
-            const estimate_id = this.$route.params.estimate_id
-            estimateService.getEstimate(estimate_id).then((response) => {
-                const data = response.data.data
-                this.estimate = data;
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
-        },
         handleDeliveryTimeClick() {
             this.errors.proposal.delivery = 'OK'
         },
@@ -386,47 +354,6 @@ export default {
 
         },
         sendProposal() {
-
-            this.form.append('estimate_id', this.estimate.id);
-            this.form.append('seller_id', this.proposal.seller_id);
-            this.form.append('value', this.proposal.value);
-            this.form.append('subtotal', this.proposal.subtotal);
-            this.form.append('total', this.proposal.total);
-            this.form.append('shipping', this.proposal.shipping);
-            this.form.append('delivery', this.proposal.delivery);
-            this.form.append('delivery_time', this.proposal.delivery_time);
-            this.form.append('validity', this.proposal.validity);
-            this.form.append('is_similar', this.proposal.is_similar);
-            this.form.append('brand', this.proposal.brand);
-            this.form.append('observation', this.proposal.observation);
-            this.form.append('discount', this.proposal.discount);
-            this.form.append('status', 2);
-
-            proposalService.createProposal(this.form).then((response) => {
-                this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-                this.closeConfirmModal()
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
-        },
-        closeConfirmModal() {
-            this.modal.confirm = false;
-            bus.$emit("ModalOpen", false);
-        },
-        closeEquipmentModal() {
-            this.modal.equipment = false;
-            bus.$emit("ModalOpen", false);
-        },
-        showEquipmentModal() {
-            this.modal.equipment = true;
-            bus.$emit("ModalOpen", true);
-        },
-        showConfirmModal() {
             this.$v.$touch()
 
             if(this.$v.proposal.seller_id.$invalid) {
@@ -469,10 +396,9 @@ export default {
                 } 
             }
             
-           if(this.$v.$anyError == false) {
-                this.modal.confirm = true;
-                bus.$emit("ModalOpen", true);
-            }
+           /* if(this.$v.$anyError == false) {
+
+            } */
 
         },
         saveProposal() {

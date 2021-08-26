@@ -27,6 +27,8 @@ import Users from '../views/Shared/Users.vue'
 import Notification from '../views/Notification.vue'
 import ProposalsByEstimate from '../components/Buyer/Proposals/ProposalsByEstimate'
 import UpdateEstimate from '../components/Buyer/Parts/PartUpdate'
+import ProposalAdd from '../views/Seller/Proposals/ProposalAdd'
+import ProposalEdit from '../views/Seller/Proposals/ProposalEdit'
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -46,6 +48,8 @@ const routes = [
       { path: '/propostas/cotacao/:id',  name: 'detailEstimate', component: EstimateDetail},
       { path: '/proposta/:id',  name: 'detailProposal', component: ProposalDetail},
       { path: '/propostas', name: 'Proposals', component: Proposals},
+      { path: '/cotacao/:estimate_id/proposta', name: 'addProposal', component: ProposalAdd},
+      { path: '/cotacao/:estimate_id/proposta/:proposal_id', name: 'updateProposal', component: ProposalEdit},
       { path: '/detalhe/proposta/:id', name: 'detailBuyerDetail', component: ProposalDetailBuyer},
       { path: '/detalhe/cotacao/:id', name: 'detailSellerEstimate', component: EstimateDetailSeller},
       { path: '/proposta/enviada/:id', name: 'detailSellerProposal', component: ProposalDetailSeller},

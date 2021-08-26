@@ -31,39 +31,21 @@
                   </svg>
               </div>
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                  Enviar Proposta
+                <h3
+                  class="text-lg leading-6 font-medium text-gray-900"
+                  id="modal-headline"
+                >
+                    Equipamento - {{formatEquipment(selectedEquipment)}}
                 </h3>
-                 <div class="mt-2">
-                  <p class="text-sm text-gray-800">
-                   Tem certeza que deseja enviar esta proposta?
-                  </p>
-                </div>
-                
+            
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              @click="save(true)"
-              :disabled="disabled"
-              class="mt-2 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Enviar e Criar Nova Proposta
-            </button>
-            <button
-              type="button"
-              @click="save(false)"
-              :disabled="disabled"
-              class="mt-2 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Enviar
-            </button>
-            <button
-              type="button"
               @click="close"
-              class="mt-2 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 border-gray-300 text-base font-medium text-black hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>
@@ -74,19 +56,20 @@
   </transition>
 </template>
 <script>
+import { formatEquipment } from '@/helpers/string-helper';
+
 export default {
-  name: "ProposalConfirm",
+  name: "EquipmentDetail",
+  props: ['equipment'],
   data() {
     return {
-      disabled: false
+      selectedEquipment: JSON.parse(JSON.stringify(this.$props.equipment)),
     }
   },
   methods: {
+    formatEquipment,
     close() {
       this.$emit("close");
-    },
-    save(new_proposal) {
-      this.$emit("save", new_proposal);
     },
   },
 };

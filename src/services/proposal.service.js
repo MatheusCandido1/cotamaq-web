@@ -49,15 +49,15 @@ function updateProposal(data) {
 
 
 function createProposal(data) {
-    return axios.post(`${API_URL}/proposals`, JSON.stringify(data), {
+    return axios.post(`${API_URL}/proposals`, data, {
         headers: { 
             ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
+            'Content-Type': 'multipart/form-data'
         }
     })
     .then(response => {
         const data = response.data
+        console.log(data)
         
         return data;
     })
