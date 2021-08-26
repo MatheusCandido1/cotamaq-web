@@ -735,7 +735,7 @@ export default {
   },
   methods: {
     deleteNotification(index){
-      this.notificationList.splice(index,1)
+      this.notificationNotRead.splice(index,1)
 
       this.isNotificationOpen= false
     },
