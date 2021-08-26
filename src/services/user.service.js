@@ -17,7 +17,8 @@ export const userService = {
     changePassword,
     updateUser,
     recoverPassword,
-    resetPassword
+    resetPassword,
+    notifications
 };
  
 async function me() {
@@ -29,6 +30,17 @@ async function me() {
         }
     }).then(handleResponse)
 }
+ function notifications() {
+    return  axios.get(`${API_URL}/users/me`, {
+        headers: { 
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        }
+    }).then(handleResponse)
+}
+
+
 
 function resetPassword(data) {
     return axios.post(`${API_URL}/auth/reset-password`, JSON.stringify(data), {
