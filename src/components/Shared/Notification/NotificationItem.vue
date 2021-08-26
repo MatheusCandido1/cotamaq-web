@@ -3,7 +3,7 @@
         <div class="flex pt-4 px-4">
             <div class="px-2 pt-2 flex-grow">
                 <div class="flex flex-row justify-between">
-                    <span class="text-black no-underline font-medium">{{getAction()}} #1</span>
+                    <span class="text-black no-underline font-medium">{{getAction()}} #{{notification.estimate_id}}</span>
                     <span :class="formatItem().bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem().text}}</span>
                 </div>
                 <header>
@@ -24,7 +24,7 @@
                 </article>
                 <footer class="border-t border-grey-lighter text-sm flex">
                     <button @click="handleMarkAsReadClick" class="block no-underline text-sm text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
-                        <span><i class="text-md mr-1" :class="currentNotification.read ?'mdi mdi-email':'mdi mdi-email-open-outline'"></i>{{currentNotification.read ? 'Marcar como lida':'Marcar como não lida'}}</span>
+                        <span><i class="text-md mr-1" :class="currentNotification.read ? 'mdi mdi-email-open-outline' : 'mdi mdi-email'"></i>{{currentNotification.read ? 'Marcar como não lida':'Marcar como  lida'}}</span>
                     </button>
                     <button class="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
                         <span><i class="text-md mdi mdi-open-in-new mr-1"></i>Ver {{getAction()}}</span>
@@ -38,7 +38,7 @@
 <script>
 export default {
     name: 'NotificationItem',
-    props: ['notification'],
+    props: ['notification','index'],
     data() {
         return {
             currentNotification: JSON.parse(JSON.stringify(this.$props.notification)),
@@ -53,9 +53,31 @@ export default {
         handleMarkAsReadClick(){
             if(this.currentNotification.read == 1){
                 this.currentNotification.read = 0
+                this.$emit('markAsNotRead', this.notification)
+
+            this.$toast.success('Foi marcado como  desligo', {
+                  position: "bottom-right",
+                  pauseOnHover: false,
+                  showCloseButtonOnHover: true,
+                  timeout: 3500,
+              });
             } else {
-                this.currentNotification.read = 1
+                this.currentNotification.read = 1               
+                
+                this.$emit('markAsRead',this.index, this.notification)
+
+                // this.$emit('markAsRead', this.index)
+                this.$toast.success('Foi marcado como lido', {
+                  position: "bottom-right",
+                  pauseOnHover: false,
+                  showCloseButtonOnHover: true,
+                  timeout: 3500,
+              });
+
+
             }
+
+            
         },
         getFormatId() {
             if(this.currentNotification.estimate_id != null) {

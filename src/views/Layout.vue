@@ -505,7 +505,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg"  class="text-black object-cover  w-8 h-8 rounded-full " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-                  <span class="badge font-bold text-white">2</span>
+                  <span v-if="notificationList.length > 0 " class="badge font-bold text-white">{{notificationList.length}}</span>
                 </button>
                 <template v-if="isNotificationOpen">
                   <ul
@@ -517,13 +517,22 @@
                     class="absolute right-0 w-72 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
                     aria-label="submenu"
                   > 
-                  <div class="flex justify-start">
-                    <div class="w-full">
-                      <button class="text-xs  bg-primary-main rounded px-2 py-1 text-white">Marcar todas como lidas</button>
-                    </div>
+                 <div v-if="notificationList.length > 0"> 
+                    <div  v-for="(data, index) in notificationList" :key="data.id " class="mt-1" >
+                     <NotificationPreview v-if="index < 3"    :index="index" :notification="data"
+                        @deleteNotification="deleteNotification"
+                      />
                   </div>
-                    <NotificationPreview />
-                    <NotificationPreview />
+
+                 
+
+                 </div>
+                  <div v-else class="text-center"> 
+                    <p>Sem novas Notificações</p>
+                  </div>
+                 
+                   
+                   
                     <div class="flex justify-end ">
                      <button @click="handleNotificationClick">
                       <p class="text-primary-main font-semibold mt-2 text-sm">Ver todas...</p>
@@ -671,6 +680,7 @@ export default {
       },
       notification:false,
       isNotificationOpen:false,
+      notificationList:[]
      
     };
   },
@@ -727,10 +737,51 @@ export default {
     },
   },
   methods: {
+    checkRead(){
+      var list = []
+    
+     this.notificationList.forEach((data, index)=>{
+       
+       if(index <= 5){
+         console.log('antes de delete',this.notificationList)
+
+         console.log('delete',index)
+
+          list.push(data)
+
+         this.notificationList.splice(index, 1)
+
+         console.log('dps que deletou',this.notificationList)
+
+         
+       }
+     })
+    //  this.notificationList.splice(1,3)
+     
+     console.log('lista com ',list)
+
+
+     ///CHAMADA PRO BACK END
+
+    },
+    deleteNotification(index){
+      this.notificationList.splice(index,1)
+
+      this.isNotificationOpen= false
+
+
+    },
       async getUser(){
+
+     
+
+        
+
       await userService.me().then((response) => {
        
         const data = response.data.data;
+        this.$store.commit('setNotification', data.notifications)
+
         this.user.company = data.company.fantasy_name;
         this.user.role = data.role_id;
         this.user.first_login = data.first_login;
@@ -741,11 +792,15 @@ export default {
         sessionStorage.setItem('categories', JSON.stringify(data.categories))
 
 
+
+
          if(data.categories != null && data.categories.length > 0){
            data.categories.forEach((data)=>{
              window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
-            console.log(event)
+              console.log(event)
 
+              this.notificationList.push(event.message)
+              console.log(this.notificationList)
               this.notification = true
               this.$toast.success(event.message.notification, {
                   position: "bottom-right",
@@ -827,8 +882,7 @@ export default {
       this.isPagesMenuOpen = false;
     },
     closeProfileMenu() {
-      this.isProfileMenuOpen = false;
-    },
+      this.isProfileMenuOpen = false;    },
     togglePagesMenu() {
       this.isPagesMenuOpen = !this.isPagesMenuOpen;
     },
