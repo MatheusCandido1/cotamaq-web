@@ -76,7 +76,6 @@ export default {
         getParts() {
             estimateService.getAvailableEstimates().then((response) => {
                 this.products = response.data.data
-                console.log(response.data.data)
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
                 });
