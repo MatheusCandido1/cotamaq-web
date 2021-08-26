@@ -882,8 +882,7 @@ export default {
       this.isPagesMenuOpen = false;
     },
     closeProfileMenu() {
-      this.isProfileMenuOpen = false;
-    },
+      this.isProfileMenuOpen = false;    },
     togglePagesMenu() {
       this.isPagesMenuOpen = !this.isPagesMenuOpen;
     },

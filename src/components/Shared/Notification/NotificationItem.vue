@@ -62,8 +62,7 @@ export default {
                   timeout: 3500,
               });
             } else {
-                this.currentNotification.read = 1
-               
+                this.currentNotification.read = 1               
                 
                 this.$emit('markAsRead',this.index, this.notification)
 

@@ -86,8 +86,7 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
         
         console.warn(this.notificationsList)
 
-        this.notificationList.forEach((data)=>{
-         
+        this.notificationList.forEach((data)=>{         
 
           if(data.id == notification.id){
             list.push({
