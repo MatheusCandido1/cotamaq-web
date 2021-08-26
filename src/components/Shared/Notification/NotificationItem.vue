@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { notificationService } from '../../../services'
 export default {
     name: 'NotificationItem',
     props: ['notification','index'],
@@ -51,30 +52,29 @@ export default {
     },
     methods: {
         handleMarkAsReadClick(){
+
+            notificationService.toggleRead(this.notification.id)
+
+
             if(this.currentNotification.read == 1){
                 this.currentNotification.read = 0
                 this.$emit('markAsNotRead', this.notification)
 
-            this.$toast.success('Foi marcado como  desligo', {
+                this.$toast.success('Foi marcado como não lido', {
                   position: "bottom-right",
                   pauseOnHover: false,
                   showCloseButtonOnHover: true,
                   timeout: 3500,
               });
             } else {
-                this.currentNotification.read = 1               
-                
+                this.currentNotification.read = 1             
                 this.$emit('markAsRead',this.index, this.notification)
-
-                // this.$emit('markAsRead', this.index)
                 this.$toast.success('Foi marcado como lido', {
                   position: "bottom-right",
                   pauseOnHover: false,
                   showCloseButtonOnHover: true,
                   timeout: 3500,
               });
-
-
             }
 
             
