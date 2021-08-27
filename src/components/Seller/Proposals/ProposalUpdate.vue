@@ -395,10 +395,6 @@ export default {
                     this.errors.proposal.delivery_time = 'ERROR'
                 } 
             }
-            
-           /* if(this.$v.$anyError == false) {
-
-            } */
 
         },
         saveProposal() {

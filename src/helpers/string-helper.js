@@ -9,3 +9,7 @@ export const formatSimillar = (value) => {
     const formattedSimilar = value == 0 ? 'Não':'Sim'
     return formattedSimilar
 }
+
+export const formatCurrency = (value) => {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}

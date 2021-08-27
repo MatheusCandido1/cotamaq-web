@@ -73,6 +73,7 @@
                     <div v-if="product.proposals_by_seller && product.proposals_by_seller.length > 0" class="my-2 ml-2">
                         <div class="flex items-center space-x-1 text-sm">
                             <button
+                            @click="handlePropsalsBySellerClick"
                               v-if="product.proposals_by_seller 
                                     && product.proposals_by_seller.length > 0 
                                     && ( product.proposals_by_seller[0].status == 1 
@@ -158,6 +159,9 @@ export default {
         },
         getSentProposals() {
             return this.sentProposals.length
+        },
+        handlePropsalsBySellerClick() {
+            this.$router.push({name: 'ProposalsBySeller', params: {estimate_id: this.selectedEstimate.id}})
         },
         handleNewProposalClick() {
             this.$router.push({name: 'addProposal', params: {estimate_id: this.selectedEstimate.id}})

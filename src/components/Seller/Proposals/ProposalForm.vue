@@ -240,10 +240,10 @@
                     </div>
                     <div class="-mx-3 md:flex mt-4">
                         <div class="md:w-full px-3 flex justify-end gap-2">
-                            <button type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                            <button @click="goBack" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                 <span class="justify-center">Voltar</span>
                             </button> 
-                            <button type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                            <button @click="saveProposal" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                 <span class="justify-center">Salvar Rascunho</span>
                             </button>
                         </div>
@@ -383,7 +383,7 @@ export default {
             this.proposal.total = total.toFixed(2)
         },
         goBack() {
-
+            this.$router.push({name: 'estimates'})
         },
         sendProposal(redirect) {
             this.form.append('estimate_id', this.estimate.id);
@@ -472,14 +472,40 @@ export default {
                 } 
             }
             
-           if(this.$v.$anyError == false) {
+            if(this.$v.$anyError == false) {
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
             }
 
         },
         saveProposal() {
+            this.form.append('estimate_id', this.estimate.id);
+            this.form.append('seller_id', this.proposal.seller_id);
+            this.form.append('value', this.proposal.value);
+            this.form.append('subtotal', this.proposal.subtotal);
+            this.form.append('total', this.proposal.total);
+            this.form.append('shipping', this.proposal.shipping);
+            this.form.append('delivery', this.proposal.delivery);
+            this.form.append('delivery_time', this.proposal.delivery_time);
+            this.form.append('validity', this.proposal.validity);
+            this.form.append('is_similar', this.proposal.is_similar);
+            this.form.append('brand', this.proposal.brand);
+            this.form.append('observation', this.proposal.observation);
+            this.form.append('discount', this.proposal.discount);
+            this.form.append('status', 1);
+            proposalService.createProposal(this.form).then((response) => {
+                this.$toast.success(response.success_message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+            });
+                this.closeConfirmModal()
+                this.$router.push({name: 'estimates'})
 
+            }).catch((error) => {
+                console.log(error.response.data)
+            })
         }
     },
     validations: {

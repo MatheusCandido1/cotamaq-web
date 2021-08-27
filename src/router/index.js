@@ -15,7 +15,6 @@ import Profile from '../views/Profile';
 import Equipments from '../views/Equipments';
 import EstimateAdd from '../views/Buyer/Estimates/EstimateAdd';
 import EstimateDetail from '../views/Buyer/Estimates/EstimateDetail';
-import ProposalDetail from '../views/Seller/Proposals/ProposalDetail';
 import Proposals from '../views/Proposals';
 import ProposalDetailBuyer from '../views/Buyer/Proposals/ProposalDetail';
 import EstimateDetailSeller from '../views/Seller/Estimates/EstimateDetails';
@@ -29,6 +28,7 @@ import ProposalsByEstimate from '../components/Buyer/Proposals/ProposalsByEstima
 import UpdateEstimate from '../components/Buyer/Parts/PartUpdate'
 import ProposalAdd from '../views/Seller/Proposals/ProposalAdd'
 import ProposalEdit from '../views/Seller/Proposals/ProposalEdit'
+import ProposalDetails from '../views/Seller/Proposals/ProposalDetails'
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -46,10 +46,12 @@ const routes = [
       { path: '/perfil',  name: 'profile', component: Profile, props: true},
       { path: '/criar/cotacao',  name: 'addEstimate', component: EstimateAdd},
       { path: '/propostas/cotacao/:id',  name: 'detailEstimate', component: EstimateDetail},
-      { path: '/proposta/:id',  name: 'detailProposal', component: ProposalDetail},
       { path: '/propostas', name: 'Proposals', component: Proposals},
+
       { path: '/cotacao/:estimate_id/proposta', name: 'addProposal', component: ProposalAdd},
       { path: '/cotacao/:estimate_id/proposta/:proposal_id', name: 'updateProposal', component: ProposalEdit},
+      { path: '/cotacao/:estimate_id/propostas', name: 'ProposalsBySeller', component: ProposalDetails},
+
       { path: '/detalhe/proposta/:id', name: 'detailBuyerDetail', component: ProposalDetailBuyer},
       { path: '/detalhe/cotacao/:id', name: 'detailSellerEstimate', component: EstimateDetailSeller},
       { path: '/proposta/enviada/:id', name: 'detailSellerProposal', component: ProposalDetailSeller},
