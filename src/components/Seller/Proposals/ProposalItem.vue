@@ -9,7 +9,7 @@
             <div class="px-2 py-2 flex-grow">
           <div class="mt-1 px-2">
             <ul class="flex gap-2 justify-start">
-                <div class="text-center flex-1 bg-white border-2 border-blue-500 font-semibold text-blue-500 text-xs text-md px-4 py-2 rounded-md mb-2">Entrega Imediata</div>
+                <div class="text-center flex-1 bg-white border-2 border-blue-500 font-semibold text-blue-500 text-xs text-md px-4 py-2 rounded-md mb-2">{{formatDelivery(selectedProposal.delivery, selectedProposal.delivery_time)}}</div>
             </ul>
                 <div class="flex space-x-2 text-gray-800 text-sm">
                      <p><span class="font-semibold">Preço Unitário: </span>{{formatCurrency(selectedProposal.value)}}</p> 
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { formatSimillar, formatCurrency } from '@/helpers/string-helper';
+import { formatSimillar, formatCurrency, formatDelivery } from '@/helpers/string-helper';
 
 export default {
     name: 'ProposalItem',
@@ -86,6 +86,7 @@ export default {
     methods: {
       formatSimillar,
       formatCurrency,
+      formatDelivery,
       formatStatus(value) {
           let format = this.status.find(status => status.id == value)
           return format

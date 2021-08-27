@@ -7,7 +7,7 @@
         <div class="px-2 py-2 flex-grow">
             <div class="flex justify-between">
                 <div class="bg-blue-400 text-white text-xs text-md px-2 py-1 rounded-md mb-2">{{product.category.name}} </div>
-                <div class="bg-indigo-600 text-white text-xs text-md px-2 py-1 rounded-md mb-2">{{getLowestTotal().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}} </div>
+                <div v-if="sentProposals.length > 0" class="bg-indigo-600 text-white text-xs text-md px-2 py-1 rounded-md mb-2">{{formatCurrency(getLowestTotal())}} </div>
             </div>
           <div class="mt-1 ">
               <div class="flex space-x-2 justify-start text-gray-800 text-sm">
@@ -108,7 +108,7 @@
 <script>
 import EstimateDecline from './EstimateDecline';
 import EstimateAccept from './EstimateAccept';
-import { formatEquipment, formatSimillar } from '@/helpers/string-helper';
+import { formatEquipment, formatSimillar, formatCurrency } from '@/helpers/string-helper';
 import { bus } from '../../../main';
 
 export default {
@@ -154,8 +154,13 @@ export default {
     methods: {
         formatEquipment,
         formatSimillar,
+        formatCurrency,
         getLowestTotal() {
-            return this.sentProposals.reduce((min, p) => p.total < min ? p.total : min, this.sentProposals[0].total);
+            if(this.sentProposals.length == 0){
+                return 0.00
+            } else {
+                return this.sentProposals.reduce((min, p) => p.total < min ? p.total : min, this.sentProposals[0].total);
+            }
         },
         getSentProposals() {
             return this.sentProposals.length

@@ -13,3 +13,15 @@ export const formatSimillar = (value) => {
 export const formatCurrency = (value) => {
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
+
+export const formatDelivery = (delivery, days) => {
+    if(delivery == 0) {
+    return 'Entrega imediata'
+    } else {
+        if(days == 1) {
+            return 'Entrega: 1 dia'
+        } else {
+            return 'Entrega: ' + days + ' dias'
+        }
+    }
+}

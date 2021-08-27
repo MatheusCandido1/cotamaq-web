@@ -53,7 +53,7 @@ function getEstimate(id) {
 
 
 function getEstimates(data) {
-    return axios.get(`${API_URL}/estimates/${data}`,  {
+    return axios.get(`${API_URL}/estimates/all/${data}`,  {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
