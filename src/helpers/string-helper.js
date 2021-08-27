@@ -26,6 +26,15 @@ export const formatDelivery = (delivery, days) => {
     }
 }
 
+export const formatZipcode = (value) => {
+    var regex = /^([\d]{2})\.*([\d]{3})-*([\d]{3})/;
+	if(regex.test(value)){
+		return value.replace(regex,"$1.$2-$3");
+	}else{
+        return 'Não informado'
+	}
+}
+
 export const formatMissingInformation = (value) => {
     if(value == 'null' || value == null || value == ''){
         return 'Não informado'

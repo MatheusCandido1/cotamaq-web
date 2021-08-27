@@ -164,7 +164,7 @@
                             </h2>
                         </div>
                             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                                <span class="text-sm">CEP para entrega: </span><span class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2">31720-580</span>
+                                <span class="text-sm">CEP para entrega: </span><span class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2">{{formatZipcode(estimate.address.zipcode)}}</span>
                             </h2>
                     </div>
                     
@@ -260,6 +260,7 @@ import { bus } from "../../../main";
 import { Money } from 'v-money'
 import { required, requiredIf } from 'vuelidate/lib/validators'
 import ProposalConfirm from './ProposalConfirm'
+import { formatZipcode } from '@/helpers/string-helper';
 import { proposalService, estimateService, companyService } from '../../../services'
 import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
 export default {
@@ -350,6 +351,7 @@ export default {
         }
     },
     methods: {
+        formatZipcode,
         getSellers() {
             companyService.getUsers().then((response) => {
                 const data = response.data
