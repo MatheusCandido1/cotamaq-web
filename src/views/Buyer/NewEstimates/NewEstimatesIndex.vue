@@ -33,17 +33,11 @@
                                    
                 </div>
             </div>
-
-              
             <div>                               
                 <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
                     <ProductItem v-for="(model, innerIndex) in list"   :key="innerIndex"  :product="model" />
-                </div>    
-
-
+                </div>  
             </div>
-           
-                       
             <div v-for="(day, index) in orderedData" :key="index">
                 <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje':day}}</p>
                 
@@ -147,7 +141,6 @@ export default {
             return date
         },
         getParts() {
-            console.warn(this.filterDate)
             estimateService.getEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
                 console.log(this.products)

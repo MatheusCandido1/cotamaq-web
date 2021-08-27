@@ -4,27 +4,27 @@
           
         <div class="px-6 py-4 border-b bg-primary-main">
             
-          <div class="text-md text-center text-white font-semibold">{{product.description}}</div>
+          <div class="text-md text-center text-white font-semibold">{{estimate.description}}</div>
         </div>
         <div class="px-2 py-2 flex-grow">
             <ul class="flex space-x-2 justify-end">
-                <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md mb-2">{{product.category.name}} </li>
+                <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md mb-2">{{estimate.category.name}} </li>
             </ul>
           <div class="mt-1 px-2 ">
                 <div class="flex space-x-2 justify-start text-gray-800 text-sm">
-                     <p><span class="w-full bg-primary-main text-sm px-2 py-1 font-medium text-white rounded-md">Cotação #{{product.id}}</span></p> 
+                     <p><span class="w-full bg-primary-main text-sm px-2 py-1 font-medium text-white rounded-md">Cotação #{{estimate.id}}</span></p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Quantidade:</span> {{product.quantity}}</p> 
+                     <p><span class="font-bold">Quantidade:</span> {{estimate.quantity}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(product.allow_similar)}}</p> 
+                     <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(estimate.allow_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Marca:</span> {{!product.brand || product.brand == ''  ? 'Não informado' : product.brand}}</p> 
+                     <p><span class="font-bold">Marca:</span> {{!estimate.brand || estimate.brand == ''  ? 'Não informado' : estimate.brand}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm">
-                     <p><span class="font-bold">Equipamento:</span> {{product.equipment == null ? 'Não informado': formatEquipment(product.equipment)}}</p> 
+                     <p><span class="font-bold">Equipamento:</span> {{estimate.equipment == null ? 'Não informado': formatEquipment(estimate.equipment)}}</p> 
                 </div>
           </div>
         </div>
@@ -40,23 +40,22 @@
         <div class="border-t-2"></div>
         <div class="flex justify-between px-4 ">
                     <div class="my-2">
-                        <div :class="formatStatus(product.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
-                            {{formatStatus(product.status).text}}
+                        <div :class="formatStatus(estimate.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+                            {{formatStatus(estimate.status).text}}
                         </div>
                     </div>
                     <div class="my-2 ml-2">
                         <div class="flex items-center space-x-1 text-sm">
-                            <button v-if="product.status == 1" @click="handleEditClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button v-if="estimate.status == 1" @click="handleEditClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                 </svg>
                             </button>
-                            <button v-if="product.status == 2" @click="handleProposalClick" class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button v-if="estimate.status == 2 || estimate.status == 3" @click="handleProposalClick" class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
                                 </svg>
                             </button>
-                            
                             <!-- Alexandre -->
                             <button @click="openDeleteModal" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,7 +74,7 @@
       </div>
       <DuplicatePartsModal
         v-if="isDuplicateModalVisible"
-        :id="product.id"
+        :id="estimate.id"
         @close="closeDuplicateModal"
             
         ></DuplicatePartsModal>
@@ -104,11 +103,16 @@ export default {
         DuplicatePartsModal,
         DeletePartsModal
     },
+    computed: {
+
+    },
     data() {
         return {
+            estimate: JSON.parse(JSON.stringify(this.$props.product)),
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Rascunho'},
-                {id: 2, bg: 'bg-blue-400', text: 'Enviada'}
+                {id: 2, bg: 'bg-blue-400', text: 'Enviada'},
+                {id: 3, bg: 'bg-yellow-400', text: 'Em andamento'}
             ],
             isDuplicateModalVisible:false,
             isDeleteModalVisible:false,
