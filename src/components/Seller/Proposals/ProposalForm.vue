@@ -407,6 +407,7 @@ export default {
                 showCloseButtonOnHover: true,
                 timeout: 2500
             });
+                bus.$emit('updateProposalsBySeller', true);
                 this.closeConfirmModal()
                 if(redirect) {
                     this.$router.push({name: 'estimates'})
@@ -500,6 +501,7 @@ export default {
                 showCloseButtonOnHover: true,
                 timeout: 2500
             });
+                bus.$emit('updateProposalsBySeller', true);
                 this.closeConfirmModal()
                 this.$router.push({name: 'estimates'})
 

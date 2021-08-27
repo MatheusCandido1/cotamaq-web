@@ -14,27 +14,11 @@ export const proposalService = {
     togglePaymentConditions,
     declineProposalByBuyer,
     declineDraftProposalBySeller,
-    duplicateProposal,
     deleteProposal
 };
 
-function duplicateProposal(id) {
-    return axios.post(`${API_URL}/proposals/duplicate/${id}`, null, {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const data = response.data
-        
-        return data;
-    })
-}
-
 function deleteProposal(id) {
-    return axios.delete(`${API_URL}/proposals/${id}`, null, {
+    return axios.delete(`${API_URL}/proposals/${id}`, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,

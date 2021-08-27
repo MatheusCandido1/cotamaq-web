@@ -1,19 +1,22 @@
 <template>
     <div class="flex flex-col">
-        <div class="w-full my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <div class="flex justify-between">
+        <div class="w-full my-6 px-2 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div class="flex lg:px-3 justify-between">
                 <div class="py-1">
-                    <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Cotação #{{estimate.id}}
-                    </h2>
+                    <span @click="showEstimateModal" class="items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
                 </div>
+                <div class="py-1">
+                    <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                </div>
+            </div>
+            <div class="flex lg:px-3 justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
                         Propostas
                     </h2>
                 </div>
                 <div class="py-1">
-                    <span class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                    <button @click="handleAddClick"  class="bg-primary-main w-full text-md px-2 py-1 font-semibold text-white rounded-md dark:text-white">Nova Proposta</button>
                 </div>
             </div>
             <div class="flex">
@@ -23,19 +26,32 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
+        <EstimateDetails v-if="modal.estimate" :estimate="estimate" @close="closeEstimateModal" />
+        <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment" @close="closeEquipmentModal" />
     </div>
 </template>
 
 <script>
+import { bus } from '../../../main'
 import ProposalItem from './ProposalItem'
-//import NewProposalItem from './NewProposalItem'
 import { proposalService } from '../../../services'
+import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
+import EstimateDetails from '../Estimates/EstimateDetails'
 export default {
     name: 'ProposalBySeller',
     components: {
         ProposalItem,
-        //NewProposalItem
+        EquipmentDetails,
+        EstimateDetails
+    },
+    updated() {
+        bus.$off('updateProposalsBySeller');
+        bus.$on('updateProposalsBySeller', (data) => {
+            if(data) {
+                this.getProposalsByEstimate();
+            }
+        })
     },
     created() {
         this.getProposalsByEstimate();
@@ -43,6 +59,10 @@ export default {
     data() {
         return {
             proposals: [],
+            modal: {
+               equipment: false,
+               estimate: false,
+            },
             estimate: {
                 id: this.$route.params.estimate_id
             }
@@ -51,11 +71,32 @@ export default {
     methods: {
         getProposalsByEstimate() {
             proposalService.getProposalsByEstimate(this.estimate.id).then((response) => {
-                this.proposals = response.data.data
+                const data = response.data.data
+                this.proposals = data
+                this.estimate = this.proposals[0].estimate
             }).catch((error) => {
                 console.log(error.response.data)
             })
-        }
+        },
+        handleAddClick() {
+            this.$router.push({name: 'addProposal', params: {estimate_id: this.estimate.id}})
+        },
+        showEstimateModal() {
+            this.modal.estimate = true;
+            bus.$emit("ModalOpen", true);
+        },
+        closeEstimateModal() {
+            this.modal.estimate = false;
+            bus.$emit("ModalOpen", false);
+        },
+        showEquipmentModal() {
+            this.modal.equipment = true;
+            bus.$emit("ModalOpen", true);
+        },
+        closeEquipmentModal() {
+            this.modal.equipment = false;
+            bus.$emit("ModalOpen", false);
+        },
     }
 }
 </script>

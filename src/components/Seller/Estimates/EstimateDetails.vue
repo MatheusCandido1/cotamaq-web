@@ -35,23 +35,23 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                    Detalhes do Equipamento
+                    Cotação #{{selectedEstimate.id}}
                 </h3>
                   <div class="border-t-2 mt-2 w-full"></div>
                 <div class="mt-2">
-                  <h4 class="text-lg font-semibold text-gray-900">{{formatEquipment(selectedEquipment)}} </h4>
+                  <h4 class="text-lg font-semibold text-gray-900">Peça: {{selectedEstimate.description}} </h4>
                   
                   <div class="flex flex-row ">
                       <div class="py-2 flex-grow whitespace-nowrap">
                     <div class="">
                           <div class="flex space-x-2 text-gray-800 text-sm  my-3">
-                              <p><span class="font-bold">Descrição:</span> {{formatMissingInformation(selectedEquipment.description)}}</p> 
+                              <p><span class="font-bold">Cód. da peça:</span> {{selectedEstimate.part_code}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Patrimônio:</span> {{formatMissingInformation(selectedEquipment.patrimony)}}</p> 
+                              <p><span class="font-bold">Descrição:</span> {{selectedEstimate.description}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Modelo:</span> {{formatMissingInformation(selectedEquipment.model)}}</p> 
+                              <p><span class="font-bold">Quantidade:</span> {{selectedEstimate.quantity}}</p> 
                           </div>
                     </div>
                   </div>
@@ -59,10 +59,13 @@
                     <div class="px-2 ">
                           
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Marca:</span> {{formatMissingInformation(selectedEquipment.brand)}} </p> 
+                              <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(selectedEstimate.allow_similar)}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Ano:</span> {{formatMissingInformation(selectedEquipment.year)}}</p> 
+                              <p><span class="font-bold">Marca:</span> {{selectedEstimate.brand == '' || selectedEstimate.brand == null ? 'Não Informado':selectedEstimate.brand}}</p> 
+                          </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                              <p><span class="font-bold">Observação:</span> {{selectedEstimate.observation == '' ? 'Não Informado':selectedEstimate.observation}}</p> 
                           </div>
                     </div>
                   </div>
@@ -87,19 +90,18 @@
   </transition>
 </template>
 <script>
-import { formatEquipment, formatMissingInformation } from '@/helpers/string-helper';
+import { formatSimillar } from '@/helpers/string-helper';
 
 export default {
-  name: "EquipmentDetail",
-  props: ['equipment'],
+  name: "EstimateDetails",
+  props: ['estimate'],
   data() {
     return {
-      selectedEquipment: JSON.parse(JSON.stringify(this.$props.equipment)),
+        selectedEstimate: JSON.parse(JSON.stringify(this.$props.estimate)),
     }
   },
   methods: {
-    formatMissingInformation,
-    formatEquipment,
+    formatSimillar,
     close() {
       this.$emit("close");
     },

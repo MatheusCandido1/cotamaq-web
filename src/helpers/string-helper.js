@@ -25,3 +25,12 @@ export const formatDelivery = (delivery, days) => {
         }
     }
 }
+
+export const formatMissingInformation = (value) => {
+    if(value == 'null' || value == null || value == ''){
+        return 'Não informado'
+    }else {
+        return value
+    }
+
+}

@@ -41,67 +41,85 @@
 
                 <div class="border-t-2"></div>
                     <div class=" flex flex-row justify-end my-2 gap-2">
-                         <button :class="formatStatus(selectedProposal.status).bg" class="w-full bg-blue-500 text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white">
+                         <button :class="formatStatus(selectedProposal.status).bg" class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white">
                               {{formatStatus(selectedProposal.status).text}}
                          </button>
-                         <button  class="flex items-center justify-between px-2 py-2 bg-yellow-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-                              </svg>
-                         </button>
-                         <button @click="handleEditClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                         <button v-if="selectedProposal.status == 1" @click="handleEditClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                               </svg>
                          </button>
-                         <button class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                         <button v-if="selectedProposal.status == 1" @click="showDeleteModal" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                               </svg>
                          </button>
+                         <button 
+                              v-if="
+                                   selectedProposal.status == 2 ||
+                                   selectedProposal.status == 3 ||
+                                   selectedProposal.status == 4 
+                              " 
+                              class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
+                              </svg>
+                         </button>
                     </div>
-              </div>
-            </div>
+               </div>
+               </div>
+               </div>
           </div>
-        </div>
-</div>
+          <ProposalDelete v-if="modal.cancel" :proposal="selectedProposal" @close="closeDeleteModal"></ProposalDelete>
+     </div>
 </template>
 
 <script>
+import { bus } from '../../../main';
 import { formatSimillar, formatCurrency, formatDelivery } from '@/helpers/string-helper';
+import ProposalDelete from './ProposalDelete'
 
 export default {
-    name: 'ProposalItem',
-    props: ['proposal'],
-    data() {
+     name: 'ProposalItem',
+     props: ['proposal'],
+     components: {
+          ProposalDelete,
+     },
+     data() {
         return {
           modal: {
-               duplicate: false,
                cancel: false,
           },
           selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
           status: [
                {id: 1, bg: 'bg-orange-400', text: 'Pendente'},
-               {id: 2, bg: 'bg-blue-400', text: 'Enviada'},
+               {id: 2, bg: 'bg-blue-500', text: 'Enviada'},
                {id: 3, bg: 'bg-primary-main', text: 'Aprovada'},
                {id: 4, bg: 'bg-red-500', text: 'Rejeitada pelo comprador'},
                {id: 5, bg: 'bg-red-500', text: 'Rejeitada por você'}
           ],
         }
-    },
-    methods: {
-      formatSimillar,
-      formatCurrency,
-      formatDelivery,
-      handleEditClick() {
-          this.$router.push({name: 'updateProposal', params: {estimate_id: this.selectedProposal.estimate_id, proposal_id: this.selectedProposal.id}})
-      },
-      formatStatus(value) {
-          let format = this.status.find(status => status.id == value)
-          return format
      },
-    }
-
+     methods: {
+          formatSimillar,
+          formatCurrency,
+          formatDelivery,
+          showDeleteModal() {
+               bus.$emit('ModalOpen', true)
+               this.modal.cancel = true
+          },
+          closeDeleteModal() {
+               bus.$emit('ModalOpen', false)
+               this.modal.cancel = false
+          },
+          handleEditClick() {
+               this.$router.push({name: 'updateProposal', params: {estimate_id: this.selectedProposal.estimate_id, proposal_id: this.selectedProposal.id}})
+          },
+          formatStatus(value) {
+               let format = this.status.find(status => status.id == value)
+               return format
+          },
+     }
 }
 </script>
 

@@ -455,6 +455,7 @@ export default {
             this.form.append('observation', this.proposal.observation);
             this.form.append('discount', this.proposal.discount);
             this.form.append('status', 2);
+
             proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
                 position: "bottom-right",
@@ -463,6 +464,7 @@ export default {
                 timeout: 2500
             });
                 this.closeConfirmModal()
+                bus.$emit('updateProposalsBySeller', true);
                 if(redirect) {
                     this.$router.push({name: 'estimates'})
                 } else {
@@ -495,6 +497,7 @@ export default {
                 timeout: 2500
             });
                 this.closeConfirmModal()
+                bus.$emit('updateProposalsBySeller', true);
                 this.$router.push({name: 'estimates'})
 
             }).catch((error) => {
