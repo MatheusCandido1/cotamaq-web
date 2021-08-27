@@ -35,14 +35,11 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                  Confirmar criação de proposta
+                  Realizar compra
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-600">
-                   Tem certeza que deseja criar uma proposta para essa cotação?
-                  </p>
-                  <p class="text-sm text-gray-600 mt-3">
-                   Você poderá fazer várias propostas para essa cotação!
+                   Tem certeza que deseja aprovar essa proposta e realizar a compra?
                   </p>
                 </div>
               </div>
@@ -52,10 +49,10 @@
             <button
               type="button"
               :disabled="disabled"
-              @click="createProposal()"
+              @click="acceptProposal()"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-lighter sm:ml-3 sm:w-auto sm:text-sm"
             >
-              Enviar
+              Comprar
             </button>
             <button
               type="button"
@@ -71,12 +68,15 @@
   </transition>
 </template>
 <script>
+import { bus } from '../../../main';
+import { proposalService } from '../../../services';
+
 export default {
-  name: "EstimateAccept",
-  props: ['estimate'],
+  name: "ProposalAccept",
+  props: ['proposal'],
   data() {
     return {
-        selectedEstimate: JSON.parse(JSON.stringify(this.$props.estimate)),
+        selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
         disabled: false,
     }
   },
@@ -87,12 +87,21 @@ export default {
     close() {
       this.$emit("close");
     },
-    createProposal() {
-        this.disabled = true
-        this.close();
-        this.$router.push({name: 'addProposal', params: {estimate_id: this.selectedEstimate.id}})
-        this.disabled = false
-        },
+    acceptProposal() {
+      proposalService.approveProposalByBuyer(this.selectedProposal.id).then((response) => {
+        this.$toast.success(response.success_message, {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 2500
+        });
+          bus.$emit('updateProposalsByBuyer', true);
+          this.close()
+          this.disabled = false
+        }).catch((error) => {
+          console.log(error.response.data)
+        })
+    },
   },
 };
 </script>

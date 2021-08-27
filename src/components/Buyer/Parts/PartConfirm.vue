@@ -120,6 +120,9 @@ export default {
       disabled: false
     }
   },
+  destroyed() {
+    this.close()
+  },
   methods: {
     formatEquipment,
     formatSimillar,

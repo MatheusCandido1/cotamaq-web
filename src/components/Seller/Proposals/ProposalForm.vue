@@ -422,7 +422,13 @@ export default {
                     this.$router.push({name: 'estimates'})
                 }
             }).catch((error) => {
-                console.log(error.response.data)
+                this.$toast.error(error.response.data.message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+                });
+                this.$router.push({name: 'estimates'})
             })
         },
         closeConfirmModal() {
@@ -513,7 +519,13 @@ export default {
                 this.$router.push({name: 'estimates'})
 
             }).catch((error) => {
-                console.log(error.response.data)
+                this.$toast.error(error.response.data.message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+                });
+                this.$router.push({name: 'estimates'})
             })
         }
     },

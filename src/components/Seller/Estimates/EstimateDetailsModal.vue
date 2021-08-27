@@ -119,6 +119,9 @@ export default {
             edit: false
       }
   },
+  destroyed() {
+    this.close()
+  },
   created() {
   },
   methods: {

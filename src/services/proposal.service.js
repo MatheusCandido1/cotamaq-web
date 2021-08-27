@@ -12,8 +12,40 @@ export const proposalService = {
     getProposalDetails,
     togglePaymentMethods,
     togglePaymentConditions,
-    deleteProposal
+    deleteProposal,
+    declineProposalByBuyer,
+    approveProposalByBuyer
 };
+
+function declineProposalByBuyer(id) {
+    return axios.post(`${API_URL}/proposals/${id}/buyer`, null, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
+
+function approveProposalByBuyer(id) {
+    return axios.post(`${API_URL}/proposals/${id}/approve`, null, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
 
 function deleteProposal(id) {
     return axios.delete(`${API_URL}/proposals/${id}`, {
@@ -86,6 +118,7 @@ function declineProposal(data) {
         return data;
     })
 }
+
 function getProposalDetails(id) {
     return axios.get(`${API_URL}/proposals/details/${id}`,  {
         headers: { 

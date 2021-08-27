@@ -100,6 +100,9 @@ export default {
         selectedEstimate: JSON.parse(JSON.stringify(this.$props.estimate)),
     }
   },
+  destroyed() {
+    this.close()
+  },
   methods: {
     formatSimillar,
     close() {

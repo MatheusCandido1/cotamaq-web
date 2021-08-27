@@ -89,6 +89,9 @@ export default {
         reason: null,
     }
   },
+  destroyed() {
+    this.close()
+  },
   methods: {
     close() {
       this.$emit("close");
