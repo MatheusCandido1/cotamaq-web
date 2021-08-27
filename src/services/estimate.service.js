@@ -52,8 +52,8 @@ function getEstimate(id) {
 
 
 
-function getEstimates() {
-    return axios.get(`${API_URL}/estimates`,  {
+function getEstimates(data) {
+    return axios.get(`${API_URL}/estimates/${data}`,  {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
