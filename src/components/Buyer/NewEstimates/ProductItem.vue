@@ -4,24 +4,24 @@
           
         <div class="px-6 py-4 border-b bg-primary-main">
             
-          <div class="text-md text-center text-white font-semibold">{{estimate.description}}</div>
+          <div class="text-md text-center text-white font-semibold">{{formatMissingInformation(estimate.description)}}</div>
         </div>
         <div class="px-2 py-2 flex-grow">
             <ul class="flex space-x-2 justify-end">
-                <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md mb-2">{{estimate.category.name}} </li>
+                <li class="bg-blue-400 text-white text-xs text-md px-4 py-1 rounded-md mb-2">{{formatMissingInformation(estimate.category.name)}} </li>
             </ul>
           <div class="mt-1 px-2 ">
                 <div class="flex space-x-2 justify-start text-gray-800 text-sm">
-                     <p><span class="w-full bg-primary-main text-sm px-2 py-1 font-medium text-white rounded-md">Cotação #{{estimate.id}}</span></p> 
+                     <p><span class="w-full bg-primary-main text-sm px-2 py-1 font-medium text-white rounded-md">Cotação #{{formatMissingInformation(estimate.id)}}</span></p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Quantidade:</span> {{estimate.quantity}}</p> 
+                     <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(estimate.quantity)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(estimate.allow_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Marca:</span> {{!estimate.brand || estimate.brand == ''  ? 'Não informado' : estimate.brand}}</p> 
+                     <p><span class="font-bold">Marca:</span> {{formatMissingInformation(estimate.brand)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm">
                      <p><span class="font-bold">Equipamento:</span> {{estimate.equipment == null ? 'Não informado': formatEquipment(estimate.equipment)}}</p> 
@@ -34,7 +34,7 @@
                         <span class="font-semibold text-base mb-2">Propostas</span>
                     </div>
                     <div class="my-2">
-                        <span class="mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">0</span>
+                        <span class="mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">{{validProposals.length}}</span>
                     </div>
                 </div>
         <div class="border-t-2"></div>
@@ -81,10 +81,9 @@
         
         <DeletePartsModal 
         v-if="isDeleteModalVisible"
-        :product="product"
+        :product="estimate"
         @close="closeDeleteModal"
         >      
-
         </DeletePartsModal>
         
     </div>
@@ -92,7 +91,7 @@
 
 <script>
 import { bus } from '../../../main';
-import { formatEquipment, formatSimillar } from '@/helpers/string-helper';
+import { formatEquipment, formatSimillar, formatMissingInformation } from '@/helpers/string-helper';
 import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.vue'
 import DeletePartsModal from '../../../components/Buyer/Parts/PartDelete.vue'
 
@@ -104,7 +103,9 @@ export default {
         DeletePartsModal
     },
     computed: {
-
+        validProposals: function () {
+            return this.estimate.proposals.filter(proposal => proposal.status == 2)
+        }
     },
     data() {
         return {
@@ -120,13 +121,14 @@ export default {
         }
     },
     methods: {
+        formatMissingInformation,
         formatEquipment,
         formatSimillar,
         handleProposalClick() {
-            this.$router.push({name: 'ProposalsByEstimate', params: {id: this.product.id}})
+            this.$router.push({name: 'ProposalsByEstimate', params: {estimate_id: this.estimate.id}})
         },
         handleEditClick() {
-            this.$router.push({name: 'editEstimate', params: {id: this.product.id}})
+            this.$router.push({name: 'editEstimate', params: {id: this.estimate.id}})
         },
         formatStatus(value) {
             let format = this.status.find(status => status.id == value)

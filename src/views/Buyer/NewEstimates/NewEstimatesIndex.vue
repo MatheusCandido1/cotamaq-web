@@ -51,8 +51,6 @@
                     </div>
                 </div>
             </div>
-            
-            
         </div>
     </span>
 </template>
@@ -79,27 +77,19 @@ export default {
         })
     },
     computed: {
-        days() {    
-
+        days() {   
             if(this.products.length == 0){                  
                 return Array.from(days.add(this.today()));                  
             }
-            
             const days = new Set();
             this.products.forEach((product )=> {
-                
                 if(product.created_at != this.today()){
                   days.add(this.today())                
                 }
-                
                 days.add(product.created_at)
             })
-           
             return Array.from(days);
         },
-        
-
-
     },
     data() {
         return {
@@ -114,13 +104,10 @@ export default {
     methods: {
         getSearch(){
            const list = [];
-
            if(this.MySearch.length == 0){
                return this.list = []
            }
-           
             this.products.forEach(data => {
-                             
                 if(data.brand != null){
                     if (data.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                         list.push(data);
@@ -161,7 +148,6 @@ export default {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })
                 .map(product => product)
-
         }
     }
 }

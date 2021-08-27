@@ -166,7 +166,7 @@ export default {
             return this.sentProposals.length
         },
         handlePropsalsBySellerClick() {
-            this.$router.push({name: 'ProposalsBySeller', params: {estimate_id: this.selectedEstimate.id}})
+            this.$router.push({name: 'ProposalsByEstimate', params: {estimate_id: this.selectedEstimate.id}})
         },
         handleNewProposalClick() {
             this.$router.push({name: 'addProposal', params: {estimate_id: this.selectedEstimate.id}})

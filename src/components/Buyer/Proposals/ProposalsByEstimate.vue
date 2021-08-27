@@ -5,16 +5,16 @@
       <div class="flex justify-center" >
         <div class="py-1">
           <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Visualizar Propostas
+            Visualizar Propostas 
           </h2>
         </div>
       </div>
       <div class="flex flex-row justify-between">
         <div class="py-1">
-         <span class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded cursor-pointer">Balde de graxa tilub 10kg<i class="mdi mdi-file-search ml-2"></i></span>
+          <span @click="showEstimateModal" class="items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
         <div class="py-1">
-          <span class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+          <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
       </div>
       <div class="flex flex-row justify-between mb-2 items-center">
@@ -34,28 +34,53 @@
         </div>
       </div>
     </div>
-  </div>   
+  </div>
+  <EstimateDetails v-if="modal.estimate" :estimate="estimate" @close="closeEstimateModal" />
+  <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment" @close="closeEquipmentModal" />
 </div> 
 </template>
 
 <script>
+import { bus } from '../../../main'
 import ProposalPartItem from '../Proposals/ProposalPartItem'
+import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
+import EstimateDetails from '../../Seller/Estimates/EstimateDetails'
+
 export default {
-    name: 'PartProposals',
+    name: 'ProposalsByEstimate',
     components: {
-      ProposalPartItem
+      ProposalPartItem,
+      EquipmentDetails,
+      EstimateDetails
     },
     data() {
         return {
-          proposals: [
-            {id: 1, value: 20.00, quantity: 3, shipping: 10, pickup: 20, discount: 1, total: 20, is_simillar: 1, brand: 'teste', observation: '...'},
-            {id: 2, value: 20.00, quantity: 3, shipping: 10, pickup: 20, discount: 2, total: 20, is_simillar: 1, brand: 'teste', observation: '...'},
-            {id: 3, value: 20.00, quantity: 3, shipping: 10, pickup: 20, discount: 3, total: 20, is_simillar: 1, brand: 'teste', observation: '...'},
-            {id: 4, value: 20.00, quantity: 3, shipping: 10, pickup: 20, discount: 4, total: 20, is_simillar: 1, brand: 'teste', observation: '...'},
-
-          ] 
+          modal: {
+            equipment: false,
+            estimate: false,
+          },
+          estimate: {},
+          proposals: [] 
         }
     },
+    methods: {
+      showEstimateModal() {
+        this.modal.estimate = true;
+        bus.$emit("ModalOpen", true);
+      },
+      closeEstimateModal() {
+        this.modal.estimate = false;
+        bus.$emit("ModalOpen", false);
+      },
+      showEquipmentModal() {
+        this.modal.equipment = true;
+        bus.$emit("ModalOpen", true);
+      },
+      closeEquipmentModal() {
+        this.modal.equipment = false;
+        bus.$emit("ModalOpen", false);
+      },
+    }
 }
 </script>
 
