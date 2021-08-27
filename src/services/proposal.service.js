@@ -12,13 +12,11 @@ export const proposalService = {
     getProposalDetails,
     togglePaymentMethods,
     togglePaymentConditions,
-    saveDraft,
-    declineProposalByBuyer,
-    declineDraftProposalBySeller
+    deleteProposal
 };
 
-function saveDraft(data) {
-    return axios.put(`${API_URL}/proposals/draft/${data.id}`, JSON.stringify(data), {
+function deleteProposal(id) {
+    return axios.delete(`${API_URL}/proposals/${id}`, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -32,8 +30,8 @@ function saveDraft(data) {
     })
 }
 
-function updateProposal(data) {
-    return axios.put(`${API_URL}/proposals/${data.id}`, JSON.stringify(data), {
+function updateProposal(id,data) {
+    return axios.post(`${API_URL}/proposals/${id}`, data, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -49,15 +47,15 @@ function updateProposal(data) {
 
 
 function createProposal(data) {
-    return axios.post(`${API_URL}/proposals`, JSON.stringify(data), {
+    return axios.post(`${API_URL}/proposals`, data, {
         headers: { 
             ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
+            'Content-Type': 'multipart/form-data'
         }
     })
     .then(response => {
         const data = response.data
+        console.log(data)
         
         return data;
     })
@@ -74,38 +72,8 @@ function getBuyerProposals() {
     .then(handleResponse)
 }
 
-function declineProposalByBuyer(id) {
-    return axios.post(`${API_URL}/proposals/decline/${id}`, null, {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const data = response.data
-        
-        return data;
-    })
-}
-
-function declineDraftProposalBySeller(id) {
-    return axios.post(`${API_URL}/proposals/decline/draft/${id}`, null, {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const data = response.data
-        
-        return data;
-    })
-}
-
 function declineProposal(data) {
-    return axios.post(`${API_URL}/proposals/decline`, JSON.stringify(data), {
+    return axios.post(`${API_URL}/proposals/decline/estimates/${data.estimate_id}`, JSON.stringify(data), {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,

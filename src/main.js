@@ -52,7 +52,7 @@ Vue.use(LottieAnimation)
 Vue.use(VueLazyload)
 Vue.use(CoolLightBox)
 Vue.use(VueSuggestion)
-
+moment.locale('pt-br')
 export const bus = new Vue();
 
 new Vue({

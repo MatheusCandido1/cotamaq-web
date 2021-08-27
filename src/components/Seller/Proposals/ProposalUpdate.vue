@@ -4,7 +4,7 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Nova Proposta
+                        Proposta #{{proposal.id}}
                     </h2>
                 </div>
                 <div class="py-1">
@@ -18,7 +18,7 @@
                             Vendedor
                         </label>
                         <select @change="() => (errors.proposal.seller_id = 'OK')" :class="errors.proposal.seller_id == 'ERROR' ? 'border-red-400':'border-primary-main'"  id="seller_id" v-model="proposal.seller_id"   class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                            <option disabled value=""> Selecione... </option>
+                            <option disabled value="null"> Selecione... </option>
                             <option v-for="user in users" :key="user.id" :value="user.id">{{user.name}}</option>
                         </select> 
                         <div v-if="errors.proposal.seller_id == 'ERROR'" class="flex justify-center align-items">
@@ -164,7 +164,7 @@
                             </h2>
                         </div>
                             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                                <span class="text-sm">CEP para entrega: </span><span class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2">{{formatZipcode(estimate.address.zipcode)}}</span>
+                                <span class="text-sm">CEP para entrega: </span><span class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2">31720-580</span>
                             </h2>
                     </div>
                     
@@ -194,7 +194,7 @@
                             <label for="validity" class="text-sm font-semibold text-gray-600 px-1">
                                 Validade da proposta
                             </label>
-                            <input :min="today" @change="() => (errors.proposal.validity = 'OK')" :class="errors.proposal.validity == 'ERROR' ? 'border-red-400':'border-primary-main'" id="validity" v-model="proposal.validity"  placeholder="" type="date" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <input @change="() => (errors.proposal.validity = 'OK')" :class="errors.proposal.validity == 'ERROR' ? 'border-red-400':'border-primary-main'" id="validity" v-model="proposal.validity"  placeholder="" type="date" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             <div v-if="errors.proposal.validity == 'ERROR'" class="flex justify-center align-items">
                                 <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Validade da proposta é obrigatório.</span>
                             </div>
@@ -259,20 +259,19 @@
 import { bus } from "../../../main";
 import { Money } from 'v-money'
 import { required, requiredIf } from 'vuelidate/lib/validators'
-import ProposalConfirm from './ProposalConfirm'
-import { formatZipcode } from '@/helpers/string-helper';
-import { proposalService, estimateService, companyService } from '../../../services'
+import { proposalService, companyService } from '../../../services'
 import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
+import ProposalConfirm from './ProposalConfirm'
+
 export default {
     name: 'ProposalUpdate',
     components: {
         Money,
-        ProposalConfirm,
-        EquipmentDetails
+        EquipmentDetails,
+        ProposalConfirm
     },
-    mounted() {
-        this.getToday()
-        this.getEstimate()
+    created() {
+        this.getProposal()
         this.getSellers()
     },
     data() {
@@ -311,18 +310,24 @@ export default {
                 masked: false
             },
             estimate: {
-                equipment: {},
                 part_code: '',
                 description: '',
                 allow_similar: null,
                 category_id: '',
-                category: '',
+                category: {
+                    name: ''
+                },
+                equipment: {},
                 quantity: null,
                 brand: '',
                 observation: ''
             },
+            users:[],
             proposal: {
+                id: this.$route.params.proposal_id,
                 seller_id: '',
+                description: '',
+                quantity: '',
                 value: '',
                 subtotal: '',
                 total: '',
@@ -335,8 +340,6 @@ export default {
                 observation: '',
                 discount: ''
             },
-            today: new Date(),
-            users:[],
             errors: {
                 proposal: {
                     seller_id: null,
@@ -353,23 +356,10 @@ export default {
         }
     },
     methods: {
-        formatZipcode,
-        getToday() {
-            this.today = new Date().toISOString().split("T")[0];
-        },
         getSellers() {
             companyService.getUsers().then((response) => {
                 const data = response.data
                 this.users = data;
-            }).catch((error) => {
-                console.log(error.response.data)
-            })
-        },
-        getEstimate() {
-            const estimate_id = this.$route.params.estimate_id
-            estimateService.getEstimate(estimate_id).then((response) => {
-                const data = response.data.data
-                this.estimate = data;
             }).catch((error) => {
                 console.log(error.response.data)
             })
@@ -389,56 +379,20 @@ export default {
             const total = parseFloat(this.proposal.subtotal) + parseFloat(this.proposal.shipping)
             this.proposal.total = total.toFixed(2)
         },
-        goBack() {
-            this.$router.push({name: 'estimates'})
-        },
-        sendProposal(redirect) {
-            this.form.append('estimate_id', this.estimate.id);
-            this.form.append('seller_id', this.proposal.seller_id);
-            this.form.append('value', this.proposal.value);
-            this.form.append('subtotal', this.proposal.subtotal);
-            this.form.append('total', this.proposal.total);
-            this.form.append('shipping', this.proposal.shipping);
-            this.form.append('delivery', this.proposal.delivery);
-            this.form.append('delivery_time', this.proposal.delivery_time);
-            this.form.append('validity', this.proposal.validity);
-            this.form.append('is_similar', this.proposal.is_similar);
-            this.form.append('brand', this.proposal.brand);
-            this.form.append('observation', this.proposal.observation);
-            this.form.append('discount', this.proposal.discount);
-            this.form.append('status', 2);
-            proposalService.createProposal(this.form).then((response) => {
-                this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-                bus.$emit('updateProposalsBySeller', true);
-                this.closeConfirmModal()
-                if(redirect) {
-                    this.$router.push({name: 'estimates'})
-                } else {
-                    this.$router.push({name: 'estimates'})
-                }
+        getProposal() {
+            proposalService.getProposal(this.proposal.id).then((response) => {
+                const data = response.data.data
+                this.proposal = data;
+                this.estimate = data.estimate
             }).catch((error) => {
                 console.log(error.response.data)
             })
         },
-        closeConfirmModal() {
-            this.modal.confirm = false;
-            bus.$emit("ModalOpen", false);
-        },
-        closeEquipmentModal() {
-            this.modal.equipment = false;
-            bus.$emit("ModalOpen", false);
-        },
-        showEquipmentModal() {
-            this.modal.equipment = true;
-            bus.$emit("ModalOpen", true);
+        goBack() {
+            this.$router.push({name: 'estimates'})
         },
         showConfirmModal() {
-            this.$v.$touch()
+             this.$v.$touch()
 
             if(this.$v.proposal.seller_id.$invalid) {
                 this.errors.proposal.seller_id = 'ERROR'
@@ -486,6 +440,40 @@ export default {
             }
 
         },
+        sendProposal(redirect) {
+            this.form.append('estimate_id', this.estimate.id);
+            this.form.append('seller_id', this.proposal.seller_id);
+            this.form.append('value', this.proposal.value);
+            this.form.append('subtotal', this.proposal.subtotal);
+            this.form.append('total', this.proposal.total);
+            this.form.append('shipping', this.proposal.shipping);
+            this.form.append('delivery', this.proposal.delivery);
+            this.form.append('delivery_time', this.proposal.delivery_time);
+            this.form.append('validity', this.proposal.validity);
+            this.form.append('is_similar', this.proposal.is_similar);
+            this.form.append('brand', this.proposal.brand);
+            this.form.append('observation', this.proposal.observation);
+            this.form.append('discount', this.proposal.discount);
+            this.form.append('status', 2);
+
+            proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
+                this.$toast.success(response.success_message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+            });
+                this.closeConfirmModal()
+                bus.$emit('updateProposalsBySeller', true);
+                if(redirect) {
+                    this.$router.push({name: 'estimates'})
+                } else {
+                    this.$router.push({name: 'estimates'})
+                }
+            }).catch((error) => {
+                console.log(error.response.data)
+            })
+        },
         saveProposal() {
             this.form.append('estimate_id', this.estimate.id);
             this.form.append('seller_id', this.proposal.seller_id);
@@ -501,21 +489,33 @@ export default {
             this.form.append('observation', this.proposal.observation);
             this.form.append('discount', this.proposal.discount);
             this.form.append('status', 1);
-            proposalService.createProposal(this.form).then((response) => {
+            proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
                 position: "bottom-right",
                 pauseOnHover: false,
                 showCloseButtonOnHover: true,
                 timeout: 2500
             });
-                bus.$emit('updateProposalsBySeller', true);
                 this.closeConfirmModal()
+                bus.$emit('updateProposalsBySeller', true);
                 this.$router.push({name: 'estimates'})
 
             }).catch((error) => {
                 console.log(error.response.data)
             })
-        }
+        },
+        closeConfirmModal() {
+            this.modal.confirm = false;
+            bus.$emit("ModalOpen", false);
+        },
+        closeEquipmentModal() {
+            this.modal.equipment = false;
+            bus.$emit("ModalOpen", false);
+        },
+        showEquipmentModal() {
+            this.modal.equipment = true;
+            bus.$emit("ModalOpen", true);
+        },
     },
     validations: {
             proposal: {

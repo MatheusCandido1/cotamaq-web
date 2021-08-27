@@ -40,8 +40,6 @@ async function me() {
     }).then(handleResponse)
 }
 
-
-
 function resetPassword(data) {
     return axios.post(`${API_URL}/auth/reset-password`, JSON.stringify(data), {
         headers: { 

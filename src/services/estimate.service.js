@@ -12,8 +12,8 @@ export const estimateService = {
     getAvailableEstimates
 };
 
-function getAvailableEstimates() {
-    return axios.get(`${API_URL}/available/estimates`,  {
+function getAvailableEstimates(data) {
+    return axios.get(`${API_URL}/available/estimates/${data}`,  {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -52,8 +52,8 @@ function getEstimate(id) {
 
 
 
-function getEstimates() {
-    return axios.get(`${API_URL}/estimates`,  {
+function getEstimates(data) {
+    return axios.get(`${API_URL}/estimates/all/${data}`,  {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -91,7 +91,9 @@ function duplicateEstimate(data){
         
         return data;
     })
-}function deleteEstimate(data){
+}
+
+function deleteEstimate(data){
     return axios.delete(`${API_URL}/estimates/${data}`, null, {
         headers: { 
             ...authHeader(),
