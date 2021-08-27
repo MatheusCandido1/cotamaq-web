@@ -4,7 +4,7 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Cotação #
+                        Cotação #{{estimate.id}}
                     </h2>
                 </div>
                 <div class="py-1">
@@ -42,13 +42,15 @@ export default {
     },
     data() {
         return {
-            proposals: []
+            proposals: [],
+            estimate: {
+                id: this.$route.params.estimate_id
+            }
         }
     },
     methods: {
         getProposalsByEstimate() {
-            const estimate_id = this.$route.params.estimate_id
-            proposalService.getProposalsByEstimate(estimate_id).then((response) => {
+            proposalService.getProposalsByEstimate(this.estimate.id).then((response) => {
                 this.proposals = response.data.data
             }).catch((error) => {
                 console.log(error.response.data)

@@ -91,7 +91,9 @@ function duplicateEstimate(data){
         
         return data;
     })
-}function deleteEstimate(data){
+}
+
+function deleteEstimate(data){
     return axios.delete(`${API_URL}/estimates/${data}`, null, {
         headers: { 
             ...authHeader(),

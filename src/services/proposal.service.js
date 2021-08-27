@@ -12,13 +12,14 @@ export const proposalService = {
     getProposalDetails,
     togglePaymentMethods,
     togglePaymentConditions,
-    saveDraft,
     declineProposalByBuyer,
-    declineDraftProposalBySeller
+    declineDraftProposalBySeller,
+    duplicateProposal,
+    deleteProposal
 };
 
-function saveDraft(data) {
-    return axios.put(`${API_URL}/proposals/draft/${data.id}`, JSON.stringify(data), {
+function duplicateProposal(id) {
+    return axios.post(`${API_URL}/proposals/duplicate/${id}`, null, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -32,8 +33,23 @@ function saveDraft(data) {
     })
 }
 
-function updateProposal(data) {
-    return axios.put(`${API_URL}/proposals/${data.id}`, JSON.stringify(data), {
+function deleteProposal(id) {
+    return axios.delete(`${API_URL}/proposals/${id}`, null, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
+
+function updateProposal(id,data) {
+    return axios.post(`${API_URL}/proposals/${id}`, data, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
