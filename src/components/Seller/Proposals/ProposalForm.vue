@@ -194,7 +194,7 @@
                             <label for="validity" class="text-sm font-semibold text-gray-600 px-1">
                                 Validade da proposta
                             </label>
-                            <input @change="() => (errors.proposal.validity = 'OK')" :class="errors.proposal.validity == 'ERROR' ? 'border-red-400':'border-primary-main'" id="validity" v-model="proposal.validity"  placeholder="" type="date" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <input :min="today" @change="() => (errors.proposal.validity = 'OK')" :class="errors.proposal.validity == 'ERROR' ? 'border-red-400':'border-primary-main'" id="validity" v-model="proposal.validity"  placeholder="" type="date" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             <div v-if="errors.proposal.validity == 'ERROR'" class="flex justify-center align-items">
                                 <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Validade da proposta é obrigatório.</span>
                             </div>
@@ -271,6 +271,7 @@ export default {
         EquipmentDetails
     },
     mounted() {
+        this.getToday()
         this.getEstimate()
         this.getSellers()
     },
@@ -334,6 +335,7 @@ export default {
                 observation: '',
                 discount: ''
             },
+            today: new Date(),
             users:[],
             errors: {
                 proposal: {
@@ -352,6 +354,9 @@ export default {
     },
     methods: {
         formatZipcode,
+        getToday() {
+            this.today = new Date().toISOString().split("T")[0];
+        },
         getSellers() {
             companyService.getUsers().then((response) => {
                 const data = response.data

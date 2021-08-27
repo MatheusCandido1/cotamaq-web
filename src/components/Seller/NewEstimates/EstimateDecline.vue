@@ -76,6 +76,7 @@
   </transition>
 </template>
 <script>
+import { bus } from '../../../main';
 import { proposalService } from '../../../services';
 
 export default {
@@ -106,7 +107,7 @@ export default {
                 timeout: 2500
             });
             this.close();
-            this.$router.push({name: 'estimates'})
+            bus.$emit('updateParts', true);
             this.disabled = false
         }).catch((error) => {
             console.log(error.response.data)

@@ -12,8 +12,6 @@ export const proposalService = {
     getProposalDetails,
     togglePaymentMethods,
     togglePaymentConditions,
-    declineProposalByBuyer,
-    declineDraftProposalBySeller,
     deleteProposal
 };
 
@@ -74,38 +72,8 @@ function getBuyerProposals() {
     .then(handleResponse)
 }
 
-function declineProposalByBuyer(id) {
-    return axios.post(`${API_URL}/proposals/decline/${id}`, null, {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const data = response.data
-        
-        return data;
-    })
-}
-
-function declineDraftProposalBySeller(id) {
-    return axios.post(`${API_URL}/proposals/decline/draft/${id}`, null, {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const data = response.data
-        
-        return data;
-    })
-}
-
 function declineProposal(data) {
-    return axios.post(`${API_URL}/proposals/decline`, JSON.stringify(data), {
+    return axios.post(`${API_URL}/proposals/decline/estimates/${data.estimate_id}`, JSON.stringify(data), {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
