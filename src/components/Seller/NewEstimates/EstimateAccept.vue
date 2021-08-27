@@ -71,8 +71,6 @@
   </transition>
 </template>
 <script>
-import { proposalService } from '../../../services';
-
 export default {
   name: "EstimateAccept",
   props: ['estimate'],
@@ -88,23 +86,9 @@ export default {
     },
     createProposal() {
         this.disabled = true
-        const payload = {
-            estimate_id: this.selectedEstimate.id
-        }
-        proposalService.createProposal(payload).then((response) => {
-            this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-            });
-            this.close();
-            //this.$router.push({name: 'estimates'})
-            this.disabled = false
-        }).catch((error) => {
-            console.log(error.response.data)
-            this.disabled = false
-        })
+        this.close();
+        this.$router.push({name: 'addProposal', params: {estimate_id: this.selectedEstimate.id}})
+        this.disabled = false
         },
   },
 };
