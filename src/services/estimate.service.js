@@ -12,8 +12,8 @@ export const estimateService = {
     getAvailableEstimates
 };
 
-function getAvailableEstimates() {
-    return axios.get(`${API_URL}/available/estimates`,  {
+function getAvailableEstimates(data) {
+    return axios.get(`${API_URL}/available/estimates/${data}`,  {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
