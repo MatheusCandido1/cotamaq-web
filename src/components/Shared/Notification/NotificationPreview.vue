@@ -25,7 +25,13 @@ export default {
     methods: {
         goToNotification(){
           this.$emit('deleteNotification', this.index)
+          if(this.notification.estimate_id){
           this.$router.push({ name: 'estimates' })
+          }else if(this.notification.proposal_id && this.notification.estimate_id){
+            this.$router.push({ name: 'ProposalsByEstimate', params:{estimate_id:this.notification.estimate_id} })
+          }else if(this.notification.order_id){
+              this.$router.push({ name: 'orders' })
+          }
 
         }
     }
