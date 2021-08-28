@@ -57,7 +57,7 @@
                                 </svg>
                             </button>
                             <!-- Alexandre -->
-                            <button v-if="estimate.status == 2 || estimate.status == 3" @click="openDeleteModal" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button v-if="estimate.status == 2 || estimate.status == 3 || estimate.status == 5" @click="openDeleteModal" class="flex items-center justify-between px-2 py-2 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -103,7 +103,7 @@ import DeletePartsModal from '../../../components/Buyer/Parts/PartDelete.vue'
 
 export default {
     name: 'ProductItem',
-    props: ['product'],
+    props: ['estimate'],
     components:{
         DuplicatePartsModal,
         DeletePartsModal
@@ -111,11 +111,10 @@ export default {
     computed: {
         validProposals: function () {
             return this.estimate.proposals.filter(proposal => proposal.status == 2 || proposal.status == 3 || proposal.status == 4)
-        }
+        },
     },
     data() {
         return {
-            estimate: JSON.parse(JSON.stringify(this.$props.product)),
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Rascunho'},
                 {id: 2, bg: 'bg-blue-400', text: 'Enviada'},

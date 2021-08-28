@@ -47,7 +47,7 @@
                 <div class="flex ">
                     <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
                         <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
-                            <ProductItem v-for="(model, innerIndex) in dates(day)"   :key="innerIndex"  :product="model" />
+                            <ProductItem v-for="(model, innerIndex) in dates(day)"   :key="innerIndex"  :estimate="model" />
                         </div>
                     </div>
                 </div>
@@ -69,16 +69,15 @@ export default {
         this.getParts();
     },
     updated() {
-        bus.$off('updateSellerEstimates');
-        bus.$on('updateSellerEstimates', (data) => {
+        bus.$off('updateProposalsBySeller');
+        bus.$on('updateProposalsBySeller', (data) => {
             if(data) {
                 this.getParts();
             }
         })
     },
     computed: {
-        days() {              
-            
+        days() {     
             const days = new Set();
             this.products.forEach((product )=> {              
                 days.add(product.created_at)
@@ -90,7 +89,7 @@ export default {
         return {
             products:[],
             orderedData:[],
-             MySearch:'',
+            MySearch:'',
             list:[],
             filterDate:0
         }
@@ -98,13 +97,10 @@ export default {
     methods: {
          getSearch(){
            const list = [];
-
            if(this.MySearch.length == 0){
                return this.list = []
            }
-           
             this.products.forEach(data => {
-                             
                 if(data.brand != null){
                     if (data.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                         list.push(data);
@@ -141,7 +137,6 @@ export default {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })
                 .map(product => product)
-
         }
     }
 }
