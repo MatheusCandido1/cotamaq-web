@@ -152,7 +152,6 @@ export default {
             this.sorting.price.descending= false
 
             this.proposals = this.sortAsc
-
            this.sort.price = 'desc'
         }else if(this.sort.price == 'desc') {
           this.sorting.price.descending = true
