@@ -25,8 +25,11 @@
         </div>
       </div>
       <div class="border-t-2 lg:px-3 "></div>
-<div class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
-            <button  v-for="index in 3" :key="index" :class="formatItem(index).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(index).text}}</button>
+      <div class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
+            <button @click="handleSortPrice"  :class="formatItem(1).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(1).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button  :class="formatItem(2).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button  :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button  :class="formatItem(4).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(4).text}}<i class="mdi mdi-sort ml-2"></i></button>
            </div>
       <div class="flex">
         <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
@@ -76,14 +79,34 @@ export default {
           },
           formats: [
             {id: 1, bg: 'bg-primary-main', text: 'Entrega'},
-            {id: 2, bg: 'bg-orange-500', text: 'Retirada'},
-            {id: 3, bg: 'bg-indigo-500', text: 'Aplicar Desconto'}
+            {id: 4, bg: 'bg-orange-500', text: 'Retirada'},
+            {id: 3, bg: 'bg-indigo-500', text: 'Aplicar Desconto'},
+            {id: 2, bg: 'bg-blue-500', text: 'Preço'}
           ],
+          // tipos: 'default', 'asc' e 'desc'
+          sort: {
+            price: 'asc'
+          },
           estimate: {},
           proposals: []
         }
     },
     methods: {
+      handleSortPrice() {
+        if(this.sort.price == 'default') {
+          // Ordenação padrão
+          console.log('1')
+        }
+        if(this.sort.price == 'asc') {
+          // Menor preço para o maior
+          console.log('1')
+        }
+        if(this.sort.price == 'desc') {
+          // Maior preço para o menor
+          console.log('1')
+        }
+        
+      },
       getProposalsByEstimate() {
         const estimate_id = this.$route.params.estimate_id
         estimateService.getEstimate(estimate_id).then((response) => {
