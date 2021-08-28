@@ -104,7 +104,7 @@ export default {
     },
     computed: {
         validProposals: function () {
-            return this.estimate.proposals.filter(proposal => proposal.status == 2)
+            return this.estimate.proposals.filter(proposal => proposal.status == 2 || proposal.status == 3 || proposal.status == 4)
         }
     },
     data() {
