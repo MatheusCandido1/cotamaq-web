@@ -93,6 +93,9 @@ export default {
         
         }
     },
+    destroyed() {
+      this.close()
+    },
     methods: {
         close() {                   
             this.$emit("close");

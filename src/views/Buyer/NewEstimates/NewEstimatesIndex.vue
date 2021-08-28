@@ -33,17 +33,11 @@
                                    
                 </div>
             </div>
-
-              
-            <div>                               
+            <div>                           
                 <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
                     <ProductItem v-for="(model, innerIndex) in list"   :key="innerIndex"  :product="model" />
-                </div>    
-
-
+                </div>  
             </div>
-           
-                       
             <div v-for="(day, index) in orderedData" :key="index">
                 <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje':day}}</p>
                 
@@ -57,8 +51,6 @@
                     </div>
                 </div>
             </div>
-            
-            
         </div>
     </span>
 </template>
@@ -85,27 +77,19 @@ export default {
         })
     },
     computed: {
-        days() {    
-
+        days() {   
             if(this.products.length == 0){                  
                 return Array.from(days.add(this.today()));                  
             }
-            
             const days = new Set();
             this.products.forEach((product )=> {
-                
                 if(product.created_at != this.today()){
                   days.add(this.today())                
                 }
-                
                 days.add(product.created_at)
             })
-           
             return Array.from(days);
         },
-        
-
-
     },
     data() {
         return {
@@ -120,13 +104,10 @@ export default {
     methods: {
         getSearch(){
            const list = [];
-
            if(this.MySearch.length == 0){
                return this.list = []
            }
-           
             this.products.forEach(data => {
-                             
                 if(data.brand != null){
                     if (data.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                         list.push(data);
@@ -147,7 +128,6 @@ export default {
             return date
         },
         getParts() {
-            console.warn(this.filterDate)
             estimateService.getEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
                 console.log(this.products)
@@ -168,7 +148,6 @@ export default {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })
                 .map(product => product)
-
         }
     }
 }

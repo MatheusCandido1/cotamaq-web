@@ -92,6 +92,9 @@ export default {
       selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
     }
   },
+  destroyed() {
+    this.close()
+  },
   methods: {
     close() {
       this.$emit("close");

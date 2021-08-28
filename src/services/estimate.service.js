@@ -37,8 +37,6 @@ function updateEstimate(id, data) {
     })
 }
 
-
-
 function getEstimate(id) {
     return axios.get(`${API_URL}/estimates/${id}`,  {
         headers: { 
@@ -49,8 +47,6 @@ function getEstimate(id) {
     })
     .then(handleResponse)
 }
-
-
 
 function getEstimates(data) {
     return axios.get(`${API_URL}/estimates/all/${data}`,  {
