@@ -114,7 +114,8 @@ export default {
                 {id: 1, bg: 'bg-orange-400', text: 'Rascunho'},
                 {id: 2, bg: 'bg-blue-400', text: 'Enviada'},
                 {id: 3, bg: 'bg-yellow-400', text: 'Em andamento'},
-                {id: 4, bg: 'bg-primary-main', text: 'Aprovada'}
+                {id: 4, bg: 'bg-primary-main', text: 'Aprovada'},
+                {id: 5, bg: 'bg-red-500', text: 'Cancelada'}
             ],
             isDuplicateModalVisible:false,
             isDeleteModalVisible:false,
