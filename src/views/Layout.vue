@@ -731,10 +731,19 @@ export default {
     },
     notificationNotRead(){
         return this.$store.getters.notificationNotRead
-      }
+    }
+   
   },
   methods: {
     deleteNotification(index){
+      var list = this.$store.getters.notificationList
+      list.forEach((data)=>{        
+        if(data.id == this.notificationNotRead[index].id){
+          data.read = 1
+        }
+      })
+      this.$store.commit('setNotification', list)      
+
       this.notificationNotRead.splice(index,1)
 
       this.isNotificationOpen= false

@@ -8,7 +8,7 @@
 
 <script>
 import moment from 'moment'
-
+import { notificationService } from '../../../services'
 export default {
     name: 'NotificationPreview',
     props:['notification', 'index'],
@@ -24,13 +24,15 @@ export default {
     },
     methods: {
         goToNotification(){
+          notificationService.toggleRead(this.notification.id)
           this.$emit('deleteNotification', this.index)
-          if(this.notification.estimate_id){
-          this.$router.push({ name: 'estimates' })
-          }else if(this.notification.proposal_id && this.notification.estimate_id){
+
+           if(this.notification.estimate_id != null  && this.notification.proposal_id == null && this.notification.order_id == null){
+            this.$router.push({ name: 'estimates' })
+          }else if(this.notification.proposal_id != null  && this.notification.estimate_id != null){
             this.$router.push({ name: 'ProposalsByEstimate', params:{estimate_id:this.notification.estimate_id} })
           }else if(this.notification.order_id){
-              this.$router.push({ name: 'orders' })
+             console.log('orders')
           }
 
         }

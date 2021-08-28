@@ -7,7 +7,7 @@ export const notificationService = {
 };
 
 function toggleRead(data) {
-    return axios.put(`${API_URL}/notification/${data}`, {
+    return axios.put(`${API_URL}/notifications/${data}`, {
         headers: { 
             ...authHeader(),
             'Accept': 'application/json',

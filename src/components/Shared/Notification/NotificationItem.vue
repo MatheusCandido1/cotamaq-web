@@ -26,7 +26,7 @@
                     <button @click="handleMarkAsReadClick" class="block no-underline text-sm text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
                         <span><i class="text-md mr-1" :class="currentNotification.read ? 'mdi mdi-email-open-outline' : 'mdi mdi-email'"></i>{{currentNotification.read ? 'Marcar como não lida':'Marcar como  lida'}}</span>
                     </button>
-                    <button class="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
+                    <button @click="goPage" class="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
                         <span><i class="text-md mdi mdi-open-in-new mr-1"></i>Ver {{getAction()}}</span>
                     </button>
                 </footer>
@@ -58,6 +58,16 @@ export default {
 		}
     },
     methods: {
+        goPage(){
+          if(this.notification.estimate_id != null  && this.notification.proposal_id == null && this.notification.order_id == null){
+            this.$router.push({ name: 'estimates' })
+          }else if(this.notification.proposal_id != null  && this.notification.estimate_id != null){
+            this.$router.push({ name: 'ProposalsByEstimate', params:{estimate_id:this.notification.estimate_id} })
+          }else if(this.notification.order_id){
+             console.log('orders')
+          }
+            
+        },
         handleMarkAsReadClick(){
             notificationService.toggleRead(this.notification.id)
             if(this.currentNotification.read == 1){
@@ -84,11 +94,11 @@ export default {
             
         },
         getFormatId() {
-            if(this.currentNotification.estimate_id != null) {
+            if(this.currentNotification.estimate_id != null && this.currentNotification.proposal_id == null) {
                 return 1
             }
 
-            if(this.currentNotification.proposal_id != null) {
+            if(this.currentNotification.proposal_id != null && this.currentNotification.estimate_id != null) {
                 return 2
             }
 
@@ -97,11 +107,13 @@ export default {
             }
         },
         getAction() {
-            if(this.currentNotification.estimate_id != null) {
+               
+            if(this.currentNotification.estimate_id != null && this.currentNotification.proposal_id == null) {
+                
                 return 'Cotação'
             }
 
-            if(this.currentNotification.proposal_id != null) {
+            if(this.currentNotification.proposal_id != null && this.currentNotification.estimate_id != null) {
                 return 'Proposta'
             }
 

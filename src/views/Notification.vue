@@ -78,13 +78,10 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
     },
     methods: {
       markAsNotRead(notification){
-        console.log(notification)
         this.notificationNotRead.push(notification)
       },
       MarkAsReadClick(index, notification){
-        var list = []
-        
-        console.warn(this.notificationsList)
+        var list = []       
 
         this.notificationList.forEach((data)=>{         
 
@@ -106,12 +103,7 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
           }
          
         })
-        // this.notificationsList = list
-              this.$store.commit('setNotificationList', list)
-
-        console.log(this.notificationsList)
-         
-       
+        this.$store.commit('setNotificationList', list)
         this.notificationNotRead.splice(index,1)
 
       },
@@ -123,7 +115,6 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
         return format
       },
       getNotifications(){
-        console.log(this.notificationsList)
         this.notificationsList.forEach((data)=>{
           
           if(data.read == 0){
@@ -131,12 +122,10 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
           }
 
         })
-        console.log(this.notificationsNotRead)
+       
       }
     },
-    mounted(){
-      console.log(this.notificationsList)
-    }
+   
     
     
         
