@@ -110,7 +110,7 @@ export default {
                 timeout: 2500
             });
             this.close();
-            bus.$emit('updateParts', true);
+            bus.$emit('updateSellerEstimates', true);
             this.disabled = false
         }).catch((error) => {
             console.log(error.response.data)

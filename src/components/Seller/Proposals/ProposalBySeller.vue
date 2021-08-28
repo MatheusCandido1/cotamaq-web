@@ -15,7 +15,7 @@
                         Propostas
                     </h2>
                 </div>
-                <div class="py-1">
+                <div v-if="approvedProposals.length == 0" class="py-1">
                     <button @click="handleAddClick"  class="bg-primary-main w-full text-md px-2 py-1 font-semibold text-white rounded-md dark:text-white">Nova Proposta</button>
                 </div>
             </div>
@@ -55,6 +55,11 @@ export default {
     },
     created() {
         this.getProposalsByEstimate();
+    },
+    computed: {
+        approvedProposals: function() {
+            return this.proposals.filter(proposal => proposal.status == 3)
+        }
     },
     data() {
         return {

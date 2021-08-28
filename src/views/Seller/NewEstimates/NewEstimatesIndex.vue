@@ -37,9 +37,7 @@
             <div>                               
                 <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
                     <ProductItem v-for="(model, innerIndex) in list"   :key="innerIndex"  :product="model" />
-                </div>    
-
-
+                </div>
             </div>
 
             <div v-for="(day, index) in orderedData" :key="index">
@@ -71,8 +69,8 @@ export default {
         this.getParts();
     },
     updated() {
-        bus.$off('updateParts');
-        bus.$on('updateParts', (data) => {
+        bus.$off('updateSellerEstimates');
+        bus.$on('updateSellerEstimates', (data) => {
             if(data) {
                 this.getParts();
             }

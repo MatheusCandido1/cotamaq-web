@@ -19,6 +19,9 @@
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                      <p><span class="font-semibold">Quantidade: </span>{{selectedProposal.estimate.quantity}}</p> 
                 </div>
+                <div class="flex space-x-2 text-gray-800 text-sm">
+                     <p><span class="font-semibold">Subtotal: </span>{{formatCurrency(selectedProposal.subtotal)}}</p> 
+                </div>
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                      <p><span class="font-semibold">Frete: </span>{{formatCurrency(selectedProposal.shipping)}}</p> 
                 </div>
