@@ -753,15 +753,27 @@ export default {
         this.user.id = data.id;
         sessionStorage.setItem('userId', data.id)
         sessionStorage.setItem('categories', JSON.stringify(data.categories))
+
+        window.Echo.private(`user.${this.user.id}`).listen('.newNotification', event =>{             
+          this.notificationList.push(event.message)
+          this.$store.commit('setNotification', this.notificationList)
+          this.notification = true
+          this.$toast.success(event.message.notification, {
+            position: "bottom-right",
+            pauseOnHover: false,
+            showCloseButtonOnHover: true,
+            timeout: 3500,
+          });
+
+        })
+        
+
          if(data.categories != null && data.categories.length > 0){
            data.categories.forEach((data)=>{
-             window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
-              
 
+             window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{             
               this.notificationList.push(event.message)
-
               this.$store.commit('setNotification', this.notificationList)
-
               this.notification = true
               this.$toast.success(event.message.notification, {
                   position: "bottom-right",
