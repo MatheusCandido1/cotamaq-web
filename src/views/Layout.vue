@@ -493,7 +493,7 @@
             </div>
             <ul class="flex items-center flex-shrink-0 space-x-2">
               <!-- Profile menu -->
-              <span class="text-black ">Olá, {{ this.user.name }}</span>
+              <span class="text-black ">Olá, {{ user.name }}</span>
               <li class="relative">
                 <button
                   class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
@@ -769,26 +769,28 @@ export default {
           this.notification = true
           this.$toast.success(event.message.notification, {
             position: "bottom-right",
-            pauseOnHover: false,
             showCloseButtonOnHover: true,
-            timeout: 3500,
+            timeout: false
           });
-
+          if(this.getRouteName == 'estimates') {
+            if(this.user.role_id == 2) {
+              bus.$emit('updateProposalsByBuyer', true);
+            }
+            if(this.user.role_id == 1) {
+              bus.$emit('updateProposalsBySeller', true);
+            }
+          }
         })
-        
-
          if(data.categories != null && data.categories.length > 0){
            data.categories.forEach((data)=>{
-
              window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{             
               this.notificationList.push(event.message)
               this.$store.commit('setNotification', this.notificationList)
               this.notification = true
               this.$toast.success(event.message.notification, {
                   position: "bottom-right",
-                  pauseOnHover: false,
                   showCloseButtonOnHover: true,
-                  timeout: 3500,
+                  timeout: false
               });
 
             })
