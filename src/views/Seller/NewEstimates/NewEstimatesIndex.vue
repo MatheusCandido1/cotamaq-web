@@ -75,6 +75,13 @@ export default {
                 this.getParts();
             }
         })
+
+        bus.$off('updateSellerEstimates');
+        bus.$on('updateSellerEstimates', (data) => {
+            if(data) {
+                this.getParts();
+            }
+        })
     },
     computed: {
         days() {     

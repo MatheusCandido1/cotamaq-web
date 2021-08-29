@@ -110,8 +110,8 @@
                </div>
             </div>
         </div>
-        <EstimateAccept @close="handleAcceptCloseClick" v-if="modal.accept" :estimate="selectedEstimate" />
-        <EstimateDecline @close="handleDeclineCloseClick" v-if="modal.decline" :estimate="selectedEstimate" />
+        <EstimateAccept @close="handleAcceptCloseClick" v-if="modal.accept" :estimate="estimate" />
+        <EstimateDecline @close="handleDeclineCloseClick" v-if="modal.decline" :estimate="estimate" />
     </div>
     
 </template>
