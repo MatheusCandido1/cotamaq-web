@@ -15,7 +15,7 @@
                         Propostas
                     </h2>
                 </div>
-                <div v-if="approvedProposals.length == 0" class="py-1">
+                <div v-if="proposals.length > 0 && approvedProposals.length == 0" class="py-1">
                     <button @click="handleAddClick"  class="bg-primary-main w-full text-md px-2 py-1 font-semibold text-white rounded-md dark:text-white">Nova Proposta</button>
                 </div>
             </div>

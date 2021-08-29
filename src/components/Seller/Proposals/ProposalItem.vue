@@ -117,7 +117,7 @@ export default {
                this.modal.cancel = false
           },
           handleDetailsClick() {
-               this.$router.push({name: 'proposalShow', params: {proposal_id: this.selectedProposal.id}})
+               this.$router.push({name: 'proposalDetails', params: {proposal_id: this.selectedProposal.id}})
           },
           handleEditClick() {
                this.$router.push({name: 'updateProposal', params: {estimate_id: this.selectedProposal.estimate_id, proposal_id: this.selectedProposal.id}})

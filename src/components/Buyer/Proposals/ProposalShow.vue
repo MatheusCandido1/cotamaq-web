@@ -4,7 +4,7 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Proposta #{{proposal.id}}
+                        Proposta #{{proposal.id}}<span :class="formatStatus(proposal.status).bg"  class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">{{formatStatus(proposal.status).text}}</span>
                     </h2>
                 </div>
                 <div class="py-1">
@@ -13,25 +13,19 @@
             </div>
             <form>
                 <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-1/4 px-3 mb-2 md:mb-0">
-                        <label  class="text-sm font-semibold text-gray-600 px-1">
-                            Vendedor
-                        </label>
-                        <input disabled id="seller_id" :value="formatMissingInformation(seller)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                    </div>
-                    <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                         <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                             Categoria
                         </label>
                         <input disabled id="category_id" :value="formatMissingInformation(estimate.category.name)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>
-                    <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                         <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                             Código da peça
                         </label>
                         <input disabled id="part_code" :value="formatMissingInformation(estimate.part_code)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>
-                    <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                         <label for="description" class="text-sm font-semibold text-gray-600 px-1">
                             Descrição
                         </label>
@@ -211,6 +205,7 @@
                     </div>
             </form>
     </div>
+    <ProposalConfirm v-if="modal.confirm" @save="sendProposal" @close="closeConfirmModal" />
     <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment" @close="closeEquipmentModal" />
 </div>
 </template>
@@ -278,6 +273,10 @@ export default {
                 brand: '',
                 observation: ''
             },
+            status: [
+                {id: 3, bg: 'bg-primary-main', text: 'Aprovada'},
+                {id: 4, bg: 'bg-red-600', text: 'Rejeitada por você'}
+            ],
             seller: null,
             proposal: {
                 id: this.$route.params.proposal_id,
@@ -312,6 +311,10 @@ export default {
         },
         goBack() {
             this.$router.back()
+        },
+        formatStatus(value) {
+            let format = this.status.find(status => status.id == value)
+            return format
         },
         closeEquipmentModal() {
             this.modal.equipment = false;
