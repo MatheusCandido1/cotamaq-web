@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import OrderItem from '../../../components/Seller/NewOrders/OrderItem'
+import OrderItem from '../../../components/Buyer/NewOrders/OrderItem'
+import { orderService } from '../../../services'
 export default {
     name: 'NewOrdersIndex',
     components: {
@@ -51,27 +52,20 @@ export default {
     },
     data() {
         return {
-            orders: [
-                {
-                    id: 1, 
-                    status: 4, 
-                    created_at: '29/08/2021', 
-                    estimate: {
-                        equipment: {},
-                    },
-                    proposal: {
-
-                    }
-                },
-            ],
+            orders: [],
             orderedData: [],
         }
     },
     methods: {
         getOrders() {
-            this.orderedData = this.days.sort(function(a, b) {
-                return new Date(...b.split('/')) - new Date(...a.split('/'));
-            });
+            orderService.getOrders().then((response) => {
+                this.orders = response.data.data
+                this.orderedData = this.days.sort(function(a, b) {
+                    return new Date(...b.split('/')) - new Date(...a.split('/'));
+                });
+            }).catch((error) => {
+                console.log(error.response)
+            })
         },
         today() {
             const current = new Date();
