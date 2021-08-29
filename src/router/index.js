@@ -20,6 +20,7 @@ import UpdateEstimate from '../components/Buyer/Parts/PartUpdate'
 import ProposalAdd from '../views/Seller/Proposals/ProposalAdd'
 import ProposalEdit from '../views/Seller/Proposals/ProposalEdit'
 import ProposalsByEstimate from '../views/ProposalsByEstimate'
+import ProposalDetails from '../views/ProposalDetails'
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -39,7 +40,7 @@ const routes = [
       { path: '/cotacao/:estimate_id/proposta', name: 'addProposal', component: ProposalAdd},
       { path: '/cotacao/:estimate_id/proposta/:proposal_id', name: 'updateProposal', component: ProposalEdit},
       { path: '/cotacao/:estimate_id/propostas', name: 'ProposalsByEstimate', component: ProposalsByEstimate},
-
+      { path: '/proposta/:proposal_id', name: 'proposalDetails', component: ProposalDetails},
      
       { path: '/cotacao', name: 'partAdd', component: PartAdd},
       { path: '/cotacao/:id', name: 'editEstimate', component: UpdateEstimate},

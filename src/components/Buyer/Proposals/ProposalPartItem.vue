@@ -44,9 +44,23 @@
                                    <button @click="handleAcceptOpenClick" class="flex-1 bg-primary-main font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Comprar</button>
                                    <button @click="handleDeclineOpenClick" class="flex-1 bg-red-600 font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Recusar</button>
                               </ul>
-                              <ul v-if="selectedProposal.status == 3 || selectedProposal.status == 4" class="flex gap-2 justify-start mt-2">                  
-                                   <div :class="formatStatus(selectedProposal.status).bg" class="flex-1 text-center font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">{{formatStatus(selectedProposal.status).text}}</div>
-                              </ul>
+                              
+                              <div v-if="selectedProposal.status == 3 || selectedProposal.status == 4" class=" flex flex-row justify-end my-2 gap-2">
+                                   <button :class="formatStatus(selectedProposal.status).bg" class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white">
+                                        {{formatStatus(selectedProposal.status).text}}
+                                   </button>
+                                   <button 
+                                        @click="handleDetailsClick"
+                                        v-if="
+                                             selectedProposal.status == 3 ||
+                                             selectedProposal.status == 4 
+                                        " 
+                                        class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
+                                        </svg>
+                                   </button>
+                              </div>
                          </div>
                     </div>
                </div>
@@ -96,6 +110,9 @@ export default {
           formatStatus(value) {
                let format = this.status.find(status => status.id == value)
                return format
+          },
+          handleDetailsClick() {
+               this.$router.push({name: 'proposalDetails', params: {proposal_id: this.selectedProposal.id}})
           },
 		handleAcceptOpenClick() {
 			this.modal.accept = true;
