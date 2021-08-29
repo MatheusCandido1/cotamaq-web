@@ -1,13 +1,13 @@
 <template>
-<span v-if="$props.role">
-    <seller-orders v-if="$props.role === 1"></seller-orders>
-    <buyer-orders v-else-if="$props.role === 2"></buyer-orders>
+  <span v-if="$props.role">
+    <SellerOrders v-if="$props.role === 1"></SellerOrders>
+    <BuyerOrders v-else-if="$props.role === 2"></BuyerOrders>
   </span>
 </template>
 
 <script>
-import BuyerOrders from './Buyer/Orders/Orders';
-import SellerOrders from './Seller/Orders/Orders';
+import BuyerOrders from './Buyer/NewOrders/NewOrdersIndex';
+import SellerOrders from './Seller/NewOrders/NewOrdersIndex';
 export default {
     name: 'Orders',
     props: ['role'],
