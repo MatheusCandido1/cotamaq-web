@@ -40,7 +40,7 @@ const routes = [
       { path: '/cotacao/:estimate_id/proposta', name: 'addProposal', component: ProposalAdd},
       { path: '/cotacao/:estimate_id/proposta/:proposal_id', name: 'updateProposal', component: ProposalEdit},
       { path: '/cotacao/:estimate_id/propostas', name: 'ProposalsByEstimate', component: ProposalsByEstimate},
-      { path: '/proposta/:proposal_id/cotacao/:estimate_id', name: 'ProposalDetails', component: ProposalShow},
+      { path: '/proposta/:proposal_id', name: 'proposalShow', component: ProposalShow},
      
       { path: '/cotacao', name: 'partAdd', component: PartAdd},
       { path: '/cotacao/:id', name: 'editEstimate', component: UpdateEstimate},
