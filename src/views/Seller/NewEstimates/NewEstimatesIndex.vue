@@ -101,31 +101,44 @@ export default {
     },
     methods: {
          getSearch(){
-          const list = [];
-           var jump = false
+            const list = [];
            if(this.MySearch.length == 0){
                return this.list = []
            }
-            this.products.forEach(data => {
-                console.log(data)
+            this.products.forEach((data) => {       
+               
                 if(data.brand != null){
-                    if (data.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                        list.push(data);
-                        jump = true
+                    if (data.brand.toLowerCase().match(this.MySearch.toLowerCase())  ) {
+                        if(list.length > 0){
+                            if(list[list.length-1].id != data.id){
+                                list.push(data);
+                            }
+                        }else{
+                            list.push(data);
+                        }
                     }
                 }
+
                 if (data.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                      if(!jump){
-                          list.push(data);
-                           jump = true
+                   if(list.length > 0){
+                        if(list[list.length-1].id != data.id){
+                            list.push(data);
                         }
+                    }else{
+                        list.push(data);
+                    }
                 }
+
                 if (data.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                      if(!jump){
-                          list.push(data);
-                           jump = true
+                    if(list.length > 0){
+                        if(list[list.length-1].id != data.id){
+                            console.log('naot tem')
                         }
+                    }else{
+                        list.push(data);
+                    }                  
                 }
+                
             });
             this.list = list;
         },

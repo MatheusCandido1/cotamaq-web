@@ -102,7 +102,7 @@ export default {
                     };
                     userService.login(payload).then((response) => {
                         this.loader.loading = false;
-                        this.$store.commit('user/STORE_USER', response);
+                        this.$store.commit('STORE_USER', response);
                         this.$router.push('/cotacoes')
 
                     }).catch((error) => {
