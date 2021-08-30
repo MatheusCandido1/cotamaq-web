@@ -35,7 +35,7 @@
             </div>
             <div>                           
                 <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
-                    <ProductItem v-for="(model, innerIndex) in list"   :key="innerIndex"  :product="model" />
+                    <ProductItem v-for="(model, innerIndex) in list"   :key="innerIndex"  :estimate="model" />
                 </div>  
             </div>
             <div v-for="(day, index) in orderedData" :key="index">
@@ -104,20 +104,29 @@ export default {
     methods: {
         getSearch(){
            const list = [];
+           var jump = false
            if(this.MySearch.length == 0){
                return this.list = []
            }
             this.products.forEach(data => {
+                console.log(data)
                 if(data.brand != null){
                     if (data.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                         list.push(data);
+                        jump = true
                     }
                 }
                 if (data.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                        list.push(data);
+                      if(!jump){
+                          list.push(data);
+                           jump = true
+                        }
                 }
                 if (data.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                        list.push(data);
+                      if(!jump){
+                          list.push(data);
+                           jump = true
+                        }
                 }
             });
             this.list = list;

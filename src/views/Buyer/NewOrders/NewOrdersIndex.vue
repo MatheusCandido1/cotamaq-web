@@ -11,9 +11,35 @@
 
             <div class="flex">
                 <div class="w-full px-3 mb-5">
-                    <input type="text"  placeholder="Pesquisar..." class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none focus:border-primary-lighter" />
+                    <input type="text" @keyup="getSearch" v-model="MySearch"  placeholder="Pesquisar..." class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none focus:border-primary-lighter" />
                 </div>                
             </div>
+                   
+              <div class="flex justify-end">
+                <div class="w-1/1 px-3 mb-5 ">
+
+                    <label for="" class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
+                    <div class="flex">
+                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                             <select    v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
+                                <option value="0" >Apenas desta semana</option>
+                                <option value="1" >Hoje</option>
+                                <option value="2">Este Mês</option>
+                                <option value="3">Ultimo Mês</option>
+                                <option value="4">Exibir todas</option>
+                            </select> 
+                                                        
+                    </div>   
+                                   
+                </div>
+            </div>
+
+            <div v-if="list.length > 0"> 
+                <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
+                    <OrderItem v-for="(model, innerIndex) in  list"   :key="innerIndex"  :order="model" />
+                </div>
+            </div>
+
 
             <div v-for="(day, index) in orderedData" :key="index">
             <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje':day}}</p>
@@ -54,9 +80,45 @@ export default {
         return {
             orders: [],
             orderedData: [],
+            filterDate: 0,
+            MySearch:'',
+            list:[]
         }
     },
     methods: {
+         getSearch(){
+           console.log('deu')
+           let list = []
+           var jump = false
+            this.orders.forEach(data => {
+                if(data.proposal.estimate.brand != null){
+
+                    if (data.proposal.estimate.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {                       
+                        list.push(data);                       
+                        jump = true
+                    }
+                }
+                if (data.proposal.estimate.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
+                        if(!jump){
+                          list.push(data);
+                           jump = true
+                        }
+                     
+                }
+                if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
+                       if(!jump){
+                          list.push(data);
+                           jump = true
+                        }
+                       
+                }
+            });
+            this.list = list
+
+            if(this.MySearch.length == 0){
+                this.list = []
+            }
+        },
         getOrders() {
             orderService.getOrders().then((response) => {
                 this.orders = response.data.data
