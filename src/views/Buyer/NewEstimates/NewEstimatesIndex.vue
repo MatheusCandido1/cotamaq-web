@@ -87,8 +87,7 @@ export default {
                 days.add(product.created_at)
             })
 
-            if(this.products.length == 0){      
-                console.log('caiu if')            
+            if(this.products.length == 0){        
                 return Array.from(days.add(this.today()));                  
                              
             }
@@ -114,7 +113,6 @@ export default {
                return this.list = []
            }
             this.products.forEach(data => {
-                console.log(data)
                 if(data.brand != null){
                     if (data.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                         list.push(data);
@@ -144,7 +142,6 @@ export default {
         getParts() {
             estimateService.getEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
-                console.log(this.products)
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
                 });
