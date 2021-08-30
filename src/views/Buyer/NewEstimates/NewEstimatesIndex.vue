@@ -78,9 +78,7 @@ export default {
     },
     computed: {
         days() {   
-            if(this.products.length == 0){                  
-                return Array.from(days.add(this.today()));                  
-            }
+            
             const days = new Set();
             this.products.forEach((product )=> {
                 if(product.created_at != this.today()){
@@ -88,6 +86,13 @@ export default {
                 }
                 days.add(product.created_at)
             })
+
+            if(this.products.length == 0){      
+                console.log('caiu if')            
+                return Array.from(days.add(this.today()));                  
+                             
+            }
+            
             return Array.from(days);
         },
     },
@@ -144,7 +149,7 @@ export default {
                       return new Date(...b.split('/')) - new Date(...a.split('/'));
                 });
             }).catch((error) => {
-                console.log(error.response)
+                console.log('catch',error.response)
             })
         },
         handleNewPartClick() {
