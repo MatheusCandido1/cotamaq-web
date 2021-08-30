@@ -41,7 +41,7 @@
                              </div>                          
                         </div>
                         <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
-                            <label for="" class="text-sm font-semibold text-gray-600 px-1">CPF/CNPJ</label>
+                            <label for="" class="text-sm font-semibold text-gray-600 px-1">CPF/gCNPJ</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                                 <the-mask @change.native="() => (errors.cnpj = 'OK')" :mask="['###.###.###-##', '##.###.###/####-##']" :disabled="!edit" :class="errors.cnpj == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="company.cnpj" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>

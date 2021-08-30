@@ -27,7 +27,7 @@
                      <p><span class="font-bold">Equipamento:</span> {{formatEquipment(order.proposal.estimate.equipment)}}</p> 
                 </div>
             </div>
-            <ul class="flex space-x-2 mb-2 justify-start my-3">
+            <ul @click="showTrackingModal" class="flex space-x-2 mb-2 justify-start my-3">
                 <li class="w-full text-center bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega</li>
             </ul>
         </div>
@@ -64,10 +64,12 @@
                 </div>
             </div>
         </div>
+        <OrderTracking v-if="modal.tracking" @close="closeTrackingModal"/>
     </div>
 </template>
 <script>
-
+import { bus } from '../../../main'
+import OrderTracking from '../../../components/Buyer/NewOrders/OrderTracking'
 import { 
     formatMissingInformation, 
     formatCurrency, 
@@ -79,10 +81,14 @@ export default {
     name: 'OrderItem',
     props: ['order'],
     components:{
+        OrderTracking
     },
     data() {
         return {
-           status: [
+            modal: {
+                tracking: false,
+            },
+            status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
                 {id: 2, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
                 {id: 3, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
@@ -95,6 +101,14 @@ export default {
         formatSimilar,
         formatCurrency,
         formatMissingInformation,
+        showTrackingModal() {
+            this.modal.tracking = true;
+            bus.$emit("ModalOpen", true);
+        },
+        closeTrackingModal() {
+            this.modal.tracking = false;
+            bus.$emit("ModalOpen", false);
+        },
         formatStatus(value) {
             let format = this.status.find(status => status.id == value)
             return format

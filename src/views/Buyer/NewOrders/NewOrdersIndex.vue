@@ -62,7 +62,7 @@ import { orderService } from '../../../services'
 export default {
     name: 'NewOrdersIndex',
     components: {
-        OrderItem
+        OrderItem,
     },
     created() {
         this.getOrders()
@@ -78,6 +78,9 @@ export default {
     },
     data() {
         return {
+            modal: {
+                tracking: false,
+            },
             orders: [],
             orderedData: [],
             filterDate: 0,
