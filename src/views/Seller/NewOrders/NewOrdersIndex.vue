@@ -58,7 +58,7 @@ export default {
     },
     methods: {
         getOrders() {
-            orderService.getOrders().then((response) => {
+            orderService.getOrdersBySeller(0).then((response) => {
                 this.orders = response.data.data
                 this.orderedData = this.days.sort(function(a, b) {
                     return new Date(...b.split('/')) - new Date(...a.split('/'));

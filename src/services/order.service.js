@@ -3,7 +3,8 @@ import { API_URL } from '../API_URL.js'
 import axios from 'axios';
 
 export const orderService = {
-    getOrders,
+    getOrdersByBuyer,
+    getOrdersBySeller,
     createOrder,
     getOrderByBuyer,
     getOrderBySeller,
@@ -17,6 +18,29 @@ export const orderService = {
     getPaymentOptions,
     updatePaymentOptionsByBuyer
 };
+
+function getOrdersByBuyer(data) {
+    return axios.get(`${API_URL}/orders/buyer/${data}`,  {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
+
+function getOrdersBySeller(data) {
+    return axios.get(`${API_URL}/orders/seller/${data}`,  {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
+
 
 
 function showPdf(id) {
@@ -178,17 +202,6 @@ function getOrderByBuyer(id) {
 
 function getOrderBySeller(id) {
     return axios.get(`${API_URL}/orders/${id}/seller`,  {
-        headers: { 
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(handleResponse)
-}
-
-function getOrders() {
-    return axios.get(`${API_URL}/orders`,  {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
