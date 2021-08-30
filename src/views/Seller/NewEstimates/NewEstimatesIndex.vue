@@ -21,16 +21,14 @@
                     <label for="" class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                             <select @change="getParts" v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
+                            <select @change="getParts" v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
                                 <option value="0" >Apenas desta semana</option>
                                 <option value="1" >Hoje</option>
                                 <option value="2">Este Mês</option>
                                 <option value="3">Ultimo Mês</option>
                                 <option value="4">Exibir todas</option>
-                            </select> 
-                                                        
-                    </div>   
-                                   
+                            </select>                
+                    </div>        
                 </div>
             </div>
 

@@ -16,7 +16,11 @@ export const formatSimilar = (value) => {
 }
 
 export const formatCurrency = (value) => {
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    if(value == 0 || value == null || value == 'null') {
+        return '0.00'
+    } else {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    }
 }
 
 export const formatDelivery = (delivery, days) => {

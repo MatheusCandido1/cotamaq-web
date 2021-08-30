@@ -188,7 +188,13 @@
                             <label for="discount" class="text-sm font-semibold text-gray-600 px-1">
                                 Desconto
                             </label>
+                            
+                            <div class="flex">
                             <input id="discount" v-model="proposal.discount"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <div class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none">
+                                <span class="m-auto"><i class="mdi mdi-percent"></i></span>
+                            </div>   
+                            </div>
                         </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                             <label for="validity" class="text-sm font-semibold text-gray-600 px-1">
@@ -507,7 +513,7 @@ export default {
                 this.$router.push({name: 'estimates'})
 
             }).catch((error) => {
-                this.$toast.error(error.response.data.message, {
+                this.$toast.error(error.response.data.error_message, {
                 position: "bottom-right",
                 pauseOnHover: false,
                 showCloseButtonOnHover: true,

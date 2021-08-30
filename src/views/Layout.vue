@@ -777,7 +777,7 @@ export default {
               bus.$emit('updateProposalsByBuyer', true);
             }
             if(this.user.role_id == 1) {
-              bus.$emit('updateProposalsBySeller', true);
+              bus.$emit('updateSellerEstimates', true);
             }
           }
         })
