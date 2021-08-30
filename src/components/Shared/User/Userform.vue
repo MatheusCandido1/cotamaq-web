@@ -26,7 +26,7 @@
                         <input placeholder="Ex: fernando@gmail.com"  v-model="user.email"  @change="() => (errors.user.email = 'OK')" :class="errors.user.email == 'ERROR' ? 'border-red-400':'border-primary-main'"    type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  ">
                     </div>   
                     <div v-if="errors.user.email == 'ERROR'">
-                        <span class="text-xs text-red-400 font-semibold px-1">O campo Email é obrigatório.</span>
+                        <span class="text-xs text-red-400 font-semibold px-1">O campo Email é obrigatório e deve conter um valor válido.</span>
                     </div>                       
                 </div>
 
@@ -61,7 +61,7 @@
 <script>
 import { companyService} from '../../../services'
 import { bus } from '../../../main';
-import { required } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 
 
     export default {
@@ -108,9 +108,7 @@ import { required } from 'vuelidate/lib/validators'
                 bus.$emit('updatedUser', true);
                })
             }
-
-            
-                 this.disabled = false
+                this.disabled = false
             }
         },
         validations: {
@@ -119,17 +117,14 @@ import { required } from 'vuelidate/lib/validators'
                    required
                 },
                 email:{
-                    required
+                    required,
+                    email
                 },
                 password:{
                     required
                 }
-                  
-                  
             }
-              
         }
-      
     }
 </script>
 
