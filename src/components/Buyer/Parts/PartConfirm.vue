@@ -49,14 +49,16 @@
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Descrição:</span> {{selectedPart.description}}</p> 
                           </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm">
+                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Quantidade:</span> {{selectedPart.quantity}}</p> 
+                          </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm">
+                              <p><span class="font-bold">Categoria:</span> {{selectedPart.category.name}}</p> 
                           </div>
                     </div>
                   </div>
-                      <div class="px-2 py-2 flex-grow whitespace-nowrap">
+                    <div class="px-2 py-2 flex-grow whitespace-nowrap">
                     <div class="px-2 ">
-                          
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(selectedPart.allow_similar)}} </p> 
                           </div>
@@ -70,7 +72,7 @@
                   </div>
                   </div>
                 </div>
-                <div>
+                <div v-if="!selectedEquipment.id == ''">
                   <div class="border-t-2"></div>
                   <div class="flex flex-row">
                       <div class="py-2 flex-grow">
