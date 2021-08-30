@@ -90,7 +90,7 @@ function duplicateEstimate(data){
 }
 
 function deleteEstimate(data){
-    return axios.delete(`${API_URL}/estimates/${data}`, null, {
+    return axios.delete(`${API_URL}/estimates/${data}`, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -99,7 +99,6 @@ function deleteEstimate(data){
     })
     .then(response => {
         const data = response.data
-        
         return data;
     })
 }

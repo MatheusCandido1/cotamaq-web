@@ -108,11 +108,20 @@ export default {
                     showCloseButtonOnHover: true,
                     timeout: 2500
                 });
-            bus.$emit('updatedEstimate', true);
+            bus.$emit('updateProposalsByBuyer', true);
             this.close()
-            this.disabled = false    
-            console.log(response)
-        })
+            this.disabled = false  
+        }).catch((error) => {
+          console.log(error.response.data)
+                this.$toast.error(error.response.data.error_message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+                });
+            this.disabled = false  
+            this.close()
+            })
            
             
     },
