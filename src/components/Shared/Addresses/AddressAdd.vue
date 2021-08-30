@@ -171,6 +171,9 @@ export default {
   components: {
       TheMask
   },
+  destroyed() {
+    this.close();
+  },
   data() {
       return {
             states: [

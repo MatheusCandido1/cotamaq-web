@@ -43,7 +43,7 @@
                             <option disabled value=""> Selecione... </option>
                             <option   v-for="address in addresses" :key="address.id" :value="address.id">{{address.description}}</option>
                         </select> 
-                        <button class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
+                        <button @click="showAddAddressModal" type="button" class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none cursor-pointer">
                             <span class="m-auto"><i class="mdi mdi-plus"></i></span>
                         </button>  
                         </div>
@@ -124,7 +124,7 @@
                         <textarea v-model="part.observation" class="form-textarea mt-1 block resize-none w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" rows="3" placeholder=""></textarea>
                     </div>
                 </div>
-                <div class="-mx-3 md:flex mb-6">
+                <!--<div class="-mx-3 md:flex mb-6">
                     <div class="md:w-full px-3 mb-2 md:mb-0">
                         <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>   
                         <span @click="addFiles()" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Adicionar Imagens</span>
@@ -140,7 +140,7 @@
                         </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="md:w-full px-3 mb-2 md:mb-0">
                     <label for="allow_similar" class="flex justify-center text-lg font-semibold text-gray-600 px-1">
                         Adicionar detalhes do Equipamento?
@@ -261,6 +261,7 @@
         </form>
   </div>
     </div>
+    <AddressAdd v-if="modal.address" @close="closeAddAddressModal" />
     <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipmentForm == 1 ? part.equipment:equipment" @save="sendPart" @close="closeConfirmModal" />
 </div>
 </template>
@@ -272,12 +273,22 @@ import { categoryService, equipmentService, userService, estimateService } from 
 import Multiselect from 'vue-multiselect'
 import { formatEquipment } from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
+import AddressAdd from '../../Shared/Addresses/AddressAdd';
 
 export default {
     name: 'PartUpdate',
     components: {
         Multiselect,
-        PartConfirm
+        PartConfirm,
+        AddressAdd
+    },
+    updated() {
+        bus.$off('updatedEstimateAddress');
+        bus.$on('updatedEstimateAddress', (data) => {
+            if(data) {
+               this.getAddresses(); 
+            }
+        })
     },
     created() {
         this.getEquipments()
@@ -289,6 +300,7 @@ export default {
         return {
             modal: {
                 confirm: false,
+                address: false,
             },
             files: [],
             addresses: [],
@@ -347,6 +359,14 @@ export default {
     },
     methods: {
         formatEquipment,
+        showAddAddressModal() {
+            this.modal.address = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeAddAddressModal() {
+            this.modal.address = false;
+            bus.$emit('ModalOpen', false);
+        },
         showConfirmModal() {
             this.$v.$touch()
 
