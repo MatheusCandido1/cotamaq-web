@@ -21,7 +21,7 @@
                     <label for="" class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                             <select    v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
+                             <select @change="getOrders"    v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
                                 <option value="0" >Apenas desta semana</option>
                                 <option value="1" >Hoje</option>
                                 <option value="2">Este Mês</option>
@@ -87,40 +87,49 @@ export default {
     },
     methods: {
          getSearch(){
-           console.log('deu')
-           let list = []
-           var jump = false
-            this.orders.forEach(data => {
-                if(data.proposal.estimate.brand != null){
-
-                    if (data.proposal.estimate.brand.toLowerCase().match(this.MySearch.toLowerCase()) ) {                       
-                        list.push(data);                       
-                        jump = true
+             const list = [];
+           if(this.MySearch.length == 0){
+               return this.list = []
+           }
+            this.products.forEach((data) => {       
+               
+                if(data.brand != null){
+                    if (data.brand.toLowerCase().match(this.MySearch.toLowerCase())  ) {
+                        if(list.length > 0){
+                            if(list[list.length-1].id != data.id){
+                                list.push(data);
+                            }
+                        }else{
+                            list.push(data);
+                        }
                     }
                 }
-                if (data.proposal.estimate.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                        if(!jump){
-                          list.push(data);
-                           jump = true
-                        }
-                     
-                }
-                if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
-                       if(!jump){
-                          list.push(data);
-                           jump = true
-                        }
-                       
-                }
-            });
-            this.list = list
 
-            if(this.MySearch.length == 0){
-                this.list = []
-            }
+                if (data.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
+                   if(list.length > 0){
+                        if(list[list.length-1].id != data.id){
+                            list.push(data);
+                        }
+                    }else{
+                        list.push(data);
+                    }
+                }
+
+                if (data.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
+                    if(list.length > 0){
+                        if(list[list.length-1].id != data.id){
+                            console.log('naot tem')
+                        }
+                    }else{
+                        list.push(data);
+                    }                  
+                }
+                
+            });
+            this.list = list;
         },
         getOrders() {
-            orderService.getOrdersByBuyer(0).then((response) => {
+            orderService.getOrdersByBuyer(this.filterDate).then((response) => {
                 this.orders = response.data.data
                 this.orderedData = this.days.sort(function(a, b) {
                     return new Date(...b.split('/')) - new Date(...a.split('/'));
