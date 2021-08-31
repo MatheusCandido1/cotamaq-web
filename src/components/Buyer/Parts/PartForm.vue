@@ -248,7 +248,7 @@
             </form>
     </div>    
     <AddressAdd v-if="modal.address" @close="closeAddAddressModal" />
-    <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipment" @save="createPart" @close="closeConfirmModal" />
+    <PartConfirm v-if="modal.confirm" :categories="categories" :part="part" :equipment="equipment" @save="createPart" @close="closeConfirmModal" />
 </div>
 </template>
 

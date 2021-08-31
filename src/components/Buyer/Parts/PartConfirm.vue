@@ -52,15 +52,16 @@
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Quantidade:</span> {{selectedPart.quantity}}</p> 
                           </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Categoria:</span> {{selectedPart.category.name}}</p> 
+                          <div v-if="categories.length > 0" class="flex space-x-2 text-gray-800 text-sm my-3">
+                              <p><span class="font-bold">Categoria:</span> {{categories.find(category => category.id == selectedPart.category_id).name}}</p> 
                           </div>
+                          
                     </div>
                   </div>
                     <div class="px-2 py-2 flex-grow whitespace-nowrap">
                     <div class="px-2 ">
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(selectedPart.allow_similar)}} </p> 
+                              <p><span class="font-bold">Aceita Similar:</span> {{formatSimilar(selectedPart.allow_similar)}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Marca:</span> {{selectedPart.brand == '' ? 'Não Informado':selectedPart.brand}}</p> 
@@ -111,10 +112,10 @@
 </template>
 <script>
 import { estimateService } from '../../../services';
-import { formatSimillar, formatEquipment } from '@/helpers/string-helper';
+import { formatSimilar, formatEquipment } from '@/helpers/string-helper';
 export default {
   name: "PartConfirm",
-  props: ['part','equipment'],
+  props: ['part','equipment','categories'],
   data() {
     return {
       selectedPart: JSON.parse(JSON.stringify(this.$props.part)),
@@ -127,7 +128,7 @@ export default {
   },
   methods: {
     formatEquipment,
-    formatSimillar,
+    formatSimilar,
     close() {
       this.$emit("close");
     },
