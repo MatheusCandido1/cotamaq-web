@@ -35,7 +35,7 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                    Detalhes do Equipamento 
+                    Detalhes do Equipamento
                 </h3>
                   <div class="border-t-2 mt-2 w-full"></div>
                 <div class="mt-2">

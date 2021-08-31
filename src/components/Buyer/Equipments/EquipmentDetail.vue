@@ -10,7 +10,7 @@
           <!--header-->
           <div class="flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 class="text-xl font-semibold">
-              Dados do Equipamento
+              Dados do Equipamento 
             </h3>
 
             <div class="w-1/4 px-3">
@@ -129,9 +129,10 @@ export default {
             this.errors.description = 'ERROR'
         } 
 
-        if(this.equipment.year != null && this.equipment.year != '') {
+        if(this.selectedEquipment.year != null && this.selectedEquipment.year != '') {
+
             var now = new Date()
-            if(this.equipment.year >= now.getFullYear() || this.equipment.year < 1900) {
+            if(this.selectedEquipment.year >= now.getFullYear() || this.selectedEquipment.year < 1900) {
                 this.errors.year = 'ERROR'
             }
         } 
