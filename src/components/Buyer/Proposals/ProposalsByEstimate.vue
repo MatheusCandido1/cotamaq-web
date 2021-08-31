@@ -41,8 +41,8 @@
       </div>
     </div>
   </div>
-  <EstimateDetails v-if="modal.estimate" :estimate="estimate" @close="closeEstimateModal" />
-  <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment" @close="closeEquipmentModal" />
+  <EstimateDetails v-if="modal.estimate" :estimate="estimate"  @close="closeEstimateModal" />
+  <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment"  @close="closeEquipmentModal" />
 </div> 
 </template>
 
@@ -131,7 +131,8 @@ export default {
           },
           estimate: {},
           proposals: [],
-          proposalsDefaults:[]
+          proposalsDefaults:[],
+         
         }
     },
     methods: {

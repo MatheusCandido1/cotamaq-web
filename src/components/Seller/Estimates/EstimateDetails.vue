@@ -1,6 +1,6 @@
 <template>
   <transition name="modal-fade">
-    <div class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="fixed  inset-0 overflow-y-auto z-50">
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
@@ -15,7 +15,7 @@
           >&#8203;</span
         >
         <div
-          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          class="inline-block  align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all  sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
@@ -35,17 +35,17 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                    Cotação #{{selectedEstimate.id}}
+                    Cotação #{{selectedEstimate.id}} 
                 </h3>
                   <div class="border-t-2 mt-2 w-full"></div>
                 <div class="mt-2">
-                  <h4 class="text-lg font-semibold text-gray-900">Peça: {{selectedEstimate.description}} </h4>
+                  <h4 class="text-lg font-semibold text-gray-900">Peça: {{selectedEstimate.description}}  </h4>
                   
                   <div class="flex flex-row ">
-                      <div class="py-2 flex-grow whitespace-nowrap">
+                      <div class="py-2 flex-grow whitespace-pre-line">
                     <div class="">
                           <div class="flex space-x-2 text-gray-800 text-sm  my-3">
-                              <p><span class="font-bold">Cód. da peça:</span> {{selectedEstimate.part_code}}</p> 
+                              <p><span class="font-bold">Cód. da peça:</span> {{selectedEstimate.part_code}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Descrição:</span> {{selectedEstimate.description}}</p> 
@@ -55,7 +55,7 @@
                           </div>
                     </div>
                   </div>
-                      <div class="px-2 py-2 flex-grow whitespace-nowrap">
+                      <div class="px-2 py-2 flex-grow whitespace-pre-line">
                     <div class="px-2 ">
                           
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
