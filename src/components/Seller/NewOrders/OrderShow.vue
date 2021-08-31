@@ -7,7 +7,14 @@
                         Pedido #{{order.id}} <span class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
                     </h2>
                 </div>
-                <div class="py-1 flex whitespace-nowrap	">
+                <div class="py-1 flex whitespace-nowrap">
+                    <div v-if="order.status == 1" class=" animate-bounce bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+                        <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Métodos e Condições de Pagamento <span class="font-bold"> NÃO </span> enviados</span>
+                    </div>
+                    <button @click="showPaymentsModal" v-if="order.status == 2" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+                        <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Métodos e Condições de Pagamento enviados</span>
+                    </button> 
+                     
                     <div :class="formatStatus(order.status).bg" class="text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
                     </div> 
@@ -110,6 +117,7 @@
                 </div>
             </div>
         </div>
+        <OrderPayments v-if="modal.payments" @close="closePaymentsModal" />
         <OrderAlert :status="order.status" v-if="modal.alert" @close="closeAlertModal" />
         <PaymentConditionAdd v-if="modal.condition" @close="closeConditionModal" />
         <PaymentMethodAdd v-if="modal.method" @close="closeMethodModal" />
@@ -120,11 +128,12 @@
 <script>
 import { bus } from '../../../main';
 import { orderService } from '../../../services'
-import OrderAlert from './OrderAlert'
+import OrderAlert from './OrderAlert';
 import { BarLoader } from '@saeris/vue-spinners';
 import PaymentConditionAdd from '../Payments/PaymentCondition/PaymentConditionAdd';
 import PaymentMethodAdd from '../Payments/PaymentMethod/PaymentMethodAdd';
-import OrderPaymentConfirmModal from './OrderPaymentConfirm'
+import OrderPaymentConfirmModal from './OrderPaymentConfirm';
+import OrderPayments from './OrderPayments'
 
 export default {
     name: 'OrderShow',
@@ -133,7 +142,8 @@ export default {
         BarLoader,
         PaymentConditionAdd,
         PaymentMethodAdd,
-        OrderPaymentConfirmModal
+        OrderPaymentConfirmModal,
+        OrderPayments
     },
     updated() {
         bus.$off('updatePaymentMethod');
@@ -172,7 +182,7 @@ export default {
                 alert: false,
                 method: false,
                 condition: false,
-                payment: false,
+                payments: false,
             },
             paymentMethods: [],
             paymentConditions: [],
@@ -206,6 +216,14 @@ export default {
         closeOrderPaymentConfirmModal() {
             this.modal.payment = false;
             bus.$emit('ModalOpen', true);
+        },
+        showPaymentsModal() {
+            this.modal.payments = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closePaymentsModal() {
+            this.modal.payments = false;
+            bus.$emit('ModalOpen', false);
         },
         showMethodModal() {
             this.modal.method = true;
