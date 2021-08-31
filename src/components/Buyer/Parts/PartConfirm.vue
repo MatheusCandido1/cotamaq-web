@@ -73,13 +73,13 @@
                   </div>
                   </div>
                 </div>
-                <div v-if="!selectedEquipment.id == ''">
+                <div v-if="selectedEquipment != null">
                   <div class="border-t-2"></div>
                   <div class="flex flex-row">
                       <div class="py-2 flex-grow">
                     <div>
                       <div class="flex space-x-2 text-gray-800 text-sm">
-                        <p><span class="font-bold">Equipamento:</span> {{formatEquipment(selectedEquipment.id)}}</p> 
+                        <p><span class="font-bold">Equipamento: </span> {{formatEquipment(selectedEquipment)}}</p> 
                       </div>
                     </div>
                   </div>

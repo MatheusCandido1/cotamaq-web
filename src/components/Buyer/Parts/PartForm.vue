@@ -137,16 +137,16 @@
                 
                 <div class="-mx-3 md:flex mb-6 mt-2">
                     <div class="md:w-full px-3 flex justify-center gap-4">
-                        <button @click="showEquipmentForm" type="button" class="sm:w-full md:w-1/4 flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 shadow-md py-2 px-6 inline-flex items-center">
+                        <button @click="showEquipmentSelect" type="button" class="sm:w-full md:w-1/4 flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 shadow-md py-2 px-6 inline-flex items-center">
                             <span class="justify-center items-center"><i class="mdi mdi-tractor-variant mr-2"></i>Usar Equipamento Existente</span>
                         </button> 
-                        <button @click="showEquipmentSelect"  type="button" class="sm:w-full md:w-1/4 flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker shadow-md py-2 px-6 inline-flex items-center">
+                        <button @click="showEquipmentForm"  type="button" class="sm:w-full md:w-1/4 flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker shadow-md py-2 px-6 inline-flex items-center">
                             <span class="justify-center items-center"><i class="mdi mdi-plus-box mr-2"></i>Cadastrar novo equipamento</span>
                         </button> 
                     </div>
                 </div>
 
-                <div v-if="equipmentForm == 2">
+                <div v-if="equipmentForm == 1">
                     <div class="-mx-3 md:flex mb-6">
                         <div class="md:w-1/2 px-3 mb-2 md:mb-0">
                             <label for="description" class="text-sm font-semibold text-gray-600 px-1">
@@ -187,22 +187,22 @@
                     </div>
                         <div class="-mx-3 md:flex mt-2">
                             <div class="md:w-full px-3 flex justify-end gap-2">
-                                <button @click="() => equipmentForm = null" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                <button @click="handleEquipmentCancel" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                     <span class="justify-center">Cancelar Equipamento</span>
                                 </button> 
                             </div>
                         </div>
                     </div>
 
-                <div v-if="equipmentForm == 1">
+                <div v-if="equipmentForm == 2">
                     <div class="-mx-3 md:flex mb-6">
                         <div class="md:w-full px-3 mb-2 md:mb-0">
                             <label for="equipment_id" class="text-sm font-semibold text-gray-600 px-1">
                                 Equipamento
                             </label>
                             <multiselect 
-                                v-model="equipment.id" 
-                                @input="() => (errors.equipment.id = 'OK')"
+                                v-model="oldEquipment" 
+                                @input="() => (errors.oldEquipment = 'OK')"
                                 :options="equipments"
                                 label="patrimony"
                                 track-by="id"
@@ -220,14 +220,14 @@
                                     Ops... Você não tem nenhum equipamento cadastrado...
                                 </template>
                             </multiselect>
-                             <div  v-if="errors.equipment.id == 'ERROR'" class="flex justify-center align-items">
+                             <div  v-if="errors.oldEquipment == 'ERROR'" class="flex justify-center align-items">
                                 <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Equipamento é obrigatório.</span>
                             </div> 
                         </div>
                     </div>
                      <div class="-mx-3 md:flex mt-2">
                         <div class="md:w-full px-3 flex justify-end gap-2">
-                            <button @click="() => equipmentForm = null" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                            <button @click="handleEquipmentCancel" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                 <span class="justify-center">Cancelar Equipamento</span>
                             </button> 
                         </div>
@@ -248,7 +248,7 @@
             </form>
     </div>    
     <AddressAdd v-if="modal.address" @close="closeAddAddressModal" />
-    <PartConfirm v-if="modal.confirm" :categories="categories" :part="part" :equipment="equipment" @save="createPart" @close="closeConfirmModal" />
+    <PartConfirm v-if="modal.confirm" :categories="categories" :part="part" :equipment="equipmentInfo" @save="createPart" @close="closeConfirmModal" />
 </div>
 </template>
 
@@ -306,6 +306,8 @@ export default {
                 equipment_id: '',
                 address_id: '',
             },
+            equipmentInfo: null,
+            oldEquipment: null,
             equipment: {
                 id: null,
                 description: '',
@@ -315,6 +317,7 @@ export default {
                 brand: '',
             },
             errors: {
+                oldEquipment: null,
                 part: {
                     description: null,
                     quantity: null,
@@ -333,6 +336,29 @@ export default {
     },
     methods: {
         formatEquipment,
+        handleEquipmentCancel() {
+            this.equipmentInfo = null
+            this.equipmentForm = null
+            this.equipment = {
+                description: '',
+                patrimony:'',
+                model:'',
+                year:'',
+                brand:'',
+            }
+            this.oldEquipment = null
+        },
+        getSelectedEquipment() {
+            if(this.equipmentForm == null) {
+                this.equipmentInfo == null
+            }
+            if(this.equipmentForm == 2) {
+                this.equipmentInfo = this.oldEquipment
+            }
+            if(this.equipmentForm == 1) {
+                this.equipmentInfo = this.equipment
+            }
+        },
         showAddAddressModal() {
             this.modal.address = true;
             bus.$emit('ModalOpen', true);
@@ -369,20 +395,21 @@ export default {
             }
 
             // Only Validate if form is enable
-            if(this.equipmentForm == 2) {
+            if(this.equipmentForm == 1) {
                 if(this.$v.equipment.description.$invalid) {
                     this.errors.equipment.description = 'ERROR'
                 }
             }
 
             // Only Validate if select is enable
-            if(this.equipmentForm == 1) {
-                if(this.$v.equipment.id.$invalid) {
-                    this.errors.equipment.id = 'ERROR'
+            if(this.equipmentForm == 2) {
+                if(this.$v.oldEquipment.$invalid) {
+                    this.errors.oldEquipment = 'ERROR'
                 }
             }
             
             if(this.$v.$anyError == false) {
+                this.getSelectedEquipment()
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
             }
@@ -426,8 +453,7 @@ export default {
             this.equipmentForm = 1;
         },
         showEquipmentSelect() {
-            this.errors.equipment.id = 'OK'
-            this.equipment.id = null
+            this.errors.oldEquipment = 'OK'
             this.equipmentForm = 2;
         },
         handleSimilarClick() {
@@ -519,11 +545,11 @@ export default {
                 this.form.append('category_id', this.part.category_id);
                 this.form.append('status', 2);
 
-                if(this.equipmentForm == 1) {
-                    this.form.append('equipment_id', this.equipment.id.id);
+                if(this.equipmentForm == 2) {
+                    this.form.append('equipment_id', this.oldEquipment.id);
                 }
 
-                if(this.equipmentForm == 2) {
+                if(this.equipmentForm == 1) {
                     this.form.append('equipment_description', this.equipment.description);
                     this.form.append('equipment_patrimony', this.equipment.patrimony);
                     this.form.append('equipment_model', this.equipment.model);
@@ -537,26 +563,26 @@ export default {
                         pauseOnHover: false,
                         showCloseButtonOnHover: true,
                         timeout: 2500
-                    });
+                }); 
                     
                 this.$router.push({name: 'estimates'})
                 
                 this.closeConfirmModal()
                 }).catch((error) => {
                     console.log(error.response.data)
-                })
+                }) 
         }
     },
     validations: {
+        oldEquipment: {
+            required: requiredIf(function() {
+                return this.equipmentForm == 2
+            })
+        },
         equipment: {
-            id: {
-                required: requiredIf(function() {
-                    return this.equipmentForm == 1
-                })
-            },
             description: {
                 required: requiredIf(function() {
-                    return this.equipmentForm == 2
+                    return this.equipmentForm == 1
                 })
             }
         },
