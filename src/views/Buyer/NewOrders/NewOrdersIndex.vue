@@ -91,13 +91,11 @@ export default {
     methods: {
          getSearch(){
              const list = [];
-           if(this.MySearch.length == 0){
-               return this.list = []
-           }
-            this.products.forEach((data) => {       
+         
+            this.orders.forEach((data) => { 
                
                 if(data.brand != null){
-                    if (data.brand.toLowerCase().match(this.MySearch.toLowerCase())  ) {
+                    if (data.proposal.estimate.brand.toLowerCase().match(this.MySearch.toLowerCase())  ) {
                         if(list.length > 0){
                             if(list[list.length-1].id != data.id){
                                 list.push(data);
@@ -108,7 +106,7 @@ export default {
                     }
                 }
 
-                if (data.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
+                if (data.proposal.estimate.description.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                    if(list.length > 0){
                         if(list[list.length-1].id != data.id){
                             list.push(data);
@@ -118,7 +116,7 @@ export default {
                     }
                 }
 
-                if (data.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
+                if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                     if(list.length > 0){
                         if(list[list.length-1].id != data.id){
                             console.log('naot tem')
@@ -129,6 +127,10 @@ export default {
                 }
                 
             });
+
+              if(this.MySearch.length == 0){
+               return this.list = []
+           }
             this.list = list;
         },
         getOrders() {
