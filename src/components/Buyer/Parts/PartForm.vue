@@ -411,7 +411,7 @@ export default {
              userService.getAddresses().then((response) => {
                 this.addresses = response.data.addresses
                 const adr = this.addresses.find(ele => ele.main === 1)
-                this.estimate.address_id = adr.id
+                this.part.address_id = adr.id
             }).catch((error) => {
                 console.log(error.response.data)
             }) 
