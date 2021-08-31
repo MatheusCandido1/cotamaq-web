@@ -1,6 +1,6 @@
 <template>
   <transition name="modal-fade">
-    <div class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="fixed z-20 inset-0 overflow-y-auto">
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
@@ -35,31 +35,31 @@
                   class="text-lg leading-6 font-medium text-gray-900"
                   id="modal-headline"
                 >
-                    Detalhes do Equipamento
+                    Detalhes do Equipamento 
                 </h3>
                   <div class="border-t-2 mt-2 w-full"></div>
                 <div class="mt-2">
-                  <h4 class="text-lg font-semibold text-gray-900">{{formatEquipment(selectedEquipment)}} </h4>
+                  <h4 class="text-lg font-semibold text-gray-900">{{formatEquipment(selectedEquipment)}}  </h4>
                   
                   <div class="flex flex-row ">
-                      <div class="py-2 flex-grow whitespace-nowrap">
+                      <div class="py-2 flex-grow whitespace-pre-line">
                     <div class="">
                           <div class="flex space-x-2 text-gray-800 text-sm  my-3">
-                              <p><span class="font-bold">Descrição:</span> {{formatMissingInformation(selectedEquipment.description)}}</p> 
+                              <p><span class="font-bold">Descrição:</span> {{formatMissingInformation(selectedEquipment.description)}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Patrimônio:</span> {{formatMissingInformation(selectedEquipment.patrimony)}}</p> 
+                              <p><span class="font-bold">Patrimônio:</span> {{formatMissingInformation(selectedEquipment.patrimony)}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Modelo:</span> {{formatMissingInformation(selectedEquipment.model)}}</p> 
+                              <p><span class="font-bold">Modelo:</span> {{formatMissingInformation(selectedEquipment.model)}} </p> 
                           </div>
                     </div>
                   </div>
-                      <div class="px-2 py-2 flex-grow whitespace-nowrap">
+                      <div class="px-2 py-2 flex-grow whitespace-pre-line">
                     <div class="px-2 ">
                           
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Marca:</span> {{formatMissingInformation(selectedEquipment.brand)}} </p> 
+                              <p><span class="font-bold">Marca:</span> {{formatMissingInformation(selectedEquipment.brand)}}  </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Ano:</span> {{formatMissingInformation(selectedEquipment.year)}}</p> 
