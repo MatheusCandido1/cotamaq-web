@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                <div v-if="equipmentForm == 2">
+                <div v-if="equipmentForm == 1">
                     <div class="-mx-3 md:flex mb-6">
                         <div class="md:w-1/2 px-3 mb-2 md:mb-0">
                             <label for="description" class="text-sm font-semibold text-gray-600 px-1">
@@ -195,14 +195,14 @@
                         </div>
                     </div>
 
-                <div v-if="equipmentForm == 1">
+                <div v-if="equipmentForm == 2">
                     <div class="-mx-3 md:flex mb-6">
                         <div class="md:w-full px-3 mb-2 md:mb-0">
                             <label for="equipment_id" class="text-sm font-semibold text-gray-600 px-1">
                                 Equipamento
                             </label>
                             <multiselect 
-                                v-model="part.equipment" 
+                                v-model="oldEquipment" 
                                 @input="() => (errors.equipment.id = 'OK')"
                                 :options="equipments"
                                 label="patrimony"
@@ -222,14 +222,14 @@
                                     Ops... Você não tem nenhum equipamento cadastrado...
                                 </template>
                             </multiselect>
-                             <div  v-if="errors.equipment.id == 'ERROR'" class="flex justify-center align-items">
+                             <div  v-if="errors.oldEquipment == 'ERROR'" class="flex justify-center align-items">
                                 <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Equipamento é obrigatório.</span>
                             </div> 
                         </div>
                     </div>
                      <div class="-mx-3 md:flex mt-2">
                             <div class="md:w-full px-3 flex justify-end gap-2">
-                                <button @click="() => equipmentForm = null" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                                <button @click="handleEquipmentCancel" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                                     <span class="justify-center">Cancelar Equipamento</span>
                                 </button> 
                             </div>
@@ -251,7 +251,7 @@
   </div>
     </div>
     <AddressAdd v-if="modal.address" @close="closeAddAddressModal" />
-    <PartConfirm v-if="modal.confirm" :part="part" :equipment="equipmentForm == 1 ? part.equipment:equipment" @save="sendPart" @close="closeConfirmModal" />
+    <PartConfirm v-if="modal.confirm" :categories="categories" :part="part" :equipment="equipmentInfo" @save="sendPart" @close="closeConfirmModal" />
 </div>
 </template>
 
@@ -297,6 +297,7 @@ export default {
             loading: false,
             isSimilar: false,
             equipmentForm: null,
+            equipmentInfo: null,
             form: new FormData,
             part: {
                 part_code: '',
@@ -311,14 +312,7 @@ export default {
                 equipment: '',
                 address_id: '',
             },
-            oldEquipment: {
-                id: '',
-                description: '',
-                patrimony: '',
-                model: '',
-                year: '',
-                brand: '',
-            },
+            oldEquipment: null,
             equipment: {
                 id: '',
                 description: '',
@@ -328,6 +322,7 @@ export default {
                 brand: '',
             },
             errors: {
+                oldEquipment: null,
                 part: {
                     description: null,
                     quantity: null,
@@ -354,6 +349,18 @@ export default {
         closeAddAddressModal() {
             this.modal.address = false;
             bus.$emit('ModalOpen', false);
+        },
+        handleEquipmentCancel() {
+            this.equipmentInfo = null
+            this.equipmentForm = null
+            this.equipment = {
+                description: '',
+                patrimony:'',
+                model:'',
+                year:'',
+                brand:'',
+            }
+            this.oldEquipment = null
         },
         showConfirmModal() {
             this.$v.$touch()
@@ -383,20 +390,21 @@ export default {
             }
 
             // Only Validate if form is enable
-            if(this.equipmentForm == 2) {
+            if(this.equipmentForm == 1) {
                 if(this.$v.equipment.description.$invalid) {
                     this.errors.equipment.description = 'ERROR'
                 }
             }
 
             // Only Validate if select is enable
-            if(this.equipmentForm == 1) {
-                if(this.$v.part.equipment.$invalid) {
-                    this.errors.equipment.id = 'ERROR'
+            if(this.equipmentForm == 2) {
+                if(this.$v.oldEquipment.$invalid) {
+                    this.errors.oldEquipment = 'ERROR'
                 }
             }
             
             if(this.$v.$anyError == false) {
+                this.getSelectedEquipment()
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
             }
@@ -404,6 +412,17 @@ export default {
         closeConfirmModal() {
             this.modal.confirm = false;
             bus.$emit("ModalOpen", false);
+        },
+        getSelectedEquipment() {
+            if(this.equipmentForm == null) {
+                this.equipmentInfo == null
+            }
+            if(this.equipmentForm == 2) {
+                this.equipmentInfo = this.oldEquipment
+            }
+            if(this.equipmentForm == 1) {
+                this.equipmentInfo = this.equipment
+            }
         },
         getPart(id) {
             estimateService.getEstimate(id).then((response) => {
@@ -416,8 +435,9 @@ export default {
                     this.isSimilar = true
                 }
                 if(this.oldEquipment.id) {
-                    this.equipmentForm = 1
+                    this.equipmentForm = 2
                 }
+                this.getSelectedEquipment()
             }).catch((error) => {
                 console.log(error.response.data)
             })
@@ -442,7 +462,7 @@ export default {
              userService.getAddresses().then((response) => {
                 this.addresses = response.data.addresses
                 const adr = this.addresses.find(ele => ele.main === 1)
-                this.estimate.address_id = adr.id
+                this.part.address_id = adr.id
             }).catch((error) => {
                 console.log(error.response.data)
             }) 
@@ -454,12 +474,11 @@ export default {
             this.equipment.model = '',
             this.equipment.year = '',
             this.equipment.brand = '',
-            this.equipmentForm = 1;
+            this.equipmentForm = 2;
         },
         showEquipmentSelect() {
-            this.errors.equipment.id = 'OK'
-            this.equipment.id = null
-            this.equipmentForm = 2;
+            this.errors.oldEquipment = 'OK'
+            this.equipmentForm = 1;
         },
         handleSimilarClick() {
             this.errors.part.brand = 'OK'
@@ -513,16 +532,20 @@ export default {
                 this.form.append('equipment_id', '');
             }
 
-            if(this.equipmentForm == 1) {
-                this.form.append('equipment_id', this.part.equipment.id);
+            if(this.equipmentForm == 2) {
+                if(this.oldEquipment){
+                    this.form.append('equipment_id', this.oldEquipment.id)
+                }
             }
 
-            if(this.equipmentForm == 2) {
-                this.form.append('equipment_description', this.equipment.description);
-                this.form.append('equipment_patrimony', this.equipment.patrimony);
-                this.form.append('equipment_model', this.equipment.model);
-                this.form.append('equipment_year', this.equipment.year);
-                this.form.append('equipment_brand', this.equipment.brand);
+            if(this.equipmentForm == 1) {
+                if(this.equipment) {
+                    this.form.append('equipment_description', this.equipment.description);
+                    this.form.append('equipment_patrimony', this.equipment.patrimony);
+                    this.form.append('equipment_model', this.equipment.model);
+                    this.form.append('equipment_year', this.equipment.year);
+                    this.form.append('equipment_brand', this.equipment.brand);
+                }
             }
 
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
@@ -556,11 +579,11 @@ export default {
                 this.form.append('equipment_id', '');
             }
 
-            if(this.equipmentForm == 1) {
-                this.form.append('equipment_id', this.part.equipment.id);
+            if(this.equipmentForm == 2) {
+                this.form.append('equipment_id', this.oldEquipment.id);
             }
 
-            if(this.equipmentForm == 2) {
+            if(this.equipmentForm == 1) {
                 this.form.append('equipment_description', this.equipment.description);
                 this.form.append('equipment_patrimony', this.equipment.patrimony);
                 this.form.append('equipment_model', this.equipment.model);
@@ -583,10 +606,15 @@ export default {
         }
     },
     validations: {
+        oldEquipment: {
+            required: requiredIf(function() {
+                return this.equipmentForm == 2
+            })
+        },
         equipment: {
             description: {
                 required: requiredIf(function() {
-                    return this.equipmentForm == 2
+                    return this.equipmentForm == 1
                 })
             }
         },

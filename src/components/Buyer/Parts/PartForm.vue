@@ -503,16 +503,20 @@ export default {
                 this.form.append('category_id', this.part.category_id);
                 this.form.append('status', 1);
 
-                if(this.equipmentForm == 1) {
-                    this.form.append('equipment_id', this.equipment.id.id);
+                if(this.equipmentForm == 2) {
+                    if(this.oldEquipment){
+                        this.form.append('equipment_id', this.oldEquipment.id)
+                    }
                 }
 
-                if(this.equipmentForm == 2) {
-                    this.form.append('equipment_description', this.equipment.description);
-                    this.form.append('equipment_patrimony', this.equipment.patrimony);
-                    this.form.append('equipment_model', this.equipment.model);
-                    this.form.append('equipment_year', this.equipment.year);
-                    this.form.append('equipment_brand', this.equipment.brand);
+                if(this.equipmentForm == 1) {
+                    if(this.equipment) {
+                        this.form.append('equipment_description', this.equipment.description);
+                        this.form.append('equipment_patrimony', this.equipment.patrimony);
+                        this.form.append('equipment_model', this.equipment.model);
+                        this.form.append('equipment_year', this.equipment.year);
+                        this.form.append('equipment_brand', this.equipment.brand);
+                    }
                 }
 
                 estimateService.createEstimate(this.form).then((response) => {
