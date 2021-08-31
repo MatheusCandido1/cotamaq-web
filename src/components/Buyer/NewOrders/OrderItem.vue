@@ -28,7 +28,7 @@
                 </div>
             </div>
             <ul @click="showTrackingModal" class="flex space-x-2 mb-2 justify-start my-3">
-                <li class="w-full text-center bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega</li>
+                <button class="w-full text-center bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega</button>
             </ul>
         </div>
         <div class="border-t-2"></div>
@@ -40,12 +40,11 @@
                 </div>
                 <div class="my-2 ml-2">
                     <div class="flex items-center space-x-1 text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 animate-bounce text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg v-if="order.status == 2" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 animate-bounce text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
 
-
-                        <button class="flex items-center justify-between px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                        <button @click="handleOrderClick" class="flex items-center justify-between px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
                             </svg>
@@ -90,9 +89,10 @@ export default {
             },
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
-                {id: 2, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
-                {id: 3, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-                {id: 4, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
+                {id: 2, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
+                {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
+                {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
+                {id: 5, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
             ],
         }
     },
@@ -101,6 +101,9 @@ export default {
         formatSimilar,
         formatCurrency,
         formatMissingInformation,
+        handleOrderClick() {
+            this.$router.push({name: 'OrderDetails', params: {order_id: this.order.id}})
+        },
         showTrackingModal() {
             this.modal.tracking = true;
             bus.$emit("ModalOpen", true);

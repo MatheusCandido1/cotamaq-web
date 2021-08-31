@@ -28,19 +28,6 @@
                     </div>                        
                 </div>
             </div>
-
-            <div class="flex -mx-3">
-                <div class="w-full px-3 mb-5">
-                    <div class="flex">
-                      <label class="inline-flex items-center">
-                          <input v-model="paymentMethod.main" type="checkbox" class="form-radio text-green-500">
-                          <span class="ml-3 text-lg">Forma de pagamento padrão</span>
-                      </label>    
-                    </div>                         
-                </div>
-            </div>
-
-
           </div>
           <!--footer-->
           <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

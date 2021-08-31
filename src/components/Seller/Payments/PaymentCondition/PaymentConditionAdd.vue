@@ -28,16 +28,6 @@
                     </div>                          
                 </div>
             </div>
-            <div class="flex -mx-3">
-                <div class="w-full px-3 mb-5">
-                    <div class="flex">
-                      <label class="inline-flex items-center">
-                          <input v-model="paymentCondition.main" type="checkbox" class="form-radio text-green-500">
-                          <span class="ml-3 text-lg">Condição de pagamento padrão</span>
-                      </label>    
-                    </div>                         
-                </div>
-            </div>
 
 
           </div>
