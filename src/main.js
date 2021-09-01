@@ -34,6 +34,13 @@ Vue.filter('formatDate', function(value) {
   }
 });
 
+
+Vue.filter('formatDateTime', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD/MM/YYYY HH:mm')
+  }
+});
+
 Vue.filter('Document', function(value) {
     value = value.padStart(14, '0');
     value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
