@@ -132,7 +132,7 @@ export default {
         if(this.selectedEquipment.year != null && this.selectedEquipment.year != '') {
 
             var now = new Date()
-            if(this.selectedEquipment.year >= now.getFullYear() || this.selectedEquipment.year < 1900) {
+            if(this.selectedEquipment.year > now.getFullYear() || this.selectedEquipment.year < 1900) {
                 this.errors.year = 'ERROR'
             }
         } 
