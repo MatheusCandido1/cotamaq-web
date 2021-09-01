@@ -1,9 +1,21 @@
 <template>
-    <div>
-        <form @submit.prevent="confirmAccount">
-            <button type="submit" class="block w-full max-w-xs mx-auto bg-primary-main hover:bg-primary-lighter focus:bg-primary-lighter text-white rounded-lg px-3 py-3 font-semibold">Atualizar senha <i class="mdi mdi-lock text-lg"></i></button>
-        </form>
+<div class="min-w-screen min-h-screen bg-gradient-to-r from-primary-darker via-primary-main to-primary-lighter flex items-center justify-center px-5 py-5">
+    <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
+        <div class="md:flex w-full">
+            <div class="hidden md:block w-1/2 bg-primary-main">
+                <img  class="object-cover h-full w-full " src="../../assets/images/tractor.png" alt="">
+            </div>
+            <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
+                <div class="text-center mb-10">
+                    <img class="mb-3 mx-auto" style="height: 90px; width: auto" src="../../assets/images/logo-01.png" alt="">
+                </div>
+                <form @submit.prevent="confirmAccount">
+                    <button type="submit" class="block w-full max-w-xs mx-auto bg-primary-main hover:bg-primary-lighter focus:bg-primary-lighter text-white rounded-lg px-3 py-3 font-semibold">Entrar <i class="mdi mdi-login text-lg"></i></button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 </template>
 
 <script>
