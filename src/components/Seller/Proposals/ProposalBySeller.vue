@@ -6,13 +6,14 @@
                     <span @click="showEstimateModal" class="items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
                 </div>
                 <div class="py-1">
-                    <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                    <span v-if="estimate.equipment != null" @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                    <span v-if="estimate.equipment == null" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-yellow-500 rounded-md cursor-pointer">Equipamento não informado!<i class="mdi mdi-alert-octagon-outline ml-2"></i></span>
                 </div>
             </div>
             <div class="flex lg:px-3 justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Propostas
+                        Propostas 2
                     </h2>
                 </div>
                 <div v-if="proposals.length > 0 && approvedProposals.length == 0" class="py-1">

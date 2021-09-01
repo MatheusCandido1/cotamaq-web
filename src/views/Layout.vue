@@ -770,16 +770,17 @@ export default {
           this.$toast.success(event.message.notification, {
             position: "bottom-right",
             showCloseButtonOnHover: true,
-            timeout: false
+            timeout: 5000
           });
           if(this.getRouteName == 'estimates') {
-            if(this.user.role_id == 2) {
-              bus.$emit('updateProposalsByBuyer', true);
-            }
-            if(this.user.role_id == 1) {
-              bus.$emit('updateSellerEstimates', true);
-            }
-          }
+                if(this.user.role == 2) {
+                  bus.$emit('updateProposalsByBuyer', true);
+                }
+                if(this.user.role == 1) {
+                  bus.$emit('updateProposalsBySeller', true);
+                }
+             }
+          
         })
          if(data.categories != null && data.categories.length > 0){
            data.categories.forEach((data)=>{
@@ -790,9 +791,16 @@ export default {
               this.$toast.success(event.message.notification, {
                   position: "bottom-right",
                   showCloseButtonOnHover: true,
-                  timeout: false
+                  timeout: 5000
               });
-
+              if(this.getRouteName == 'estimates') {
+                if(this.user.role == 2) {
+                  bus.$emit('updateProposalsByBuyer', true);
+                }
+                if(this.user.role == 1) {
+                  bus.$emit('updateProposalsBySeller', true);
+                }
+             }
             })
            })
             

@@ -7,13 +7,19 @@
                         Pedido #{{order.id}} <span class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
                     </h2>
                 </div>
-                <div class="py-1 flex whitespace-nowrap">
-                    <div v-if="order.status == 1" class=" animate-bounce bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+                <div v-if="order.status != null" class="py-1 flex whitespace-nowrap">
+                    <div v-if="order.status == 1" class="bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Métodos e Condições de Pagamento <span class="font-bold"> NÃO </span> enviados</span>
                     </div>
                     <button @click="showPaymentsModal" v-if="order.status == 2" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Métodos e Condições de Pagamento enviados</span>
                     </button> 
+                    <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+                        <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Método: {{order.payment_method}} <span class="font-bold"></span></span>
+                    </button>
+                    <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+                        <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Condição: {{order.payment_condition}} <span class="font-bold"></span></span>
+                    </button>
                      
                     <div :class="formatStatus(order.status).bg" class="text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
@@ -117,7 +123,17 @@
                 </div>
             </div>
         </div>
-        <OrderPayments v-if="modal.payments" @close="closePaymentsModal" />
+        <OrderPayments 
+            v-if="modal.payments" 
+            @close="closePaymentsModal"
+            :buyerMethod="order.payment_method"
+            :buyerCondition="order.payment_condition"
+            :paymentConditions="paymentConditions" 
+            :paymentMethods="paymentMethods" 
+            :selectedPaymentMethods="selectedPaymentMethods" 
+            :selectedPaymentConditions="selectedPaymentConditions" 
+            selec 
+         />
         <OrderAlert :status="order.status" v-if="modal.alert" @close="closeAlertModal" />
         <PaymentConditionAdd v-if="modal.condition" @close="closeConditionModal" />
         <PaymentMethodAdd v-if="modal.method" @close="closeMethodModal" />
@@ -182,6 +198,7 @@ export default {
                 alert: false,
                 method: false,
                 condition: false,
+                payment: false,
                 payments: false,
             },
             paymentMethods: [],
@@ -189,7 +206,8 @@ export default {
             selectedPaymentMethods: [],
             selectedPaymentConditions: [],
             order: {
-                id: this.$route.params.order_id
+                id: this.$route.params.order_id,
+                status: null,
             },
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},

@@ -20,12 +20,12 @@
                             <p class="text-md font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Métodos de Pagamento </p>
                             <span class="flex justify-center items-center mb-2">
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-xs font-bold leading-none text-white bg-gray-500 rounded mr-2">Teste</span>                       
+                                  <span v-for="paymentMethod in selectedPaymentMethods" :key="paymentMethod" class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-sm font-bold leading-none text-white bg-gray-500 rounded mr-2">{{getPaymentMethodName(paymentMethod)}}</span>                       
                                 </div>   
                             </span>
                             <div class="flex items-center justify-center flex-wrap">
                                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Selecionado: </label>
-                                <span class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2">Testeeeee</span>                       
+                                <span class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-sm font-bold leading-none text-white bg-primary-main rounded mr-2">{{formatMissingInformation(buyerMethod)}}</span>                       
                             </div>  
                         </div>
 
@@ -33,12 +33,12 @@
                             <p class="text-md font-semibold text-center text-gray-700 dark:text-gray-200 mb-2">Condições de Pagamento </p>
                             <span class="flex justify-center items-center mb-2">
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-xs font-bold leading-none text-white bg-gray-500 rounded mr-2">Teste</span>                       
+                              <span v-for="paymentCondition in selectedPaymentConditions" :key="paymentCondition" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-gray-500 rounded mr-2">{{getPaymentConditionName(paymentCondition)}}</span>                       
                                 </div>  
                             </span>
                             <div class="flex items-center justify-center flex-wrap">
                                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Selecionado: </label>
-                                <span class="inline-flex items-center justify-center px-2 whitespace-no-wrap py-1 text-xs font-bold leading-none text-white bg-primary-main rounded mr-2">Testeeeee</span>                       
+                              <span class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded mr-2">{{formatMissingInformation(buyerCondition)}}</span>                       
                             </div>  
                         </div>
               </div>
@@ -60,8 +60,11 @@
   </transition>
 </template>
 <script>
+import { formatMissingInformation } from '@/helpers/string-helper';
+
 export default {
   name: "OrderPayments",
+  props: ['buyerMethod','buyerCondition','selectedPaymentConditions','selectedPaymentMethods','paymentConditions','paymentMethods'],
   components: {
   },
   destroyed() {
@@ -73,9 +76,18 @@ export default {
     }
   },
   methods: {
-        close() {
-            this.$emit("close");
-        },
+    formatMissingInformation,
+    getPaymentMethodName(id) {
+      const { description } = this.paymentMethods.find(pay => pay.id == id)
+      return description
     },
+    getPaymentConditionName(id) {
+      const { description } = this.paymentConditions.find(pay => pay.id == id)
+      return description
+    },
+    close() {
+      this.$emit("close");
+    },
+  },
 };
 </script>

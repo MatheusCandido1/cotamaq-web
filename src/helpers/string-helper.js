@@ -1,4 +1,7 @@
 export const formatEquipment = (equipment) => {
+    if(equipment == null) {
+        return 'Não informado'
+    }
     const formattedDescription = equipment.description ? equipment.description:''
     const formattedYear = equipment.year ? ' - ' + equipment.year:''
     const formattedPatrimony = equipment.patrimony ? ' ('+equipment.patrimony+')':''
@@ -50,5 +53,4 @@ export const formatMissingInformation = (value) => {
     }else {
         return value
     }
-
 }
