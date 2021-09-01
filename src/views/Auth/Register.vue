@@ -161,9 +161,8 @@ export default {
                     this.$router.push('/entrar')
                    this.$toast.success(response.success_message, {
                             position: "bottom-right",
-                            pauseOnHover: false,
                             showCloseButtonOnHover: true,
-                            timeout: 2500
+                            timeout: false
                         });
 
                 }).catch((error) => {
