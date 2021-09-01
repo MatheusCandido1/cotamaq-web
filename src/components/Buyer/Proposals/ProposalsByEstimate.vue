@@ -5,7 +5,7 @@
       <div class="flex lg:px-3 justify-center" >
         <div class="py-1">
           <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Visualizar Propostas 
+            Visualizar Propostas
           </h2>
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="flex">
         <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
           <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6">
-            <ProposalPartItem v-for="proposal in proposals" :key="proposal.id" :estimate="estimate"  :proposal="proposal" />
+            <ProposalPartItem v-for="proposal in availableProposals" :key="proposal.id" :estimate="estimate"  :proposal="proposal" />
             <!-- <ProposalPartItem v-for="proposal in sortDesc" :key="proposal.id" :estimate="estimate"  :proposal="proposal" /> -->
           </div>
         </div>
@@ -76,8 +76,11 @@ export default {
      sortPrice(){
        return {'mdi-sort': this.sorting.price.default, 'mdi-sort-ascending': this.sorting.price.ascending, 'mdi-sort-descending': this.sorting.price.descending }
      },
+     availableProposals: function() {
+        return this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
+     },
      sortAsc: function () {
-       let list  = this.proposals
+       let list  = this.this.availableProposals
        list = list.sort((a,b)=>{
          if(a.total < b.total){
            return -1
@@ -91,7 +94,7 @@ export default {
        return list
      },
      sortDesc: function () {
-       let list  = this.proposals
+       let list  = this.availableProposals
        list = list.sort((a,b)=>{
          if(a.total > b.total){
            return -1
@@ -143,7 +146,7 @@ export default {
           this.sorting.price.descending = false
            
           
-          this.proposals = this.proposalsDefaults         
+          this.availableProposals = this.proposalsDefaults         
           this.sort.price = 'asc'
           
 
@@ -152,14 +155,14 @@ export default {
             this.sorting.price.default = false
             this.sorting.price.descending= false
 
-            this.proposals = this.sortAsc
+            this.availableProposals = this.sortAsc
            this.sort.price = 'desc'
         }else if(this.sort.price == 'desc') {
           this.sorting.price.descending = true
           this.sorting.price.default = false
           this.sorting.price.ascending = false
 
-          this.proposals = this.sortDesc
+          this.availableProposals = this.sortDesc
           this.sort.price = 'default'
 
     

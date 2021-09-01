@@ -50,7 +50,7 @@
         </div>
             <div>
                 <div class="border-t-2"></div>  
-                <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller == 0" class="flex justify-between px-2 p-2">
+                <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0" class="flex justify-between px-2 p-2">
                     <button @click="handleDeclineOpenClick" class=" w-5/12 px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
                         Recusar
                     </button>
@@ -90,7 +90,7 @@
 
                         <div v-if="formatStatus().id == 3" class="flex items-center space-x-1 text-sm">
                             <button v-tooltip="{ content: 'Visualizar' }"
-                                @click="handlePropsalsBySellerClick"
+                                @click="handleProposalsBySellerClick"
                                 class="flex items-center justify-between px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
@@ -140,8 +140,11 @@ export default {
         invalidProposal: function () {
             return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 5)
         },
+        pendingProposals: function() {
+            return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 1)
+        },
         validProposals: function() {
-            return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 2 || proposal.status == 3 || proposal.status == 4)
+            return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 1 || proposal.status == 2 || proposal.status == 3 || proposal.status == 4)
         },
         sentProposals: function () {
             return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 2)
@@ -162,7 +165,11 @@ export default {
             }
         },
         getValidProposals() {
+            if(this.pendingProposals.length == this.estimate.proposals_by_seller.length){
+                return 0
+            } else {
             return this.validProposals.length
+            }
         },
         getSentProposals() {
             return this.sentProposals.length
@@ -195,7 +202,11 @@ export default {
             }
                     
             if(this.validProposals.length > 0 && (this.estimate.status == 2 || this.estimate.status == 3)) {
-               return {id: 3, bg: 'bg-blue-500', text:'Enviada'}
+               if(this.pendingProposals.length == this.estimate.proposals_by_seller.length) {
+                return {id: 3, bg: 'bg-yellow-400', text:'Pendente'}
+               } else {
+                return {id: 3, bg: 'bg-blue-500', text:'Enviada'}
+               }
             }
 
             if(this.invalidProposal.length > 0) {

@@ -160,10 +160,10 @@
                     <div class="flex flex-row justify-between">
                         <div class="py-1">
                             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                                Detalhes da proposta 
+                                Detalhes da proposta
                             </h2>
                         </div>
-                            <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
+                            <h2 v-if="estimate.address != null" class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
                                 <span class="text-sm">CEP para entrega: </span><span class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2">{{formatZipcode(estimate.address.zipcode)}}</span>
                             </h2>
                     </div>

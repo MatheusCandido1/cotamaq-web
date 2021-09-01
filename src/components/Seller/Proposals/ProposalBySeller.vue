@@ -13,7 +13,7 @@
             <div class="flex lg:px-3 justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Propostas 2
+                        Propostas
                     </h2>
                 </div>
                 <div v-if="proposals.length > 0 && approvedProposals.length == 0" class="py-1">
