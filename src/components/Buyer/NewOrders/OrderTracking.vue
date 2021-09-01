@@ -17,7 +17,7 @@
                                 <div class="flex flex-col md:grid grid-cols-12 text-gray-50">
                                     <OrderTrackingItem :time="order.created_at" status="Compra realizada" />
                                     <OrderTrackingItem v-if="order.pending_at != null" :time="order.pending_at" status="Aguardando comprador" />
-                                    <OrderTrackingItem v-if="order.prearing_at != null" :time="order.prearing_at" status="Em preparo" />
+                                    <OrderTrackingItem v-if="order.preparing_at != null" :time="order.preparing_at" status="Em preparo" />
                                     <OrderTrackingItem v-if="order.in_transit_at != null" :time="order.in_transit_at" status="Em trânsito" />
                                     <OrderTrackingItem v-if="order.delivered_at != null" :time="order.delivered_at" status="Entregue" />
                                 </div>
