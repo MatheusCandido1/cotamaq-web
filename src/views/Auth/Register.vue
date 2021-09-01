@@ -168,6 +168,7 @@ export default {
 
                 }).catch((error) => {
                     this.errors = error.response.data
+                    console.log(error.response.data)
                     this.loader.loading = false;
                     this.password_confirmation = '',
                     this.password = ''
