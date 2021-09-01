@@ -12,7 +12,7 @@
             </ul>
             <div class="mt-1">
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Comprador:</span> {{formatMissingInformation(order.proposal.estimate.user.company.fantasy_name)}}</p> 
+                     <p><span class="font-bold">Comprador:</span> {{formatMissingInformation(order.proposal.estimate.user.company.company_name)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(order.proposal.estimate.quantity)}}</p> 
@@ -89,9 +89,10 @@ export default {
             },
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
-                {id: 2, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
-                {id: 3, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-                {id: 4, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
+                {id: 2, bg: 'bg-orange-400', text: 'Aguardando comprador', icon: 'mdi mdi-progress-clock'},
+                {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
+                {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
+                {id: 5, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
             ],
         }
     },

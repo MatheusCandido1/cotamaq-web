@@ -12,7 +12,7 @@
             </ul>
             <div class="mt-1">
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Revenda:</span> {{formatMissingInformation(order.proposal.user.company.fantasy_name)}}</p> 
+                     <p><span class="font-bold">Revenda:</span> {{formatMissingInformation(order.proposal.user.company.company_name)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(order.proposal.estimate.quantity)}}</p> 
