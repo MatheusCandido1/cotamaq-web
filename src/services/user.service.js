@@ -18,7 +18,8 @@ export const userService = {
     updateUser,
     recoverPassword,
     resetPassword,
-    notifications
+    notifications,
+    confirmEmail
 };
  
 async function me() {
@@ -69,6 +70,20 @@ function recoverPassword(data) {
         return data;
     })
 }
+function confirmEmail(data) {
+    return axios.post(`${API_URL}/auth/confirm-email/${data}`, {
+        headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        
+        return data;
+    })
+}
 
 function login(credentials) {
     return axios.post(`${API_URL}/auth/login`, JSON.stringify({ email: credentials.email, password: credentials.password }),{ headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }} )
@@ -107,11 +122,11 @@ function register(user) {
     .then(response => {
         const user = response.data
         // login successful if there's a jwt token in the response
-        const {id, name, email } = jsonWebTokenService.decode(user.token)
-        if (user.token) {
-            // store user details and jwt token in session storage to keep user logged in between page refreshes
-            sessionStorage.setItem('user', JSON.stringify(Object.assign({}, user, {id, name, email})) );
-        }
+        // const {id, name, email } = jsonWebTokenService.decode(user.token)
+        // if (user.token) {
+        //     // store user details and jwt token in session storage to keep user logged in between page refreshes
+        //     sessionStorage.setItem('user', JSON.stringify(Object.assign({}, user, {id, name, email})) );
+        // }
 
         return user;
     })
