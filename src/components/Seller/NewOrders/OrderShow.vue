@@ -6,6 +6,7 @@
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
                         Pedido #{{order.id}} <span class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
                     </h2>
+                    <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                 </div>
                 <div v-if="order.status != null" class="py-1 flex whitespace-nowrap">
                     <div v-if="order.status == 1" class="bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
@@ -14,19 +15,30 @@
                     <button @click="showPaymentsModal" v-if="order.status == 2" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Métodos e Condições de Pagamento enviados</span>
                     </button> 
-                    <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
-                        <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Método: {{order.payment_method}} <span class="font-bold"></span></span>
-                    </button>
-                    <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
-                        <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Condição: {{order.payment_condition}} <span class="font-bold"></span></span>
-                    </button>
-                     
-                    <div :class="formatStatus(order.status).bg" class="text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
-                        <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
-                    </div> 
-                    <div class=" bg-gray-600 text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
+                    <div class=" relative inline-block text-left dropdown">
+                            <span class="rounded-md shadow-sm"
+                            ><button :class="formatStatus(order.status).bg" class="inline-flex text-white justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out border rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
+                                <span>
+                                    <i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>
+                                    {{formatStatus(order.status).text}}
+                                </span>
+                                <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                </button
+                            ></span>
+                            <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
+                                <div class="">
+                                    <button v-if="order.status == 2" @click="showStatusModal(3)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant-closed mr-2"></i>Em preparo</button>
+                                    <button v-if="order.status == 3" @click="showStatusModal(4)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-truck-fast-outline mr-2"></i>Em trânsito</button>
+                                    <button v-if="order.status == 4" @click="showStatusModal(5)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant mr-2"></i>Pronto para retirada</button>
+                                    <button v-if="order.status == 5" @click="showStatusModal(6)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-calendar-check-outline mr-2"></i>Entregue</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <button class=" bg-gray-600 text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
-                    </div> 
+                    </button> 
                 </div>
             </div>
             <div v-if="order.status == 1">
@@ -122,6 +134,165 @@
                     </div>
                 </div>
             </div>
+            <div v-if="order.proposal != null" class="flex flex-row justify-between mt-4">
+                <div class="py-1">
+                    <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
+                        Detalhes do pedido
+                    </h2>
+                </div>
+            </div>
+            <form v-if="order.proposal != null">
+                <div class="-mx-3 md:flex mb-6">
+                <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label  class="text-sm font-semibold text-gray-600 px-1">
+                    Cliente
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.fantasy_name)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label  class="text-sm font-semibold text-gray-600 px-1">
+                        CNPJ
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.cnpj)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label for="description" class="text-sm font-semibold text-gray-600 px-1">
+                        CEP
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
+                    Endereço
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <label class="text-sm font-semibold text-gray-600 px-1">
+                        Bairro
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <label  class="text-sm font-semibold text-gray-600 px-1">
+                        Cidade
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+                    <label class="text-sm font-semibold text-gray-600 px-1">
+                        Estado
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label class="text-sm font-semibold text-gray-600 px-1">
+                    E-mail
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.email)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label  class="text-sm font-semibold text-gray-600 px-1">
+                        Telefone
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.phone)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label class="text-sm font-semibold text-gray-600 px-1">
+                        Celular
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.company.phone)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                </div>
+            </form>
+            <div v-if="order.proposal != null" class="flex flex-row justify-between mt-4">
+                <div class="py-1">
+                <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
+                    Cotação #{{order.proposal.estimate.id}} - {{order.proposal.estimate.description}}
+                </h2>
+                </div>
+                <div class="py-1">
+                <span v-if="proposal.estimate.equipment != null"  @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                </div>
+            </div>
+            <table v-if="order.proposal != null" class="w-full whitespace-no-wrap mb-2">
+        <thead class="rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none no-selection">
+            <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                <th  class="text-center" style="width: 10%">Código</th>
+                <th  class="text-center" style="width: 10%">Descrição</th>
+                <th  class="text-center" style="width: 10%">Peça Similar?</th>
+                <th  class="text-center" style="width: 10%">Quantidade</th>
+                <th  class="text-center" style="width: 10%">Valor</th>
+                <th  class="text-center" style="width: 10%">Subtotal</th>
+            </tr>
+        </thead> 
+         <tbody class="bg-white dark:divide-gray-700 dark:bg-gray-800">
+            <tr class="h-10">
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.part_code)}}</td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.description)}}</td>
+                 <td class="text-sm  text-center text-gray-700">
+                    <span :class="proposal.is_similar == 0 ? 'bg-red-500':'bg-primary-main'" class="text-sm px-2 py-1 font-semibold text-white rounded-lg dark:text-white">
+                      {{formatSimilar(proposal.is_similar)}}
+                    </span>
+                </td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.quantity)}}</td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.value)}}</td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.subtotal)}}</td>
+            </tr>
+         </tbody>
+       </table>
+       <div v-if="order.proposal != null && order.status == 3" class="flex flex-row justify-center mt-4">
+          <div class="py-1">
+            <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
+              Pagamento -
+            </h2>
+          </div>
+          <div v-if="order.status != null && order.status == 3" class="py-1 flex whitespace-nowrap">
+            <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+              <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Método: {{order.payment_method}} <span class="font-bold"></span></span>
+            </button>
+            <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+              <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Condição: {{order.payment_condition}} <span class="font-bold"></span></span>
+            </button>
+          </div>
+         </div>
+         <div v-if="order.status != null" class="-mx-3 md:flex mb-6">
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+            <label class="text-sm font-semibold text-gray-600 px-1">
+              Data de validade
+            </label>
+            <input disabled :value="proposal.validity | formatDate"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+          </div>
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+              <label  class="text-sm font-semibold text-gray-600 px-1">
+                Entrega
+              </label>
+              <input disabled :value="formatDelivery(proposal.delivery, proposal.delivery_time)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+          </div>
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+              <label class="text-sm font-semibold text-gray-600 px-1">
+                  Frete
+              </label>
+              <input disabled :value="formatCurrency(proposal.shipping)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+          </div>
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+              <label class="text-sm font-semibold text-gray-600 px-1">
+                  Total
+              </label>
+              <input disabled :value="formatCurrency(proposal.total)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+          </div>
+        </div>
+            <div class="-mx-3 md:flex mt-4">
+            <div class="md:w-full px-3 flex justify-end gap-2">
+                <button @click="goBack" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                    <span class="justify-center">Voltar</span>
+                </button>
+            </div>
+            </div>
         </div>
         <OrderPayments 
             v-if="modal.payments" 
@@ -131,9 +302,15 @@
             :paymentConditions="paymentConditions" 
             :paymentMethods="paymentMethods" 
             :selectedPaymentMethods="selectedPaymentMethods" 
-            :selectedPaymentConditions="selectedPaymentConditions" 
-            selec 
+            :selectedPaymentConditions="selectedPaymentConditions"
          />
+         <OrderStatus
+            v-if="modal.status"
+            :order="order"
+            :status="newStatus"
+            @close="closeStatusModal"
+            >
+        </OrderStatus>
         <OrderAlert :status="order.status" v-if="modal.alert" @close="closeAlertModal" />
         <PaymentConditionAdd v-if="modal.condition" @close="closeConditionModal" />
         <PaymentMethodAdd v-if="modal.method" @close="closeMethodModal" />
@@ -150,6 +327,8 @@ import PaymentConditionAdd from '../Payments/PaymentCondition/PaymentConditionAd
 import PaymentMethodAdd from '../Payments/PaymentMethod/PaymentMethodAdd';
 import OrderPaymentConfirmModal from './OrderPaymentConfirm';
 import OrderPayments from './OrderPayments'
+import OrderStatus from './OrderStatus'
+import { formatMissingInformation, formatSimilar, formatCurrency,formatDelivery } from '@/helpers/string-helper';
 
 export default {
     name: 'OrderShow',
@@ -159,7 +338,8 @@ export default {
         PaymentConditionAdd,
         PaymentMethodAdd,
         OrderPaymentConfirmModal,
-        OrderPayments
+        OrderPayments,
+        OrderStatus
     },
     updated() {
         bus.$off('updatePaymentMethod');
@@ -185,6 +365,10 @@ export default {
                 paymentMethod: null,
                 paymentCondition: null
             },
+            loader: {
+                loading: false,
+                color: "#0bc95b",
+            },
             loaderMethod: {
                 loading: false,
                 color: '#0bc95b',
@@ -194,7 +378,7 @@ export default {
                 color: '#0bc95b',
             },
             modal: {
-                status: null,
+                status: false,
                 alert: false,
                 method: false,
                 condition: false,
@@ -205,6 +389,10 @@ export default {
             paymentConditions: [],
             selectedPaymentMethods: [],
             selectedPaymentConditions: [],
+            newStatus: null,
+            oldStatus: null,
+            proposal: null,
+            buyer: {},
             order: {
                 id: this.$route.params.order_id,
                 status: null,
@@ -219,6 +407,10 @@ export default {
         }
     },
     methods: {
+        formatDelivery,
+        formatCurrency,
+        formatMissingInformation,
+        formatSimilar,
         showOrderPaymentConfirmModal() {
             if(this.selectedPaymentMethods.length == 0) {
                 this.errors.paymentMethod = 'ERROR'
@@ -230,6 +422,9 @@ export default {
                 this.modal.payment = true;
                 bus.$emit('ModalOpen', true);
             }
+        },
+        goBack() {
+            this.$router.back()
         },
         closeOrderPaymentConfirmModal() {
             this.modal.payment = false;
@@ -257,6 +452,15 @@ export default {
         },
         closeConditionModal() {
             this.modal.condition = false;
+            bus.$emit('ModalOpen', false);
+        },
+        showStatusModal(status) {
+            this.newStatus = status
+            this.modal.status = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeStatusModal() {
+            this.modal.status = false;
             bus.$emit('ModalOpen', false);
         },
         selectPayment() {
@@ -333,14 +537,18 @@ export default {
             return description
         },
         getOrder() {
+            this.loader.loading = true;
             orderService.getOrderBySeller(this.order.id).then((response) => {
                 const res = response.data.data
                 this.order = res.order
+                this.buyer = res.buyer
+                this.proposal = res.order.proposal
                 this.paymentMethods = res.paymentMethods
                 this.paymentConditions = res.paymentConditions
                 this.selectedPaymentMethods = res.selectedPaymentMethods
                 this.selectedPaymentConditions = res.selectedPaymentConditions
 
+                this.loader.loading = false;
                 if(this.order.status == 1) {
                     this.modal.status == 1
                     this.showAlertModal()
@@ -361,6 +569,11 @@ export default {
     
 }
 </script>
-<style>
 
+<style>
+.dropdown:focus-within .dropdown-menu {
+  opacity:1;
+  transform: translate(0) scale(1);
+  visibility: visible;
+}
 </style>
