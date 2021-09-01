@@ -178,12 +178,22 @@
                             </label>
                             <input v-model="equipment.brand" id="brand" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                         </div>
-                        <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                        <!-- <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                             <label for="year" class="text-sm font-semibold text-gray-600 px-1">
                                 Ano
                             </label>
                             <input v-model="equipment.year" id="year" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        </div>
+                        </div> -->
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                        <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
+                        <div class="flex">
+                            <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                            <the-mask @change.native="() => (errors.equipment.year = 'OK')" :class="errors.equipment.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="equipment.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
+                        </div>   
+                        <div v-if="errors.equipment.year == 'ERROR'">
+                            <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
+                        </div>                        
+                    </div>
                     </div>
                         <div class="-mx-3 md:flex mt-2">
                             <div class="md:w-full px-3 flex justify-end gap-2">
@@ -328,7 +338,8 @@ export default {
                 },
                 equipment: {
                     id: null,
-                    description: null
+                    description: null,
+                    year:null
                 }
             },
             categories: []
@@ -407,8 +418,18 @@ export default {
                     this.errors.oldEquipment = 'ERROR'
                 }
             }
+
+
+             if(this.equipment.year != null && this.equipment.year != '') {
+                var now = new Date()
+                if(this.equipment.year >= now.getFullYear() || this.equipment.year < 1900)
+                {
+                    this.errors.equipment.year = 'ERROR'            
+                  
+                }
+            } 
             
-            if(this.$v.$anyError == false) {
+            if(this.$v.$anyError == false && this.errors.equipment.year != "ERROR") {
                 this.getSelectedEquipment()
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
