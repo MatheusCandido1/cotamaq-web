@@ -19,9 +19,9 @@
             <div :class="formatStatus(order.status).bg" class="text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
             </div> 
-            <div class=" bg-gray-600 text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
+            <a target="_blank" :href="'https://stage.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
-            </div> 
+            </a> 
           </div>
       </div>
       <div class="flex flex-row justify-between mt-4">
