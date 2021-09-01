@@ -71,7 +71,7 @@ function recoverPassword(data) {
     })
 }
 function confirmEmail(data) {
-    return axios.post(`${API_URL}/auth/confirm-email/${data}`, {
+    return axios.post(`${API_URL}/auth/confirm-email/${data}`, null, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,

@@ -89,7 +89,8 @@ export default {
                     });
                     this.email = '';
 
-                }).catch(() => {
+                }).catch((error) => {
+                    console.log(error.response.data.error_message)
                     this.loader.loading = false;
                     this.$toast.error('E-mail não encontrado em nossa base de dados', {
                         position: "bottom-right",
