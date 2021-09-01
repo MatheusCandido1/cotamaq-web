@@ -93,7 +93,6 @@
                                 </div> 
                             </div>
                         </div>
-
                         <div class="-mx-3 md:flex mt-4">
                             <div class="md:w-full px-3">
                                 <button :disabled="loader.loading" type="submit" class="w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
@@ -159,8 +158,13 @@ export default {
             };
             userService.register(payload).then((response) => {
                     this.loader.loading = false;
-                    this.$store.commit('user/STORE_USER', response);
-                    this.$router.push('/cotacoes')
+                    this.$router.push('/entrar')
+                   this.$toast.success(response.success_message, {
+                            position: "bottom-right",
+                            pauseOnHover: false,
+                            showCloseButtonOnHover: true,
+                            timeout: 2500
+                        });
 
                 }).catch((error) => {
                     this.errors = error.response.data
