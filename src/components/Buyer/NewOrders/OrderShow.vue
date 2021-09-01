@@ -131,7 +131,7 @@
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.part_code)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.description)}}</td>
                  <td class="text-sm  text-center text-gray-700">
-                    <span :class="proposal.is_similar == 0 ? 'bg-red-500':'bg-primary-main'" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
+                    <span :class="proposal.is_similar == 0 ? 'bg-red-500':'bg-primary-main'" class="text-sm px-2 py-1 font-semibold text-white rounded-lg dark:text-white">
                       {{formatSimilar(proposal.is_similar)}}
                     </span>
                 </td>
