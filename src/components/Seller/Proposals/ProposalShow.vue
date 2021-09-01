@@ -164,12 +164,19 @@
                             </label>
                             <money disabled v-bind="proposalTotalMoney" placeholder="" v-model="proposal.total" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none border-primary-main  focus:border-primary-lighter"></money>
                         </div>
-                        <div class="md:w-1/6 px-3 mb-2 md:mb-0">
+                       
+                       <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                             <label for="discount" class="text-sm font-semibold text-gray-600 px-1">
-                                Desconto
+                                Desconto(%)
                             </label>
+                            <div class="flex">
                             <input disabled id="discount" :value="formatMissingInformation(proposal.discount)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        </div>
+
+                                <div class="bg-primary-main font-semibold text-white border-gray-400 w-10 flex rounded-r focus:outline-none">
+                                    <span class="m-auto"><i class="mdi mdi-percent"></i></span>
+                                </div>                             
+                            </div>
+                        </div>	
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                             <label for="validity" class="text-sm font-semibold text-gray-600 px-1">
                                 Validade da proposta
