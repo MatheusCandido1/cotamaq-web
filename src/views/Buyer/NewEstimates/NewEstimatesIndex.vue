@@ -72,7 +72,6 @@ export default {
         bus.$off('updateProposalsByBuyer');
         bus.$on('updateProposalsByBuyer', (data) => {
             if(data) {
-                console.log('uai')
                 this.getParts();
             }
         })

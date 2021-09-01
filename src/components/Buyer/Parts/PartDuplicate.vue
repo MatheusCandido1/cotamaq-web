@@ -112,7 +112,7 @@ export default {
                     showCloseButtonOnHover: true,
                     timeout: 2500
                 });
-                  bus.$emit('updateParts', true);
+                  bus.$emit('updateProposalsByBuyer', true);
                    this.close()
                 this.disabled = false
             })
