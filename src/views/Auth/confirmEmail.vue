@@ -10,8 +10,17 @@
                     <img class="mb-3 mx-auto" style="height: 90px; width: auto" src="../../assets/images/logo-01.png" alt="">
                 </div>
                 <form @submit.prevent="confirmAccount">
-                    <label for="" class="text-xs font-semibold px-1">Seja bem vindo ao COTAMAQ!</label>
-                    <button type="submit" class="block w-full max-w-xs mx-auto bg-primary-main hover:bg-primary-lighter focus:bg-primary-lighter text-white rounded-lg px-3 py-3 font-semibold">Entrar <i class="mdi mdi-login text-lg"></i></button>
+                    <div class="flex flex-col justify-center items-center">
+                        <p class="text-black font-semibold text-lg dark:text-gray-300">
+                            Seja bem vindo(a) ao COTAMAQ!
+                        </p>
+
+                        <p class="text-gray-700 dark:text-gray-300 mt-2">
+                        Viemos para mudar o cenário e a forma como são feitas as cotações de peças no agronegócio, focando na agilidade, praticidade e economia para o produtor, bem como, organização e oportunidades de atingir novos clientes para o vendedor.
+                        </p>
+                    </div>
+                    <button type="submit" class="mt-3 block w-full max-w-xs mx-auto bg-primary-main hover:bg-primary-lighter focus:bg-primary-lighter text-white rounded-lg px-3 py-3 font-semibold">Entrar <i class="mdi mdi-login text-lg"></i></button>
+                           
                 </form>
             </div>
         </div>
@@ -30,29 +39,6 @@ import { userService } from '../../services';
                 next({name: 'login'});
             }
             next();
-        },
-        beforeCreate(){
-                const payload = {
-                    token: this.token,
-                }; 
-                userService.confirmEmail(payload).then((response) => {
-                    this.$toast.success(response.success_message, {
-                        position: "bottom-right",
-                        pauseOnHover: false,
-                        showCloseButtonOnHover: true,
-                        timeout: 3500
-                    });
-                    this.$router.push({name: 'login'})
-
-                }).catch((error) => {
-                    this.$toast.error(error.response.data.error_message, {
-                        position: "bottom-right",
-                        pauseOnHover: false,
-                        showCloseButtonOnHover: true,
-                        timeout: 2500
-                    });
-                    this.$router.push({name: 'login'})
-                });
         },
         methods: {
             confirmAccount() {
