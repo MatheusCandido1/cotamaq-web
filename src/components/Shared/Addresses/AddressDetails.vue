@@ -87,7 +87,7 @@
             <div class="lg:w-1/4 md:w-1/2 sm:w-full  px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Número</label>
                 <div class="flex flex-wrap items-stretch w-full mb-4 relative">
-			<input :disabled="!edit" v-model="address.number" @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
+			<input :disabled="!edit" v-model="selectedAddress.number" @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
 			<div class="flex -mr-px">
 				<span class="flex items-center leading-normal bg-grey-lighter rounded rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
                     <label class="inline-flex items-center">
@@ -225,6 +225,7 @@ export default {
             complement: this.selectedAddress.complement,
             main: this.selectedAddress.main
         }
+
         userService.updateAddress(data).then((response) => {
             this.$toast.success(response.success_message, {
                 position: "bottom-right",
