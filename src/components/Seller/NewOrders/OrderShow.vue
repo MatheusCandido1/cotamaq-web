@@ -9,9 +9,9 @@
                     <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                 </div>
                 <div v-if="order.status != null" class="py-1 flex whitespace-nowrap">
-                    <div v-if="order.status == 1" class="bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+                    <button v-if="order.status == 1" class="mr-2 pointer-events-none bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Métodos e Condições de Pagamento <span class="font-bold"> NÃO </span> enviados</span>
-                    </div>
+                    </button>
                     <button @click="showPaymentsModal" v-if="order.status == 2" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
                         <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Métodos e Condições de Pagamento enviados</span>
                     </button> 
@@ -23,15 +23,15 @@
                                     {{formatStatus(order.status).text}}
                                 </span>
                                 <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </button
+                            </button
                             ></span>
                             <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
                             <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                                <div class="">
+                                <div class="">                                    
+                                    <button v-if="order.status == 1" class="hover:bg-gray-100 text-black w-full flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-alert-octagon-outline mr-2"></i>Não Disponível</button>
                                     <button v-if="order.status == 2" @click="showStatusModal(3)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant-closed mr-2"></i>Em preparo</button>
                                     <button v-if="order.status == 3" @click="showStatusModal(4)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-truck-fast-outline mr-2"></i>Em trânsito</button>
                                     <button v-if="order.status == 4" @click="showStatusModal(5)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant mr-2"></i>Pronto para retirada</button>
-                                    <button v-if="order.status == 5" @click="showStatusModal(6)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-calendar-check-outline mr-2"></i>Entregue</button>
                                 </div>
                             </div>
                         </div>
@@ -345,14 +345,21 @@ export default {
         bus.$off('updatePaymentMethod');
         bus.$on('updatePaymentMethod', (data) => {
             if(data) {
-                this.getPaymentMethods()
+                this.getOrder()
+            }
+        })
+
+        bus.$off('updateOrderStatus');
+        bus.$on('updateOrderStatus', (data) => {
+            if(data) {
+                this.getOrder()
             }
         })
 
         bus.$off('updatePaymentCondition');
         bus.$on('updatePaymentCondition', (data) => {
             if(data) {
-                this.getPaymentConditions()
+                this.getOrder()
             }
         })
     },

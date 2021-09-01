@@ -44,17 +44,17 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
 
-                        <button @click="handleOrderClick" class="flex items-center justify-between px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                        <button v-tooltip="{ content: 'Visualizar' }" @click="handleOrderClick" class="flex items-center justify-between px-2 py-2 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
                             </svg>
                         </button>
                         
-                        <button  class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                        <button v-tooltip="{ content: 'Arquivos' }" :class="filesAvailable() ? 'bg-blue-500':'bg-gray-500'"  @click="openFileModal" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>                       
                         </button>
                         
-                        <button  class="flex items-center justify-between px-2 py-2 bg-orange-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                        <button v-tooltip="{ content: 'Imprimir' }"  class="flex items-center justify-between px-2 py-2 bg-orange-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                             </svg>                       
@@ -63,12 +63,14 @@
                 </div>
             </div>
         </div>
+        <OrderFile :order="order" v-if="modal.file" @close="closeFileModal" />
         <OrderTracking v-if="modal.tracking" @close="closeTrackingModal"/>
     </div>
 </template>
 <script>
 import { bus } from '../../../main'
 import OrderTracking from '../../../components/Buyer/NewOrders/OrderTracking'
+import OrderFile from './OrderFile';
 import { 
     formatMissingInformation, 
     formatCurrency, 
@@ -80,12 +82,14 @@ export default {
     name: 'OrderItem',
     props: ['order'],
     components:{
-        OrderTracking
+        OrderTracking,
+        OrderFile
     },
     data() {
         return {
             modal: {
                 tracking: false,
+                file: false,
             },
             status: [
                 {id: 1, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
@@ -101,6 +105,22 @@ export default {
         formatSimilar,
         formatCurrency,
         formatMissingInformation,
+        filesAvailable() {
+            if(this.order.biller == null && this.order.pdf == null && this.order.xml == null) {
+                return false
+            }
+            else {
+                return true
+            }
+        },
+        openFileModal() {
+            this.modal.file = true;
+            bus.$emit('ModalOpen', true);
+        },
+        closeFileModal() {
+            this.modal.file = false;
+            bus.$emit('ModalOpen', false);
+        },
         handleOrderClick() {
             this.$router.push({name: 'OrderDetails', params: {order_id: this.order.id}})
         },

@@ -68,6 +68,7 @@
   </transition>
 </template>
 <script>
+import { bus } from '../../../main';
 import { orderService } from '../../../services';
 
 export default {
@@ -104,7 +105,8 @@ export default {
                 showCloseButtonOnHover: true,
                 timeout: 2500
             });
-            this.$emit("closeAfterSave");
+            this.$emit("close");
+            bus.$emit('updateOrderStatus', true);
             this.disabled = false
         }).catch((error) => {
             console.log(error.response.data)
