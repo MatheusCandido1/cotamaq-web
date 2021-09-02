@@ -4,7 +4,7 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Cotação #{{part.id}} 
+                      Cotação #{{ part.id }}
                     </h2>
                 </div>
             </div>
@@ -130,128 +130,130 @@
                         </div>
                     </div>
                 </div> -->
+              <DropZone></DropZone>
                 <div class="md:w-full px-3 mb-2 md:mb-0">
-                    <label for="allow_similar" class="flex justify-center text-lg font-semibold text-gray-600 px-1">
-                        Adicionar detalhes do Equipamento?
-                    </label>
+                  <label class="flex justify-center text-lg font-semibold text-gray-600 px-1" for="allow_similar">
+                    Adicionar detalhes do Equipamento?
+                  </label>
                 </div>
-                
+
                 <div class="-mx-3 md:flex mb-6 mt-2">
-                    <div class="md:w-full px-3 flex justify-center gap-4">
-                        <button @click="showEquipmentForm" type="button" class="sm:w-full md:w-1/4 flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center items-center"><i class="mdi mdi-tractor-variant mr-2"></i>Usar Equipamento Existente</span>
-                        </button> 
-                        <button @click="showEquipmentSelect"  type="button" class="sm:w-full md:w-1/4 flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center items-center"><i class="mdi mdi-plus-box mr-2"></i>Cadastrar novo equipamento</span>
-                        </button> 
-                    </div>
+                  <div class="md:w-full px-3 flex justify-center gap-4">
+                    <button class="sm:w-full md:w-1/4 flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 shadow-md py-2 px-6 inline-flex items-center" type="button"
+                            @click="showEquipmentForm">
+                      <span class="justify-center items-center"><i class="mdi mdi-tractor-variant mr-2"></i>Usar Equipamento Existente</span>
+                    </button>
+                    <button class="sm:w-full md:w-1/4 flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker shadow-md py-2 px-6 inline-flex items-center" type="button" @click="showEquipmentSelect">
+                      <span class="justify-center items-center"><i class="mdi mdi-plus-box mr-2"></i>Cadastrar novo equipamento</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div v-if="equipmentForm == 1">
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label for="description" class="text-sm font-semibold text-gray-600 px-1">
-                                Descrição
-                            </label>
-                            <input v-model="equipment.description" @change="() => (errors.equipment.description = 'OK')" :class="errors.equipment.description == 'ERROR' ? 'border-red-400':'border-primary-main'" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                            <div  v-if="errors.equipment.description == 'ERROR'" class="flex justify-center align-items">
-                                <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Descrição é obrigatório.</span>
-                            </div> 
-                        </div>
-                        <div class="md:w-1/2 px-3 mb-2 md:mb-0">
-                            <label for="patrimony" class="text-sm font-semibold text-gray-600 px-1">
-                                Patrimônio
-                            </label>
-                            <input v-model="equipment.patrimony" id="patrimony" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        </div>
+                  <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                      <label class="text-sm font-semibold text-gray-600 px-1" for="description">
+                        Descrição
+                      </label>
+                      <input v-model="equipment.description" :class="errors.equipment.description == 'ERROR' ? 'border-red-400':'border-primary-main'" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" placeholder="" type="text" @change="() => (errors.equipment.description = 'OK')">
+                      <div v-if="errors.equipment.description == 'ERROR'" class="flex justify-center align-items">
+                        <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Descrição é obrigatório.</span>
+                      </div>
                     </div>
+                    <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                      <label class="text-sm font-semibold text-gray-600 px-1" for="patrimony">
+                        Patrimônio
+                      </label>
+                      <input id="patrimony" v-model="equipment.patrimony" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" placeholder="" type="text">
+                    </div>
+                  </div>
 
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-1/3 px-3 mb-2 md:mb-0">
-                            <label for="model" class="text-sm font-semibold text-gray-600 px-1">
-                                Modelo
-                            </label>
-                            <input v-model="equipment.model" id="model" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        </div>
-                        <div class="md:w-1/3 px-3 mb-2 md:mb-0">
-                            <label for="brand" class="text-sm font-semibold text-gray-600 px-1">
-                                Marca
-                            </label>
-                            <input v-model="equipment.brand" id="brand" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                        </div>
-                        <div class="md:w-1/3 px-3 mb-2 md:mb-0">
-                        <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
-                        <div class="flex">
-                            <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                            <the-mask @change.native="() => (errors.equipment.year = 'OK')" :class="errors.equipment.year == 'ERROR' ? 'border-red-400':'border-primary-main'" v-model="equipment.year" mask="####" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></the-mask>
-                        </div>   
-                        <div v-if="errors.equipment.year == 'ERROR'">
-                            <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
-                        </div>                        
+                  <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                      <label class="text-sm font-semibold text-gray-600 px-1" for="model">
+                        Modelo
+                      </label>
+                      <input id="model" v-model="equipment.model" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" placeholder="" type="text">
                     </div>
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                      <label class="text-sm font-semibold text-gray-600 px-1" for="brand">
+                        Marca
+                      </label>
+                      <input id="brand" v-model="equipment.brand" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" placeholder="" type="text">
                     </div>
-                        <div class="-mx-3 md:flex mt-2">
-                            <div class="md:w-full px-3 flex justify-end gap-2">
-                                <button @click="() => equipmentForm = null" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-                                    <span class="justify-center">Cancelar Equipamento</span>
-                                </button> 
-                            </div>
-                        </div>
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                      <label class="text-sm font-semibold text-gray-600 px-1" for="">Ano</label>
+                      <div class="flex">
+                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <the-mask v-model="equipment.year" :class="errors.equipment.year == 'ERROR' ? 'border-red-400':'border-primary-main'" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" mask="####" @change.native="() => (errors.equipment.year = 'OK')"></the-mask>
+                      </div>
+                      <div v-if="errors.equipment.year == 'ERROR'">
+                        <span class="text-xs text-red-400 font-semibold px-1">O campo Ano não é válido.</span>
+                      </div>
                     </div>
+                  </div>
+                  <div class="-mx-3 md:flex mt-2">
+                    <div class="md:w-full px-3 flex justify-end gap-2">
+                      <button class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center" @click="() => equipmentForm = null">
+                        <span class="justify-center">Cancelar Equipamento</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
                 <div v-if="equipmentForm == 2">
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-full px-3 mb-2 md:mb-0">
-                            <label for="equipment_id" class="text-sm font-semibold text-gray-600 px-1">
-                                Equipamento
-                            </label>
-                            <multiselect 
-                                v-model="oldEquipment" 
-                                @input="() => (errors.equipment.id = 'OK')"
-                                :options="equipments"
-                                label="patrimony"
-                                track-by="id"
-                                :searchable="true"
-                                :loading="loading"
-                                :customLabel="formatEquipment"
-                                placeholder="Escolha ou pesquise um equipamento"
-                                :close-on-select="true"
-                                selectLabel="Pressione Enter para escolher"
-                                selectedLabel="Selecionado"
-                                deselectLabel="Pressione Enter para remover"
-                                open-direction="bottom"
-                                
-                                >
-                                <template v-slot:noOptions>
-                                    Ops... Você não tem nenhum equipamento cadastrado...
-                                </template>
-                            </multiselect>
-                             <div  v-if="errors.oldEquipment == 'ERROR'" class="flex justify-center align-items">
-                                <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Equipamento é obrigatório.</span>
-                            </div> 
-                        </div>
+                  <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3 mb-2 md:mb-0">
+                      <label class="text-sm font-semibold text-gray-600 px-1" for="equipment_id">
+                        Equipamento
+                      </label>
+                      <multiselect
+                          v-model="oldEquipment"
+                          :close-on-select="true"
+                          :customLabel="formatEquipment"
+                          :loading="loading"
+                          :options="equipments"
+                          :searchable="true"
+                          deselectLabel="Pressione Enter para remover"
+                          label="patrimony"
+                          open-direction="bottom"
+                          placeholder="Escolha ou pesquise um equipamento"
+                          selectLabel="Pressione Enter para escolher"
+                          selectedLabel="Selecionado"
+                          track-by="id"
+                          @input="() => (errors.equipment.id = 'OK')"
+
+                      >
+                        <template v-slot:noOptions>
+                          Ops... Você não tem nenhum equipamento cadastrado...
+                        </template>
+                      </multiselect>
+                      <div v-if="errors.oldEquipment == 'ERROR'" class="flex justify-center align-items">
+                        <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Equipamento é obrigatório.</span>
+                      </div>
                     </div>
-                     <div class="-mx-3 md:flex mt-2">
-                            <div class="md:w-full px-3 flex justify-end gap-2">
-                                <button @click="handleEquipmentCancel" class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-                                    <span class="justify-center">Cancelar Equipamento</span>
-                                </button> 
-                            </div>
-                        </div>
+                  </div>
+                  <div class="-mx-3 md:flex mt-2">
+                    <div class="md:w-full px-3 flex justify-end gap-2">
+                      <button class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-red-600 text-white font-semibold rounded hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center" @click="handleEquipmentCancel">
+                        <span class="justify-center">Cancelar Equipamento</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
 
                 <div class="-mx-3 md:flex mt-4">
-                    <div class="md:w-full px-3 flex justify-end gap-2">
-                        <button @click="saveDraft" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center">Salvar Rascunho</span>
-                        </button> 
-                        <button type="submit" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-                            <span class="justify-center">Enviar Cotação</span>
-                        </button> 
-                    </div>
+                  <div class="md:w-full px-3 flex justify-end gap-2">
+                    <button class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center" type="button" @click="saveDraft">
+                      <span class="justify-center">Salvar Rascunho</span>
+                    </button>
+                    <button class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center" type="submit">
+                      <span class="justify-center">Enviar Cotação</span>
+                    </button>
+                  </div>
                 </div>
-        </form>
+            </form>
   </div>
     </div>
     <AddressAdd v-if="modal.address" @close="closeAddAddressModal" />
@@ -260,30 +262,32 @@
 </template>
 
 <script>
-import { bus } from "../../../main";
-import { required, requiredIf } from 'vuelidate/lib/validators'
-import { categoryService, equipmentService, userService, estimateService } from '../../../services';
+import {bus} from "../../../main";
+import {required, requiredIf} from 'vuelidate/lib/validators'
+import {categoryService, equipmentService, estimateService, userService} from '../../../services';
 import Multiselect from 'vue-multiselect'
-import { formatEquipment } from '@/helpers/string-helper';
+import {formatEquipment} from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
+import DropZone from "./DropZone";
 
 export default {
-    name: 'PartUpdate',
-    components: {
-        Multiselect,
-        PartConfirm,
-        AddressAdd
-    },
-    updated() {
-        bus.$off('updatedEstimateAddress');
-        bus.$on('updatedEstimateAddress', (data) => {
-            if(data) {
-               this.getAddresses(); 
-            }
-        })
-    },
-    created() {
+  name: 'PartUpdate',
+  components: {
+    Multiselect,
+    PartConfirm,
+    AddressAdd,
+    DropZone
+  },
+  updated() {
+    bus.$off('updatedEstimateAddress');
+    bus.$on('updatedEstimateAddress', (data) => {
+      if (data) {
+        this.getAddresses();
+      }
+    })
+  },
+  created() {
         this.getEquipments()
         this.getCategories()
         this.getAddresses()
