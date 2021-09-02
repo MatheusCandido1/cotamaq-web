@@ -586,6 +586,13 @@ export default {
           this.form.append('equipment_brand', this.equipment.brand);
         }
       }
+      alert('rascunhos')
+
+      let Files = this.$store.getters.files
+
+      Files.forEach((file) => {
+        this.form.append('files[]', file.data)
+      })
 
 
       estimateService.createEstimate(this.form).then((response) => {
@@ -631,11 +638,9 @@ export default {
       }
 
       let Files = this.$store.getters.files
-      console.log(Files)
 
       Files.forEach((file) => {
         this.form.append('files[]', file.data)
-        console.log(file)
       })
 
 

@@ -9,7 +9,8 @@ export const estimateService = {
     duplicateEstimate,
     updateEstimate,
     deleteEstimate,
-    getAvailableEstimates
+    getAvailableEstimates,
+    deleteImage
 };
 
 function getAvailableEstimates(data) {
@@ -92,6 +93,19 @@ function duplicateEstimate(data){
 function deleteEstimate(data){
     return axios.delete(`${API_URL}/estimates/${data}`, {
         headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+        return data;
+    })
+}
+function deleteImage(data){
+    return axios.delete(`${API_URL}/estimates/image/${data}`, {
+        headers: {
             ...authHeader(),
             'Content-Type': 'application/json' ,
             'Accept': 'application/json'

@@ -130,7 +130,10 @@
                         </div>
                     </div>
                 </div> -->
+              <p>Inserir novas imagens</p>
               <DropZone></DropZone>
+              <p>Imagens Salvas</p>
+              <FileList :files="files"></FileList>
                 <div class="md:w-full px-3 mb-2 md:mb-0">
                   <label class="flex justify-center text-lg font-semibold text-gray-600 px-1" for="allow_similar">
                     Adicionar detalhes do Equipamento?
@@ -270,10 +273,12 @@ import {formatEquipment} from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
 import DropZone from "./DropZone";
+import FileList from "./FileList";
 
 export default {
   name: 'PartUpdate',
   components: {
+    FileList,
     Multiselect,
     PartConfirm,
     AddressAdd,
@@ -445,6 +450,7 @@ export default {
             estimateService.getEstimate(id).then((response) => {
                 const data = response.data.data
                 this.part = data
+                this.files = data.images
                 this.oldEquipment = data.equipment
                 if(this.part.allow_similar == 1) {
                     this.isSimilar = false
@@ -564,6 +570,11 @@ export default {
                     this.form.append('equipment_brand', this.equipment.brand);
                 }
             }
+            let Files = this.$store.getters.files
+
+            Files.forEach((file) => {
+              this.form.append('files[]', file.data)
+            })
 
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
@@ -607,6 +618,11 @@ export default {
                 this.form.append('equipment_year', this.equipment.year);
                 this.form.append('equipment_brand', this.equipment.brand);
             }
+          let Files = this.$store.getters.files
+
+          Files.forEach((file) => {
+            this.form.append('files[]', file.data)
+          })
 
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
