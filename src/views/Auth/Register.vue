@@ -87,7 +87,7 @@
                                 <label for="password" class="text-sm font-semibold text-gray-600 px-1">
                                     Confirmação de Senha
                                 </label>
-                                <input @change="() => (errors.password = null)" :class="errors.password && errors.password[0] ? 'border-red-400':'border-primary-main'" id="password" v-model="password_confirmation"  placeholder="" type="password" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                                <input @change="() => (errors.password = null)" :class="errors.password && errors.password[0] ? 'border-red-400':'border-primary-main'" id="password_confirmation" v-model="password_confirmation"  placeholder="" type="password" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                                 <div v-if="errors.password" class="flex justify-center align-items">
                                     <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.password[0]}}</span>
                                 </div> 

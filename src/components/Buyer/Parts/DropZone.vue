@@ -11,10 +11,10 @@
                 <div v-if="files.length > 0">
                     <div>
                         <div class="flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                             </svg>                     
-                        <h1>Arraste e solte os arquivos aqui ou click</h1>
+                        <h1 class="font-semibold">Arraste e solte os arquivos aqui ou click</h1>
                       </div>
 
                     </div>
@@ -42,7 +42,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>                       
                     </div>
-                     <h1>Arraste e solte os arquivos aqui ou click</h1>
+                     <h1 class="font-semibold">Arraste e solte os arquivos aqui ou click</h1>
                 </div>
 
                          

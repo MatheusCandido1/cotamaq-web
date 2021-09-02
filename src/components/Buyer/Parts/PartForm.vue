@@ -1,5 +1,9 @@
 <template>
   <div class="flex flex-col">
+    <Loading :active="loader.active"
+              :loader="loader.loader"
+              :is-full-page="loader.fullPage"
+              :color="loader.color" />
     <div class="w-full my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <div class="flex justify-between">
         <div class="py-1">
@@ -317,6 +321,8 @@ import {formatEquipment} from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
 import Dropzone from './DropZone.vue'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'PartForm',
@@ -324,7 +330,8 @@ export default {
     Multiselect,
     PartConfirm,
     AddressAdd,
-    Dropzone
+    Dropzone,
+    Loading
   },
   created() {
     this.getEquipments()
@@ -341,6 +348,12 @@ export default {
   },
   data() {
     return {
+      loader: {
+        active: false,
+        fullPage: true,
+        loader: 'bars',
+        color: '#2BCB6F'
+      },
       modal: {
         confirm: false,
         address: false,
@@ -586,7 +599,6 @@ export default {
           this.form.append('equipment_brand', this.equipment.brand);
         }
       }
-      alert('rascunhos')
 
       let Files = this.$store.getters.files
 
@@ -594,7 +606,7 @@ export default {
         this.form.append('files[]', file.data)
       })
 
-
+      this.loader.active = true
       estimateService.createEstimate(this.form).then((response) => {
         this.$toast.success(response.success_message, {
           position: "bottom-right",
@@ -602,7 +614,7 @@ export default {
           showCloseButtonOnHover: true,
           timeout: 2500
         });
-
+        this.loader.active = false
         this.$router.push({name: 'estimates'})
 
         this.closeConfirmModal()
@@ -644,6 +656,7 @@ export default {
       })
 
 
+      this.loader.active = true
       estimateService.createEstimate(this.form).then((response) => {
         this.$toast.success(response.success_message, {
           position: "bottom-right",
@@ -651,10 +664,10 @@ export default {
           showCloseButtonOnHover: true,
           timeout: 2500
         });
+      this.loader.active = false
+      this.$router.push({name: 'estimates'})
 
-        this.$router.push({name: 'estimates'})
-
-        this.closeConfirmModal()
+      this.closeConfirmModal()
       }).catch((error) => {
         console.log(error.response.data)
       })

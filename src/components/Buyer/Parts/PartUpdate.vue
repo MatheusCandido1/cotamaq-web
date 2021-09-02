@@ -1,5 +1,11 @@
 <template>
     <div class="flex flex-col">
+        <Loading 
+            :active="loader.active"
+            :loader="loader.loader"
+            :is-full-page="loader.fullPage"
+            :color="loader.color"
+        />
         <div class="w-full my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div class="flex justify-between">
                 <div class="py-1">
@@ -113,27 +119,10 @@
                         <textarea v-model="part.observation" class="form-textarea mt-1 block resize-none w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" rows="3" placeholder=""></textarea>
                     </div>
                 </div>
-                <!--<div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-full px-3 mb-2 md:mb-0">
-                        <label class="text-sm font-semibold text-gray-600 px-1">Imagens</label>   
-                        <span @click="addFiles()" class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2 cursor-pointer">Adicionar Imagens</span>
-                        <input ref="files" @change="onFileChange" id="files" class="hidden" multiple type="file" />         
-                        <div class="flex justify-start items-center flex-wrap mt-2">
-                        <div class="flex flex-row justify-center items-center">
-                            <div class="flex flex-col justify-center items-center"  v-for="(file, key) in files" :key="key">
-                            <img  class="h-28 w-28 rounded-lg ml-2 mr-2" :ref="'file'" />
-                            <button @click="removeImage(key)" type="button" class="w-8 h-8 mt-1 justify-center items-center mr-2 bg-red-600 text-white p-2 rounded  leading-none flex items-center">
-                            <i class="mdi mdi-delete text-white"></i>
-                            </button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div> -->
-              <p>Inserir novas imagens</p>
-              <DropZone></DropZone>
-              <p>Imagens Salvas</p>
+              <p v-if="files.length > 0" class="font-semibold">Imagens Salvas</p>
               <FileList :files="files"></FileList>
+              <p class="font-semibold">Inserir novas imagens</p>
+              <DropZone></DropZone>
                 <div class="md:w-full px-3 mb-2 md:mb-0">
                   <label class="flex justify-center text-lg font-semibold text-gray-600 px-1" for="allow_similar">
                     Adicionar detalhes do Equipamento?
@@ -274,25 +263,28 @@ import PartConfirm from './PartConfirm';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
 import DropZone from "./DropZone";
 import FileList from "./FileList";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-  name: 'PartUpdate',
-  components: {
-    FileList,
-    Multiselect,
-    PartConfirm,
-    AddressAdd,
-    DropZone
-  },
-  updated() {
-    bus.$off('updatedEstimateAddress');
-    bus.$on('updatedEstimateAddress', (data) => {
-      if (data) {
-        this.getAddresses();
-      }
-    })
-  },
-  created() {
+    name: 'PartUpdate',
+    components: {
+        FileList,
+        Multiselect,
+        PartConfirm,
+        AddressAdd,
+        DropZone,
+        Loading
+    },
+    updated() {
+        bus.$off('updatedEstimateAddress');
+        bus.$on('updatedEstimateAddress', (data) => {
+        if (data) {
+            this.getAddresses();
+        }
+        })
+    },
+    created() {
         this.getEquipments()
         this.getCategories()
         this.getAddresses()
@@ -300,6 +292,12 @@ export default {
     },
     data() {
         return {
+            loader: {
+                active: false,
+                fullPage: true,
+                loader: 'bars',
+                color: '#2BCB6F'
+            },
             modal: {
                 confirm: false,
                 address: false,
@@ -576,6 +574,7 @@ export default {
               this.form.append('files[]', file.data)
             })
 
+            this.loader.active = true
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
@@ -583,6 +582,7 @@ export default {
                     showCloseButtonOnHover: true,
                     timeout: 2500
                 });
+                this.loader.active = false
                 this.$router.push({name: 'estimates'})
             }).catch((error) => {
                 console.log(error.response.data)
@@ -624,6 +624,7 @@ export default {
             this.form.append('files[]', file.data)
           })
 
+            this.loader.active = true
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
@@ -631,6 +632,7 @@ export default {
                     showCloseButtonOnHover: true,
                     timeout: 2500
                 });
+                this.loader.active = false
                 this.$router.push({name: 'estimates'})
                 this.closeConfirmModal()
             }).catch((error) => {
