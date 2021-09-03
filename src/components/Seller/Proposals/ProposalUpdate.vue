@@ -589,8 +589,7 @@ export default {
 
         },
         sendProposal(redirect) {
-      console.log(this.proposal.seller_id)
-      console.log(redirect)
+
             this.form.append('estimate_id', this.estimate.id);
             this.form.append('seller_id', this.proposal.seller_id);
             this.form.append('value', this.proposal.value);
@@ -613,36 +612,35 @@ export default {
           })
           this.loader.active = true
 
-            // proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
-            //     this.$toast.success(response.success_message, {
-            //     position: "bottom-right",
-            //     pauseOnHover: false,
-            //     showCloseButtonOnHover: true,
-            //     timeout: 2500
-            // });
-            //     this.closeConfirmModal()
-            //     bus.$emit('updateProposalsBySeller', true);
-            //     if(redirect) {
-            //       this.loader.active = false
-            //       this.$router.push({name: 'estimates'})
-            //     } else {
-            //       this.loader.active = false
-            //       this.$router.push({name: 'estimates'})
-            //     }
-            // }).catch((error) => {
-            //   this.loader.active = false
-            //
-            //   this.$toast.error(error.response.data.message, {
-            //     position: "bottom-right",
-            //     pauseOnHover: false,
-            //     showCloseButtonOnHover: true,
-            //     timeout: 2500
-            //     });
-            //     this.$router.push({name: 'estimates'})
-            // })
+            proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
+                this.$toast.success(response.success_message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+            });
+                this.closeConfirmModal()
+                bus.$emit('updateProposalsBySeller', true);
+                if(redirect) {
+                  this.loader.active = false
+                  this.$router.push({name: 'estimates'})
+                } else {
+                  this.loader.active = false
+                  this.$router.push({name: 'estimates'})
+                }
+            }).catch((error) => {
+              this.loader.active = false
+
+              this.$toast.error(error.response.data.message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+                });
+                this.$router.push({name: 'estimates'})
+            })
         },
         saveProposal() {
-          console.log(this.proposal.seller_id)
             this.form.append('estimate_id', this.estimate.id);
             this.form.append('seller_id', this.proposal.seller_id);
             this.form.append('value', this.proposal.value);
@@ -663,31 +661,31 @@ export default {
             this.form.append('files[]', file.data)
           })
             this.loader.active = true
-            // proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
-            //     this.$toast.success(response.success_message, {
-            //     position: "bottom-right",
-            //     pauseOnHover: false,
-            //     showCloseButtonOnHover: true,
-            //     timeout: 2500
-            // });
-            //
-            //   this.closeConfirmModal()
-            //     bus.$emit('updateProposalsBySeller', true);
-            //   this.loader.active = false
-            //
-            //   this.$router.push({name: 'estimates'})
-            //
-            // }).catch((error) => {
-            //   this.loader.active = true
-            //
-            //   this.$toast.error(error.response.data.error_message, {
-            //     position: "bottom-right",
-            //     pauseOnHover: false,
-            //     showCloseButtonOnHover: true,
-            //     timeout: 2500
-            //     });
-            //     this.$router.push({name: 'estimates'})
-            // })
+            proposalService.updateProposal(this.proposal.id, this.form).then((response) => {
+                this.$toast.success(response.success_message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+            });
+
+              this.closeConfirmModal()
+                bus.$emit('updateProposalsBySeller', true);
+              this.loader.active = false
+
+              this.$router.push({name: 'estimates'})
+
+            }).catch((error) => {
+              this.loader.active = true
+
+              this.$toast.error(error.response.data.error_message, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+                });
+                this.$router.push({name: 'estimates'})
+            })
         },
         closeConfirmModal() {
             this.modal.confirm = false;

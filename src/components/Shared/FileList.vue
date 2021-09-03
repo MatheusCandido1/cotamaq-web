@@ -47,7 +47,6 @@ export default {
       bus.$emit("ModalOpen", false);
     },
     deleteImage(index, image){
-      console.log(image)
       this.files.splice(index,1)
 
       if(this.type == 'estimates'){

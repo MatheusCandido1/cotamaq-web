@@ -126,7 +126,6 @@ export default {
         this.estimateImages = response.data.imageEstimate
         this.proposalImages = response.data.imageProposal
       })
-      console.log(this.estimateImages)
     }
   },
   created() {
