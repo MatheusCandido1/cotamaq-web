@@ -13,12 +13,12 @@
                 <div class="w-full px-3 mb-5">
                     <input type="text" @keyup="getSearch" v-model="MySearch"  placeholder="Pesquisar..." class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none focus:border-primary-lighter" />
                 </div>                
-            </div>
+           </div>
 
             <div class="flex justify-end">
                 <div class="w-1/1 px-3 mb-5 ">
 
-                    <label for="" class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
+                    <label class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                             <select @change="getParts" v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
@@ -56,17 +56,18 @@
 </template>
 <script>
 import ProductItem from '../../../components/Seller/NewEstimates/ProductItem'
-import { estimateService } from '../../../services'
-import { bus } from '../../../main';
+import {estimateService} from '../../../services'
+import {bus} from '../../../main';
+
 export default {
-    name: 'NewEstimateIndex',
-    components: {
-        ProductItem
-    },
-    created() {
-        this.getParts();
-    },
-    updated() {
+  name: 'NewEstimateIndex',
+  components: {
+    ProductItem
+  },
+  created() {
+    this.getParts();
+  },
+  updated() {
         bus.$off('updateProposalsBySeller');
         bus.$on('updateProposalsBySeller', (data) => {
             if(data) {
