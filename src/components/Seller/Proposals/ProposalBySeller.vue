@@ -71,18 +71,24 @@ export default {
             },
             estimate: {
                 id: this.$route.params.estimate_id
-            }
+            },
+            imageProposal:[],
+            imageEstimate:[]
         }
     },
     methods: {
         getProposalsByEstimate() {
             proposalService.getProposalsByEstimate(this.estimate.id).then((response) => {
-                const data = response.data.data
-                this.proposals = data
-                this.estimate = this.proposals[0].estimate
+
+              const data = response.data.data
+              this.proposals = data
+              this.estimate = this.proposals[0].estimate
+
             }).catch((error) => {
                 console.log(error.response.data)
             })
+
+
         },
         handleAddClick() {
             this.$router.push({name: 'addProposal', params: {estimate_id: this.estimate.id}})

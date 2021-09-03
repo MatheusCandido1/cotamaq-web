@@ -40,7 +40,7 @@
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                      <p><span class="font-semibold">Observação: </span>{{selectedProposal.observation == null ? 'Não informado':selectedProposal.observation}}</p> 
                 </div>
-                <button class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
+                <button @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
 
                 <div class="border-t-2"></div>
                     <div class=" flex flex-row justify-end my-2 gap-2">
@@ -75,6 +75,7 @@
                </div>
           </div>
           <ProposalDelete v-if="modal.cancel" :proposal="selectedProposal" @close="closeDeleteModal"></ProposalDelete>
+          <ProposalShowImages v-if="modal.images" :proposal="selectedProposal" @close="closeShowImagesModal"></ProposalShowImages>
      </div>
 </template>
 
@@ -82,17 +83,21 @@
 import { bus } from '../../../main';
 import { formatSimillar, formatCurrency, formatDelivery } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
+import ProposalShowImages from "./ProposalShowImages";
 
 export default {
      name: 'ProposalItem',
      props: ['proposal'],
      components: {
           ProposalDelete,
+       ProposalShowImages
      },
      data() {
         return {
+          imagesProposal:[],
           modal: {
                cancel: false,
+                images:false,
           },
           selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
           status: [
@@ -108,6 +113,10 @@ export default {
           formatSimillar,
           formatCurrency,
           formatDelivery,
+          showModalImages(){
+            bus.$emit('ModalOpen', true)
+            this.modal.images = true
+          },
           showDeleteModal() {
                bus.$emit('ModalOpen', true)
                this.modal.cancel = true
@@ -116,6 +125,11 @@ export default {
                bus.$emit('ModalOpen', false)
                this.modal.cancel = false
           },
+       closeShowImagesModal() {
+               bus.$emit('ModalOpen', false)
+               this.modal.images = false
+          },
+
           handleDetailsClick() {
                this.$router.push({name: 'proposalDetails', params: {proposal_id: this.selectedProposal.id}})
           },

@@ -320,7 +320,7 @@ import Multiselect from 'vue-multiselect'
 import {formatEquipment} from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import Dropzone from './DropZone.vue'
+import Dropzone from '../../Shared/DropZone.vue'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 

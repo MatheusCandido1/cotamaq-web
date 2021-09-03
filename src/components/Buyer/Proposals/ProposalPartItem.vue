@@ -38,7 +38,7 @@
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                                    <p><span class="font-semibold">Observação: </span>{{formatMissingInformation(selectedProposal.observation)}}</p> 
                               </div>
-                              <button class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
+                              <button @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
                               <div class="border-t-2"></div>
                               <ul v-if="selectedProposal.status == 2" class="flex gap-2 justify-start mt-2">                  
                                    <button @click="handleAcceptOpenClick" class="flex-1 bg-primary-main font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Comprar</button>
@@ -67,6 +67,7 @@
           </div>
           <ProposalAccept @close="handleAcceptCloseClick" v-if="modal.accept" :proposal="proposal" />
           <ProposalDecline @close="handleDeclineCloseClick" v-if="modal.decline" :proposal="proposal" />
+          <ProposalShowImages v-if="modal.images" :proposal="proposal" @close="handleImageCloseClick"></ProposalShowImages>
      </div>
 </template>
 
@@ -80,13 +81,15 @@ import {
 } from "@/helpers/string-helper";
 import ProposalAccept from "./ProposalAccept";
 import ProposalDecline from "./ProposalDecline";
+import ProposalShowImages from "./ProposalShowImages";
 
 export default {
 	name: "ProposalPartItem",
 	props: ["estimate", "proposal"],
 	components: {
 		ProposalDecline,
-		ProposalAccept
+		ProposalAccept,
+    ProposalShowImages
 	},
 	data() {
 		return {
@@ -98,7 +101,8 @@ export default {
                selectedEstimate: JSON.parse(JSON.stringify(this.$props.estimate)),
 			modal: {
 				accept: false,
-				decline: false
+				decline: false,
+        images:false,
 			}
 		};
 	},
@@ -114,6 +118,15 @@ export default {
           handleDetailsClick() {
                this.$router.push({name: 'proposalDetails', params: {proposal_id: this.selectedProposal.id}})
           },
+    showModalImages(){
+      this.modal.images = true;
+      bus.$emit("ModalOpen", true);
+    },
+    handleImageCloseClick(){
+      this.modal.images = false;
+      bus.$emit("ModalOpen", false);
+
+    },
 		handleAcceptOpenClick() {
 			this.modal.accept = true;
 			bus.$emit("ModalOpen", true);

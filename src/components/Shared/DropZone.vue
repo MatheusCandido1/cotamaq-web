@@ -18,7 +18,7 @@
                       </div>
 
                     </div>
-                    <div  class=" flex  flex-wrap justify-between" >
+                    <div  class=" flex  flex-wrap justify-start " >
                         <div class="m-2  " v-for="(image,index) in files" :key="image.ids">
                             <dir class="">
                                 <button @click="deleteImage(index)"   class="relative delete   mr-1 px-1 py-1 bg-red-500 text-sm font-medium   text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">

@@ -7,6 +7,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </button>
+
         <img class="preview"  :src="image.image_path" >
       </dir>
     </div>
@@ -16,11 +17,12 @@
 </template>
 
 <script>
-import { bus } from '../../../main';
-import {estimateService} from "../../../services";
-import ImageDelete from './ImageDelete'
+import { bus } from '../../main';
+import {estimateService, proposalService} from "../../services";
+import ImageDelete from '../Buyer/Parts/ImageDelete'
+
 export default {
-  props:['files'],
+  props:['files', 'type'],
   components: {
     ImageDelete
   },
@@ -48,16 +50,31 @@ export default {
       console.log(image)
       this.files.splice(index,1)
 
-      estimateService.deleteImage(image.id).then((response)=>{
-        console.log(response)
-        this.$toast.success(response.success_message, {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 2500
-        });
+      if(this.type == 'estimates'){
+        estimateService.deleteImage(image.id).then((response)=>{
+          this.$toast.success(response.success_message, {
+            position: "bottom-right",
+            pauseOnHover: false,
+            showCloseButtonOnHover: true,
+            timeout: 2500
+          });
 
-      })
+        })
+
+      }else if(this.type == 'proposal'){
+
+        proposalService.deleteImage(image.id).then((response)=>{
+          this.$toast.success(response.success_message, {
+            position: "bottom-right",
+            pauseOnHover: false,
+            showCloseButtonOnHover: true,
+            timeout: 2500
+          });
+
+        })
+      }
+
+
       this.closeImageDeleteModal()
     },
   },

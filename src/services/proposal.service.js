@@ -14,7 +14,9 @@ export const proposalService = {
     togglePaymentConditions,
     deleteProposal,
     declineProposalByBuyer,
-    approveProposalByBuyer
+    approveProposalByBuyer,
+    deleteImage,
+    getImages
 };
 
 function declineProposalByBuyer(id) {
@@ -171,6 +173,26 @@ function getProposalsByEstimate(id) {
 function getProposal(id) {
     return axios.get(`${API_URL}/proposals/${id}`,  {
         headers: { 
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
+function deleteImage(id) {
+    return axios.delete(`${API_URL}/proposals/image/${id}`,  {
+        headers: {
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(handleResponse)
+}
+function getImages(proposal, estimate) {
+    return axios.get(`${API_URL}/proposals/images/${proposal}/${estimate}`,  {
+        headers: {
             ...authHeader(),
             'Content-Type': 'application/json' ,
             'Accept': 'application/json'

@@ -120,7 +120,7 @@
                     </div>
                 </div>
               <p v-if="files.length > 0" class="font-semibold">Imagens Salvas</p>
-              <FileList :files="files"></FileList>
+              <FileList :files="files" :type="'estimates'"></FileList>
               <p class="font-semibold">Inserir novas imagens</p>
               <DropZone></DropZone>
                 <div class="md:w-full px-3 mb-2 md:mb-0">
@@ -261,8 +261,8 @@ import Multiselect from 'vue-multiselect'
 import {formatEquipment} from '@/helpers/string-helper';
 import PartConfirm from './PartConfirm';
 import AddressAdd from '../../Shared/Addresses/AddressAdd';
-import DropZone from "./DropZone";
-import FileList from "./FileList";
+import DropZone from "../../Shared/DropZone";
+import FileList from "../../Shared/FileList";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
