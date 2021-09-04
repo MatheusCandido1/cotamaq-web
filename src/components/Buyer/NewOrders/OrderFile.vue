@@ -10,7 +10,7 @@
         <div
             class="border-0   rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none md:h-auto h-screen ">
           <!--header-->
-          <div class="md:flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+          <div class="md:flex mt-3 items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 class="text-xl  font-semibold">
               Visualizar Anexos - Pedido #{{ selectedOrder.id }}
             </h3>
