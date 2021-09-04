@@ -94,6 +94,7 @@ export default {
       }
   },
   created() {
+    alert('teste')
   },
   methods: {
     close() {

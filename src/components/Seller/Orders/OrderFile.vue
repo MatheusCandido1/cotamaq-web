@@ -230,6 +230,7 @@ export default {
   },
   mounted() {
     this.getOrder();
+    console.log('teset')
   },
   methods: {
     getOrder() {
