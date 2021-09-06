@@ -23,6 +23,7 @@ import ProposalsByEstimate from '../views/ProposalsByEstimate'
 import ProposalDetails from '../views/ProposalDetails'
 import OrderDetails from '../views/OrderDetails'
 import confirmEmail from '../views/Auth/confirmEmail.vue'
+import ReSendConfirm from '../views/Auth/ReSendConfirmationEmail'
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -75,6 +76,10 @@ const routes = [
     path: '/confirme-email',
     name: 'confirmEmail',
     component: confirmEmail
+  },{
+    path: '/re-enviar/confirme-email',
+    name: 'ResendConfirmEmail',
+    component: ReSendConfirm
   },
 ];
 
@@ -86,7 +91,8 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/entrar', '/registrar', '/recuperar-senha', '/resetar-senha','/confirme-email'];
+  console.log(to.path)
+  const publicPages = ['/entrar', '/registrar', '/recuperar-senha', '/resetar-senha','/confirme-email','/re-enviar/confirme-email'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');
 
