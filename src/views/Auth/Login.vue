@@ -46,6 +46,7 @@
                                 </span>
                                 <p class="text-sm text-center text-gray-600">Ainda não tem uma conta? <router-link :to="{name: 'register'}">Registre-se. </router-link> </p>
                                 <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
+                                <p class="text-sm text-center text-gray-600">O e-mail de confirmação de cadastro não chegou? <router-link :to="{name: 'ResendConfirmEmail'}">Re enviar!</router-link> </p>
                             </div>
                         </div>
                     </form>

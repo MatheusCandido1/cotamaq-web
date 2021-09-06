@@ -19,7 +19,9 @@ export const userService = {
     recoverPassword,
     resetPassword,
     notifications,
-    confirmEmail
+    confirmEmail,
+    ReSendRecoverPassword
+
 };
  
 async function me() {
@@ -56,7 +58,7 @@ function resetPassword(data) {
     })
 }
 
-function recoverPassword(data) {
+function ReSendRecoverPassword(data) {
     return axios.post(`${API_URL}/auth/forgot-password`, JSON.stringify(data), {
         headers: { 
             ...authHeader(),
@@ -67,6 +69,19 @@ function recoverPassword(data) {
     .then(response => {
         const data = response.data
         
+        return data;
+    })
+}function recoverPassword(data) {
+    return axios.post(`${API_URL}/auth/re-send/confirm-email'`, JSON.stringify(data), {
+        headers: {
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+
         return data;
     })
 }
