@@ -13,7 +13,7 @@
                         <div class="-mx-3 md:flex mb-6">
                             <div class="md:w-1/2 px-3 mb-2 md:mb-0">
                                 <label for="company_name" class="text-sm font-semibold text-gray-600 px-1">
-                                    Razão Social
+                                    Nome ou Razão Social
                                 </label>
                                 <input  @change="() => (errors.company_name = null)" :class="errors.company_name && errors.company_name[0] ? 'border-red-400':'border-primary-main'" id="company_name" v-model="company_name"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                                 <div v-if="errors.company_name" class="flex justify-center align-items">

@@ -4,7 +4,7 @@
         <form @submit.prevent="updateCompany">
                       <div class="flex -mx-3">
                         <div class="w-4/5 px-3 mb-5">
-                            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Dados da empresa</h2>
+                            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Seus Dados</h2>
                             <bar-loader class="mt-3" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                         </div>
                         <div class="w-1/5 px-3 mb-5">
@@ -19,25 +19,25 @@
                       </div>
               <div class="md:flex -mx-3">
                         <div class="w-full px-3 mb-5">
-                            <label for="" class="text-sm font-semibold text-gray-600 px-1">Nome Fantasia</label>
+                            <label for="" class="text-sm font-semibold text-gray-600 px-1">Nome do Titular ou Nome Fantasia</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                                 <input :class="errors.fantasy_name == 'ERROR' ? 'border-red-400':'border-primary-main'" @change="() => (errors.fantasy_name = 'OK')" :disabled="!edit" v-model="company.fantasy_name" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             </div>    
                             <div v-if="errors.fantasy_name == 'ERROR'">
-                                <span class="text-xs text-red-400 font-semibold px-1">O campo Nome Fantasia é obrigatório.</span>
+                                <span class="text-xs text-red-400 font-semibold px-1">O campo Nome do Titular ou Nome Fantasia é obrigatório.</span>
                              </div>                      
                         </div>
                     </div>
                     <div class="md:flex  md:flex-wrap -mx-3">
                         <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
-                            <label for="" class="text-sm font-semibold text-gray-600 px-1">Razão Social</label>
+                            <label for="" class="text-sm font-semibold text-gray-600 px-1">Nome ou Razão Social</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                                 <input :class="errors.company_name == 'ERROR' ? 'border-red-400':'border-primary-main'" @change="() => (errors.company_name = 'OK')" :disabled="!edit" v-model="company.company_name" placeholder="" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                             </div> 
                             <div v-if="errors.company_name == 'ERROR'">
-                                <span class="text-xs text-red-400 font-semibold px-1">O campo Razão Social é obrigatório.</span>
+                                <span class="text-xs text-red-400 font-semibold px-1">O campo Nome ou Razão Social é obrigatório.</span>
                              </div>                          
                         </div>
                         <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
