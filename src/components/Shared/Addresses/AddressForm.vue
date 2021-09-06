@@ -111,11 +111,11 @@
         </div>
 
         <div class="flex justify-end -mx-3">
-            <div class="md:w-1/6 sm:w-1/3 px-3 mb-5">
+            <div class=" px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                 <div class="flex">
                 <label class="inline-flex items-center">
-                    <input v-model="address.main" type="checkbox" class="form-radio h-6 w-6 text-green-500">
+                    <input v-model="address.main" type="checkbox" class="h-6 w-6 ">
                     <span class="ml-3 text-sm ">Endereço padrão</span>
                 </label>    
                 </div>                         

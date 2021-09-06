@@ -150,7 +150,7 @@ export default {
             return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 2)
         },
         approvedProposals: function() {
-            return this.estimate.proposals_by_seller.filter(proposal => proposal.sta == 3)
+            return this.estimate.proposals_by_seller.filter(proposal => proposal.status == 3)
         }
     },
     methods: {
