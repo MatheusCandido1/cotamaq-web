@@ -567,7 +567,7 @@ export default {
             this.closeConfirmModal()
             if (redirect) {
               this.loader.active = false
-              this.$router.push({name: 'estimates'})
+              this.$router.push({name: 'addProposal', params:{estimate_id: this.estimate.id}})
             } else {
               this.loader.active = false
               this.$router.push({name: 'estimates'})

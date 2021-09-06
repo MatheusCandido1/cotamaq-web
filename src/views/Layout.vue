@@ -779,7 +779,19 @@ export default {
                 if(this.user.role == 1) {
                   bus.$emit('updateProposalsBySeller', true);
                 }
-             }
+          }
+          if(this.getRouteName == 'orders'){
+
+            if(this.user.role == 2) {
+              bus.$emit('updateProposalsByBuyer', true);
+            }
+            if(this.user.role == 1) {
+              bus.$emit('updateProposalsBySeller', true);
+            }
+
+          }
+
+
           
         })
          if(data.categories != null && data.categories.length > 0){

@@ -75,10 +75,15 @@ export default {
             }
         })
 
+        if(this.$store.getters.newEstimate){
+          this.getParts();
+        }
+
         bus.$off('updateSellerEstimates');
         bus.$on('updateSellerEstimates', (data) => {
             if(data) {
-                this.getParts();
+              alert('chouye')
+              this.getParts();
             }
         })
     },
