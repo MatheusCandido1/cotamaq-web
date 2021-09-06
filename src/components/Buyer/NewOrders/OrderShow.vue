@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div class="w-full my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center">
         <div class="py-1">
           <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
             Pedido #{{order.id}} 
@@ -9,17 +9,17 @@
            </h2>
           <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
         </div>
-        <div v-if="order.status != null" class="py-1 flex whitespace-nowrap">
-            <div v-if="order.status == 1" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+        <div v-if="order.status !== null" class="py-1 flex whitespace-nowrap flex flex-col md:flex-row items-center">
+            <!-- <div v-if="order.status === 1" class="bg-primary-main text-center md:h-8  w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Aguardando Vendedor</span>
             </div>
-            <div v-if="order.status == 2" class="bg-yellow-500 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+            <div v-if="order.status === 2" class="bg-yellow-500 text-center w-full md:h-8 text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Método e Condição de Pagamento <span class="font-bold"> NÃO </span> escolhidos</span>
-            </div>
-            <div :class="formatStatus(order.status).bg" class="text-center w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
+            </div> -->
+            <div :class="formatStatus(order.status).bg" class="text-center my-5 w-full md:h-8 text-sm px-2 py-1.5 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
             </div> 
-            <a target="_blank" :href="'https://stage.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+            <a target="_blank" :href="'https://stage.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class="md:h-8 bg-gray-600 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
             </a> 
           </div>
