@@ -40,9 +40,10 @@
                               </div>
                               <button @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
                               <div class="border-t-2"></div>
-                              <ul v-if="selectedProposal.status == 2" class="flex gap-2 justify-start mt-2">                  
-                                   <button @click="handleAcceptOpenClick" class="flex-1 bg-primary-main font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Comprar</button>
-                                   <button @click="handleDeclineOpenClick" class="flex-1 bg-red-600 font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Recusar</button>
+                              <ul v-if="selectedProposal.status == 2" class="flex gap-2 justify-start mt-2">
+                                <button @click="handleDeclineOpenClick" class="flex-1 bg-red-600 font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Recusar</button>
+                                <button @click="handleAcceptOpenClick" class="flex-1 bg-primary-main font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Comprar</button>
+
                               </ul>
                               
                               <div v-if="selectedProposal.status == 3 || selectedProposal.status == 4" class=" flex flex-row justify-end my-2 gap-2">
@@ -65,7 +66,7 @@
                     </div>
                </div>
           </div>
-          <ProposalAccept @close="handleAcceptCloseClick" v-if="modal.accept" :proposal="proposal" />
+          <ProposalAccept @close="handleAcceptCloseClick" v-if="modal.accept" :discount="discount"  :proposal="proposal" />
           <ProposalDecline @close="handleDeclineCloseClick" v-if="modal.decline" :proposal="proposal" />
           <ProposalShowImages v-if="modal.images" :proposal="proposal" @close="handleImageCloseClick"></ProposalShowImages>
      </div>
@@ -85,7 +86,7 @@ import ProposalShowImages from "./ProposalShowImages";
 
 export default {
 	name: "ProposalPartItem",
-	props: ["estimate", "proposal"],
+	props: ["estimate", "proposal",'discount'],
 	components: {
 		ProposalDecline,
 		ProposalAccept,
@@ -97,8 +98,8 @@ export default {
                     {id: 3, bg: 'bg-primary-main', text: 'Aprovada'},
                     {id: 4, bg: 'bg-red-600', text: 'Rejeitada por você'}
                ],
-               selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
-               selectedEstimate: JSON.parse(JSON.stringify(this.$props.estimate)),
+               selectedProposal: this.proposal,
+               selectedEstimate: this.estimate,
 			modal: {
 				accept: false,
 				decline: false,

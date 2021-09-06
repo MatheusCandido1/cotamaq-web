@@ -434,6 +434,7 @@ export default {
       newStatus: null,
       oldStatus: null,
       proposal: null,
+      selectedPaymentConditionsName:'',
       buyer: {},
       order: {
         id: this.$route.params.order_id,
@@ -575,6 +576,14 @@ export default {
           }
         }
       } else {
+        if(this.selectedPaymentConditionsName.length > 0){
+          return this.$toast.error('Condições de Pagamento ja foi selecionada', {
+            position: "bottom-right",
+            pauseOnHover: false,
+            showCloseButtonOnHover: true,
+            timeout: 2500
+          });
+        }
         this.selectedPaymentConditions.push(value)
       }
     },
@@ -597,6 +606,7 @@ export default {
         this.paymentConditions = res.paymentConditions
         this.selectedPaymentMethods = res.selectedPaymentMethods
         this.selectedPaymentConditions = res.selectedPaymentConditions
+        this.selectedPaymentConditionsName = res.selectedPaymentConditionsName
         this.loader.loading = false;
 
         if (this.order.status == 1) {

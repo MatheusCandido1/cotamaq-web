@@ -82,7 +82,7 @@
                         </label>
                     </div>
                     <div>
-                        <input @change="() => (errors.delivery = 'OK')"   v-model="proposal.estimate_delivery" value="2" class="hidden" id="delivery_2" type="radio" name="delivery">
+                        <input  @change="() => (errors.delivery = 'OK')"   v-model="proposal.estimate_delivery" value="2" class="hidden" id="delivery_2" type="radio" name="delivery">
                         <label class="flex h-9 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="delivery_2">
                             <span  class="whitespace-nowrap flex items-center justify-center text-gray-900  text-sm font-semibold mr-1"><i class="mdi mdi-package-variant-closed text-gray-900 text-lg mr-1 ml-1"></i>Retirada </span>
                         </label>
@@ -261,6 +261,15 @@ export default {
             } else if(this.proposal.estimate_delivery == 1 || this.proposal.estimate_delivery == 2) {
                 this.isOrderModalVisible = true
                 bus.$emit('ModalOpen', true);
+
+                this.$router.push({name:'teste',params:{teste:'teste'}})
+
+              this.var = teste
+
+
+
+
+
             }
             else {
                 this.errors.delivery = 'ERROR'

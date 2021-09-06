@@ -11,7 +11,7 @@
       </div>
       <div class="flex flex-wrap lg:px-3 flex-row justify-between">
         <div class="py-1 md:w-auto w-full">
-          <span @click="showEstimateModal" class=" items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
+          <span  @click="showEstimateModal" class=" items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
         <div class="py-1 md:w-auto w-full">
           <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
@@ -24,17 +24,21 @@
           </h2>
         </div>
       </div>
+
+
+
       <div class="border-t-2 lg:px-3 "></div>
       <div class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
             <button  :class="formatItem(1).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(1).text}}<i class="mdi mdi-sort ml-2"></i></button>
             <button  @click="handleSortPrice" :class="formatItem(2).bg"  class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi ml-2" :class="sortPrice"></i></button>
-            <button  :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
             <button  :class="formatItem(4).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(4).text}}<i class="mdi mdi-sort ml-2"></i></button>
            </div>
       <div class="flex">
         <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
           <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6">
-            <ProposalPartItem v-for="proposal in availableProposals" :key="proposal.id" :estimate="estimate"  :proposal="proposal" />
+
+            <ProposalPartItem v-for="proposal in proposals " :key="proposal.id" :discount="Discount" :estimate="estimate"   :proposal="proposal" />
             <!-- <ProposalPartItem v-for="proposal in sortDesc" :key="proposal.id" :estimate="estimate"  :proposal="proposal" /> -->
           </div>
         </div>
@@ -43,7 +47,7 @@
   </div>
   <EstimateDetails v-if="modal.estimate" :estimate="estimate"  @close="closeEstimateModal" />
   <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment"  @close="closeEquipmentModal" />
-</div> 
+</div>
 </template>
 
 <script>
@@ -76,11 +80,9 @@ export default {
      sortPrice(){
        return {'mdi-sort': this.sorting.price.default, 'mdi-sort-ascending': this.sorting.price.ascending, 'mdi-sort-descending': this.sorting.price.descending }
      },
-     availableProposals: function() {
-        return this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
-     },
+
      sortAsc: function () {
-       let list  = this.this.availableProposals
+       let list  = this.proposals
        list = list.sort((a,b)=>{
          if(a.total < b.total){
            return -1
@@ -94,7 +96,7 @@ export default {
        return list
      },
      sortDesc: function () {
-       let list  = this.availableProposals
+       let list  = this.proposals
        list = list.sort((a,b)=>{
          if(a.total > b.total){
            return -1
@@ -107,8 +109,8 @@ export default {
 
        return list
      }
-        
-   },   
+
+   },
     data() {
         return {
          sorting:{
@@ -135,37 +137,64 @@ export default {
           estimate: {},
           proposals: [],
           proposalsDefaults:[],
-         
+          Discount:false,
+
         }
     },
     methods: {
+      applyDiscont(){
+
+        if(this.Discount === true){
+          return this.$toast.error('Disconto ja foi aplicado', {
+            position: "bottom-right",
+            showCloseButtonOnHover: true,
+            timeout: 5000
+          });
+        }
+        this.Discount = true
+        this.proposals.forEach((proposal)=>{
+
+          var result = 0
+          if(proposal.discount < 10){
+             result = proposal.subtotal - (proposal.subtotal * parseFloat('0.0'+proposal.discount))
+            proposal.subtotal = result
+            proposal.total = proposal.subtotal + proposal.shipping
+          }else {
+            result = proposal.subtotal - (proposal.subtotal * parseFloat('0.'+proposal.discount))
+            proposal.subtotal = result
+            proposal.total = proposal.subtotal + proposal.shipping
+          }
+
+        })
+
+      },
       handleSortPrice() {
         if(this.sort.price == 'default') {
           this.sorting.price.default = true
           this.sorting.price.ascending = false
           this.sorting.price.descending = false
-           
-          
-          this.availableProposals = this.proposalsDefaults         
+
+
+          this.proposals = this.proposalsDefaults
           this.sort.price = 'asc'
-          
+
 
         }else if(this.sort.price == 'asc') {
             this.sorting.price.ascending = true
             this.sorting.price.default = false
             this.sorting.price.descending= false
 
-            this.availableProposals = this.sortAsc
+            this.proposals = this.sortAsc
            this.sort.price = 'desc'
         }else if(this.sort.price == 'desc') {
           this.sorting.price.descending = true
           this.sorting.price.default = false
           this.sorting.price.ascending = false
 
-          this.availableProposals = this.sortDesc
+          this.proposals = this.sortDesc
           this.sort.price = 'default'
 
-    
+
         }
       },
       getProposalsByEstimate() {
@@ -173,7 +202,8 @@ export default {
         estimateService.getEstimate(estimate_id).then((response) => {
           this.estimate = response.data.data
           this.proposals = response.data.data.proposals
-         
+          this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
+
           this.proposalsDefaults = response.data.data.proposals
           localStorage.setItem('proposal',JSON.stringify(response.data.data.proposals))
         }).catch((error) => {
@@ -204,6 +234,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

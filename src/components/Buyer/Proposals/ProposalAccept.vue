@@ -27,8 +27,8 @@
               >
                 <!-- Heroicon name: outline/exclamation -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-</svg>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
               </div>
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3
@@ -70,10 +70,15 @@
 <script>
 import { bus } from '../../../main';
 import { proposalService } from '../../../services';
-
+import {
+  formatSimilar,
+  formatMissingInformation,
+  formatCurrency,
+  formatDelivery
+} from "@/helpers/string-helper";
 export default {
   name: "ProposalAccept",
-  props: ['proposal'],
+  props: ['proposal','discount'],
   data() {
     return {
         selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
@@ -84,11 +89,16 @@ export default {
     this.close()
   },
   methods: {
+    formatSimilar,
+    formatMissingInformation,
+    formatCurrency,
+    formatDelivery,
     close() {
       this.$emit("close");
     },
     acceptProposal() {
-      proposalService.approveProposalByBuyer(this.selectedProposal.id).then((response) => {
+      var data = {subtotal:this.proposal.subtotal ,discount:this.discount}
+      proposalService.approveProposalByBuyer(this.selectedProposal.id,data ).then((response) => {
         this.$toast.success(response.success_message, {
           position: "bottom-right",
           pauseOnHover: false,

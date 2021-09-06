@@ -34,8 +34,8 @@ function declineProposalByBuyer(id) {
     })
 }
 
-function approveProposalByBuyer(id) {
-    return axios.post(`${API_URL}/proposals/${id}/approve`, null, {
+function approveProposalByBuyer(id, subTotal) {
+    return axios.post(`${API_URL}/proposals/${id}/approve`, subTotal, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
