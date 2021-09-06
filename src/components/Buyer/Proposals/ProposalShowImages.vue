@@ -28,7 +28,7 @@
                     id="modal-headline"
                     class="text-lg leading-6 font-medium text-gray-900"
                 >
-                  Galeria cotação
+                  Comprador
                 </h3>
 
                 <CoolLightBox :index="index"
@@ -50,7 +50,7 @@
                     id="modal-headline"
                     class="text-lg leading-6 font-medium text-gray-900"
                 >
-                  Galeria proposta
+                  Vendedor
                 </h3>
 
                 <CoolLightBox2 :index="index2"
