@@ -8,7 +8,7 @@
         <div class="flex justify-between">
           <div class="py-1">
             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-              Proposta #{{ proposal.id }} 22
+              Proposta #{{ proposal.id }}
             </h2>
           </div>
           <div class="py-1">
@@ -412,6 +412,7 @@ export default {
   },
   data() {
     return {
+      index: null,
       listFiles: [],
       modal: {
         confirm: false,
@@ -496,7 +497,7 @@ export default {
         loader: 'bars',
         color: '#2BCB6F'
       },
-      index: null
+
     }
   },
   methods: {

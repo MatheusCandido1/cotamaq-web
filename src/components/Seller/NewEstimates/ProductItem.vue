@@ -168,7 +168,16 @@ export default {
             if(this.pendingProposals.length == this.estimate.proposals_by_seller.length){
                 return 0
             } else {
-            return this.validProposals.length
+              var count = 0
+              this.validProposals.forEach((data)=>{
+                console.log(data.status)
+                  if(data.status == 2 || data.status == 4 ){
+                    console.log(data)
+                    count++
+                  }
+              })
+              console.warn(count)
+            return count
             }
         },
         getSentProposals() {

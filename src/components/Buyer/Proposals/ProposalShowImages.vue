@@ -34,7 +34,6 @@
                   <CoolLightBox
                     :index="index"
                     :items="estimateImages"
-                    class="cool-lightbox-z-index"
                     @close="index = null"
                   >
                   </CoolLightBox>
@@ -61,7 +60,6 @@
                   <CoolLightBox2
                     :index="index2"
                     :items="proposalImages"
-                    class="cool-lightbox-z-index"
                     @close="index2 = null"
                   >
                   </CoolLightBox2>
@@ -143,7 +141,5 @@ export default {
 };
 </script>
 <style>
-.cool-lightbox {
-  z-index: 0 !important;
-}
+
 </style>

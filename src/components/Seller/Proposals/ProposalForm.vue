@@ -118,13 +118,14 @@
               :items="estimateImages"
               @close="index = null">
           </CoolLightBox>
-          <div class="flex flex-wrap justify-start">
+          <div class="flex flex-wrap justify-start" >
             <img
                 v-for="(image, imageIndex) in estimateImages"
                 :key="imageIndex"
                 :src='image'
                 class="imgPreview m-2 "
-                @click="index = imageIndex"
+                @click="goPhoto(imageIndex)"
+
             />
           </div>
 
@@ -411,6 +412,7 @@ export default {
   },
   data() {
     return {
+      index:null,
       modal: {
         confirm: false,
         equipment: false,
@@ -493,6 +495,10 @@ export default {
     }
     },
     methods: {
+      goPhoto(index){
+        this.index = index
+        bus.$emit("ModalOpen", true);
+      },
         formatZipcode,
         getToday() {
             this.today = new Date().toISOString().split("T")[0];

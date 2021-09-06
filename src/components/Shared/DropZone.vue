@@ -65,7 +65,14 @@
                
             },                
             handlePreview(event) {
-                let files = event.target.files;
+
+              let files = null
+
+                if(event.target.files.length >= 4){
+                   files = event.target.files;
+                }
+
+
 
                 if(files.length > 4){
                   return   this.$toast.error('Maximo de 4 imagens', {

@@ -4,7 +4,7 @@
             <div class="flex justify-between">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Proposta #{{proposal.id}}<span :class="formatStatus(proposal.status).bg"  class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">{{formatStatus(proposal.status).text}}</span>
+                         Proposta #{{proposal.id}}<span :class="formatStatus(proposal.status).bg"  class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">{{formatStatus(proposal.status).text}}</span>
                     </h2>
                 </div>
                 <div class="py-1">
@@ -70,6 +70,29 @@
                             </label>
                             <textarea disabled :value="formatMissingInformation(estimate.observation)" class="form-textarea mt-1 block resize-none w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" rows="3" placeholder=""></textarea>
                         </div>
+                    </div>
+                    <div v-if="estimateImages.length > 0">
+                      <h2 class="text-2xl font-semibold  text-gray-700 dark:text-gray-200">
+                        Galeria cotação
+                      </h2>
+
+                      <CoolLightBox
+                          :index="index"
+                          :items="estimateImages"
+                          class="cool-lightbox-z-index"
+                          @close="index = null"
+                      >
+                      </CoolLightBox>
+
+                      <div class="flex flex-wrap justify-start">
+                        <img
+                            v-for="(image, imageIndex) in estimateImages"
+                            :key="imageIndex"
+                            :src="image"
+                            class="imgPreview m-2 "
+                            @click="index = imageIndex"
+                        />
+                      </div>
                     </div>
                     <div class="flex justify-start">
                         <div class="py-1">
@@ -203,6 +226,29 @@
                             <input disabled id="delivery_time" v-model="proposal.delivery_time"  placeholder="" type="number" class="border-primary-main w-full pl-2 pr-3 py-2 rounded border-b-2  shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                         </div>
                     </div>
+                    <div v-if="proposalImages.length > 0">
+                      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                        Galeria da proposta
+                      </h2>
+                      <CoolLightBox2
+                          :index="index2"
+                          :items="proposalImages"
+                          class="cool-lightbox-z-index"
+                          @close="index2 = null"
+                      >
+                      </CoolLightBox2>
+
+                      <div class="flex flex-wrap justify-start">
+
+                        <img
+                            v-for="(image, IndexImage) in proposalImages"
+                            :key="IndexImage"
+                            :src="image"
+                            class="imgPreview m-2 "
+                            @click="index2 = IndexImage"
+                        />
+                      </div>
+                    </div>
                     <div class="-mx-3 md:flex mt-4">
                         <div class="md:w-full px-3 flex justify-end gap-2">
                             <button @click="goBack" type="button" class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
@@ -223,12 +269,16 @@ import { Money } from 'v-money'
 import { proposalService } from '../../../services'
 import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
 import { formatMissingInformation } from '@/helpers/string-helper';
-
+import CoolLightBox from "vue-cool-lightbox";
+import CoolLightBox2 from "vue-cool-lightbox";
+import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
 export default {
     name: 'ProposalShow',
     components: {
         Money,
-        EquipmentDetails
+        EquipmentDetails,
+      CoolLightBox,
+      CoolLightBox2
     },
     created() {
         this.getProposal()

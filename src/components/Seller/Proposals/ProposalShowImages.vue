@@ -142,7 +142,5 @@ export default {
 };
 </script>
 <style>
-.cool-lightbox {
-  z-index: 0 !important;
-}
+
 </style>
