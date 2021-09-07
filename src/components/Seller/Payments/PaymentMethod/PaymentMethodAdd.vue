@@ -91,6 +91,7 @@ export default {
                 showCloseButtonOnHover: true,
                 timeout: 2500
             });
+            this.$store.commit('setPaymentMethod', response.data)
             bus.$emit('updatePaymentMethod', true);
             this.disabled = false
             this.close();

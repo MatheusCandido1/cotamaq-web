@@ -379,7 +379,8 @@ export default {
     bus.$off('updatePaymentMethod');
     bus.$on('updatePaymentMethod', (data) => {
       if (data) {
-        this.getOrder()
+        // this.getOrder()
+        this.paymentMethods.push(this.$store.getters.paymentMethod)
       }
     })
 
@@ -393,7 +394,8 @@ export default {
     bus.$off('updatePaymentCondition');
     bus.$on('updatePaymentCondition', (data) => {
       if (data) {
-        this.getOrder()
+        // this.getOrder()
+        this.paymentConditions.push(this.$store.getters.paymentCondition)
       }
     })
   },

@@ -14,7 +14,8 @@
           <span  @click="showEstimateModal" class=" items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
         <div class="py-1 md:w-auto w-full">
-          <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+          <span v-if="estimate.equipment"  class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-orange-500 rounded-md cursor-pointer">Equipamento não informado<i class="mdi mdi-file-search ml-2"></i></span>
+          <span v-else @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
       </div>
       <div class="flex flex-row lg:px-3 justify-between mb-2 items-center">

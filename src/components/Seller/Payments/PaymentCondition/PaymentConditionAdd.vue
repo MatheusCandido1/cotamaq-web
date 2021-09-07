@@ -93,6 +93,7 @@ export default {
                 showCloseButtonOnHover: true,
                 timeout: 2500
             });
+            this.$store.commit('setPaymentCondition',response.data)
             bus.$emit('updatePaymentCondition', true);
             bus.$emit('updatePayment', true);
             this.close();

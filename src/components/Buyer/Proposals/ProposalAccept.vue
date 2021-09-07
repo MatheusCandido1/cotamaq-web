@@ -107,6 +107,7 @@ export default {
         });
           bus.$emit('updateProposalsByBuyer', true);
           this.close()
+          this.$router.push('/cotacoes')
           this.disabled = false
         }).catch((error) => {
           console.log(error.response.data)

@@ -104,9 +104,17 @@ import { required, email } from 'vuelidate/lib/validators'
                     pauseOnHover: false,
                     showCloseButtonOnHover: true,
                     timeout: 2500
-                });
+                })
                 bus.$emit('updatedUser', true);
-               })
+               }).catch((e) => {
+                   console.log(e)
+                   this.$toast.error('Email ja cadastrado no sistema !', {
+                     position: "bottom-right",
+                     pauseOnHover: false,
+                     showCloseButtonOnHover: true,
+                     timeout: 2500
+                   });
+                 });
             }
                 this.disabled = false
             }

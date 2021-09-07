@@ -114,6 +114,7 @@ export default {
           formatCurrency,
           formatDelivery,
           showModalImages(){
+
             bus.$emit('ModalOpen', true)
             this.modal.images = true
           },

@@ -173,7 +173,7 @@
                             <label for="shipping" class="text-sm font-semibold text-gray-600 px-1">
                                 Frete
                             </label>
-                            <money  v-bind="proposalShippingMoney" placeholder="" v-model="proposal.shipping" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
+                            <money disable  v-bind="proposalShippingMoney" placeholder="" v-model="proposal.shipping" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                         </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                             <label for="shipping" class="text-sm font-semibold text-gray-600 px-1">
@@ -285,6 +285,10 @@ export default {
     },
     data() {
         return {
+          index:null,
+          index2:null,
+          estimateImages:[],
+          proposalImages:[],
             modal: {
                 confirm: false,
                 equipment: false,
@@ -361,7 +365,9 @@ export default {
                 const data = response.data
                 this.proposal = data.data;
                 this.estimate = data.data.estimate
-                this.seller = data.seller
+                this.seller = data.sellerz
+                this.estimateImages = data.data.estimate.images
+                this.proposalImages = data.data.images
             }).catch((error) => {
                 console.log(error.response.data)
             })

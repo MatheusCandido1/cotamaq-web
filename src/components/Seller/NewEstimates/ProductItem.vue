@@ -27,7 +27,9 @@
                 </div>
           </div>
         </div>
-        <div>
+          <button v-if="estimate.images.length > 0" @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
+
+          <div>
             <div class="border-t-2"
                 v-if="estimate.proposals_by_seller 
                 && estimate.proposals_by_seller.length > 0 
@@ -48,7 +50,8 @@
                 </div>   
             </div> 
         </div>
-            <div>
+
+          <div>
                 <div class="border-t-2"></div>  
                 <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0" class="flex justify-between px-2 p-2">
                     <button @click="handleDeclineOpenClick" class=" w-5/12 px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
@@ -111,6 +114,7 @@
             </div>
         </div>
         <EstimateDecline @close="handleDeclineCloseClick" v-if="modal.decline" :estimate="estimate" />
+        <EstimateShowImage @close="closeImageModal" v-if="modal.images" :estimate="estimate" />
     </div>
 </template>
 
@@ -119,12 +123,14 @@ import EstimateDecline from './EstimateDecline';
 import { formatEquipment, formatSimillar, formatCurrency } from '@/helpers/string-helper';
 import { bus } from '../../../main';
 import { proposalService} from "../../../services";
+import EstimateShowImage from "../Estimates/EstimateShowImage";
 
 export default {
     name: 'ProductItem',
     props: ['estimate'],
     components:{
         EstimateDecline,
+        EstimateShowImage
     },
     created() {
        this.getLowestTotal()
@@ -134,6 +140,7 @@ export default {
             modal: {
                 decline: false,
                 accept: false,
+                images:false
             },
         }
     },
@@ -158,6 +165,15 @@ export default {
         formatEquipment,
         formatSimillar,
         formatCurrency,
+      showModalImages(){
+        bus.$emit('ModalOpen', true)
+        this.modal.images = true
+
+      },
+      closeImageModal(){
+        bus.$emit('ModalOpen', false)
+        this.modal.images = false
+      },
        openProposal(){
           proposalService.ReOpenProposal(this.estimate.id).then((response)=>{
             this.$toast.success(response.success_message, {
@@ -187,7 +203,6 @@ export default {
                     count++
                   }
               })
-              console.warn(count)
             return count
             }
         },
@@ -198,6 +213,14 @@ export default {
             this.$router.push({name: 'ProposalsByEstimate', params: {estimate_id: this.estimate.id}})
         },
         handleNewProposalClick() {
+            if(this.estimate.status == 4){
+              return  this.$toast.error('Cotação indisponivel ', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+              });
+            }
             this.$router.push({name: 'addProposal', params: {estimate_id: this.estimate.id}})
         },
         handleDeclineOpenClick() {
