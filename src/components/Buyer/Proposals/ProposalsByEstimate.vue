@@ -204,6 +204,15 @@ export default {
           this.proposals = response.data.data.proposals
           this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
 
+          if(this.proposals.length == 0){
+            this.$router.push('/cotacoes')
+            return this.$toast.error('Você ainda não recebeu nenhuma proposta para essa cotação.', {
+              position: "bottom-right",
+              showCloseButtonOnHover: true,
+              timeout: 5000
+            });
+          }
+
           this.proposalsDefaults = response.data.data.proposals
           localStorage.setItem('proposal',JSON.stringify(response.data.data.proposals))
         }).catch((error) => {

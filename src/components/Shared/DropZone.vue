@@ -66,11 +66,8 @@
             },                
             handlePreview(event) {
 
-              let files = null
+              let files = event.target.files;
 
-                if(event.target.files.length >= 4){
-                   files = event.target.files;
-                }
 
 
 
@@ -85,7 +82,16 @@
                 for (var i = 0; i < files.length; i++) {
                     if(i <= 4){
                       if(files[i].type.match('image')){
-                        this.files.push({data:files[i], preview:URL.createObjectURL(files[i])})
+                        if(this.files.length < 4){
+                          this.files.push({data:files[i], preview:URL.createObjectURL(files[i])})
+                        }else {
+                          return   this.$toast.error('Maximo de 4 imagens', {
+                            position: "bottom-right",
+                            pauseOnHover: false,
+                            showCloseButtonOnHover: true,
+                            timeout: 2500
+                          });
+                        }
                       }
                     }
                 }

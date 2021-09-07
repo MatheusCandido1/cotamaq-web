@@ -166,7 +166,7 @@
                     <div class="flex flex-row justify-between">
                         <div class="py-1">
                             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                                Detalhes da proposta 
+                                Detalhes da proposta
                             </h2>
                         </div>
                             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
@@ -179,7 +179,7 @@
                             <label for="shipping" class="text-sm font-semibold text-gray-600 px-1">
                                 Frete
                             </label>
-                            <money  v-bind="proposalShippingMoney" placeholder="" v-model="proposal.shipping" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
+                            <money disabled  v-bind="proposalShippingMoney" placeholder="" v-model="proposal.shipping" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"></money>
                         </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                             <label for="shipping" class="text-sm font-semibold text-gray-600 px-1">
