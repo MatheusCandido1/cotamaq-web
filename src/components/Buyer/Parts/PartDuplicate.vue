@@ -105,7 +105,7 @@ export default {
             this.disabled = true
 
             estimateService.duplicateEstimate(this.id).then((response)=>{
-                console.log(response)
+
                  this.$toast.success(response.success_message, {
                     position: "bottom-right",
                     pauseOnHover: false,

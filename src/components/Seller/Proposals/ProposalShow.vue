@@ -376,7 +376,6 @@ export default {
                 this.estimateImages.push(data.image_path)
               })
 
-              console.log(this.proposalImages)
             }).catch((error) => {
                 console.log(error.response.data)
             })

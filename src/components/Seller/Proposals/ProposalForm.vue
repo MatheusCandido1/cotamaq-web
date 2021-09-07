@@ -351,8 +351,8 @@
 
           <div class="-mx-3 md:flex mt-4">
             <div class="md:w-full px-3 flex justify-end gap-2">
-              <button
-                  class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center"
+              <button @click="showConfirmModal"
+                  class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center"
                   type="submit">
                 <span class="justify-center">Enviar Proposta</span>
               </button>
@@ -571,6 +571,7 @@ export default {
             });
             bus.$emit('updateProposalsBySeller', true);
             this.closeConfirmModal()
+
             if (redirect) {
               this.loader.active = false
               this.$router.push({name: 'addProposal', params:{estimate_id: this.estimate.id}})

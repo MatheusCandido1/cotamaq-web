@@ -183,9 +183,7 @@ export default {
             } else {
               var count = 0
               this.validProposals.forEach((data)=>{
-                console.log(data.status)
-                  if(data.status == 2 || data.status == 4 ){
-                    console.log(data)
+                  if(data.status != 1){
                     count++
                   }
               })

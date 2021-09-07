@@ -127,7 +127,7 @@ export default {
                 if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                     if(list.length > 0){
                         if(list[list.length-1].id != data.id){
-                            console.log('naot tem')
+                          console.log('not')
                         }
                     }else{
                         list.push(data);
