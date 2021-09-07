@@ -102,7 +102,7 @@
                         </div>
 
                         <div v-if="formatStatus().id == 4" class="flex items-center space-x-1 text-sm">
-                            <div  class="w-full  bg-blue-500 text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+                            <div @click="openProposal"  class="w-full cursor-pointer  bg-blue-500 text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
                                 Reabrir
                             </div>
                         </div>
@@ -118,6 +118,7 @@
 import EstimateDecline from './EstimateDecline';
 import { formatEquipment, formatSimillar, formatCurrency } from '@/helpers/string-helper';
 import { bus } from '../../../main';
+import { proposalService} from "../../../services";
 
 export default {
     name: 'ProductItem',
@@ -157,6 +158,18 @@ export default {
         formatEquipment,
         formatSimillar,
         formatCurrency,
+       openProposal(){
+          proposalService.ReOpenProposal(this.estimate.id).then((response)=>{
+            this.$toast.success(response.success_message, {
+              position: "bottom-right",
+              pauseOnHover: false,
+              showCloseButtonOnHover: true,
+              timeout: 2500
+            });
+
+            this.$emit('UpdateProposal', true);
+          })
+        },
         getLowestTotal() {
             if(this.validProposals.length == 0){
                 return 0.00

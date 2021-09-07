@@ -45,7 +45,7 @@
                 <div class="flex ">
                     <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
                         <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
-                            <ProductItem v-for="(model, innerIndex) in dates(day)"   :key="innerIndex"  :estimate="model" />
+                            <ProductItem v-for="(model, innerIndex) in dates(day)" @UpdateProposal="getParts()"   :key="innerIndex"  :estimate="model" />
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ export default {
         bus.$off('updateSellerEstimates');
         bus.$on('updateSellerEstimates', (data) => {
             if(data) {
-              alert('chouye')
+
               this.getParts();
             }
         })

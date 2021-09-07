@@ -41,9 +41,7 @@
                   <p class="text-sm text-gray-600">
                    Tem certeza que deseja recusar essa cotação?
                   </p>
-                  <p class="text-sm text-gray-600 mt-3">
-                   Ao recusar, você <span class="font-bold">NÃO</span> poderá propor uma oferta para essa cotação!
-                  </p>
+
                 </div>
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-full px-3 mb-2 md:mb-0">

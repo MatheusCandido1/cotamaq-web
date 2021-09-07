@@ -10,40 +10,75 @@
           </div>
           
           <div class="flex flex-row justify-center gap-2">
-            <button  v-for="index in 3" :key="index" :class="formatItem(index).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(index).text}}</button>
+            <button @click="filter = false"   class="text-white text-sm font-semibold bg-red-600 text-md px-4 py-1 rounded-md mb-2">Todas</button>
+            <button @click="filterNotification(formatItem(index).text)"  v-for="index in 3" :key="index" :class="formatItem(index).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(index).text}}</button>
            </div>
 
-           <section class="text-gray-600 body-font">
-            <div class="container  mx-auto flex flex-wrap flex-col">
-              <div class="flex mx-auto flex-wrap ">
-                <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
-                  <i class="mdi mdi-email text-xl"></i> 
-                    <span class="ml-1">Notificações não lidas</span>
-                    <span class="ml-1 inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-semibold leading-none text-white bg-primary-main rounded-full">{{notificationNotRead.length}}</span>
+           <div v-if="filter == false">
+               <section class="text-gray-600 body-font">
+                 <div class="container  mx-auto flex flex-wrap flex-col">
+                   <div class="flex mx-auto flex-wrap ">
+                     <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+                       <i class="mdi mdi-email text-xl"></i>
+                       <span class="ml-1">Notificações não lidas</span>
+                       <span class="ml-1 inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-semibold leading-none text-white bg-primary-main rounded-full">{{notificationNotRead.length}}</span>
 
-                </div>
-                <div :class="option == 2 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(2)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
-                  <i class="mdi mdi-email-open-outline text-xl"></i> <span class="ml-1">Todas notificações</span>
-                </div>
-              </div>
-            </div>
-          </section>
-          <div class="flex  text-center w-full">
-            <div v-if="option == 1" class=" w-full"> 
-              <div class="   justify-start">
-                <NotificationItem  v-for="(notification, index) in notificationNotRead" :key="notification.id"
-                 :index="index" :notification="notification" @markAsRead="MarkAsReadClick" />
+                     </div>
+                     <div :class="option == 2 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(2)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+                       <i class="mdi mdi-email-open-outline text-xl"></i> <span class="ml-1">Todas notificações</span>
+                     </div>
+                   </div>
+                 </div>
+               </section>
+               <div class="flex  text-center w-full">
+                 <div v-if="option == 1" class=" w-full">
+                   <div class="   justify-start">
+                     <NotificationItem  v-for="(notification, index) in notificationNotRead" :key="notification.id"
+                                        :index="index" :notification="notification" @markAsRead="MarkAsReadClick" />
 
-              </div>
-            </div>
-            <div v-if="option == 2" class=" w-full"> 
-              <div class="  justify-start">
-                <NotificationItem v-for="(notification,index) in notificationList" :key="notification.id" 
-                :index="index" :notification="notification" @markAsNotRead="markAsNotRead" />
-              </div>
-            </div>
-          </div>
-          
+                   </div>
+                 </div>
+                 <div v-if="option == 2" class=" w-full">
+                   <div class="  justify-start">
+                     <NotificationItem v-for="(notification,index) in notificationList" :key="notification.id"
+                                       :index="index" :notification="notification" @markAsNotRead="markAsNotRead" />
+                   </div>
+                 </div>
+               </div>
+           </div>
+           <div v-else>
+               <section class="text-gray-600 body-font">
+                 <div class="container  mx-auto flex flex-wrap flex-col">
+                   <div class="flex mx-auto flex-wrap ">
+                     <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+                       <i class="mdi mdi-email text-xl"></i>
+                       <span class="ml-1">Notificações não lidas</span>
+                       <span class="ml-1 inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-semibold leading-none text-white bg-primary-main rounded-full">{{filterNotificationNotRead.length}}</span>
+
+                     </div>
+                     <div :class="option == 2 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(2)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+                       <i class="mdi mdi-email-open-outline text-xl"></i> <span class="ml-1">Todas notificações</span>
+                     </div>
+                   </div>
+                 </div>
+               </section>
+               <div class="flex  text-center w-full">
+                 <div v-if="option == 1" class=" w-full">
+                   <div class="   justify-start">
+                     <NotificationItem  v-for="(notification, index) in filterNotificationNotRead" :key="notification.id"
+                                        :index="index" :notification="notification" @markAsRead="MarkAsReadClick" />
+
+                   </div>
+                 </div>
+                 <div v-if="option == 2" class=" w-full">
+                   <div class="  justify-start">
+                     <NotificationItem v-for="(notification,index) in filterNoticationList" :key="notification.id"
+                                       :index="index" :notification="notification" @markAsNotRead="markAsNotRead" />
+                   </div>
+                 </div>
+               </div>
+           </div>
+
       </div>
   </div>
 </template>
@@ -56,7 +91,10 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
     },
     data() {
       return {
-        notificationsList: this.$store.getters.notificationList,
+        filter:false,
+        // notificationsList: this.$store.getters.notificationList,
+        filterNoticationList:[],
+        filterNotificationNotRead:[],
         option: 1,
         notifications: [
           {id: 1, notification: 'Você recebeu uma nova Cotação, responda agora e saia na frente dos concorrentes!', read: 1, read_at: '24/08/2021', estimate_id: 1, proposal_id: null, order_id: null, created_at: '25/08/2021 - 10:11'}
@@ -77,6 +115,33 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
       }
     },
     methods: {
+      filterNotification(filter){
+        this.filter = true
+        var list = []
+        this.notificationList.forEach((data)=>{
+          if(filter == 'Propostas' && data.order_id == null && data.estimate_id != null && data.proposal_id != null){
+              list.push(data)
+          }else if (filter == 'Cotações' && data.order_id == null && data.estimate_id != null && data.proposal_id == null){
+            list.push(data)
+          }else if(filter == 'Pedidos' && data.order_id != null && data.estimate_id == null && data.proposal_id == null){
+            list.push(data)
+          }
+        })
+        this.filterNoticationList = list
+
+        list = []
+        this.notificationNotRead.forEach((data)=>{
+          if(filter == 'Propostas' && data.order_id == null && data.estimate_id != null && data.proposal_id != null){
+            list.push(data)
+          }else if (filter == 'Cotações' && data.order_id == null && data.estimate_id != null && data.proposal_id == null){
+            list.push(data)
+          }else if(filter == 'Pedidos' && data.order_id != null && data.estimate_id == null && data.proposal_id == null){
+            list.push(data)
+          }
+        })
+        this.filterNotificationNotRead = list
+
+      },
       markAsNotRead(notification){
         this.notificationNotRead.push(notification)
       },
