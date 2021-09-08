@@ -62,10 +62,10 @@
                               <p><span class="font-bold">Aceita Similar:</span> {{formatSimilar(selectedEstimate.allow_similar)}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Marca:</span> {{formatMissingInformation(selectedEstimate.brand)}}</p> 
+                              <p class="break-all"><span class="font-bold">Marca:</span> {{formatMissingInformation(selectedEstimate.brand)}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Observação:</span> {{formatMissingInformation(selectedEstimate.observation)}}</p> 
+                              <p class="break-all"><span class="font-bold">Observação:</span> {{formatMissingInformation(selectedEstimate.observation)}}</p> 
                           </div>
                     </div>
                   </div>

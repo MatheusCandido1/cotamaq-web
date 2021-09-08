@@ -64,10 +64,10 @@
                               <p><span class="font-bold">Aceita Similar:</span> {{formatSimilar(selectedPart.allow_similar)}} </p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Marca:</span> {{selectedPart.brand == '' ? 'Não Informado':selectedPart.brand}}</p> 
+                              <p class="break-all"><span class="font-bold">Marca:</span> {{selectedPart.brand == '' ? 'Não Informado':selectedPart.brand}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Observação:</span> {{selectedPart.observation == '' ? 'Não Informado':selectedPart.observation}}</p> 
+                              <p class="break-all"><span class="font-bold">Observação:</span> {{selectedPart.observation == '' ? 'Não Informado':selectedPart.observation}}</p> 
                           </div>
                     </div>
                   </div>

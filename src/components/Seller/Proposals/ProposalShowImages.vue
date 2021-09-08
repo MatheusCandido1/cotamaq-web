@@ -75,6 +75,10 @@
                     />
                   </div>
                 </div>
+
+                <div v-if="estimateImages.length <= 0 && proposalImages.length <= 0">
+                  <p>Nenhuma foto cadastrada...</p>
+                </div>
               </div>
             </div>
           </div>

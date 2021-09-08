@@ -33,10 +33,10 @@
                                    <p><span class="font-semibold">Peça Similar: </span>{{formatSimilar(selectedProposal.is_similar)}}</p> 
                               </div>
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                                   <p><span class="font-semibold">Marca: </span>{{formatMissingInformation(selectedProposal.brand)}}</p> 
+                                   <p class="break-all"><span class="font-semibold">Marca: </span>{{formatMissingInformation(selectedProposal.brand)}}</p> 
                               </div>
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                                   <p><span class="font-semibold">Observação: </span>{{formatMissingInformation(selectedProposal.observation)}}</p> 
+                                   <p class="break-all"><span class="font-semibold">Observação: </span>{{formatMissingInformation(selectedProposal.observation)}}</p>   
                               </div>
                               <button @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
                               <div class="border-t-2"></div>
