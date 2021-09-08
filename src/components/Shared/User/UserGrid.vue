@@ -20,7 +20,6 @@
         <thead class="rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none no-selection" slot="head">
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <v-th  class="text-center" sortKey="id">Nome</v-th>
-                <v-th class="text-center" sortKey="description">E-mail</v-th>
                 <th class="text-center" >Ações</th>
             </tr>
         </thead>
@@ -30,7 +29,7 @@
 
             <tr  v-for="row in displayData" :key="row.id">
                 <td class="text-sm text-center text-gray-700">{{row.name}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.email}}</td>
+
                 <td class="flex justify-center mt-2">
                     <div class="flex items-center space-x-4 text-sm">
                        

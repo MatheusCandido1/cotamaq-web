@@ -34,7 +34,6 @@
                   <CoolLightBox
                     :index="index"
                     :items="estimateImages"
-                    class="cool-lightbox-z-index"
                     @close="index = null"
                   >
                   </CoolLightBox>
@@ -61,7 +60,6 @@
                   <CoolLightBox2
                     :index="index2"
                     :items="proposalImages"
-                    class="cool-lightbox-z-index"
                     @close="index2 = null"
                   >
                   </CoolLightBox2>
@@ -135,7 +133,7 @@ export default {
       proposalService
         .getImages(this.proposal.id, this.proposal.estimate_id)
         .then((response) => {
-          console.log(response);
+
           this.estimateImages = response.data.imageEstimate;
           this.proposalImages = response.data.imageProposal;
         });
@@ -147,7 +145,5 @@ export default {
 };
 </script>
 <style>
-.cool-lightbox {
-  z-index: 0 !important;
-}
+
 </style>

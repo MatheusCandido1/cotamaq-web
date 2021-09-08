@@ -91,7 +91,6 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  console.log(to.path)
   const publicPages = ['/entrar', '/registrar', '/recuperar-senha', '/resetar-senha','/confirme-email','/re-enviar/confirme-email'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');

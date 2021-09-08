@@ -32,7 +32,7 @@ export default {
           }else if(this.notification.proposal_id != null  && this.notification.estimate_id != null){
             this.$router.push({ name: 'ProposalsByEstimate', params:{estimate_id:this.notification.estimate_id} })
           }else if(this.notification.order_id){
-             console.log('orders')
+             this.$router.push({name:'OrderDetails', params:{order_id:this.notification.order_id}})
           }
 
         }

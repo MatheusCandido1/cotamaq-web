@@ -16,7 +16,8 @@ export const proposalService = {
     declineProposalByBuyer,
     approveProposalByBuyer,
     deleteImage,
-    getImages
+    getImages,
+    ReOpenProposal,
 };
 
 function declineProposalByBuyer(id) {
@@ -78,6 +79,20 @@ function updateProposal(id,data) {
         return data;
     })
 }
+function ReOpenProposal(id,data) {
+    return axios.post(`${API_URL}/proposals/re-open/estimates/${id}`, data, {
+        headers: {
+            ...authHeader(),
+            'Content-Type': 'application/json' ,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        const data = response.data
+
+        return data;
+    })
+}
 
 
 function createProposal(data) {
@@ -89,7 +104,7 @@ function createProposal(data) {
     })
     .then(response => {
         const data = response.data
-        console.log(data)
+
         
         return data;
     })
@@ -200,6 +215,8 @@ function getImages(proposal, estimate) {
     })
     .then(handleResponse)
 }
+
+
 
 function handleResponse(response) {
     const data = response.data;

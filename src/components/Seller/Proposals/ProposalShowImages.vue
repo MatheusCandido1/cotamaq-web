@@ -134,7 +134,6 @@ export default {
       proposalService
         .getImages(this.proposal.id, this.proposal.estimate_id)
         .then((response) => {
-          console.log(response);
           this.estimateImages = response.data.imageEstimate;
           this.proposalImages = response.data.imageProposal;
         });
@@ -146,7 +145,5 @@ export default {
 };
 </script>
 <style>
-.cool-lightbox {
-  z-index: 0 !important;
-}
+
 </style>

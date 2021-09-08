@@ -80,23 +80,24 @@
                 </div>   
                                       
             </div>
+
             
             <div class="lg:w-1/4 md:w-1/2 w-full px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Número</label>
                 <div class="flex flex-wrap items-stretch w-full mb-4 relative">
-			<input @focusout="() => (errors.number = 'OK')"   v-model="address.number" :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'"  @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
+			<input  @focusout="() => (errors.number = 'OK')"   v-model="address.number" :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'"  @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
 			<div class="flex -mr-px">
 				<span :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'" class="flex items-center leading-normal bg-grey-lighter rounded-r border-b-2 shadow-md border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
                     <label class="inline-flex items-center">
-                    <input  @focusout="() => (errors.number = 'OK')" v-model="numberless" @change="address.number = null" type="checkbox"  class="form-radio text-green-500">
-                    <span class="ml-3 text-lg">S/N</span>
-                </label> 
-                </span>  
-			</div>	
+                    <input v-if="numberless != null "  @focusout="() => (errors.number = 'OK')" v-model="numberless" @change="address.number = null" type="checkbox"  class="form-radio text-green-500">
+                    <span @click="setSN"  class="ml-3 text-lg">S/N</span>
+                </label>
+                </span>
+			</div>
                 <div  v-if="errors.number == 'ERROR'">
                     <span class="text-xs text-red-400 font-semibold px-1">O campo Número é obrigatório.</span>
                 </div>  
-		</div>    
+		</div>
             </div>
 
 
@@ -115,8 +116,10 @@
                 <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                 <div class="flex">
                 <label class="inline-flex items-center">
-                    <input v-model="address.main" type="checkbox" class="h-6 w-6 ">
-                    <span class="ml-3 text-sm ">Endereço padrão</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="{'text-primary-main ': address.main}" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span @click="setMain" class="ml-3 text-sm ">Endereço padrão</span>
                 </label>    
                 </div>                         
             </div>
@@ -209,6 +212,13 @@ export default {
     created() {
     },
     methods: {
+      setMain(){
+        this.address.main =  !this.address.main
+      },
+      setSN(){
+        this.address.number= 'sem numero'
+
+      },
         async fillAddress() {
             if(this.address.zipcode == ''){
                 this.errors.zipcode = 'ERROR'

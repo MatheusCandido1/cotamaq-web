@@ -14,7 +14,8 @@
           <span  @click="showEstimateModal" class=" items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer">Cotação #{{estimate.id}} - {{estimate.description}}<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
         <div class="py-1 md:w-auto w-full">
-          <span @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+          <span v-if="estimate.equipment == null"  class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-orange-500 rounded-md cursor-pointer">Equipamento não informado<i class="mdi mdi-file-search ml-2"></i></span>
+          <span v-else @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
         </div>
       </div>
       <div class="flex flex-row lg:px-3 justify-between mb-2 items-center">
@@ -26,12 +27,12 @@
       </div>
 
 
-
       <div class="border-t-2 lg:px-3 "></div>
       <div class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
             <button  :class="formatItem(1).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(1).text}}<i class="mdi mdi-sort ml-2"></i></button>
             <button  @click="handleSortPrice" :class="formatItem(2).bg"  class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi ml-2" :class="sortPrice"></i></button>
-            <button  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button v-if="Discount" @click="removeDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">Remover desconto<i class="mdi mdi-sort ml-2"></i></button>
+            <button v-else  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
             <button  :class="formatItem(4).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(4).text}}<i class="mdi mdi-sort ml-2"></i></button>
            </div>
       <div class="flex">
@@ -127,7 +128,7 @@ export default {
           formats: [
             {id: 1, bg: 'bg-primary-main', text: 'Entrega'},
             {id: 4, bg: 'bg-orange-500', text: 'Retirada'},
-            {id: 3, bg: 'bg-indigo-500', text: 'Aplicar Desconto'},
+            {id: 3, bg: 'bg-indigo-500', text: 'Aplicar Desconto a vista'},
             {id: 2, bg: 'bg-blue-500', text: 'Preço'}
           ],
           // tipos: 'default', 'asc' e 'desc'
@@ -142,23 +143,35 @@ export default {
         }
     },
     methods: {
-      applyDiscont(){
+      removeDiscont(){
+        this.Discount = false
 
-        if(this.Discount === true){
-          return this.$toast.error('Disconto ja foi aplicado', {
-            position: "bottom-right",
-            showCloseButtonOnHover: true,
-            timeout: 5000
-          });
-        }
-        this.Discount = true
         this.proposals.forEach((proposal)=>{
+          proposal.subtotal = proposal.oldSubtotal
+          proposal.total = proposal.oldTotal
 
+        })
+        this.$toast.success('Desconto Removido.', {
+          position: "bottom-right",
+          showCloseButtonOnHover: true,
+          timeout: 5000
+        });
+
+
+      },
+      applyDiscont(){
+        this.Discount = true
+
+
+        this.proposals.forEach((proposal)=>{
+          this.$set(proposal,'oldSubtotal',proposal.subtotal )
+          this.$set(proposal,'oldTotal',proposal.total )
           var result = 0
           if(proposal.discount < 10){
              result = proposal.subtotal - (proposal.subtotal * parseFloat('0.0'+proposal.discount))
             proposal.subtotal = result
             proposal.total = proposal.subtotal + proposal.shipping
+
           }else {
             result = proposal.subtotal - (proposal.subtotal * parseFloat('0.'+proposal.discount))
             proposal.subtotal = result
@@ -166,6 +179,11 @@ export default {
           }
 
         })
+        this.$toast.success('Desconto Aplicado.', {
+          position: "bottom-right",
+          showCloseButtonOnHover: true,
+          timeout: 5000
+        });
 
       },
       handleSortPrice() {
@@ -174,8 +192,7 @@ export default {
           this.sorting.price.ascending = false
           this.sorting.price.descending = false
 
-
-          this.proposals = this.proposalsDefaults
+          this.proposals = this.proposals.old
           this.sort.price = 'asc'
 
 
@@ -183,7 +200,8 @@ export default {
             this.sorting.price.ascending = true
             this.sorting.price.default = false
             this.sorting.price.descending= false
-
+            // this.$set(this.proposals, 'oldproposal', this.proposals)
+            this.proposals.old = this.proposals
             this.proposals = this.sortAsc
            this.sort.price = 'desc'
         }else if(this.sort.price == 'desc') {
@@ -200,9 +218,24 @@ export default {
       getProposalsByEstimate() {
         const estimate_id = this.$route.params.estimate_id
         estimateService.getEstimate(estimate_id).then((response) => {
+
+          // console.log(response)
+
           this.estimate = response.data.data
           this.proposals = response.data.data.proposals
           this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
+
+
+
+
+          if(this.proposals.length == 0){
+            this.$router.push('/cotacoes')
+            return this.$toast.error('Você ainda não recebeu nenhuma proposta para essa cotação.', {
+              position: "bottom-right",
+              showCloseButtonOnHover: true,
+              timeout: 5000
+            });
+          }
 
           this.proposalsDefaults = response.data.data.proposals
           localStorage.setItem('proposal',JSON.stringify(response.data.data.proposals))

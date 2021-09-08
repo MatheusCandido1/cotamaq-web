@@ -118,13 +118,14 @@
               :items="estimateImages"
               @close="index = null">
           </CoolLightBox>
-          <div class="flex flex-wrap justify-start">
+          <div class="flex flex-wrap justify-start" >
             <img
                 v-for="(image, imageIndex) in estimateImages"
                 :key="imageIndex"
                 :src='image'
                 class="imgPreview m-2 "
-                @click="index = imageIndex"
+                @click="goPhoto(imageIndex)"
+
             />
           </div>
 
@@ -226,14 +227,14 @@
             </div>
           </div>
 
-          <div class="flex mt-4 flex-row justify-between">
+          <div class="flex mt-4 flex-row ">
             <div class="py-1">
               <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
                 Detalhes da proposta
               </h2>
             </div>
             <h2 v-if="estimate.address != null"
-                class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
+                class="ml-4 text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
               <span class="text-sm">CEP para entrega: </span><span
                 class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-white bg-primary-main rounded ml-2">{{
                 formatZipcode(estimate.address.zipcode)
@@ -350,8 +351,8 @@
 
           <div class="-mx-3 md:flex mt-4">
             <div class="md:w-full px-3 flex justify-end gap-2">
-              <button
-                  class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center"
+              <button @click="showConfirmModal"
+                  class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center"
                   type="submit">
                 <span class="justify-center">Enviar Proposta</span>
               </button>
@@ -411,6 +412,7 @@ export default {
   },
   data() {
     return {
+      index:null,
       modal: {
         confirm: false,
         equipment: false,
@@ -493,6 +495,10 @@ export default {
     }
     },
     methods: {
+      goPhoto(index){
+        this.index = index
+        bus.$emit("ModalOpen", true);
+      },
         formatZipcode,
         getToday() {
             this.today = new Date().toISOString().split("T")[0];
@@ -565,9 +571,10 @@ export default {
             });
             bus.$emit('updateProposalsBySeller', true);
             this.closeConfirmModal()
+
             if (redirect) {
               this.loader.active = false
-              this.$router.push({name: 'estimates'})
+              this.$router.push({name: 'addProposal', params:{estimate_id: this.estimate.id}})
             } else {
               this.loader.active = false
               this.$router.push({name: 'estimates'})

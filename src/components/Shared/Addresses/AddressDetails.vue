@@ -110,15 +110,17 @@
             </div>
 
             <div class="md:flex justify-end  -mx-3">
-            <div class="lg:w-1/4 md:w-1/3 sm:w-full  px-3 mb-5">
+              <div class=" px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                 <div class="flex">
-                <label class="inline-flex items-center">
-                    <input :disabled="!edit" v-model="selectedAddress.main" type="checkbox" class="form-radio h-6 w-6 text-green-500">
-                    <span class="ml-3 text-lg">Endereço padrão</span>
-                </label>    
-                </div>                         
-            </div>
+                  <label class="inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="{'text-primary-main ': address.main}" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span @click="setMain" class="ml-3 text-sm ">Endereço padrão</span>
+                  </label>
+                </div>
+              </div>
 
             
         </div>
@@ -193,10 +195,17 @@ export default {
   },
   created() {
       if(this.selectedAddress.number == ''){
-        this.numberless = true
+        this.selectedAddress.number = 'sem numero'
       }
   },
   methods: {
+    setMain(){
+      this.address.main =  !this.address.main
+    },
+    setSN(){
+      this.address.number= 'sem numero'
+
+    },
     async fillAddress() {
         const res = await fetch(`https://viacep.com.br/ws/${ this.selectedAddress.zipcode }/json`);
         const data = await res.json();

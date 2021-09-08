@@ -27,7 +27,9 @@
                 </div>
           </div>
         </div>
-        <div>
+          <button v-if="estimate.images.length > 0" @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
+
+          <div>
             <div class="border-t-2"
                 v-if="estimate.proposals_by_seller 
                 && estimate.proposals_by_seller.length > 0 
@@ -48,7 +50,8 @@
                 </div>   
             </div> 
         </div>
-            <div>
+
+          <div>
                 <div class="border-t-2"></div>  
                 <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0" class="flex justify-between px-2 p-2">
                     <button @click="handleDeclineOpenClick" class=" w-5/12 px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
@@ -102,7 +105,7 @@
                         </div>
 
                         <div v-if="formatStatus().id == 4" class="flex items-center space-x-1 text-sm">
-                            <div  class="w-full  bg-blue-500 text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+                            <div @click="openProposal"  class="w-full cursor-pointer  bg-blue-500 text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
                                 Reabrir
                             </div>
                         </div>
@@ -111,6 +114,7 @@
             </div>
         </div>
         <EstimateDecline @close="handleDeclineCloseClick" v-if="modal.decline" :estimate="estimate" />
+        <EstimateShowImage @close="closeImageModal" v-if="modal.images" :estimate="estimate" />
     </div>
 </template>
 
@@ -118,12 +122,15 @@
 import EstimateDecline from './EstimateDecline';
 import { formatEquipment, formatSimillar, formatCurrency } from '@/helpers/string-helper';
 import { bus } from '../../../main';
+import { proposalService} from "../../../services";
+import EstimateShowImage from "../Estimates/EstimateShowImage";
 
 export default {
     name: 'ProductItem',
     props: ['estimate'],
     components:{
         EstimateDecline,
+        EstimateShowImage
     },
     created() {
        this.getLowestTotal()
@@ -133,6 +140,7 @@ export default {
             modal: {
                 decline: false,
                 accept: false,
+                images:false
             },
         }
     },
@@ -157,6 +165,27 @@ export default {
         formatEquipment,
         formatSimillar,
         formatCurrency,
+      showModalImages(){
+        bus.$emit('ModalOpen', true)
+        this.modal.images = true
+
+      },
+      closeImageModal(){
+        bus.$emit('ModalOpen', false)
+        this.modal.images = false
+      },
+       openProposal(){
+          proposalService.ReOpenProposal(this.estimate.id).then((response)=>{
+            this.$toast.success(response.success_message, {
+              position: "bottom-right",
+              pauseOnHover: false,
+              showCloseButtonOnHover: true,
+              timeout: 2500
+            });
+
+            this.$emit('UpdateProposal', true);
+          })
+        },
         getLowestTotal() {
             if(this.validProposals.length == 0){
                 return 0.00
@@ -168,7 +197,13 @@ export default {
             if(this.pendingProposals.length == this.estimate.proposals_by_seller.length){
                 return 0
             } else {
-            return this.validProposals.length
+              var count = 0
+              this.validProposals.forEach((data)=>{
+                  if(data.status != 1){
+                    count++
+                  }
+              })
+            return count
             }
         },
         getSentProposals() {
@@ -178,6 +213,14 @@ export default {
             this.$router.push({name: 'ProposalsByEstimate', params: {estimate_id: this.estimate.id}})
         },
         handleNewProposalClick() {
+            if(this.estimate.status == 4){
+              return  this.$toast.error('Cotação indisponivel fechada com outra revenda !', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+              });
+            }
             this.$router.push({name: 'addProposal', params: {estimate_id: this.estimate.id}})
         },
         handleDeclineOpenClick() {

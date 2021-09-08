@@ -41,7 +41,7 @@
                   
                   <div class="border-t-2 mt-2"></div>
                   <div class="flex flex-row ">
-                      <div class="py-2 flex-grow whitespace-nowrap">
+                      <div class="py-2 flex-grow ">
                     <div class="">
                           <div class="flex space-x-2 text-gray-800 text-sm  my-3">
                               <p><span class="font-bold">Cód. da peça:</span> {{selectedPart.part_code}}</p> 
@@ -58,8 +58,8 @@
                           
                     </div>
                   </div>
-                    <div class="px-2 py-2 flex-grow whitespace-nowrap">
-                    <div class="px-2 ">
+                    <div class="px-2 py-2 flex-grow ">
+                    <div class="px-2  ">
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Aceita Similar:</span> {{formatSimilar(selectedPart.allow_similar)}} </p> 
                           </div>

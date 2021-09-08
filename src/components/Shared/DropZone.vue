@@ -65,15 +65,51 @@
                
             },                
             handlePreview(event) {
-                let files = event.target.files;
-                for (var i = 0; i < files.length; i++) {
-                    if(files[i].type.match('image')){
-                        this.files.push({data:files[i], preview:URL.createObjectURL(files[i])})       
-                    }                                                       
-                }
-                this.files = Array.from(this.files);                
 
-               this.$store.commit('setFiles', this.files)
+              let files = event.target.files;
+
+
+
+
+                if(files.length > 4){
+                  return   this.$toast.error('Maximo de 4 imagens', {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                  });
+                }
+                for (var i = 0; i < files.length; i++) {
+                    if(i <= 4){
+                      if(files[i].type.match('image')){
+                        if(this.files.length < 4){
+                          this.files.push({data:files[i], preview:URL.createObjectURL(files[i])})
+                        }else {
+                          return   this.$toast.error('Maximo de 4 imagens', {
+                            position: "bottom-right",
+                            pauseOnHover: false,
+                            showCloseButtonOnHover: true,
+                            timeout: 2500
+                          });
+                        }
+                      }
+                    }
+                }
+                this.files = Array.from(this.files);
+
+                if(this.files.length >4){
+                  return   this.$toast.error('Maximo de 4 imagens', {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                  });
+
+                }else{
+                  this.$store.commit('setFiles', this.files)
+
+                }
+
 
             },
             

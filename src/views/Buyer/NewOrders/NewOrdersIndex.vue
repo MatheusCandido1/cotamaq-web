@@ -58,25 +58,36 @@
 
 <script>
 import OrderItem from '../../../components/Buyer/NewOrders/OrderItem'
-import { orderService } from '../../../services'
+import {orderService} from '../../../services'
+import {bus} from "../../../main";
+
 export default {
-    name: 'NewOrdersIndex',
-    components: {
-        OrderItem,
-    },
-    created() {
+  name: 'NewOrdersIndex',
+  components: {
+    OrderItem,
+  },
+  created() {
+    this.getOrders()
+  },
+  updated() {
+    bus.$off('updateProposalsByBuyer');
+    bus.$on('updateProposalsByBuyer', (data) => {
+      if (data) {
+        this.orders = []
         this.getOrders()
-    },
-    computed: {
-        days() {     
-            const days = new Set();
-            this.orders.forEach((order)=> {              
-                days.add(order.created_at)
-            })
-            return Array.from(days);
-        }
-    },
-    data() {
+      }
+    })
+  },
+  computed: {
+    days() {
+      const days = new Set();
+      this.orders.forEach((order) => {
+        days.add(order.created_at)
+      })
+      return Array.from(days);
+    }
+  },
+  data() {
         return {
             modal: {
                 tracking: false,
@@ -119,7 +130,7 @@ export default {
                 if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase()) ) {
                     if(list.length > 0){
                         if(list[list.length-1].id != data.id){
-                            console.log('naot tem')
+                          console.log(data)
                         }
                     }else{
                         list.push(data);

@@ -3,7 +3,9 @@
         <div class="flex pt-4 px-4">
             <div class="px-2 pt-2 flex-grow">
                 <div class="flex flex-row justify-between">
-                    <span class="text-black no-underline font-medium">{{getAction()}} #{{notification.estimate_id}}</span>
+                    <span v-if="notification.estimate_id" class="text-black no-underline font-medium">{{getAction()}} #{{notification.estimate_id}}</span>
+                    <span v-else-if="notification.proposal_id != null && notification.estimate_id != null" class="text-black no-underline font-medium">{{getAction()}} #{{notification.proposal_id}}</span>
+                    <span v-if="notification.order_id" class="text-black no-underline font-medium">{{getAction()}} #{{notification.order_id}}</span>
                     <span :class="formatItem().bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem().text}}</span>
                 </div>
                 <header>
@@ -64,7 +66,7 @@ export default {
           }else if(this.notification.proposal_id != null  && this.notification.estimate_id != null){
             this.$router.push({ name: 'ProposalsByEstimate', params:{estimate_id:this.notification.estimate_id} })
           }else if(this.notification.order_id){
-             console.log('orders')
+            this.$router.push({name:'OrderDetails', params:{order_id:this.notification.order_id}})
           }
             
         },

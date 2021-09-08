@@ -3,7 +3,8 @@ export default {
     state: () => ({
         user: {},
         notificationNotRead: [],
-        notificationList: []
+        notificationList: [],
+        newEstiamte:false
     }),
 
     getters:{
@@ -12,6 +13,9 @@ export default {
         },
         notificationNotRead(state){
             return state.notificationNotRead
+        },
+        newEstimate(state){
+            return state.newEstiamte
         }
     },    
 
@@ -37,6 +41,10 @@ export default {
             // state.notificationList = []
             // console.log(payload)
             state.notificationList = payload
+        },
+        setnewEstiamte(state,payload){
+
+            state.newEstiamte = payload
         }
     
     },

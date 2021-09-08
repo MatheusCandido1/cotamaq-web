@@ -24,14 +24,14 @@
             <div class="sm:flex sm:items-start">
                 <span>
         <div class="flex -mx-3">
-            <div class="w-4/5 px-3 mb-5">
+            <div class="w-full px-3 mb-5">
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Dados do Usuário</h2>
             </div>
         </div>
 
         <form >
-             <div class="lg:flex md:flex">
-                   <div class="lg:w-1/2 md:w-full  sm:w-full px-3 mb-5">
+             <div class="">
+                   <div class="w-full  sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Nome</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
@@ -40,17 +40,6 @@
                                       
                 </div>
 
-                 <div class="lg:w-1/2 md:w-full  sm:w-full px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Email</label>
-                    <div class="flex">
-                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input placeholder="Ex: fernando@gmail.com"  v-model="user.email"  disabled   type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 shadow-md px-6 outline-none  border-primary-lighter">
-                    </div>  
-                                       
-                </div>
-
-
-               
              </div>
 
             
