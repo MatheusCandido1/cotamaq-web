@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col">
-        <div class="w-full my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div class="flex">
+        <div class="w-full my-6 py-3 mb-8 bg-white  rounded-lg shadow-md dark:bg-gray-800">
             <div class="flex flex-col md:flex-row md:justify-between md:items-center">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">

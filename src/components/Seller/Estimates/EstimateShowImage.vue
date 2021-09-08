@@ -28,7 +28,7 @@
                       id="modal-headline"
                       class="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Comprador teste
+                    Galeria da cotação
                   </h3>
                   <CoolLightBox
                       :index="index"
@@ -68,7 +68,6 @@
 </template>
 <script>
 // import { bus } from '../../../main';
-import { proposalService } from "../../../services";
 import CoolLightBox from "vue-cool-lightbox";
 import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
 
@@ -93,16 +92,14 @@ export default {
     close() {
       this.$emit("close");
     },
-    getImages() {
-      // console.log(this.estimate)
-      proposalService.getImagesEstimates(this.estimate.id).then((response) => {
-        console.log(response)
-            this.estimateImages = response.data.imageEstimate;
-          });
-    },
+
   },
   created() {
-    this.getImages();
+
+    this.estimate.images.forEach((data)=>{
+      this.estimateImages.push(data.image_path)
+    })
+
   },
 };
 </script>

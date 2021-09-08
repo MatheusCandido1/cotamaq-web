@@ -294,14 +294,25 @@
 
         <div class="-mx-3 md:flex mt-4">
           <div class="md:w-full px-3 flex justify-end gap-2">
+
+            <button type="submit"
+                    class="sm:w-full md:w-1/3 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+              <span class="justify-center">Enviar Cotação</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="-mx-3 md:flex mt-4">
+          <div class="md:w-full px-3 flex justify-end gap-2">
+            <button type="submit" @click="goback"
+                    class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+              <span class="justify-center">voltar</span>
+            </button>
             <button @click="updatePart" type="button"
                     class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
               <span class="justify-center">Salvar Rascunho</span>
             </button>
-            <button type="submit"
-                    class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-primary-main text-white font-semibold rounded hover:bg-primary-darker hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-              <span class="justify-center">Enviar Cotação</span>
-            </button>
+
           </div>
         </div>
       </form>
@@ -407,6 +418,9 @@ export default {
     }
   },
   methods: {
+    goback(){
+      this.$router.push('/cotacoes')
+    },
     formatEquipment,
     handleEquipmentCancel() {
       this.equipmentInfo = null

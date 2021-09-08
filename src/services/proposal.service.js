@@ -18,7 +18,6 @@ export const proposalService = {
     deleteImage,
     getImages,
     ReOpenProposal,
-    getImagesEstimates
 };
 
 function declineProposalByBuyer(id) {
@@ -217,16 +216,7 @@ function getImages(proposal, estimate) {
     .then(handleResponse)
 }
 
-function getImagesEstimates(estimate) {
-    return axios.get(`${API_URL}/proposals/images/${estimate}`,  {
-        headers: {
-            ...authHeader(),
-            'Content-Type': 'application/json' ,
-            'Accept': 'application/json'
-        }
-    })
-    .then(handleResponse)
-}
+
 
 function handleResponse(response) {
     const data = response.data;

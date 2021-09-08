@@ -214,7 +214,7 @@ export default {
         },
         handleNewProposalClick() {
             if(this.estimate.status == 4){
-              return  this.$toast.error('Cotação indisponivel ', {
+              return  this.$toast.error('Cotação indisponivel fechada com outra revenda !', {
                 position: "bottom-right",
                 pauseOnHover: false,
                 showCloseButtonOnHover: true,
