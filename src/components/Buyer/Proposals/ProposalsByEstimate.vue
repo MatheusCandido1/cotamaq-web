@@ -156,7 +156,7 @@ export default {
           data.total = data.subtotal
         })
 
-        this.$toast.success('O Pedido sera retirado no estabelecimento.', {
+        this.$toast.success('O Pedido será retirado no estabelecimento.', {
           position: "bottom-right",
           showCloseButtonOnHover: true,
           timeout: 5000
@@ -170,7 +170,7 @@ export default {
           data.total = data.subtotal + data.shipping
         })
 
-        this.$toast.success('O Pedido sera entrege em seu endereço.', {
+        this.$toast.success('O Pedido será entregue em seu endereço.', {
           position: "bottom-right",
           showCloseButtonOnHover: true,
           timeout: 5000
