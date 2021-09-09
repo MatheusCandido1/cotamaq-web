@@ -302,8 +302,6 @@
         transition:leave="transition ease-in-out duration-150"
         transition:leave-start="opacity-100"
         transition:leave-end="opacity-0 transform -translate-x-20"
-        @click="closeSideMenu"
-        @keydown.escape="closeSideMenu"
       >
         <div class="py-4 text-gray-500 dark:text-gray-400">
           <a
@@ -329,6 +327,8 @@
             <li
               class="relative px-6 py-3 hover:text-gray-800 "
               style="cursor: pointer"
+              @click="closeSideMenu"
+              @keydown.escape="closeSideMenu"
             >
               <router-link
                 :to="{ path: '/cotacoes' }"
@@ -342,6 +342,8 @@
             <li
               class="relative px-6 py-3 hover:text-gray-800 "
               style="cursor: pointer"
+              @click="closeSideMenu"
+              @keydown.escape="closeSideMenu"
             >
               <router-link
                 :to="{ path: '/pedidos' }"
@@ -388,6 +390,8 @@
                   aria-label="submenu"
                 >
                   <li
+                    @click="closeSideMenu"
+                    @keydown.escape="closeSideMenu"
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <router-link
@@ -400,6 +404,8 @@
                   </li>
                   <li
                     v-if="user.role === 1"
+                    @click="closeSideMenu"
+                    @keydown.escape="closeSideMenu"
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <router-link :to="{ path: '/pagamentos' }" class="w-full">
@@ -407,6 +413,8 @@
                     </router-link>
                   </li>
                   <li
+                    @click="closeSideMenu"
+                    @keydown.escape="closeSideMenu"
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <router-link :to="{ path: '/empresa' }" class="w-full">
@@ -415,6 +423,8 @@
                   </li>
                   <li
                     v-if="user.role === 2"
+                    @click="closeSideMenu"
+                    @keydown.escape="closeSideMenu"
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <router-link :to="{ path: '/equipamentos' }" class="w-full">
@@ -424,6 +434,8 @@
 
                   <li
                     v-if="user.role === 1"
+                    @click="closeSideMenu"
+                    @keydown.escape="closeSideMenu"
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <router-link :to="{ path: '/usuarios' }" class="w-full">

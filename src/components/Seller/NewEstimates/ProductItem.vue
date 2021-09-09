@@ -27,7 +27,7 @@
                 </div>
           </div>
         </div>
-          <button v-if="estimate.images.length > 0" @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
+          <button v-if="estimate.images.length > 0" @click="showModalImages" class=" w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
 
           <div>
             <div class="border-t-2"
