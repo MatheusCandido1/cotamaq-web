@@ -321,7 +321,6 @@ export default {
                     complement: this.address.complement,
                     main: this.address.main
                 }
-
                 companyService.createAddress(data).then((response) => {
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
