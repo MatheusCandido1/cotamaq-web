@@ -306,7 +306,7 @@
           <div class="md:w-full px-3 flex justify-end gap-2">
             <button type="submit" @click="goback"
                     class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-              <span class="justify-center">voltar</span>
+              <span class="justify-center">Voltar</span>
             </button>
             <button @click="updatePart" type="button"
                     class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
@@ -534,8 +534,6 @@ export default {
         this.addresses = response.data.addresses
         const adr = this.addresses.find(ele => ele.main === 1)
         this.part.address_id = adr.id
-      }).catch((error) => {
-        console.log(error.response.data)
       })
     },
     showEquipmentForm() {
@@ -619,6 +617,9 @@ export default {
       Files.forEach((file) => {
         this.form.append('files[]', file.data)
       })
+      this.$store.commit('setFiles', [])
+
+      this.$store.commit('setFiles', null)
 
       this.loader.active = true
       estimateService.createEstimate(this.form).then((response) => {
@@ -668,6 +669,7 @@ export default {
       Files.forEach((file) => {
         this.form.append('files[]', file.data)
       })
+      this.$store.commit('setFiles', [])
 
 
       this.loader.active = true

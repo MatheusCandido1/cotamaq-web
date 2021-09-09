@@ -98,8 +98,8 @@
                 <div class="flex -mr-px">
                     <span :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'" class="flex items-center leading-normal bg-grey-lighter rounded-r border-b-2 shadow-md border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
                         <label class="inline-flex items-center">
-                        <input  @focusout="() => (errors.number = 'OK')" v-model="numberless" @change="address.number = null" type="checkbox"  class="form-radio text-green-500">
-                        <span class="ml-3 text-lg">S/N</span>
+<!--                        <input  @focusout="() => (errors.number = 'OK')" v-model="numberless" @change="address.number = null" type="checkbox"  class="form-radio text-green-500">-->
+                        <span @click="setSN" class="ml-3 cursor-pointer text-lg">S/N</span>
                     </label> 
                     </span>  
                 </div>	
@@ -121,12 +121,15 @@
             </div>
 
             <div class="flex justify-end -mx-3">
-                <div class="md:w-1/4 w-1/3 px-3 mb-5">
+                <div  class="md:w-1/4 w-1/3 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                     <div class="flex">
-                    <label class="inline-flex items-center">
-                        <input v-model="address.main" type="checkbox" class="form-radio h-6 w-6 text-green-500">
-                        <span class="ml-3 text-lg">Endereço padrão</span>
+                    <label @click="setMain" class="inline-flex items-center cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="md:h-6 md:w-6  h-10 w-10  " :class="{'text-green-500':address.main}" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                      </svg>
+
+                        <span  class="ml-3 text-lg">Endereço padrão</span>
                     </label>    
                     </div>                         
                 </div>
@@ -235,6 +238,12 @@ export default {
       }
   },
   methods: {
+    setSN(){
+      this.address.number = 'Sem Número'
+    },
+    setMain(){
+      this.address.main = !this.address.main
+   },
     async fillAddress() {
             if(this.address.zipcode == ''){
                 this.errors.zipcode = 'ERROR'
@@ -337,8 +346,6 @@ export default {
                 this.clearInputs();
                 this.close()
                 bus.$emit('updatedEstimateAddress', true);
-                }).catch((error) => {
-                    console.log(error.response.data)
                 })
             }
         },

@@ -561,6 +561,7 @@ export default {
           Files.forEach((file) => {
             this.form.append('files[]', file.data)
           })
+          this.$store.commit('setFiles', [])
           this.loader.active = true
           proposalService.createProposal(this.form).then((response) => {
             this.$toast.success(response.success_message, {
@@ -673,6 +674,7 @@ export default {
           Files.forEach((file) => {
             this.form.append('files[]', file.data)
           })
+          this.$store.commit('setFiles', [])
           this.loader.active = true
 
           proposalService.createProposal(this.form).then((response) => {

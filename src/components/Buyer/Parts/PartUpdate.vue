@@ -573,8 +573,10 @@ export default {
             Files.forEach((file) => {
               this.form.append('files[]', file.data)
             })
+          this.$store.commit('setFiles', [])
 
-            this.loader.active = true
+
+          this.loader.active = true
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
                 this.$toast.success(response.success_message, {
                     position: "bottom-right",
@@ -623,6 +625,8 @@ export default {
           Files.forEach((file) => {
             this.form.append('files[]', file.data)
           })
+
+          this.$store.commit('setFiles', [])
 
             this.loader.active = true
             estimateService.updateEstimate(this.part.id, this.form).then((response) => {
