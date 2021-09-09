@@ -48,7 +48,7 @@ export const formatZipcode = (value) => {
 }
 
 export const formatMissingInformation = (value) => {
-    if(value == 'null' || value == null || value == ''){
+    if(value == 'null' || value == null || value == '' || value == null){
         return 'Não informado'
     }else {
         return value

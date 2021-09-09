@@ -29,17 +29,18 @@
 
       <div class="border-t-2 lg:px-3 "></div>
       <div class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
-            <button  :class="formatItem(1).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(1).text}}<i class="mdi mdi-sort ml-2"></i></button>
-            <button  @click="handleSortPrice" :class="formatItem(2).bg"  class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi ml-2" :class="sortPrice"></i></button>
-            <button v-if="Discount" @click="removeDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">Remover desconto<i class="mdi mdi-sort ml-2"></i></button>
-            <button v-else  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
-            <button  :class="formatItem(4).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(4).text}}<i class="mdi mdi-sort ml-2"></i></button>
-           </div>
+            <button v-tooltip="{ content: 'Ordernar Preço' }"    @click="handleSortPrice" :class="formatItem(2).bg"  class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi ml-2" :class="sortPrice"></i></button>
+            <button  v-if="Discount" v-tooltip="{ content: 'Click para remove desconto a vista' }"   @click="removeDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">Remover desconto a vista<i class="mdi mdi-sort ml-2"></i></button>
+            <button v-tooltip="{ content: 'Click para aplicar desconto a vista' }"  v-else  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button v-tooltip="{ content: 'Retirar pessoalmente' }"   @click="setTakeOut"  :class="formatItem(4).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(4).text}}<i class="mdi mdi-checkbox-blank-outline  ml-2" :class="{'mdi-checkbox-marked':takeOut}"></i></button>
+            <button v-tooltip="{ content: 'Solicitar Entrega ' }" @click="setShipping"    :class="formatItem(1).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(1).text}}<i class="mdi mdi-checkbox-blank-outline    ml-2" :class="{'mdi-checkbox-marked':shiping}"></i></button>
+
+      </div>
       <div class="flex">
         <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
           <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6">
 
-            <ProposalPartItem v-for="proposal in proposals " :key="proposal.id" :discount="Discount" :estimate="estimate"   :proposal="proposal" />
+            <ProposalPartItem v-for="proposal in proposals " :key="proposal.id" :discount="Discount"  :estimate="estimate"   :proposal="proposal" />
             <!-- <ProposalPartItem v-for="proposal in sortDesc" :key="proposal.id" :estimate="estimate"  :proposal="proposal" /> -->
           </div>
         </div>
@@ -114,6 +115,8 @@ export default {
    },
     data() {
         return {
+        shiping:true,
+        takeOut:false,
          sorting:{
            price:{
               descending:false,
@@ -143,6 +146,37 @@ export default {
         }
     },
     methods: {
+      setTakeOut(){
+        this.takeOut = true
+        this.shiping = false
+
+        this.$store.commit('setProposalTakeOut', true)
+
+        this.proposals.forEach((data)=>{
+          data.total = data.subtotal
+        })
+
+        this.$toast.success('O Pedido sera retirado no estabelecimento.', {
+          position: "bottom-right",
+          showCloseButtonOnHover: true,
+          timeout: 5000
+        });
+      },
+      setShipping(){
+        this.takeOut = false
+        this.shiping = true
+        this.$store.commit('setProposalTakeOut', false)
+        this.proposals.forEach((data)=>{
+          data.total = data.subtotal + data.shipping
+        })
+
+        this.$toast.success('O Pedido sera entrege em seu endereço.', {
+          position: "bottom-right",
+          showCloseButtonOnHover: true,
+          timeout: 5000
+        });
+
+      },
       removeDiscont(){
         this.Discount = false
 
@@ -192,7 +226,7 @@ export default {
           this.sorting.price.ascending = false
           this.sorting.price.descending = false
 
-          this.proposals = this.proposals.old
+          this.proposals = JSON.parse(localStorage.getItem('bkp'))
           this.sort.price = 'asc'
 
 
@@ -225,7 +259,7 @@ export default {
           this.proposals = response.data.data.proposals
           this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
 
-
+          localStorage.setItem('bkp',JSON.stringify(this.proposals))
 
 
           if(this.proposals.length == 0){

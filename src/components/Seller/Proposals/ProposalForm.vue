@@ -108,7 +108,7 @@
                               placeholder="" rows="3"></textarea>
                   </div>
                 </div>
-          <div class="flex m-3  justify-start">
+          <div v-if="estimateImages.length > 0" class="flex m-3  justify-start">
             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
               Galeria da cotação
             </h2>

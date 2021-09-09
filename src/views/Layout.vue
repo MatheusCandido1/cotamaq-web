@@ -562,7 +562,7 @@
 
                 </button>
 
-                <template v-if="isProfileMenuOpen">
+                <template v-click-outside="isProfileMenuOpen" v-if="isProfileMenuOpen"  >
                   <ul
                     transition:leave="transition ease-in duration-150"
                     transition:leave-start="opacity-100"
@@ -654,12 +654,16 @@ import { bus } from "../main";
 import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
 window.Pusher = require('pusher-js');
 import { echoService } from '../services'
+import ClickOutside from 'vue-click-outside'
 
 export default {
   name: "Layout",
   components: {
     BarLoader,
     NotificationPreview
+  },
+  directives: {
+    ClickOutside
   },
   data() {
     return {
@@ -695,10 +699,11 @@ export default {
   },
  async mounted() {
     await this.getUser()
-    
 
+   this.popupItem = this.$el
           
   },
+
  async created() {
    echoService.connect()
 
@@ -747,6 +752,10 @@ export default {
    
   },
   methods: {
+    ProfileCloneMenu(){
+      this.isProfileMenuOpen = false
+      console.log('click')
+    },
     deleteNotification(index){
       var list = this.$store.getters.notificationList
       list.forEach((data)=>{        
@@ -791,6 +800,14 @@ export default {
                 if(this.user.role == 1) {
                   bus.$emit('updateProposalsBySeller', true);
                 }
+          }
+          if(this.getRouteName == 'ProposalsByEstimate') {
+            if(this.user.role == 2) {
+              bus.$emit('updateProposalsByBuyer', true);
+            }
+            if(this.user.role == 1) {
+              bus.$emit('updateProposalsBySeller', true);
+            }
           }
           if(this.getRouteName == 'orders'){
 

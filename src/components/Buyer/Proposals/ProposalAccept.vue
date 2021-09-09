@@ -97,7 +97,7 @@ export default {
       this.$emit("close");
     },
     acceptProposal() {
-      var data = {subtotal:this.proposal.subtotal ,discount:this.discount}
+      var data = {subtotal:this.proposal.subtotal ,discount:this.discount, takeOut:this.$store.getters.proposalTakeOut}
       proposalService.approveProposalByBuyer(this.selectedProposal.id,data ).then((response) => {
         this.$toast.success(response.success_message, {
           position: "bottom-right",
