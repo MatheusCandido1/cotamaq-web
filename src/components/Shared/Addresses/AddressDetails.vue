@@ -124,12 +124,11 @@
         </div>
 
           </div>
-          <!--footer-->
           <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b bg-white">
             <button
               type="button"
               @click="close"
-              class="mt-3 w-full ml-1 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border mr-1 border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancelar
             </button>
@@ -137,7 +136,7 @@
               type="button"
               @click="updateAddress()"
               v-if="edit"
-              class="mt-3 ml-1 w-full inline-flex bg-primary-main hover:bg-primary-lighter justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:ml-3 sm:w-auto sm:text-sm"
+              class="w-full inline-flex bg-primary-main md:mt-auto mt-3 hover:bg-primary-lighter ml-1 justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:ml-3 sm:w-auto sm:text-sm"
             >
               Atualizar
             </button>
@@ -198,10 +197,14 @@ export default {
   },
   methods: {
     setSN(){
-      this.selectedAddress.number = 'Sem Número'
+      if (this.edit) {
+        this.selectedAddress.number = 'Sem Número'
+      }
     },
     setMain(){
-      this.address.main = !this.address.main
+      if (this.edit) {
+        this.address.main = !this.address.main
+      }
     },
     async fillAddress() {
         const res = await fetch(`https://viacep.com.br/ws/${ this.selectedAddress.zipcode }/json`);
