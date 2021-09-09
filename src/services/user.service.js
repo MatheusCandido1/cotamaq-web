@@ -59,7 +59,7 @@ function resetPassword(data) {
 }
 
 function ReSendRecoverPassword(data) {
-    return axios.post(`${API_URL}/auth/re-send/confirm-email`, JSON.stringify(data), {
+    return axios.post(API_URL+'/auth/re-send/confirm-email',data, {
         headers: { 
             ...authHeader(),
             'Content-Type': 'application/json' ,
@@ -72,7 +72,7 @@ function ReSendRecoverPassword(data) {
         return data;
     })
 }function recoverPassword(data) {
-    return axios.post(`${API_URL}/auth/re-send/confirm-email'`, JSON.stringify(data), {
+    return axios.post(`${API_URL}/auth/forgot-password`, JSON.stringify(data), {
         headers: {
             ...authHeader(),
             'Content-Type': 'application/json' ,

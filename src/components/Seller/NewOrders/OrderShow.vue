@@ -190,7 +190,7 @@
                     <label for="description" class="text-sm font-semibold text-gray-600 px-1">
                         CEP
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(order.proposal.estimate.address.zipcode)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 </div>
                 <div class="-mx-3 md:flex mb-6">
@@ -198,25 +198,25 @@
                     <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                     Endereço
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(order.proposal.estimate.address.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 <div class="md:w-1/4 px-3 mb-2 md:mb-0">
                     <label class="text-sm font-semibold text-gray-600 px-1">
                         Bairro
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(order.proposal.estimate.address.neighborhood)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 <div class="md:w-1/4 px-3 mb-2 md:mb-0">
                     <label  class="text-sm font-semibold text-gray-600 px-1">
                         Cidade
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(order.proposal.estimate.address.city)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 <div class="md:w-1/4 px-3 mb-2 md:mb-0">
                     <label class="text-sm font-semibold text-gray-600 px-1">
                         Estado
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(order.proposal.estimate.address.state)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 </div>
                 <div class="-mx-3 md:flex mb-6">
@@ -224,7 +224,7 @@
                     <label class="text-sm font-semibold text-gray-600 px-1">
                     E-mail
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.email)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(buyer.email)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                     <label  class="text-sm font-semibold text-gray-600 px-1">
@@ -236,7 +236,7 @@
                     <label class="text-sm font-semibold text-gray-600 px-1">
                         Celular
                     </label>
-                    <input disabled :value="formatMissingInformation(buyer.company.phone)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <input disabled :value="formatMissingInformation(buyer.phone)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 </div>
                 </div>
             </form>

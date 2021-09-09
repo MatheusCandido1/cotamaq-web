@@ -534,8 +534,6 @@ export default {
         this.addresses = response.data.addresses
         const adr = this.addresses.find(ele => ele.main === 1)
         this.part.address_id = adr.id
-      }).catch((error) => {
-        console.log(error.response.data)
       })
     },
     showEquipmentForm() {
@@ -619,6 +617,9 @@ export default {
       Files.forEach((file) => {
         this.form.append('files[]', file.data)
       })
+      this.$store.commit('setFiles', [])
+
+      this.$store.commit('setFiles', null)
 
       this.loader.active = true
       estimateService.createEstimate(this.form).then((response) => {
@@ -668,6 +669,7 @@ export default {
       Files.forEach((file) => {
         this.form.append('files[]', file.data)
       })
+      this.$store.commit('setFiles', [])
 
 
       this.loader.active = true

@@ -4,7 +4,7 @@
       <div class="flex flex-col md:flex-row md:justify-between md:items-center">
         <div class="py-1">
           <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-            Pedido #{{order.id}} 
+            Pedido #{{order.id}}
             <span class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
            </h2>
           <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
@@ -49,7 +49,7 @@
               <label for="description" class="text-sm font-semibold text-gray-600 px-1">
                   CEP
               </label>
-              <input disabled :value="formatMissingInformation(seller.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+              <input disabled :value="formatMissingInformation(seller.company.address.zipcode)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
         </div>
         <div class="-mx-3 md:flex mb-6">
@@ -57,25 +57,25 @@
             <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
               Endereço
             </label>
-            <input disabled :value="formatMissingInformation(seller.company.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+            <input disabled :value="formatMissingInformation(seller.company.address.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1">
                 Bairro
               </label>
-              <input disabled :value="formatMissingInformation(seller.company.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+              <input disabled :value="formatMissingInformation(seller.company.address.neighborhood)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label  class="text-sm font-semibold text-gray-600 px-1">
                   Cidade
               </label>
-              <input disabled :value="formatMissingInformation(seller.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+              <input disabled :value="formatMissingInformation(seller.company.address.city)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1">
                   Estado
               </label>
-              <input disabled :value="formatMissingInformation(seller.company.address)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+              <input disabled :value="formatMissingInformation(seller.company.address.state)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
         </div>
         <div class="-mx-3 md:flex mb-6">
