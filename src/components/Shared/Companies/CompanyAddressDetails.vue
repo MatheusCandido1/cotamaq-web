@@ -79,19 +79,19 @@
                 </div>                         
             </div>
             
-            <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
-                <label for="" class="text-sm font-semibold text-gray-600 px-1">Número</label>
-                <div class="flex flex-wrap items-stretch w-full mb-4 relative">
-			<input :disabled="!edit" v-model="address.number" @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
-			<div class="flex -mr-px">
-				<span class="flex items-center leading-normal bg-grey-lighter rounded rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
-                    <label class="inline-flex items-center">
-                    <input :disabled="!edit"  v-model="numberless" @change="address.number = null" type="checkbox" class="form-radio text-green-500">
-                    <span class="ml-3 text-lg">S/N</span>
-                </label> 
-                </span>
-			</div>	
-		</div>      
+            <div class="lg:w-1/4 md:w-1/2 sm:w-full  px-3 mb-5">
+              <label for="" class="text-sm font-semibold text-gray-600 px-1">Número</label>
+              <div class="flex flex-wrap items-stretch w-full mb-4 relative">
+                <input :disabled="!edit" v-model="selectedAddress.number" @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
+                <div class="flex -mr-px">
+                  <span class="flex items-center leading-normal bg-grey-lighter rounded rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
+                      <label class="inline-flex items-center">
+                        <input :disabled="!edit"  v-model="numberless" @change="address.number = null" type="checkbox" class="form-radio text-green-500">
+                        <span @click="setSN" class="ml-3 cursor-pointer text-lg">S/N</span>
+                    </label> 
+                  </span>
+                </div>
+              </div>      
             </div>
 
 
@@ -104,18 +104,18 @@
             </div>
             </div>
 
-            <div class="flex justify-end -mx-3">
-            <div class="md:w-1/4 w-1/3 px-3 mb-5">
+           <div class="md:flex justify-end  -mx-3">
+              <div  class="md:w-1/4 w-1/3 px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                 <div class="flex">
-                <label class="inline-flex items-center">
-                    <input :disabled="!edit" v-model="selectedAddress.main" type="checkbox" class="form-radio h-6 w-6 text-green-500">
-                    <span class="ml-3 text-lg">Endereço padrão</span>
-                </label>    
-                </div>                         
+                  <label @click="setMain" class="inline-flex items-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="md:h-6 md:w-6  h-10 w-10  " :class="{'text-green-500':address.main}" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span  class="ml-3 text-lg">Endereço padrão</span>
+                  </label>    
+              </div>                         
             </div>
-
-            
         </div>
 
           </div>
@@ -192,6 +192,16 @@ export default {
       }
   },
   methods: {
+    setSN(){
+      if (this.edit) {
+        this.selectedAddress.number = 'Sem Número'
+      }
+    },
+    setMain(){
+      if (this.edit) {
+        this.address.main = !this.address.main
+      }
+    },
     async fillAddress() {
         const res = await fetch(`https://viacep.com.br/ws/${ this.selectedAddress.zipcode }/json`);
         const data = await res.json();
