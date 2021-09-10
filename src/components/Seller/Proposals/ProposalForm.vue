@@ -379,7 +379,7 @@
           </div>
         </form>
     </div>
-    <ProposalConfirm v-if="modal.confirm" @save="sendProposal" @close="closeConfirmModal" />
+    <ProposalConfirm v-if="modal.confirm" v-bind:notShowNewProposalBtn="estimate.allow_similar == 0 && true" @save="sendProposal" @close="closeConfirmModal" />
     <EquipmentDetails v-if="modal.equipment" :equipment="estimate.equipment" @close="closeEquipmentModal" />
 </div>
 </template>

@@ -46,6 +46,7 @@
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
+              v-if="notShowNewProposalBtn != true"
               @click="save(true)"
               :disabled="disabled"
               class="mt-2 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm"
@@ -76,6 +77,7 @@
 <script>
 export default {
   name: "ProposalConfirm",
+  props: ['notShowNewProposalBtn'],
   data() {
     return {
       disabled: false
