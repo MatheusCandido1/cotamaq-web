@@ -16,8 +16,11 @@
                         Propostas
                     </h2>
                 </div>
-                <div v-if="proposals.length > 0 && approvedProposals.length == 0" class="py-1">
-                    <button @click="handleAddClick"  class="bg-primary-main w-full text-md px-2 py-1 font-semibold text-white rounded-md dark:text-white">Nova Proposta</button>
+                <div v-if="this.estimate.allow_similar === 0" />
+                <div v-else>
+                    <div v-if="proposals.length > 0 && approvedProposals.length == 0" class="py-1">
+                        <button @click="handleAddClick"  class="bg-primary-main w-full text-md px-2 py-1 font-semibold text-white rounded-md dark:text-white">Nova Proposta</button>
+                    </div>
                 </div>
             </div>
             <div class="flex">
@@ -72,6 +75,8 @@ export default {
             estimate: {
                 id: this.$route.params.estimate_id
             },
+            proposals_quantity: this.$route.params.proposals_quantity,
+            allow_similar: this.$route.params.allow_similar,
             imageProposal:[],
             imageEstimate:[]
         }

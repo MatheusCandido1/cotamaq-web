@@ -27,7 +27,7 @@
                 </div>
           </div>
         </div>
-          <button v-if="estimate.images.length > 0" @click="showModalImages" class=" w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
+            <button v-if="estimate.images.length > 0" @click="showModalImages" class=" w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
 
           <div>
             <div class="border-t-2"
@@ -47,9 +47,13 @@
                     <span class="mb-3 bg-primary-main rounded-lg px-2 py-1 text-center object-right-top text-white text-sm mr-1 font-bold">
                         {{ getValidProposals() }}
                     </span>
-                </div>   
+                </div>  
             </div> 
         </div>
+
+        <div v-if="getValidProposals() >= 1 && estimate.allow_similar === 0"  class=" w-full text-center bg-red-500 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">
+            Você já fez uma proposta
+        </div> 
 
           <div>
                 <div class="border-t-2"></div>  
@@ -99,9 +103,14 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
                                 </svg>
                             </button>
-                            <button v-tooltip="{ content: 'Criar nova proposta' }" @click="handleNewProposalClick"   class="bg-primary-main w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
-                                Nova Proposta
-                            </button>
+                            <div v-if="getValidProposals() >= 1 && estimate.allow_similar === 0">
+                                <span />
+                            </div>
+                            <div v-else>
+                                <button v-tooltip="{ content: 'Criar nova proposta' }" @click="handleNewProposalClick"   class="bg-primary-main w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+                                    Nova Proposta
+                                </button>
+                            </div>
                         </div>
 
                         <div v-if="formatStatus().id == 4" class="flex items-center space-x-1 text-sm">
@@ -210,7 +219,7 @@ export default {
             return this.sentProposals.length
         },
         handleProposalsBySellerClick() {
-            this.$router.push({name: 'ProposalsByEstimate', params: {estimate_id: this.estimate.id}})
+            this.$router.push({name: 'ProposalsByEstimate', params: {estimate_id: this.estimate.id }})
         },
         handleNewProposalClick() {
             if(this.estimate.status == 4){
