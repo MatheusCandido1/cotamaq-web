@@ -247,7 +247,13 @@
                 </h2>
                 </div>
                 <div class="py-1">
-                <span v-if="proposal.estimate.equipment != null"  @click="showEquipmentModal" class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer">Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i></span>
+                     <span v-if="estimate.equipment != null"
+                        class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer"
+                        @click="showEquipmentModal">Detalhes do Equipamento<i
+                        class="mdi mdi-file-search ml-2"></i></span>
+                    <span v-else
+                        class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-yellow-500 rounded-md cursor-pointer"><i
+                        class="mdi mdi-alert-octagon-outline mr-2"></i>Equipamento não informado</span>
                 </div>
             </div>
             <table v-if="order.proposal != null" class="w-full whitespace-no-wrap mb-2">
