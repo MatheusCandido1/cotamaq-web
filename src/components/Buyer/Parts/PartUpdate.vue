@@ -568,11 +568,12 @@ export default {
                     this.form.append('equipment_brand', this.equipment.brand);
                 }
             }
-            let Files = this.$store.getters.files
-
+          let Files = this.$store.getters.files
+          if(Files.length > 0 || Files != null ){
             Files.forEach((file) => {
               this.form.append('files[]', file.data)
             })
+          }
           this.$store.commit('setFiles', [])
 
 
