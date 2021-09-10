@@ -350,7 +350,7 @@
             </div>
           </div>
           <p>Anexar imagens na proposta</p>
-          <DropZone></DropZone>
+          <DropZone :images="0"></DropZone>
 
           <div class="-mx-3 md:flex mt-4">
             <div class="md:w-full px-3 flex justify-end gap-2">

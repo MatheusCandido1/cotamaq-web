@@ -342,7 +342,7 @@
                     </div>
 
           <p>Anexar imagens na proposta</p>
-          <DropZone></DropZone>
+          <DropZone :images="proposal.images.length"></DropZone>
           <p>Lista de imagens anexadas</p>
           <FileList :files="proposal.images" :type="'proposal'"></FileList>
 

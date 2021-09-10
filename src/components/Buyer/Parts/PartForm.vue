@@ -161,7 +161,7 @@
             </div>
         </div> -->
         <label>Imagens</label>
-        <Dropzone></Dropzone>
+        <Dropzone :images="0"></Dropzone>
 
         <div class="md:w-full px-3 mb-2 md:mb-0">
           <label for="allow_similar" class="flex justify-center text-lg font-semibold text-gray-600 px-1">

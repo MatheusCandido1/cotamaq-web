@@ -16,7 +16,6 @@
                             </svg>                     
                         <h1 class="font-semibold">Arraste e solte os arquivos aqui ou click</h1>
                       </div>
-
                     </div>
                     <div  class=" flex  flex-wrap justify-start " >
                         <div class="m-2  " v-for="(image,index) in files" :key="image.ids">
@@ -30,11 +29,7 @@
                             </dir>                       
                         </div>                                    
                     </div>
-
-                    
-
                 </div>
-             
 
                 <div v-else >
                     <div class="flex justify-center">
@@ -52,40 +47,51 @@
 
 <script>
     export default {
-        data() {
-            return {
-                files: [],
-                formData: new FormData()
-                
-            }
-        },
-        methods: {
-            deleteImage(index){
-                this.files.splice(index,1)
+      props: ['images'],
+      data() {
+        return {
+          files: [],
+          formData: new FormData()
+
+        }
+      },
+      methods: {
+        deleteImage(index) {
+          this.files.splice(index, 1)
                
             },                
             handlePreview(event) {
 
+              if(this.images >= 4){
+                return   this.$toast.error('Maximo de 4 imagens', {
+                  position: "bottom-right",
+                  pauseOnHover: false,
+                  showCloseButtonOnHover: true,
+                  timeout: 2500
+                });
+
+              }
+
               let files = event.target.files;
-
-
-
-
-                if(files.length > 4){
-                  return   this.$toast.error('Maximo de 4 imagens', {
-                    position: "bottom-right",
-                    pauseOnHover: false,
-                    showCloseButtonOnHover: true,
-                    timeout: 2500
-                  });
-                }
+              if(files.length > 4){
+                return   this.$toast.error('Maximo de 4 imagens', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+                });
+              }
+              var dif = 4 -  this.images
                 for (var i = 0; i < files.length; i++) {
-                    if(i <= 4){
+                    if(i <= 4 && i < dif){
+
                       if(files[i].type.match('image')){
-                        if(this.files.length < 4){
+                        console.log(this.files.length, 'diff', dif)
+
+                        if(this.files.length < 4  && this.files.length < dif ){
                           this.files.push({data:files[i], preview:URL.createObjectURL(files[i])})
                         }else {
-                          return   this.$toast.error('Maximo de 4 imagens', {
+                          return   this.$toast.error('Maximo de 4 imagens aqui', {
                             position: "bottom-right",
                             pauseOnHover: false,
                             showCloseButtonOnHover: true,
@@ -96,8 +102,8 @@
                     }
                 }
                 this.files = Array.from(this.files);
+                if(this.files.length >4  && this.files.length >= dif){
 
-                if(this.files.length >4){
                   return   this.$toast.error('Maximo de 4 imagens', {
                     position: "bottom-right",
                     pauseOnHover: false,
@@ -129,7 +135,7 @@
   cursor: pointer;
   margin-top: -10px;
   margin-left: -10px;
-  z-index: 10;
+  z-index: 2;
 }
 .dropzone {
   min-height: 200px;
@@ -147,10 +153,10 @@
   height: 120px;
   border-radius: 10px;
 }
-.delete{
-    z-index: 11;
-    top: 22px;
-    right: 10px;
+.delete {
+  z-index: 3;
+  top: 22px;
+  right: 10px;
 }
 
 @media(max-width: 768px){

@@ -646,6 +646,7 @@
     </div>
   </span>
 </template>
+<!-- Global site tag (gtag.js) - Google Analytics -->
 
 <script>
 import { userService, categoryService } from "../services";

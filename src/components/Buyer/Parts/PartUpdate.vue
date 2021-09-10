@@ -122,7 +122,7 @@
               <p v-if="files.length > 0" class="font-semibold">Imagens Salvas</p>
               <FileList :files="files" :type="'estimates'"></FileList>
               <p class="font-semibold">Inserir novas imagens</p>
-              <DropZone></DropZone>
+              <DropZone :images="files.length"></DropZone>
                 <div class="md:w-full px-3 mb-2 md:mb-0">
                   <label class="flex justify-center text-lg font-semibold text-gray-600 px-1" for="allow_similar">
                     Adicionar detalhes do Equipamento?
