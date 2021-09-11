@@ -364,12 +364,14 @@
           <div class="-mx-3 md:flex mt-4">
             <div class="md:w-full px-3 flex justify-end gap-2">
               <button
-                  class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center"
+                  v-bind:class="[estimate.allow_similar === 0 ? 'md:w-1/3' : 'md:w-1/6']"
+                  class="sm:w-full w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center"
                   type="button"
                   @click="goBack">
                 <span class="justify-center">Voltar</span>
               </button>
               <button
+                  v-if="estimate.allow_similar !== 0"
                   class="sm:w-full md:w-1/6 w-full flex items-center justify-center bg-gray-600 text-white font-semibold rounded hover:bg-gray-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center"
                   type="button"
                   @click="saveProposal">
