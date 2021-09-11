@@ -20,10 +20,13 @@ export const userService = {
     resetPassword,
     notifications,
     confirmEmail,
-    ReSendRecoverPassword
+    ReSendRecoverPassword,
+
+
 
 };
- 
+
+
 async function me() {
     return await axios.get(`${API_URL}/users/me`, {
         headers: { 

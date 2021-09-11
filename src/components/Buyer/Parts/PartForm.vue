@@ -619,7 +619,7 @@ export default {
       })
       this.$store.commit('setFiles', [])
 
-      this.$store.commit('setFiles', null)
+      // this.$store.commit('setFiles', null)
 
       this.loader.active = true
       estimateService.createEstimate(this.form).then((response) => {

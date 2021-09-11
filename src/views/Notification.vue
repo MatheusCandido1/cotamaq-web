@@ -15,10 +15,16 @@
            </div>
 
            <div v-if="filter == false">
+
                <section class="text-gray-600 body-font">
+
                  <div class="container  mx-auto flex flex-wrap flex-col">
+
                    <div class="flex mx-auto flex-wrap ">
+
+
                      <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
+
                        <i class="mdi mdi-email text-xl"></i>
                        <span class="ml-1">Notificações não lidas</span>
                        <span class="ml-1 inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-semibold leading-none text-white bg-primary-main rounded-full">{{notificationNotRead.length}}</span>
@@ -30,6 +36,9 @@
                    </div>
                  </div>
                </section>
+             <div class="sm:px-6 py-3 w-1/2 sm:w-auto cursor-pointer justify-start  title-font font-medium inline-flex items-center a rounded-ts">
+               <button @click="readAll" class="text-white text-sm font-semibold bg-primary-main text-md px-4 py-1 rounded-md mb-2">Marcar todas como lidas</button>
+             </div>
                <div class="flex  text-center w-full">
                  <div v-if="option == 1" class=" w-full">
                    <div class="   justify-start">
@@ -49,6 +58,7 @@
            <div v-else>
                <section class="text-gray-600 body-font">
                  <div class="container  mx-auto flex flex-wrap flex-col">
+
                    <div class="flex mx-auto flex-wrap ">
                      <div :class="option == 1 ? 'border-primary-main text-primary-main': 'border-gray-200 text-gray-800 hover:text-black'" @click="changeOption(1)" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center cursor-pointer sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none   tracking-wider rounded-t">
                        <i class="mdi mdi-email text-xl"></i>
@@ -62,6 +72,9 @@
                    </div>
                  </div>
                </section>
+             <div class="sm:px-6 py-3 w-1/2 sm:w-auto cursor-pointer justify-start  title-font font-medium inline-flex items-center a rounded-ts">
+               <button @click="readAll" class="text-white text-sm font-semibold bg-primary-main text-md px-4 py-1 rounded-md mb-2">Marcar todas como lidas</button>
+             </div>
                <div class="flex  text-center w-full">
                  <div v-if="option == 1" class=" w-full">
                    <div class="   justify-start">
@@ -84,7 +97,9 @@
 </template>
 <script>
 import NotificationItem from '../components/Shared/Notification/NotificationItem'
-  export default {
+import { notificationService  } from "../services";
+
+export default {
     name:"Notification",
     components: {
       NotificationItem
@@ -115,6 +130,24 @@ import NotificationItem from '../components/Shared/Notification/NotificationItem
       }
     },
     methods: {
+      readAll(){
+        this.notificationList.forEach((data)=>{
+              data.read = 1
+        })
+        this.$store.commit('setNotification', this.notificationList)
+        this.$toast.success('Todas notificações foram marcadas como lidas', {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 3500,
+        });
+
+
+        notificationService.allRead().then((data)=>{
+          console.log(data)
+        })
+
+      },
       filterNotification(filter){
         this.filter = true
         var list = []
