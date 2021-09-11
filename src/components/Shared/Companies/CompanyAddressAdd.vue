@@ -121,18 +121,18 @@
             </div>
 
             <div class="flex justify-end -mx-3">
-                <div  class="md:w-1/4 w-1/3 px-3 mb-5">
+                <!-- <div  class="md:w-1/4 w-1/3 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                     <div class="flex">
                     <label @click="setMain" class="inline-flex items-center cursor-pointer">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="md:h-6 md:w-6  h-10 w-10  " :class="{'text-green-500':address.main}" viewBox="0 0 20 20" fill="currentColor">
+                      <svg v-if="address.main" xmlns="http://www.w3.org/2000/svg" class="md:h-6 md:w-6  h-10 w-10  " :class="{'text-green-500':address.main}" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                       </svg>
-
-                        <span  class="ml-3 text-lg">Endereço padrão</span>
+                       <div v-else class="border-2 border-solid border-gray-700 rounded-full md:h-5 md:w-5  h-5 w-7" />
+                       <span  class="ml-3 text-lg">Endereço padrão</span>
                     </label>    
                     </div>                         
-                </div>
+                </div> -->
 
                 <div class="w-1/4 px-3 mb-5">
                     <label for="" class="text-xs font-semibold px-1"></label>
@@ -233,21 +233,12 @@ export default {
             },
         }
     },
-    created() {
-      if(this.selectedAddress.number == ''){
-        this.selectedAddress.number = 'Sem Número'
-      }
-    },
     methods: {
-        setSN(){
-            if (this.edit) {
-                this.selectedAddress.number = 'Sem Número'
-            }
+        setSN(){  
+            this.address.number = 'Sem Número' 
         },
         setMain(){
-            if (this.edit) {
-                this.address.main = !this.address.main
-            }
+            this.address.main = !this.address.main
         },
         async fillAddress() {
                 if(this.address.zipcode == ''){
