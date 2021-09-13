@@ -15,7 +15,7 @@
           </div>
           <!--body-->
           <div class="relative p-6 flex-auto bg-white" >
-                <form id="form" @submit.prevent="createAddress()">
+                <form @submit.prevent="createAddress()">
             <div class="md:flex md:flex-wrap -mx-3">
                 <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição do endereço</label>
@@ -91,22 +91,22 @@
                                         
                 </div>
                 
-                <div class="lg:w-1/4 md:w-1/2 sm:w-full px-3 mb-5 bg-white">
+                <div class="lg:w-1/4 md:w-1/2 w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Número</label>
-                    <div class="flex flex-wrap items-stretch w-full mb-4 relative">
-                <input @focusout="() => (errors.number = 'OK')"   v-model="address.number" :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'"  @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
-                <div class="flex -mr-px">
-                    <span :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'" class="flex items-center leading-normal bg-grey-lighter rounded-r border-b-2 shadow-md border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
-                        <label class="inline-flex items-center">
-                        <input  @focusout="() => (errors.number = 'OK')" v-model="numberless" @change="address.number = null" type="checkbox"  class="form-radio text-green-500">
-                        <span class="ml-3 text-lg">S/N</span>
-                    </label> 
-                    </span>  
-                </div>	
-                    <div  v-if="errors.number == 'ERROR'">
-                        <span class="text-xs text-red-400 font-semibold px-1">O campo Número é obrigatório.</span>
-                    </div>  
-            </div>    
+                        <div class="flex flex-wrap items-stretch w-full mb-4 relative">
+                        <input @focusout="() => (errors.number = 'OK')"   v-model="address.number" :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'"  @change="numberless = false" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter px-3 relative">
+                        <div class="flex -mr-px">
+                            <span :class="errors.number == 'ERROR' ? 'border-red-400':'border-primary-main'" class="flex items-center leading-normal bg-grey-lighter rounded-r border-b-2 shadow-md border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
+                                <label class="inline-flex items-center">
+        <!--                        <input  @focusout="() => (errors.number = 'OK')" v-model="numberless" @change="address.number = null" type="checkbox"  class="form-radio text-green-500">-->
+                                <span @click="setSN" class="ml-3 cursor-pointer text-lg">S/N</span>
+                            </label> 
+                            </span>  
+                        </div>	
+                        <div  v-if="errors.number == 'ERROR'">
+                                <span class="text-xs text-red-400 font-semibold px-1">O campo Número é obrigatório.</span>
+                        </div>  
+                    </div>    
                 </div>
 
 
@@ -121,15 +121,18 @@
             </div>
 
             <div class="flex justify-end -mx-3">
-                <div class="lg:w-1/4 md:w-1/3  px-3 mb-5">
+                <!-- <div  class="md:w-1/4 w-1/3 px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1"></label>
                     <div class="flex">
-                    <label class="inline-flex items-center">
-                        <input v-model="address.main" type="checkbox" class="form-radio h-6 w-6 text-green-500">
-                        <span class="ml-3 md:text-lg text-sm">Endereço padrão</span>
+                    <label @click="setMain" class="inline-flex items-center cursor-pointer">
+                      <svg v-if="address.main" xmlns="http://www.w3.org/2000/svg" class="md:h-6 md:w-6  h-10 w-10  " :class="{'text-green-500':address.main}" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                      </svg>
+                       <div v-else class="border-2 border-solid border-gray-700 rounded-full md:h-5 md:w-5  h-5 w-7" />
+                       <span  class="ml-3 text-lg">Endereço padrão</span>
                     </label>    
                     </div>                         
-                </div>
+                </div> -->
 
                 <div class="w-1/4 px-3 mb-5">
                     <label for="" class="text-xs font-semibold px-1"></label>
@@ -228,163 +231,160 @@ export default {
                 address: null,
                 number: null,
             },
-      }
-  },
-  methods: {
-    async fillAddress() {
-            if(this.address.zipcode == ''){
-                this.errors.zipcode = 'ERROR'
-            } else {
-                const res = await fetch(`https://viacep.com.br/ws/${ this.address.zipcode }/json`);
-                const data = await res.json();
+        }
+    },
+    methods: {
+        setSN(){  
+            this.address.number = 'Sem Número' 
+        },
+        setMain(){
+            this.address.main = !this.address.main
+        },
+        async fillAddress() {
+                if(this.address.zipcode == ''){
+                    this.errors.zipcode = 'ERROR'
+                } else {
+                    const res = await fetch(`https://viacep.com.br/ws/${ this.address.zipcode }/json`);
+                    const data = await res.json();
 
-                if(data.erro) {
-                    this.$toast.info('Nenhum endereço foi encontrado, preencha manualmente', {
+                    if(data.erro) {
+                        this.$toast.info('Nenhum endereço foi encontrado, preencha manualmente', {
+                            position: "bottom-right",
+                            pauseOnHover: false,
+                            showCloseButtonOnHover: true,
+                            timeout: 2500
+                        });
+                        this.address.zipcode = ''
+                        this.errors.zipcode = 'OK'
+                    } else {
+
+                    if(res){
+                        this.errors.zipcode = 'OK'
+                            if(data.uf != '') {
+                                this.address.state = data.uf
+                                this.errors.state = 'OK'
+                            }
+
+                            if(data.city != '') {
+                                this.address.city = data.localidade
+                                this.errors.city = 'OK'
+                            }
+
+                            if(data.bairro != '') {
+                                this.address.neighborhood = data.bairro
+                                this.errors.neighborhood = 'OK'
+                            }
+                                    
+                            if(data.logradouro != '') {
+                                this.address.address = data.logradouro
+                                this.errors.address = 'OK'
+                            }
+                        }
+                    }
+                }
+            },
+            createAddress() {
+                    this.$v.$touch()
+
+                    if(this.$v.address.description.$invalid) {
+                        this.errors.description = 'ERROR'
+                    } 
+
+                    if(this.$v.address.zipcode.$invalid) {
+                        this.errors.zipcode = 'ERROR'
+                    } 
+
+                    if(this.$v.address.state.$invalid) {
+                        this.errors.state = 'ERROR'
+                    } 
+
+                    if(this.$v.address.city.$invalid) {
+                        this.errors.city = 'ERROR'
+                    } 
+
+                    if(this.$v.address.neighborhood.$invalid) {
+                        this.errors.neighborhood = 'ERROR'
+                    } 
+                    
+                    if(this.$v.address.address.$invalid) {
+                        this.errors.address = 'ERROR'
+                    } 
+                    if(this.numberless == null || this.address.number == "") {
+                        this.errors.number = 'ERROR'
+                    } 
+
+                if(this.$v.$anyError == false) {
+                    var isNumberless= false
+                    if(this.numberless == true) {
+                        isNumberless = true
+                    }
+
+                    const data = {
+                        description: this.address.description,
+                        zipcode: this.address.zipcode,
+                        state: this.address.state,
+                        city: this.address.city,
+                        neighborhood: this.address.neighborhood,
+                        address: this.address.address,
+                        number: isNumberless ? 0:this.address.number,
+                        complement: this.address.complement,
+                        main: this.address.main
+                    }
+                    companyService.createAddress(data).then((response) => {
+                    this.$toast.success(response.success_message, {
                         position: "bottom-right",
                         pauseOnHover: false,
                         showCloseButtonOnHover: true,
                         timeout: 2500
                     });
-                    this.address.zipcode = ''
-                    this.errors.zipcode = 'OK'
-                } else {
-
-                if(res){
-                    this.errors.zipcode = 'OK'
-                        if(data.uf != '') {
-                            this.address.state = data.uf
-                            this.errors.state = 'OK'
-                        }
-
-                        if(data.city != '') {
-                            this.address.city = data.localidade
-                            this.errors.city = 'OK'
-                        }
-
-                        if(data.bairro != '') {
-                            this.address.neighborhood = data.bairro
-                            this.errors.neighborhood = 'OK'
-                        }
-                                
-                        if(data.logradouro != '') {
-                            this.address.address = data.logradouro
-                            this.errors.address = 'OK'
-                        }
-                    }
+                    this.edit = false;
+                    this.clearInputs();
+                    this.close()
+                    bus.$emit('updatedCompanyAddress', true);
+                    }).catch((error) => {
+                        console.log(error.response.data)
+                    })
                 }
-            }
-        },
-        createAddress() {
-                this.$v.$touch()
-
-                if(this.$v.address.description.$invalid) {
-                    this.errors.description = 'ERROR'
-                } 
-
-                if(this.$v.address.zipcode.$invalid) {
-                    this.errors.zipcode = 'ERROR'
-                } 
-
-                if(this.$v.address.state.$invalid) {
-                    this.errors.state = 'ERROR'
-                } 
-
-                if(this.$v.address.city.$invalid) {
-                    this.errors.city = 'ERROR'
-                } 
-
-                if(this.$v.address.neighborhood.$invalid) {
-                    this.errors.neighborhood = 'ERROR'
-                } 
-                
-                if(this.$v.address.address.$invalid) {
-                    this.errors.address = 'ERROR'
-                } 
-                if(this.numberless == null || this.address.number == "") {
-                    this.errors.number = 'ERROR'
-                } 
-
-            if(this.$v.$anyError == false) {
-                var isNumberless= false
-                if(this.numberless == true) {
-                    isNumberless = true
+            },
+            clearInputs() {
+                this.address = {
+                    description: '',
+                    zipcode: '',
+                    state: '',
+                    city: '',
+                    neighborhood: '',
+                    address: '',
+                    number: '',
+                    complement: '',
+                    main: false
                 }
-
-                const data = {
-                    description: this.address.description,
-                    zipcode: this.address.zipcode,
-                    state: this.address.state,
-                    city: this.address.city,
-                    neighborhood: this.address.neighborhood,
-                    address: this.address.address,
-                    number: isNumberless ? 0:this.address.number,
-                    complement: this.address.complement,
-                    main: this.address.main
-                }
-                companyService.createAddress(data).then((response) => {
-                this.$toast.success(response.success_message, {
-                    position: "bottom-right",
-                    pauseOnHover: false,
-                    showCloseButtonOnHover: true,
-                    timeout: 2500
-                });
-                this.edit = false;
-                this.clearInputs();
-                this.close()
-                bus.$emit('updatedCompanyAddress', true);
-                }).catch((error) => {
-                    console.log(error.response.data)
-                })
-            }else{
-              document.getElementById('form').scrollIntoView();
-
-              this.$toast.error('Preencha corretamente todos os campos', {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
-              });
-            }
+            },
+            close() {
+            this.$emit("close");
+            },
+            
         },
-        clearInputs() {
-            this.address = {
-                description: '',
-                zipcode: '',
-                state: '',
-                city: '',
-                neighborhood: '',
-                address: '',
-                number: '',
-                complement: '',
-                main: false
-            }
-        },
-        close() {
-        this.$emit("close");
-        },
-        
-    },
-    validations: {
-        address: {
-            description: {
-                required
-            },
-            zipcode: {
-                required
-            },
-            state: {
-                required
-            },
-            city: {
-                required
-            },
-            neighborhood: {
-                required
-            },
+        validations: {
             address: {
-                required
-            },
+                description: {
+                    required
+                },
+                zipcode: {
+                    required
+                },
+                state: {
+                    required
+                },
+                city: {
+                    required
+                },
+                neighborhood: {
+                    required
+                },
+                address: {
+                    required
+                },
+            }
         }
-    }
 };
 </script>
