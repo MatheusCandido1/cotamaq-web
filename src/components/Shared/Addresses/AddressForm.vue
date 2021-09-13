@@ -5,7 +5,7 @@
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Dados do endereço</h2>
             </div>
         </div>
-        <form @submit.prevent="createAddress()">
+        <form id="form" @submit.prevent="createAddress()">
         <div class="md:flex md:flex-wrap -mx-3">
             <div class="lg:w-1/4 md:w-1/2 w-full px-3 mb-5">
                 <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição do endereço</label>
@@ -321,6 +321,15 @@ export default {
                 }).catch((error) => {
                     console.log(error.response.data)
                 })
+            }else{
+              document.getElementById('form').scrollIntoView();
+
+              this.$toast.error('Preencha corretamente todos os campos', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+              });
             }
         },
         clearInputs() {

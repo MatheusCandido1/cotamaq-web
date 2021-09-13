@@ -36,7 +36,7 @@
                                    <p class="break-all"><span class="font-semibold">Marca: </span>{{formatMissingInformation(selectedProposal.brand)}}</p> 
                               </div>
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                                   <p class="break-all"><span class="font-semibold">Observação: </span>{{formatMissingInformation(selectedProposal.observation)}}</p>   
+                                   <p class="break-all"><span class="font-semibold">Observação: </span>{{formatMissingInformation(selectedProposal.observation)}}</p>
                               </div>
                               <button @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
                               <div class="border-t-2"></div>
@@ -45,22 +45,28 @@
                                 <button @click="handleAcceptOpenClick" class="flex-1 bg-primary-main font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2">Comprar</button>
 
                               </ul>
-                              
+
                               <div v-if="selectedProposal.status == 3 || selectedProposal.status == 4" class=" flex flex-row justify-end my-2 gap-2">
                                    <button :class="formatStatus(selectedProposal.status).bg" class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white">
                                         {{formatStatus(selectedProposal.status).text}}
                                    </button>
-                                   <button 
+                                   <button   v-tooltip="{ content: 'Visualizar Proposta' }"
                                         @click="handleDetailsClick"
                                         v-if="
                                              selectedProposal.status == 3 ||
-                                             selectedProposal.status == 4 
-                                        " 
+                                             selectedProposal.status == 4
+                                        "
                                         class="flex items-center justify-between px-2 py-2 bg-primary-lighter text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"/>
                                         </svg>
                                    </button>
+                                <button v-if="selectedProposal.order"  v-tooltip="{ content: 'Visualizar Pedido' }" @click="goOrder"
+                                        class="flex items-center justify-between px-2 py-2 bg-yellow-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                  </svg>
+                                </button>
                               </div>
                          </div>
                     </div>
@@ -112,6 +118,9 @@ export default {
 		formatMissingInformation,
 		formatCurrency,
 		formatDelivery,
+    goOrder(){
+        this.$router.push({name:'OrderDetails', params:{order_id:this.selectedProposal.order.id}})
+    },
           formatStatus(value) {
                let format = this.status.find(status => status.id == value)
                return format

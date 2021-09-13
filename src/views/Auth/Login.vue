@@ -9,7 +9,7 @@
                     <div class="text-center mb-10">
                         <img class="mb-3 mx-auto" style="height: 50px; width: auto" src="../../assets/images/logo-01.png" alt="">
                     </div>
-                    <form @submit.prevent="login">
+                    <form id="form" @submit.prevent="login">
                         <div class="-mx-3 md:flex mb-6">
                             <div class="md:w-full px-3 mb-2 md:mb-0">
                                 <label for="email" class="text-sm font-semibold text-gray-600 px-1">

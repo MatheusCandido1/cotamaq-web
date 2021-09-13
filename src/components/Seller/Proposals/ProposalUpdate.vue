@@ -20,7 +20,7 @@
                   class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-yellow-500 rounded-md cursor-pointer"><i
                 class="mdi mdi-alert-octagon-outline mr-2"></i>Equipamento não informado</span></div>
         </div>
-        <form @submit.prevent="showConfirmModal">
+        <form id="form" @submit.prevent="showConfirmModal">
           <div class="-mx-3 md:flex mb-6">
             <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1">
@@ -586,6 +586,15 @@ export default {
             if(this.$v.$anyError == false) {
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
+            }else{
+              document.getElementById('form').scrollIntoView();
+
+              this.$toast.error('Preencha corretamente todos os campos', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+              });
             }
 
         },

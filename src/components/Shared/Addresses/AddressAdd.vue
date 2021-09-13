@@ -15,7 +15,7 @@
           </div>
           <!--body-->
           <div class="relative p-6 flex-auto">
-                <form @submit.prevent="createAddress()">
+                <form id="form" @submit.prevent="createAddress()">
             <div class="md:flex md:flex-wrap -mx-3">
                 <div class="lg:w-1/4 md:w-1/2 w-full px-3 mb-5">
                     <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição do endereço</label>
@@ -347,6 +347,15 @@ export default {
                 this.close()
                 bus.$emit('updatedEstimateAddress', true);
                 })
+            }else{
+              document.getElementById('form').scrollIntoView();
+
+              this.$toast.error('Preencha corretamente todos os campos', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+              });
             }
         },
         clearInputs() {

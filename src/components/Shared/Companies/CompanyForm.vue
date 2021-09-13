@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800" >
-        <form @submit.prevent="updateCompany">
+        <form id="form" @submit.prevent="updateCompany">
                       <div class="flex -mx-3">
                         <div class="w-4/5 px-3 mb-5">
                             <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Seus Dados</h2>
@@ -207,6 +207,15 @@ export default {
                 }).catch((error) => {
                     console.log(error.response.data)
                 })
+            }else{
+              document.getElementById('form').scrollIntoView();
+
+              this.$toast.error('Preencha corretamente todos os campos', {
+                position: "bottom-right",
+                pauseOnHover: false,
+                showCloseButtonOnHover: true,
+                timeout: 2500
+              });
             }
         },
         enableEdit() {

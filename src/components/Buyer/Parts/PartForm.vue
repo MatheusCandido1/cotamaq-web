@@ -12,7 +12,7 @@
           </h2>
         </div>
       </div>
-      <form @submit.prevent="showConfirmModal">
+      <form id="form" @submit.prevent="showConfirmModal">
         <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/2 px-3 mb-2 md:mb-0">
             <label for="category_id" class="text-sm font-semibold text-gray-600 px-1">
@@ -348,6 +348,7 @@ export default {
     this.getEquipments()
     this.getCategories()
     this.getAddresses()
+
   },
   updated() {
     bus.$off('updatedEstimateAddress');
@@ -417,7 +418,11 @@ export default {
       categories: []
     }
   },
+  watch:{
+
+  },
   methods: {
+
     goback(){
       this.$router.push('/cotacoes')
     },
@@ -507,6 +512,15 @@ export default {
         this.getSelectedEquipment()
         this.modal.confirm = true;
         bus.$emit("ModalOpen", true);
+      }else{
+        document.getElementById('form').scrollIntoView();
+
+        this.$toast.error('Preencha corretamente todos os campos', {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 2500
+        });
       }
     },
     closeConfirmModal() {

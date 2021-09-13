@@ -28,7 +28,7 @@
 
 
       <div class="border-t-2 lg:px-3 "></div>
-      <div class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
+      <div v-if="!accept" class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
             <button v-tooltip="{ content: 'Ordernar Preço' }"    @click="handleSortPrice" :class="formatItem(2).bg"  class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi ml-2" :class="sortPrice"></i></button>
             <button  v-if="Discount" v-tooltip="{ content: 'Click para remove desconto a vista' }"   @click="removeDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">Remover desconto a vista<i class="mdi mdi-sort ml-2"></i></button>
             <button v-tooltip="{ content: 'Click para aplicar desconto a vista' }"  v-else  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
@@ -116,6 +116,7 @@ export default {
     data() {
         return {
         shiping:true,
+        accept:false,
         takeOut:false,
          sorting:{
            price:{
@@ -258,6 +259,14 @@ export default {
           this.estimate = response.data.data
           this.proposals = response.data.data.proposals
           this.proposals.filter(proposal => proposal.status == 2 ||  proposal.status == 3 || proposal.status == 4)
+
+          this.proposals.forEach((data)=>{
+
+            if(data.order != null){
+              this.accept = true;
+            }
+          })
+
 
           localStorage.setItem('bkp',JSON.stringify(this.proposals))
 

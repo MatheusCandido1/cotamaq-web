@@ -32,7 +32,7 @@
           "
         >
           <!--header-->
-          <form @submit.prevent="createEquipment">
+          <form id="form" @submit.prevent="createEquipment">
             <div
               class="
                 flex

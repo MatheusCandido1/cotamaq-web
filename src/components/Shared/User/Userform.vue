@@ -87,7 +87,16 @@ import { required } from 'vuelidate/lib/validators'
                      timeout: 2500
                    });
                  });
-            }
+            }else{
+                  document.getElementById('form').scrollIntoView();
+
+                  this.$toast.error('Preencha corretamente todos os campos', {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    showCloseButtonOnHover: true,
+                    timeout: 2500
+                  });
+                }
                 this.disabled = false
             }
         },

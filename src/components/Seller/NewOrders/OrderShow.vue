@@ -247,7 +247,7 @@
                 </h2>
                 </div>
                 <div class="py-1">
-                     <span v-if="estimate.equipment != null"
+                     <span v-if="order.proposal.estimate.equipment != null"
                         class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded  cursor-pointer"
                         @click="showEquipmentModal">Detalhes do Equipamento<i
                         class="mdi mdi-file-search ml-2"></i></span>

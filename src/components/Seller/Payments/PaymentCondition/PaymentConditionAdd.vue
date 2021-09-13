@@ -102,6 +102,15 @@ export default {
             this.disabled = false
             console.log(error.response.data)
         })
+        }else{
+          document.getElementById('form').scrollIntoView();
+
+          this.$toast.error('Preencha corretamente todos os campos', {
+            position: "bottom-right",
+            pauseOnHover: false,
+            showCloseButtonOnHover: true,
+            timeout: 2500
+          });
         }
     },
     clearInputs() {
