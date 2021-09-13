@@ -520,6 +520,7 @@
                   <span v-if="notificationNotRead.length > 0 " class="badge font-bold text-white">{{notificationNotRead.length}}</span>
                 </button>
                 <template v-if="isNotificationOpen">
+                  <div v-click-outside="onClickOutside">
                   <ul
                     transition:leave="transition ease-in duration-150"
                     transition:leave-start="opacity-100"
@@ -545,6 +546,7 @@
                      </button>
                     </div>
                   </ul>
+                  </div>
                 </template>
                
               </li>
@@ -562,7 +564,8 @@
 
                 </button>
 
-                <template v-click-outside="isProfileMenuOpen" v-if="isProfileMenuOpen"  >
+                <template v-if="isProfileMenuOpen">
+                  <div v-click-outside="onClickOutside">
                   <ul
                     transition:leave="transition ease-in duration-150"
                     transition:leave-start="opacity-100"
@@ -631,6 +634,7 @@
                       </a>
                     </li>
                   </ul>
+                  </div>
                 </template>
               </li>
             </ul>
@@ -655,7 +659,7 @@ import { bus } from "../main";
 import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
 window.Pusher = require('pusher-js');
 import { echoService } from '../services'
-import ClickOutside from 'vue-click-outside'
+import vClickOutside from 'v-click-outside'
 
 export default {
   name: "Layout",
@@ -664,7 +668,7 @@ export default {
     NotificationPreview
   },
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
   data() {
     return {
@@ -753,9 +757,10 @@ export default {
    
   },
   methods: {
-    ProfileCloneMenu(){
+    onClickOutside () {
+      // console.log('Clicked outside. Event: ', event)
       this.isProfileMenuOpen = false
-      console.log('click')
+      this.isNotificationOpen = false
     },
     deleteNotification(index){
       var list = this.$store.getters.notificationList
