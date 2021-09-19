@@ -59,6 +59,8 @@ import ProductItem from '../../../components/Buyer/NewEstimates/ProductItem'
 import NewProductItem from '../../../components/Buyer/NewEstimates/NewProductItem'
 import { estimateService } from '../../../services'
 import { bus } from '../../../main';
+import {viewService} from "../../../services";
+
 export default {
     name: 'NewEstimateIndex',
     components: {
@@ -67,6 +69,7 @@ export default {
     },
     created() {
         this.getParts();
+        viewService.setView('cotações')
     },
     updated() {
         bus.$off('updateProposalsByBuyer');

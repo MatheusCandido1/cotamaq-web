@@ -60,6 +60,7 @@
 import { userService } from '../../services'
 import { BarLoader } from '@saeris/vue-spinners'
 import { required } from 'vuelidate/lib/validators'
+import {viewService} from "../../services";
 
 export default {
 
@@ -85,7 +86,10 @@ export default {
             },
         }
     },
-    methods: {
+  created() {
+    viewService.setView('login')
+  },
+  methods: {
         login() {
             this.$v.$touch()
                 if(this.$v.user.email.$invalid) {

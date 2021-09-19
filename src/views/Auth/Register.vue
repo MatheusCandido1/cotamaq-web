@@ -121,6 +121,7 @@
 import { userService } from '../../services'
 import { BarLoader } from '@saeris/vue-spinners'
 import {TheMask} from 'vue-the-mask'
+import {viewService} from "../../services";
 
 export default {
     name: 'register',
@@ -144,7 +145,10 @@ export default {
             errors: {}
         }
     },
-    methods: {
+  created() {
+      viewService.setView('cadastro')
+  },
+  methods: {
         register() {
             this.loader.loading = true;
             const payload = {
