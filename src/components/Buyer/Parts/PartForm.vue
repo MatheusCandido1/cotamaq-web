@@ -568,6 +568,7 @@ export default {
       this.errors.part.allow_similar = 'OK'
       if (this.part.allow_similar == 1) {
         this.isSimilar = false
+        this.part.brand = ''
       } else {
         this.isSimilar = true
       }
