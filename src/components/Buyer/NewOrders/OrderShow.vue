@@ -19,7 +19,7 @@
             <div :class="formatStatus(order.status).bg" class="text-center my-5 w-full md:h-8 text-sm px-2 py-1.5 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
             </div> 
-            <a target="_blank" :href="'https://stage.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class="md:h-8 bg-gray-600 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white ml-2">
+            <a target="_blank" :href="'https://prod.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class="md:h-8 bg-gray-600 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
             </a> 
           </div>
@@ -47,7 +47,7 @@
           </div>
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
               <label for="description" class="text-sm font-semibold text-gray-600 px-1">
-                  CEP
+                  CEP{{seller.address.zipcode}}
               </label>
               <input disabled :value="formatMissingInformation(seller.address.zipcode)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
@@ -281,7 +281,7 @@ export default {
             this.order = res.order
             this.proposal = res.order.proposal
             this.seller = res.seller
-            this.seller.address = res.order.proposal.estimate.address
+            this.seller.address = res.seller.company.address ? null : []
             this.newSeller = res.newseller
             this.loader.loading = false;
             if(this.order.status == 2) {

@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         </div>
-                        <a target="_blank" :href="'https://stage.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600 my-5 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white md:ml-2 md:h-8">
+                        <a target="_blank" :href="'https://prod.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600 my-5 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white md:ml-2 md:h-8">
                             <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
                         </a> 
                 </div>
