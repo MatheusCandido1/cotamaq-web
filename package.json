@@ -8,6 +8,7 @@
     "dev": "vue-cli-service serve"
   },
   "dependencies": {
+    "@pusher/push-notifications-web": "^1.1.0",
     "@saeris/vue-spinners": "^1.0.8",
     "alpinejs": "^2.8.2",
     "autoprefixer": "^9.8.6",

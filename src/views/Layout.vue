@@ -653,13 +653,15 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 
 <script>
-import { userService, categoryService } from "../services";
-import { BarLoader } from "@saeris/vue-spinners";
-import { bus } from "../main";
+import {categoryService, echoService, userService} from "../services";
+import {BarLoader} from "@saeris/vue-spinners";
+import {bus} from "../main";
 import NotificationPreview from '../components/Shared/Notification/NotificationPreview'
-window.Pusher = require('pusher-js');
-import { echoService } from '../services'
 import vClickOutside from 'v-click-outside'
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
+import {API_URL} from "../API_URL";
+
+window.Pusher = require('pusher-js');
 
 export default {
   name: "Layout",
@@ -703,16 +705,54 @@ export default {
     
   },
  async mounted() {
-    await this.getUser()
-
+   await this.getUser()
    this.popupItem = this.$el
-          
-  },
+   console.log('conect to beams...')
+   var token = sessionStorage.getItem('token')
+
+
+   const beamsClient = new PusherPushNotifications.Client({
+     instanceId: '436a0f80-82f7-4398-84aa-b827fe408a56',
+   })
+
+
+   const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
+     url: `${API_URL}/auth/beams`,
+     headers: {
+       Authorization: token ? `Bearer ${token}` : null
+     }
+   });
+    console.warn(parseInt(this.user.id))
+  await beamsClient
+       .start()
+       .then(() => beamsClient.setUserId(this.user.id.toString(), beamsTokenProvider))
+       .catch(console.error);
+
+   console.log(beamsClient)
+
+   const currentUserId = this.user.id; // Get this from your auth system
+
+
+   beamsClient
+       .getUserId()
+       .then((userId) => {
+         // Check if the Beams user matches the user that is currently logged in
+         if (userId !== currentUserId) {
+           // Unregister for notifications
+           console.warn('dife')
+         }else {
+           console.log('igual')
+         }
+       })
+       .catch(console.error);
+ },
 
  async created() {
+
    echoService.connect()
 
-    bus.$off("ModalOpen");
+
+   bus.$off("ModalOpen");
     bus.$on("ModalOpen", (data) => {
       this.ModalOpen = data;
     });

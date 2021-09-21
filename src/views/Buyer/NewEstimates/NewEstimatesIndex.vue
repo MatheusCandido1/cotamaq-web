@@ -104,7 +104,7 @@ export default {
             orderedData:[],           
             MySearch:'',
             list:[],
-            filterDate:0
+            filterDate:2
 
         }
     },

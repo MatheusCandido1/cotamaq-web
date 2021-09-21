@@ -56,22 +56,37 @@
         </div> 
 
           <div>
-                <div class="border-t-2"></div>  
-                <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0" class="flex justify-between px-2 p-2">
-                    <button @click="handleDeclineOpenClick" class=" w-5/12 px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
-                        Recusar
-                    </button>
-                    <button @click="handleNewProposalClick" class=" w-5/12 px-1 py-1 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray">
-                        Cotar
-                    </button>  
+            <div class="border-t-2"></div>
+            <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0 && estimate.status != 4"
+                 class="flex justify-between px-2 p-2">
+              <button class=" w-5/12 px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                      @click="handleDeclineOpenClick">
+                Recusar
+              </button>
+              <button class=" w-5/12 px-1 py-1 bg-primary-main text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                      @click="handleNewProposalClick">
+                Cotar
+              </button>
+            </div>
+            <div v-if="estimate.status == 4"
+                 class="flex justify-between px-2 p-2">
+              <button class=" w-full px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                      @click="handleNewProposalClick">
+                Cotação indisponível! Fechada com outra revenda.
+              </button>
+
+            </div>
+
+
+            <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0"
+                 class="border-t-2"></div>
+
+            <div v-else class="flex justify-between px-2 ">
+              <div class="my-2">
+                <div :class="formatStatus().bg"
+                     class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+                  {{ formatStatus().text }}
                 </div>
-                <div v-if="estimate.proposals_by_seller && estimate.proposals_by_seller.length == 0" class="border-t-2"></div>  
-               
-                <div  v-else class="flex justify-between px-2 ">
-                    <div class="my-2">
-                        <div :class="formatStatus().bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
-                            {{formatStatus().text}}
-                        </div>
                     </div>
                     <div class="my-2 ml-2">
                         <!-- Se estiver aprovada -->
@@ -129,19 +144,19 @@
 
 <script>
 import EstimateDecline from './EstimateDecline';
-import { formatEquipment, formatSimillar, formatCurrency } from '@/helpers/string-helper';
-import { bus } from '../../../main';
-import { proposalService} from "../../../services";
+import {formatCurrency, formatEquipment, formatSimillar} from '@/helpers/string-helper';
+import {bus} from '../../../main';
+import {proposalService} from "../../../services";
 import EstimateShowImage from "../Estimates/EstimateShowImage";
 
 export default {
-    name: 'ProductItem',
-    props: ['estimate'],
-    components:{
-        EstimateDecline,
-        EstimateShowImage
-    },
-    created() {
+  name: 'ProductItem',
+  props: ['estimate'],
+  components: {
+    EstimateDecline,
+    EstimateShowImage
+  },
+  created() {
        this.getLowestTotal()
     },
     data() {

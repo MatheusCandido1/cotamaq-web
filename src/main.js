@@ -20,6 +20,10 @@ import "vue-toastification/dist/index.css";
 import VueLazyload from 'vue-lazyload'
 import Multiselect from 'vue-multiselect'
 
+
+
+
+
 Vue.config.productionTip = false;
   
 
