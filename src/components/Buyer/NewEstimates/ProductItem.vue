@@ -16,7 +16,7 @@
                      <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(estimate.quantity)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(estimate.allow_similar)}}</p> 
+                     <p><span class="font-bold">Aceita Similar:</span> {{formatSimilar(estimate.allow_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Marca:</span> {{formatMissingInformation(estimate.brand)}}</p> 
@@ -88,7 +88,7 @@
 
 <script>
 import { bus } from '../../../main';
-import { formatEquipment, formatSimillar, formatMissingInformation } from '@/helpers/string-helper';
+import { formatEquipment, formatSimilar, formatMissingInformation } from '@/helpers/string-helper';
 import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.vue'
 import DeletePartsModal from '../../../components/Buyer/Parts/PartDelete.vue'
 
@@ -121,7 +121,7 @@ export default {
     methods: {
         formatMissingInformation,
         formatEquipment,
-        formatSimillar,
+        formatSimilar,
         handleOrderClick() {
             this.$router.push({name: 'orders'})
         },

@@ -68,7 +68,7 @@
                 Cotar
               </button>
             </div>
-            <div v-if="estimate.status == 4"
+            <div v-if="estimate.status == 4 && approvedProposals.length == 0"
                  class="flex justify-between px-2 p-2">
               <button class=" w-full px-1 py-1 bg-red-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                       @click="handleNewProposalClick">

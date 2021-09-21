@@ -32,7 +32,7 @@
                      <p><span class="font-semibold">Valor Total: </span>{{formatCurrency(selectedProposal.total)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                     <p><span class="font-semibold">Peça Similar: </span>{{formatSimillar(selectedProposal.is_similar)}}</p> 
+                     <p><span class="font-semibold">Peça Similar: </span>{{formatSimilar(selectedProposal.is_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                      <p class="break-all"><span class="font-semibold">Marca: </span>{{selectedProposal.brand == null ? 'Não informado':selectedProposal.brand}}</p> 
@@ -81,7 +81,7 @@
 
 <script>
 import { bus } from '../../../main';
-import { formatSimillar, formatCurrency, formatDelivery } from '@/helpers/string-helper';
+import { formatSimilar, formatCurrency, formatDelivery } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
 import ProposalShowImages from "./ProposalShowImages";
 
@@ -110,7 +110,7 @@ export default {
         }
      },
      methods: {
-          formatSimillar,
+          formatSimilar,
           formatCurrency,
           formatDelivery,
           showModalImages(){
