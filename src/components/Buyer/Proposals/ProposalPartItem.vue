@@ -32,8 +32,11 @@
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                                    <p><span class="font-semibold">Peça Similar: </span>{{formatSimilar(selectedProposal.is_similar)}}</p> 
                               </div>
-                              <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                                   <p class="break-all"><span class="font-semibold">Marca: </span>{{formatMissingInformation(selectedProposal.brand)}}</p> 
+                              <div v-if="estimate.allow_similar == 0" class="flex space-x-2 text-gray-800 text-sm  my-1">
+                                   <p class="break-all"><span class="font-semibold">Marca: </span>{{formatMissingInformation(estimate.brand)}}</p>
+                              </div>
+                           <div v-else class="flex space-x-2 text-gray-800 text-sm  my-1">
+                                   <p class="break-all"><span class="font-semibold">Marca: </span>{{formatMissingInformation(selectedProposal.brand)}}</p>
                               </div>
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                                    <p class="break-all"><span class="font-semibold">Observação: </span>{{formatMissingInformation(selectedProposal.observation)}}</p>
@@ -79,13 +82,8 @@
 </template>
 
 <script>
-import { bus } from "../../../main";
-import {
-	formatSimilar,
-	formatMissingInformation,
-	formatCurrency,
-	formatDelivery
-} from "@/helpers/string-helper";
+import {bus} from "../../../main";
+import {formatCurrency, formatDelivery, formatMissingInformation, formatSimilar} from "@/helpers/string-helper";
 import ProposalAccept from "./ProposalAccept";
 import ProposalDecline from "./ProposalDecline";
 import ProposalShowImages from "./ProposalShowImages";
@@ -100,6 +98,7 @@ export default {
 	},
 	data() {
 		return {
+
                status: [
                     {id: 3, bg: 'bg-primary-main', text: 'Aprovada'},
                     {id: 4, bg: 'bg-red-600', text: 'Rejeitada por você'}

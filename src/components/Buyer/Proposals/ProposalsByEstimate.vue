@@ -115,6 +115,7 @@ export default {
    },
     data() {
         return {
+        brand:[],
         shiping:true,
         accept:false,
         takeOut:false,

@@ -1,23 +1,30 @@
-window.Pusher = require('pusher-js');
-import * as PusherPushNotifications from "@pusher/push-notifications-web";
-import {API_URL} from "../API_URL";
-
+import { refreshToken, authHeader } from '../helpers';
+import { API_URL } from '../API_URL.js'
+import axios from 'axios';
 
 export const beansService = {
-    connect,
+    send,
 };
-export function connect() {
-    console.log('conect to beams...')
-    var token = sessionStorage.getItem('token')
-
-    const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
-        url: `${API_URL}/auth/beams`,
+function send() {
+    return axios.post(`${API_URL}/auth/beams/send`,null, {
         headers: {
-            Authorization: token ? `Bearer ${token}`:null
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         }
-    });
-    localStorage.setItem('beamsToken',JSON.stringify(beamsTokenProvider))
-    console.log(localStorage.getItem('beamsToken'))
-    return beamsTokenProvider
+    }).then(handleResponse)
+}
+
+function handleResponse(response) {
+    const data = response.data;
+    if (response.status !== 200) {
+        if (response.status === 401) {
+            // auto logout if 401 response returned from api
+            refreshToken()
+        }
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+    }
+    return response;
 }
 

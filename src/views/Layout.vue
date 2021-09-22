@@ -714,6 +714,8 @@ export default {
    const beamsClient = new PusherPushNotifications.Client({
      instanceId: '436a0f80-82f7-4398-84aa-b827fe408a56',
    })
+   beamsClient.stop().then(console.log('Exit...')).catch(console.error);
+
 
 
    const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
@@ -723,28 +725,26 @@ export default {
      }
    });
     console.warn(parseInt(this.user.id))
-  await beamsClient
+   // beamsClient.stop().catch(console.error);
+   beamsClient
+       .getUserId()
+       .then((userId) => {
+         // Check if the Beams user matches the user that is currently logged in
+         if (userId !== this.user.id.toString()) {
+           // Unregister for notifications
+           return beamsClient.stop();
+         }
+       })
+       .catch(console.error);
+   await beamsClient
        .start()
        .then(() => beamsClient.setUserId(this.user.id.toString(), beamsTokenProvider))
        .catch(console.error);
 
    console.log(beamsClient)
 
-   const currentUserId = this.user.id; // Get this from your auth system
 
 
-   beamsClient
-       .getUserId()
-       .then((userId) => {
-         // Check if the Beams user matches the user that is currently logged in
-         if (userId !== currentUserId) {
-           // Unregister for notifications
-           console.warn('dife')
-         }else {
-           console.log('igual')
-         }
-       })
-       .catch(console.error);
  },
 
  async created() {
