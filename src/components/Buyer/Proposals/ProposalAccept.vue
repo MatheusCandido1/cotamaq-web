@@ -78,7 +78,7 @@ import {
 } from "@/helpers/string-helper";
 export default {
   name: "ProposalAccept",
-  props: ['proposal','discount'],
+  props: ['proposal','discount', 'delivery'],
   data() {
     return {
         selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),

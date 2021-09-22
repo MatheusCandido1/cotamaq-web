@@ -28,7 +28,8 @@
                 </div>
             </div>
             <ul @click="showTrackingModal" class="flex space-x-2 mb-2 justify-start my-3">
-                <button class="w-full text-center bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega</button>
+              <li v-if="order.delivery" class="w-full cursor-pointer text-center bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega </li>
+              <li v-else class="w-full text-center bg-orange-500 cursor-pointer text-sm px-2 py-1 font-medium text-white rounded-md"><i class=" mdi mdi-package-variant"></i> Retirada </li>
             </ul>
         </div>
         <div class="border-t-2"></div>

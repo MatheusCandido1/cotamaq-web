@@ -40,7 +40,7 @@
         <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
           <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6">
 
-            <ProposalPartItem v-for="proposal in proposals " :key="proposal.id" :discount="Discount"  :estimate="estimate"   :proposal="proposal" />
+            <ProposalPartItem v-for="proposal in proposals " :key="proposal.id" :discount="Discount" :delivery="shiping"  :estimate="estimate"   :proposal="proposal" />
             <!-- <ProposalPartItem v-for="proposal in sortDesc" :key="proposal.id" :estimate="estimate"  :proposal="proposal" /> -->
           </div>
         </div>

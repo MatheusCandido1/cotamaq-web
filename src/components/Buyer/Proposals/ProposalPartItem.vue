@@ -75,7 +75,7 @@
                     </div>
                </div>
           </div>
-          <ProposalAccept @close="handleAcceptCloseClick" v-if="modal.accept" :discount="discount"  :proposal="proposal" />
+          <ProposalAccept @close="handleAcceptCloseClick" v-if="modal.accept" :delivery="delivery" :discount="discount"  :proposal="proposal" />
           <ProposalDecline @close="handleDeclineCloseClick" v-if="modal.decline" :proposal="proposal" />
           <ProposalShowImages v-if="modal.images" :proposal="proposal" @close="handleImageCloseClick"></ProposalShowImages>
      </div>
@@ -90,7 +90,7 @@ import ProposalShowImages from "./ProposalShowImages";
 
 export default {
 	name: "ProposalPartItem",
-	props: ["estimate", "proposal",'discount'],
+	props: ["estimate", "proposal",'discount', 'delivery'],
 	components: {
 		ProposalDecline,
 		ProposalAccept,

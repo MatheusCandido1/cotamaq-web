@@ -28,7 +28,8 @@
                 </div>
             </div>
             <ul class="flex space-x-2 mb-2 justify-start my-3">
-                <li class="w-full text-center bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega</li>
+                <li v-if="order.delivery" class="w-full text-center cursor-pointer bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega </li>
+                <li v-else class="w-full text-center bg-orange-500 text-sm px-2 cursor-pointer py-1 font-medium text-white rounded-md"><i class=" mdi mdi-package-variant"></i> Retirada </li>
             </ul>
         </div>
         <div class="border-t-2"></div>
@@ -36,7 +37,7 @@
             <div class="my-2">
                 <div :class="formatStatus(order.status).bg" class="w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
                         <i class="text-white text-sm mr-2" :class="formatStatus(order.status).icon"> </i>{{formatStatus(order.status).text}}
-                    </div>
+                </div>
                 </div>
                 <div class="my-2 ml-2">
                     <div class="flex items-center space-x-1 text-sm">

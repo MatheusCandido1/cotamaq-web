@@ -4,7 +4,9 @@
             <div class="flex flex-col md:flex-row md:justify-between md:items-center">
                 <div class="py-1">
                     <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
-                        Pedido #{{order.id}} <span class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
+                        Pedido #{{order.id}}
+                      <span v-if="order.delivery" class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
+                      <span v-else class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Retirada</span>
                     </h2>
                     <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                 </div>
@@ -30,8 +32,8 @@
                                 <div class="">                                    
                                     <button v-if="order.status == 1" class="hover:bg-gray-100 text-black w-full flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-alert-octagon-outline mr-2"></i>Não Disponível</button>
                                     <button v-if="order.status == 2" @click="showStatusModal(3)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant-closed mr-2"></i>Em preparo</button>
-                                    <button v-if="order.status == 3" @click="showStatusModal(4)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-truck-fast-outline mr-2"></i>Em trânsito</button>
-                                    <button v-if="order.status == 4" @click="showStatusModal(5)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant mr-2"></i>Pronto para retirada</button>
+                                    <button v-if="order.status == 3 && order.delivery == 1" @click="showStatusModal(4)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-truck-fast-outline mr-2"></i>Em trânsito</button>
+                                    <button v-if="order.status == 3 && order.delivery == 0" @click="showStatusModal(5)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant mr-2"></i>Pronto para retirada</button>
                                 </div>
                             </div>
                         </div>

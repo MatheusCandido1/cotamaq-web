@@ -101,7 +101,7 @@
               <label class="text-sm font-semibold text-gray-600 px-1">
                   Vendedor
               </label>
-              <input disabled :value="formatMissingInformation(newSeller.name)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+              <input disabled :value="formatMissingInformation(seller.name)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
         </div>
       </form>
@@ -281,7 +281,12 @@ export default {
             this.order = res.order
             this.proposal = res.order.proposal
             this.seller = res.seller
-            this.seller.address = res.seller.company.address ? null : []
+
+            if(res.seller.company.address){
+              this.seller.address = res.seller.company.address
+            }else{
+              this.seller.address = []
+            }
             this.newSeller = res.newseller
             this.loader.loading = false;
             if(this.order.status == 2) {
