@@ -5,8 +5,8 @@
                :is-full-page="loader.fullPage"
                :loader="loader.loader"/>
       <div class="w-full my-6 px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <div class="flex justify-between">
-          <div class="py-1">
+        <div class="md:flex   justify-between">
+          <div class=" py-1">
             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
               Nova Proposta
             </h2>
@@ -132,11 +132,20 @@
             />
           </div>
 
-          <div class="flex mt-6 justify-start">
+          <div class="flex mt-6 ">
             <div class="py-1">
               <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
                 Cotar - {{ estimate.description }}
               </h2>
+            </div>
+          </div>
+          <div v-if="estimate.allow_similar == 0" class="md:w-1/4 px-3 mb-2 md:mb-0">
+            <label class="text-sm font-semibold text-blackpx-1">
+              Atenção!
+            </label>
+            <div
+                class="bg-red-500 w-full  flex justify-center items-center text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
+              Essa cotação não aceita similar
             </div>
           </div>
           <div class="-mx-3 md:flex mb-6">
@@ -194,16 +203,8 @@
                 <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Peça Similar é obrigatório.</span>
               </div>
             </div>
-            <div v-else class="md:w-1/4 px-3 mb-2 md:mb-0">
-              <label class="text-sm font-semibold text-blackpx-1">
-                Atenção!
-              </label>
-              <div
-                  class="bg-red-500 w-full  flex justify-center items-center text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white">
-                Essa cotação não aceita similar
-              </div>
-            </div>
-            <div v-if="estimate.allow_similar == 1 && proposal.is_similar == 1"
+
+            <div v-if="estimate.allow_similar == 1"
                  class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1" for="proposal_brand">
                 Marca
@@ -628,7 +629,7 @@ export default {
                 this.errors.proposal.total = 'ERROR'
             } 
 
-            if(this.estimate.allow_similar == 1) {
+
                 if(this.$v.proposal.is_similar.$invalid) {
                     this.errors.proposal.is_similar = 'ERROR'
                 }
@@ -636,7 +637,7 @@ export default {
                 if(this.$v.proposal.brand.$invalid) {
                     this.errors.proposal.brand = 'ERROR'
                 }
-            }
+
 
             if(this.$v.proposal.validity.$invalid) {
                 this.errors.proposal.validity = 'ERROR'
@@ -728,9 +729,7 @@ export default {
                     })
                 },
                 brand: {
-                    required: requiredIf(function() {
-                        return this.estimate.allow_similar == 1 && this.proposal.is_similar == 1
-                    })
+                    required
                 },
                 validity: {
                     required
