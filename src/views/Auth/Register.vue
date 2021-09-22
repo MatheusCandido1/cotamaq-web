@@ -11,7 +11,7 @@
                     </div>
                     <form @submit.prevent="register">
                         <div class="-mx-3 md:flex mb-6">
-                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                            <div class="w-full px-3 mb-2 md:mb-0">
                                 <label for="company_name" class="text-sm font-semibold text-gray-600 px-1">
                                     Nome ou Razão Social
                                 </label>
@@ -20,6 +20,8 @@
                                     <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.company_name[0]}}</span>
                                 </div> 
                             </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
                             <div class="md:w-1/2 px-3 mb-2 md:mb-0">
                                 <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                                     CPF/CNPJ
@@ -29,6 +31,15 @@
                                     <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.cnpj[0]}}</span>
                                 </div> 
                             </div>
+                            <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+                                <label for="phone" class="text-sm font-semibold text-gray-600 px-1">
+                                    Telefone
+                                </label>
+                                <the-mask :mask="['(##) #####-####', '(##) ####-####']"  @change="() => (errors.phone = null)" :class="errors.phone && errors.phone[0] ? 'border-red-400':'border-primary-main'" id="phone" v-model="phone"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter" ></the-mask>
+                                <div v-if="errors.phone" class="flex justify-center align-items">
+                                    <span class="text-xs text-red-400 font-semibold px-1 mt-1">{{errors.phone[0]}}</span>
+                                </div> 
+                            </div>    
                         </div>
                         <div class="-mx-3 md:flex mb-6">
                             <div class="md:w-1/2 px-3 mb-2 md:mb-0">
@@ -136,6 +147,7 @@ export default {
                 color: '#0bc95b',
             },
             company_name: null,
+            phone: null,
             cnpj: null,
             name: null,
             email: null,
@@ -153,6 +165,7 @@ export default {
             this.loader.loading = true;
             const payload = {
                 company_name: this.company_name,
+                phone: this.phone,
                 cnpj: this.cnpj,
                 name: this.name,
                 email: this.email,
