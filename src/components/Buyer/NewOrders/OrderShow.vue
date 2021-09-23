@@ -47,7 +47,7 @@
           </div>
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
               <label for="description" class="text-sm font-semibold text-gray-600 px-1">
-                  CEP{{seller.address.zipcode}}
+                  CEP
               </label>
               <input disabled :value="formatMissingInformation(seller.address.zipcode)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>

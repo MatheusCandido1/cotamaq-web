@@ -729,7 +729,9 @@ export default {
                     })
                 },
                 brand: {
-                    required
+                  required: requiredIf(function() {
+                    return this.estimate.allow_similar == 1
+                  })
                 },
                 validity: {
                     required

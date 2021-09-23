@@ -6,15 +6,15 @@
           <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
         <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none md:h-auto h-screen">
           <!--header-->
           <div class="flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 class="text-xl font-semibold">
-              Dados do endereço
+              Dados do endereço qq
             </h3>
           </div>
           <!--body-->
-          <div class="relative p-6 flex-auto">
+          <div class="relative p-6 flex-auto bg-white">
                 <form id="form" @submit.prevent="createAddress()">
             <div class="md:flex md:flex-wrap -mx-3">
                 <div class="lg:w-1/4 md:w-1/2 w-full px-3 mb-5">
@@ -148,7 +148,7 @@
             </form>
           </div>
           <!--footer-->
-          <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+          <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b bg-white">
             <button
               type="button"
               @click="close"
