@@ -34,6 +34,10 @@
                                     <button v-if="order.status == 2" @click="showStatusModal(3)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant-closed mr-2"></i>Em preparo</button>
                                     <button v-if="order.status == 3 && order.delivery == 1" @click="showStatusModal(4)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-truck-fast-outline mr-2"></i>Em trânsito</button>
                                     <button v-if="order.status == 3 && order.delivery == 0" @click="showStatusModal(5)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant mr-2"></i>Pronto para retirada</button>
+                                    <button v-if="order.status == 4 " class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"
+                                            role="menuitem"
+                                            @click="showStatusModal(6)"><i class="mdi mdi-package-variant mr-2"></i>Entregue
+                                    </button>
                                 </div>
                             </div>
                         </div>
