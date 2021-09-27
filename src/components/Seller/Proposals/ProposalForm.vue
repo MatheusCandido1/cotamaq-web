@@ -175,34 +175,7 @@
                 <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Subtotal é obrigatório.</span>
               </div>
             </div>
-            <div v-if="estimate.allow_similar == 1" class="md:w-1/4 px-3 mb-2 md:mb-0">
-              <label class="flex justify-center text-sm font-semibold text-gray-600 px-1" for="allow_similar">
-                Peça Similar
-              </label>
-              <div class="flex justify-center space-x-2 mt-2">
-                                <div>
-                                    <input @change="() => (errors.proposal.is_similar = 'OK')" v-model="proposal.is_similar"  value="1" class="hidden" id="is_similar_1" type="radio" name="is_similar">
-                                    <label class="flex h-8 p-1 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"  for="is_similar_1">
-                                        <span class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i class="mdi mdi-check text-gray-900 text-lg mr-1 ml-1"></i>Sim </span>
-                                    </label>
-                                </div>
-                <div>
-                  <input id="is_similar_2"
-                         v-model="proposal.is_similar" class="hidden" name="is_similar" type="radio"
-                         value="0" @change="() => (errors.proposal.is_similar = 'OK')">
-                  <label
-                      class="flex h-8 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"
-                      for="is_similar_2">
-                                    <span
-                                        class="flex items-center justify-center text-gray-900  text-sm font-semibold mr-1"><i
-                                        class="mdi mdi-close text-gray-900 text-lg mr-1 ml-1"></i>Não </span>
-                  </label>
-                </div>
-              </div>
-              <div v-if="errors.proposal.is_similar == 'ERROR'" class="flex justify-center align-items">
-                <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Peça Similar é obrigatório.</span>
-              </div>
-            </div>
+
 
             <div v-if="estimate.allow_similar == 1"
                  class="md:w-1/4 px-3 mb-2 md:mb-0">
@@ -471,7 +444,6 @@ export default {
         delivery: '',
         delivery_time: '',
         validity: '',
-        is_similar: '',
         brand: '',
         observation: '',
         discount: ''
@@ -484,7 +456,6 @@ export default {
           value: null,
           subtotal: null,
           total: null,
-          is_similar: null,
           brand: null,
           validity: null,
           delivery: null,
@@ -557,7 +528,6 @@ export default {
           this.form.append('delivery', this.proposal.delivery);
           this.form.append('delivery_time', this.proposal.delivery_time);
           this.form.append('validity', this.proposal.validity);
-          this.form.append('is_similar', this.proposal.is_similar);
           this.form.append('brand', this.proposal.brand);
           this.form.append('observation', this.proposal.observation);
           this.form.append('discount', this.proposal.discount);
@@ -627,14 +597,10 @@ export default {
 
             if(this.proposal.total == '0') {
                 this.errors.proposal.total = 'ERROR'
-            } 
+            }
 
 
-                if(this.$v.proposal.is_similar.$invalid) {
-                    this.errors.proposal.is_similar = 'ERROR'
-                }
-
-                if(this.$v.proposal.brand.$invalid) {
+          if(this.$v.proposal.brand.$invalid) {
                     this.errors.proposal.brand = 'ERROR'
                 }
 
@@ -679,7 +645,6 @@ export default {
           this.form.append('delivery', this.proposal.delivery);
           this.form.append('delivery_time', this.proposal.delivery_time);
           this.form.append('validity', this.proposal.validity);
-          this.form.append('is_similar', this.proposal.is_similar);
           this.form.append('brand', this.proposal.brand);
           this.form.append('observation', this.proposal.observation);
           this.form.append('discount', this.proposal.discount);
@@ -723,12 +688,8 @@ export default {
                 seller_id: {
                     required
                 },
-                is_similar: {
-                    required: requiredIf(function() {
-                        return this.estimate.allow_similar == 1
-                    })
-                },
-                brand: {
+
+              brand: {
                   required: requiredIf(function() {
                     return this.estimate.allow_similar == 1
                   })
