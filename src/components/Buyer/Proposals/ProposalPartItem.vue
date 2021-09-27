@@ -24,7 +24,7 @@
                                    <p><span class="font-semibold">Frete: </span>{{formatCurrency(selectedProposal.shipping)}}</p> 
                               </div>
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                                   <p><span class="font-semibold">Desconto a vista: </span>{{formatMissingInformation(selectedProposal.discount)}}</p> 
+                                   <p><span class="font-semibold">Desconto à vista: </span>{{formatMissingInformation(selectedProposal.discount)}}%</p> 
                               </div>
                               <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                                    <p><span class="font-semibold">Valor Total: </span>{{formatCurrency(selectedProposal.total)}}</p> 

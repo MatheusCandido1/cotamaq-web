@@ -28,18 +28,18 @@
     <v-table v-if="paymentConditions && paymentConditions.length !== 0" class="w-full whitespace-no-wrap" :data="paymentConditions" :hideSortIcons="true">
         <thead class="rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none no-selection" slot="head">
             <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                <v-th  class="text-center" sortKey="main">Padrão</v-th>
+                <!-- <v-th  class="text-center" sortKey="main">Padrão</v-th> -->
                 <v-th class="text-center" sortKey="description">Descrição</v-th>
                 <th class="text-center" >Ações</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" slot="body" slot-scope="{displayData}">
             <tr v-for="row in displayData" :key="row.id">
-                <td class="text-center">
+                <!-- <td class="text-center">
                     <span :class="formatDefault(row.main)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white cursor-pointer">
                         {{formatName(row.main)}}
                     </span>
-                </td>
+                </td> -->
                 <td class="text-sm text-center">{{row.description}}</td>
                 <td class="flex justify-center mt-2">
                     <div class="flex items-center space-x-4 text-sm">
