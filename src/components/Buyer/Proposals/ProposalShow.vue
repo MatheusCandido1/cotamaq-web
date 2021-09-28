@@ -151,7 +151,7 @@
                             <label for="proposal_brand" class="text-sm font-semibold text-gray-600 px-1">
                                 Marca
                             </label>
-                            <input id="proposal_brand" v-model="proposal.brand"  placeholder="" type="text" class="border-primary-mainw-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <input disabled id="proposal_brand" v-model="proposal.brand"  placeholder="" type="text" class="border-primary-main w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 
                         </div>
                     </div> 

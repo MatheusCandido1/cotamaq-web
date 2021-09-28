@@ -10,7 +10,7 @@
           <!--header-->
           <div class="flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 class="text-xl font-semibold">
-              Dados do endereço qq
+              Dados do endereço
             </h3>
           </div>
           <!--body-->

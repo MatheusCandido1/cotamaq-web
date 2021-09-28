@@ -1,14 +1,20 @@
 <template>
   <transition name="modal-fade">
-      <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+    <div
+      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+    >
       <div class="relative w-auto my-6 mx-auto max-w-6xl">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
           <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
         </div>
         <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+        <div
+          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+        >
           <!--header-->
-          <div class="flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+          <div
+            class="flex items-center justify-between p-5 border-b border-solid border-blueGray-200 rounded-t"
+          >
             <h3 class="text-xl font-semibold">
               Forma de pagamento
             </h3>
@@ -16,16 +22,25 @@
           <!--body-->
           <div class="relative p-6 flex-auto">
             <div class="flex -mx-3">
-                <div class="w-full px-3 mb-5">
-                    <label for="" class="text-sm font-semibold text-gray-600 px-1">Descrição da forma de pagamento</label>
-                    <div class="flex">
-                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                        <input v-model="selectedPaymentMethod.description"  placeholder="Exemplo: 30 dias" type="text" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                    </div>                         
+              <div class="w-full px-3 mb-5">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1"
+                  >Descrição da forma de pagamento</label
+                >
+                <div class="flex">
+                  <div
+                    class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                  ></div>
+                  <input
+                    v-model="selectedPaymentMethod.description"
+                    placeholder="Exemplo: 30 dias"
+                    type="text"
+                    class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"
+                  />
                 </div>
+              </div>
             </div>
 
-            <div class="flex -mx-3">
+            <!-- <div class="flex -mx-3">
                 <div class="w-full px-3 mb-5">
                     <div class="flex">
                       <label class="inline-flex items-center">
@@ -34,12 +49,12 @@
                       </label>    
                     </div>                         
                 </div>
-            </div>
-
-
+            </div> -->
           </div>
           <!--footer-->
-          <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+          <div
+            class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b"
+          >
             <button
               type="button"
               @click="close"
@@ -54,7 +69,6 @@
             >
               Atualizar
             </button>
-            
           </div>
         </div>
       </div>
@@ -62,36 +76,53 @@
   </transition>
 </template>
 <script>
-import { bus } from '../../../../main';
-import { paymentMethodService } from '../../../../services'
+import { bus } from "../../../../main";
+import { paymentMethodService } from "../../../../services";
 
 export default {
   name: "PaymentMethodDetails",
-  props: ['paymentMethod'],
+  props: ["paymentMethod"],
   data() {
-      return {
-          selectedPaymentMethod: JSON.parse(JSON.stringify(this.$props.paymentMethod))
-      }
+    return {
+      selectedPaymentMethod: JSON.parse(
+        JSON.stringify(this.$props.paymentMethod)
+      ),
+    };
   },
   methods: {
     updatePaymentMethod() {
-       const data = {
-            id: this.selectedPaymentMethod.id,
-            description: this.selectedPaymentMethod.description,
-            main: this.selectedPaymentMethod.main,
-        }
-        paymentMethodService.updatePaymentMethod(data).then((response) => {
+      if (
+        this.selectedPaymentMethod.description == "" ||
+        !this.selectedPaymentMethod.description
+      ) {
+        this.$toast.error("Preencha o campo corretamente.", {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 2500,
+        });
+      } else {
+        const data = {
+          id: this.selectedPaymentMethod.id,
+          description: this.selectedPaymentMethod.description,
+          main: this.selectedPaymentMethod.main,
+        };
+        paymentMethodService
+          .updatePaymentMethod(data)
+          .then((response) => {
             this.$toast.success(response.success_message, {
-                position: "bottom-right",
-                pauseOnHover: false,
-                showCloseButtonOnHover: true,
-                timeout: 2500
+              position: "bottom-right",
+              pauseOnHover: false,
+              showCloseButtonOnHover: true,
+              timeout: 2500,
             });
-            bus.$emit('updatePaymentMethod', true);
+            bus.$emit("updatePaymentMethod", true);
             this.close();
-        }).catch((error) => {
-            console.log(error.response.data)
-        })
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      }
     },
     close() {
       this.$emit("close");

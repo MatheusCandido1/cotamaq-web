@@ -30,8 +30,8 @@
       <div class="border-t-2 lg:px-3 "></div>
       <div v-if="!accept" class="flex flex-row justify-start gap-2 mt-2 lg:px-3 ">
             <button v-tooltip="{ content: 'Ordernar Preço' }"    @click="handleSortPrice" :class="formatItem(2).bg"  class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(2).text}}<i class="mdi ml-2" :class="sortPrice"></i></button>
-            <button  v-if="Discount" v-tooltip="{ content: 'Click para remove desconto a vista' }"   @click="removeDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">Remover desconto a vista<i class="mdi mdi-sort ml-2"></i></button>
-            <button v-tooltip="{ content: 'Click para aplicar desconto a vista' }"  v-else  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
+            <button  v-if="Discount" v-tooltip="{ content: 'Click para remove desconto à vista' }"   @click="removeDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">Remover desconto à vista<i class="mdi mdi-sort ml-2"></i></button>
+            <button v-tooltip="{ content: 'Click para aplicar desconto à vista' }"  v-else  @click="applyDiscont" :class="formatItem(3).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(3).text}}<i class="mdi mdi-sort ml-2"></i></button>
             <button v-tooltip="{ content: 'Retirar pessoalmente' }"   @click="setTakeOut"  :class="formatItem(4).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(4).text}}<i class="mdi mdi-checkbox-blank-outline  ml-2" :class="{'mdi-checkbox-marked':takeOut}"></i></button>
             <button v-tooltip="{ content: 'Solicitar Entrega ' }" @click="setShipping"    :class="formatItem(1).bg" class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2">{{formatItem(1).text}}<i class="mdi mdi-checkbox-blank-outline    ml-2" :class="{'mdi-checkbox-marked':shiping}"></i></button>
 
@@ -133,7 +133,7 @@ export default {
           formats: [
             {id: 1, bg: 'bg-primary-main', text: 'Entrega'},
             {id: 4, bg: 'bg-orange-500', text: 'Retirada'},
-            {id: 3, bg: 'bg-indigo-500', text: 'Aplicar Desconto a vista'},
+            {id: 3, bg: 'bg-indigo-500', text: 'Aplicar Desconto à vista'},
             {id: 2, bg: 'bg-blue-500', text: 'Preço'}
           ],
           // tipos: 'default', 'asc' e 'desc'
