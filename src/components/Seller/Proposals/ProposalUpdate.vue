@@ -266,7 +266,7 @@
                         </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                             <label for="discount" class="text-sm font-semibold text-gray-600 px-1">
-                              Desconto
+                              Desconto(%)
                             </label>
 
                           <div class="flex">

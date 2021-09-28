@@ -26,9 +26,20 @@
                 class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-primary-lighter sm:mx-0 sm:h-10 sm:w-10"
               >
                 <!-- Heroicon name: outline/exclamation -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-            </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                  />
+                </svg>
               </div>
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3
@@ -39,7 +50,8 @@
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-600">
-                   Tem certeza que deseja aprovar essa proposta e realizar a compra?
+                    Tem certeza que deseja aprovar essa proposta e realizar a
+                    compra?
                   </p>
                 </div>
               </div>
@@ -68,25 +80,25 @@
   </transition>
 </template>
 <script>
-import { bus } from '../../../main';
-import { proposalService } from '../../../services';
+import { bus } from "../../../main";
+import { proposalService } from "../../../services";
 import {
   formatSimilar,
   formatMissingInformation,
   formatCurrency,
-  formatDelivery
+  formatDelivery,
 } from "@/helpers/string-helper";
 export default {
   name: "ProposalAccept",
-  props: ['proposal','discount', 'delivery'],
+  props: ["proposal", "discount", "delivery", "shiping", "takeOut"],
   data() {
     return {
-        selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
-        disabled: false,
-    }
+      selectedProposal: JSON.parse(JSON.stringify(this.$props.proposal)),
+      disabled: false,
+    };
   },
   destroyed() {
-    this.close()
+    this.close();
   },
   methods: {
     formatSimilar,
@@ -97,21 +109,37 @@ export default {
       this.$emit("close");
     },
     acceptProposal() {
-      var data = {subtotal:this.proposal.subtotal ,discount:this.discount, takeOut:this.$store.getters.proposalTakeOut}
-      proposalService.approveProposalByBuyer(this.selectedProposal.id,data ).then((response) => {
-        this.$toast.success(response.success_message, {
+      if (!this.$props.shiping && !this.$props.takeOut) {
+        this.$toast.error("Você precisa escolher o método de entrega!", {
           position: "bottom-right",
           pauseOnHover: false,
           showCloseButtonOnHover: true,
-          timeout: 2500
+          timeout: 2500,
         });
-          bus.$emit('updateProposalsByBuyer', true);
-          this.close()
-          this.$router.push('/cotacoes')
-          this.disabled = false
-        }).catch((error) => {
-          console.log(error.response.data)
-        })
+      } else {
+        var data = {
+          subtotal: this.proposal.subtotal,
+          discount: this.discount,
+          takeOut: this.$store.getters.proposalTakeOut,
+        };
+        proposalService
+          .approveProposalByBuyer(this.selectedProposal.id, data)
+          .then((response) => {
+            this.$toast.success(response.success_message, {
+              position: "bottom-right",
+              pauseOnHover: false,
+              showCloseButtonOnHover: true,
+              timeout: 2500,
+            });
+            bus.$emit("updateProposalsByBuyer", true);
+            this.close();
+            this.$router.push("/cotacoes");
+            this.disabled = false;
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+      }
     },
   },
 };

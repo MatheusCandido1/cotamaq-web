@@ -245,7 +245,7 @@
             </div>
             <div class="md:w-1/6 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1" for="discount">
-                Desconto
+                Desconto(%)
               </label>
               <div class="flex">
                 <input id="discount" v-model="proposal.discount"
