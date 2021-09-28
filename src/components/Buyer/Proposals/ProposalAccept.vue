@@ -116,6 +116,7 @@ export default {
           showCloseButtonOnHover: true,
           timeout: 2500,
         });
+        this.close();
       } else {
         var data = {
           subtotal: this.proposal.subtotal,
