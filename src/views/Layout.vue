@@ -707,6 +707,7 @@ export default {
  async mounted() {
    await this.getUser()
    this.popupItem = this.$el
+
    console.log('conect to beams...')
    var token = sessionStorage.getItem('token')
 
@@ -830,7 +831,11 @@ export default {
         sessionStorage.setItem('userId', data.id)
         sessionStorage.setItem('categories', JSON.stringify(data.categories))
 
-        window.Echo.private(`user.${this.user.id}`).listen('.newNotification', event =>{             
+        window.Echo.private(`user.${this.user.id}`).listen('.newNotification', event =>{
+          var audio = new Audio(require('../assets/notification.wav'));
+          audio.play();
+
+          console.log(audio)
           this.notificationList.push(event.message)
           this.$store.commit('setNotification', this.notificationList)
           this.notification = true
@@ -871,7 +876,9 @@ export default {
         })
          if(data.categories != null && data.categories.length > 0){
            data.categories.forEach((data)=>{
-             window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{             
+             window.Echo.private(`category.${data.id}`).listen('.newEstimate', event =>{
+               var audio = new Audio(require('../assets/notification.wav'));
+               audio.play();
               this.notificationList.push(event.message)
               this.$store.commit('setNotification', this.notificationList)
               this.notification = true

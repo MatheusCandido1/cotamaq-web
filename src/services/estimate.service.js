@@ -10,7 +10,8 @@ export const estimateService = {
     updateEstimate,
     deleteEstimate,
     getAvailableEstimates,
-    deleteImage
+    deleteImage,
+    getReport
 };
 
 function getAvailableEstimates(data) {
@@ -34,6 +35,19 @@ function updateEstimate(id, data) {
     .then(response => {
         const data = response.data
         
+        return data;
+    })
+}
+function getReport() {
+    return axios.get(`${API_URL}/adm/estimate/report`, {
+        headers: {
+            ...authHeader(),
+            // 'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        const data = response.data
+
         return data;
     })
 }
