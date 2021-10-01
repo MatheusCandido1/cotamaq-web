@@ -10,7 +10,7 @@
                     </h2>
                     <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                 </div>
-                <div v-if="order.status != null" class="py-1 flex whitespace-nowrap flex-col md:flex-row">
+                <div v-if="order.status != null" class="py-1 flex items-center whitespace-nowrap flex-col md:flex-row">
                     <button v-if="order.status == 1" class="mr-2 pointer-events-none bg-yellow-500 mt-5 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white md:h-8">
                         <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Métodos e Condições de Pagamento <span class="font-bold"> NÃO </span> enviados</span>
                     </button>
@@ -19,7 +19,7 @@
                     </button> 
                     <div class=" relative inline-block text-left dropdown">
                             <span class="rounded-md shadow-sm"
-                            ><button :class="formatStatus(order.status).bg" class="md:h-8 inline-flex mt-5 text-white justify-center w-full px-4 py-1 text-sm font-medium leading-5 transition duration-150 ease-in-out border rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
+                            ><button :class="formatStatus(order.status).bg" class="md:h-8 inline-flex my-5 text-white justify-center w-full px-4 py-1 text-sm font-medium leading-5 transition duration-150 ease-in-out border rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
                                 <span>
                                     <i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>
                                     {{formatStatus(order.status).text}}
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         </div>
-                        <a target="_blank" :href="'https://prod.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600 my-5 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white md:ml-2 md:h-8">
+                        <a target="_blank" :href="'https://prod.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600  text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white md:ml-2 md:h-8">
                             <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
                         </a> 
                 </div>

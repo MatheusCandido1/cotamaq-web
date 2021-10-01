@@ -52,7 +52,7 @@
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
               <p>
                 <span class="font-semibold">Desconto à vista: </span
-                >{{ formatMissingInformation(selectedProposal.discount) }}%
+                >{{ formatDiscountPercent(selectedProposal.discount) }}
               </p>
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
@@ -203,6 +203,7 @@ import {
   formatDelivery,
   formatMissingInformation,
   formatSimilar,
+  formatDiscountPercent,
 } from "@/helpers/string-helper";
 import ProposalAccept from "./ProposalAccept";
 import ProposalDecline from "./ProposalDecline";
@@ -236,6 +237,7 @@ export default {
     formatMissingInformation,
     formatCurrency,
     formatDelivery,
+    formatDiscountPercent,
     goOrder() {
       this.$router.push({
         name: "OrderDetails",

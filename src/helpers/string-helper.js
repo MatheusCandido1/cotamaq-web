@@ -54,3 +54,11 @@ export const formatMissingInformation = (value) => {
         return value
     }
 }
+
+export const formatDiscountPercent = (value) => {
+    if(value == 'null' || value == null || value == '' || value == null){
+        return 'Não informado'
+    }else {
+        return `${value}%`
+    }
+}
