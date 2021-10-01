@@ -15,9 +15,14 @@
       <form id="form" @submit.prevent="showConfirmModal">
         <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+          <div class="flex items-center">
             <label for="category_id" class="text-sm font-semibold text-gray-600 px-1">
               Categoria
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Categoria em que sua cotação se aplica. A cotação irá aparecer para vendedores que selecionaram a categoria.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <select @change="() => (errors.part.category_id = 'OK')"
                     :class="errors.part.category_id == 'ERROR' ? 'border-red-400':'border-primary-main'"
                     id="category_id" v-model="part.category_id"
@@ -31,9 +36,14 @@
             </div>
           </div>
           <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+           <div class="flex items-center">
             <label for="category_id" class="text-sm font-semibold text-gray-600 px-1">
               Endereço
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Caso a cotação seja para entrega, o vendedor usará esse endereço para entregar o produto.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <div class="flex">
               <select v-model="part.address_id" @change="() => (errors.part.address_id = 'OK')"
                       :class="errors.part.address_id == 'ERROR' ? 'border-red-400':'border-primary-main'"
@@ -55,16 +65,26 @@
 
         <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+           <div class="flex items-center">
             <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
-              Código da peça
+              Código da peça (opcional)
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Código da peça que você deseja comprar.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <input id="part_code" v-model="part.part_code" placeholder="" type="text"
                    class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
           <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+          <div class="flex items-center">
             <label for="description" class="text-sm font-semibold text-gray-600 px-1">
               Descrição
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Breve descrição da cotação. Esse dado ficará no topo da cotação.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <input id="description" v-model="part.description" @change="() => (errors.part.description = 'OK')"
                    :class="errors.part.description == 'ERROR' ? 'border-red-400':'border-primary-main'" type="text"
                    class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
@@ -77,9 +97,14 @@
 
         <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+           <div class="flex items-center">
             <label for="quantity" class="text-sm font-semibold text-gray-600 px-1">
               Quantidade
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A quantidade de itens que você deseja comprar.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <input @change="() => (errors.part.quantity = 'OK')"
                    :class="errors.part.quantity == 'ERROR' ? 'border-red-400':'border-primary-main'" id="quantity"
                    v-model="part.quantity" min="1" type="number"
@@ -90,39 +115,60 @@
             </div>
           </div>
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+          <div>
             <label for="allow_similar" class="flex justify-center text-sm font-semibold text-gray-600 px-1">
               Aceita Similar
             </label>
             <div class="flex justify-center space-x-2 mt-2">
-              <div>
-                <input @change="handleSimilarClick()" v-model="part.allow_similar" value="1" class="hidden"
+              <div class="flex flex-col  items-center">
+               
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Marcando como SIM, significa que você aceita receber propostas de produtos de qualquer marca.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+
+                 <input @change="handleSimilarClick()" v-model="part.allow_similar" value="1" class="hidden"
                        id="similar_1" type="radio" name="similar">
+                
                 <label
                     class="flex h-8 p-1 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"
                     for="similar_1">
+                   
                   <span class="flex items-center justify-center text-gray-900 text-sm font-semibold mr-1"><i
                       class="mdi mdi-check text-gray-900 text-lg mr-1 ml-1"></i>Sim </span>
                 </label>
-              </div>
-              <div>
+             </div>
+              
+              <div class="flex flex-col items-center">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Marcando como NÃO, significa que você deseja receber propostas de produtos de uma marca específica.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+
                 <input @change="handleSimilarClick()" v-model="part.allow_similar" value="0" class="hidden"
                        id="similar_2" type="radio" name="similar">
+                
                 <label
                     class="flex h-8 p-2 border-2 border-gray-400 cursor-pointer rounded-md justify-items-center align-items-center"
                     for="similar_2">
                   <span class="flex items-center justify-center text-gray-900  text-sm font-semibold mr-1"><i
                       class="mdi mdi-close text-gray-900 text-lg mr-1 ml-1"></i>Não </span>
                 </label>
-              </div>
+             </div>
+             </div>
             </div>
             <div v-if="errors.part.allow_similar == 'ERROR'" class="flex justify-center align-items">
               <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Aceita Similar é obrigatório.</span>
             </div>
           </div>
           <div v-if="isSimilar" class="md:w-1/3 px-3 mb-2 md:mb-0">
+            <div class="flex items-center">
             <label for="brand" class="text-sm font-semibold text-gray-600 px-1">
               Marca
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A marca do produto que você deseja comprar.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <input id="brand" v-model="part.brand" @change="() => (errors.part.brand = 'OK')"
                    :class="errors.part.brand == 'ERROR' ? 'border-red-400':'border-primary-main'" placeholder=""
                    type="text"
@@ -135,9 +181,14 @@
         </div>
         <div class="-mx-3 md:flex mb-6">
           <div class="md:w-full px-3 mb-2 md:mb-0">
+            <div class="flex items-center">
             <label for="observation" class="text-sm font-semibold text-gray-600 px-1">
-              Observação
+              Observação (opcional)
             </label>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Observações adicionais da cotação.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+            </div>
             <textarea v-model="part.observation"
                       class="form-textarea mt-1 block resize-none w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"
                       rows="3" placeholder=""></textarea>
@@ -160,7 +211,12 @@
                 </div>
             </div>
         </div> -->
-        <label>Imagens</label>
+        <div class="flex items-center">
+          <label>Imagens (opcional)</label>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main ml-1" v-tooltip="{ content: 'Adicionar imagens para complementar sua cotação.' }"  viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+        </div>
         <Dropzone :images="0"></Dropzone>
 
         <div class="md:w-full px-3 mb-2 md:mb-0">
@@ -185,9 +241,15 @@
         <div v-if="equipmentForm == 1">
           <div class="-mx-3 md:flex mb-6">
             <div class="md:w-1/2 px-3 mb-2 md:mb-0">
-              <label for="description" class="text-sm font-semibold text-gray-600 px-1">
-                Descrição
-              </label>
+              <div class="flex items-center">
+                <label for="description" class="text-sm font-semibold text-gray-600 px-1">
+                  Descrição
+                </label>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Breve descrição do equipamento.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
+
               <input v-model="equipment.description" @change="() => (errors.equipment.description = 'OK')"
                      :class="errors.equipment.description == 'ERROR' ? 'border-red-400':'border-primary-main'"
                      placeholder="" type="text"
@@ -197,9 +259,14 @@
               </div>
             </div>
             <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+            <div class="flex items-center">
               <label for="patrimony" class="text-sm font-semibold text-gray-600 px-1">
-                Patrimônio
+                Patrimônio (opcional)
               </label>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Patrimônio do equipamento.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
               <input v-model="equipment.patrimony" id="patrimony" placeholder="" type="text"
                      class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
             </div>
@@ -207,16 +274,26 @@
 
           <div class="-mx-3 md:flex mb-6">
             <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+            <div class="flex items-center">
               <label for="model" class="text-sm font-semibold text-gray-600 px-1">
-                Modelo
+                Modelo (opcional)
               </label>
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Modelo do equipamento.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
               <input v-model="equipment.model" id="model" placeholder="" type="text"
                      class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
             </div>
             <div class="md:w-1/3 px-3 mb-2 md:mb-0">
-              <label for="brand" class="text-sm font-semibold text-gray-600 px-1">
-                Marca
-              </label>
+              <div class="flex items-center">
+                <label for="brand" class="text-sm font-semibold text-gray-600 px-1">
+                  Marca (opcional)
+                </label>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Marca do equipamento.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
               <input v-model="equipment.brand" id="brand" placeholder="" type="text"
                      class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
             </div>
@@ -227,7 +304,12 @@
                 <input v-model="equipment.year" id="year" placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
             </div> -->
             <div class="md:w-1/3 px-3 mb-2 md:mb-0">
-              <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano</label>
+              <div class="flex items-center">
+                <label for="" class="text-sm font-semibold text-gray-600 px-1">Ano (opcional)</label>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'Ano de fabricação do equipamento.' }"  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
               <div class="flex">
                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                 <the-mask @change.native="() => (errors.equipment.year = 'OK')"
