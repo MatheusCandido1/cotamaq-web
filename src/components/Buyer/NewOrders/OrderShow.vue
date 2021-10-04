@@ -278,21 +278,27 @@ export default {
         this.loader.loading = true;
           orderService.getOrderByBuyer(this.order.id).then((response) => {
             const res = response.data.data
-            this.order = res.order
-            this.proposal = res.order.proposal
-            this.seller = res.seller
+            const userId = localStorage.getItem('user_id')
 
-            if(res.seller.company.address){
-              this.seller.address = res.seller.company.address
-            }else{
-              this.seller.address = []
+            if(res.order.buyer_id != userId){
+              this.$router.push({name: 'NotFound'})
             }
-            this.newSeller = res.newseller
-            this.loader.loading = false;
-            if(this.order.status == 2) {
-              this.showPaymentModal()
-            }
+            else {
+              this.order = res.order
+              this.proposal = res.order.proposal
+              this.seller = res.seller
 
+              if(res.seller.company.address){
+                this.seller.address = res.seller.company.address
+              }else{
+                this.seller.address = []
+              }
+              this.newSeller = res.newseller
+              this.loader.loading = false;
+              if(this.order.status == 2) {
+                this.showPaymentModal()
+              }
+            }
           }).catch((error) => {
             console.log(error.response.data.error_message)
           })

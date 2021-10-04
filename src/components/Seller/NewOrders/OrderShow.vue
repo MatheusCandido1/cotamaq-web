@@ -613,23 +613,30 @@ export default {
       this.loader.loading = true;
       orderService.getOrderBySeller(this.order.id).then((response) => {
         const res = response.data.data
-        this.order = res.order
-        this.buyer = res.buyer
-        this.proposal = res.order.proposal
-        this.paymentMethods = res.paymentMethods
-        this.paymentConditions = res.paymentConditions
-        this.selectedPaymentMethods = res.selectedPaymentMethods
-        this.selectedPaymentConditions = res.selectedPaymentConditions
-        this.selectedPaymentConditionsName = res.selectedPaymentConditionsName
-        this.loader.loading = false;
+        const userId = localStorage.getItem('user_id')
 
-        if (this.order.status == 1) {
-          this.modal.status == 1
-          this.showAlertModal()
+        if(res.order.seller_id != userId){
+          this.$router.push({name: 'NotFound'})
         }
-        if (this.order.status == 2) {
-          this.modal.status == 2
-          this.showAlertModal()
+        else {
+          this.order = res.order
+          this.buyer = res.buyer
+          this.proposal = res.order.proposal
+          this.paymentMethods = res.paymentMethods
+          this.paymentConditions = res.paymentConditions
+          this.selectedPaymentMethods = res.selectedPaymentMethods
+          this.selectedPaymentConditions = res.selectedPaymentConditions
+          this.selectedPaymentConditionsName = res.selectedPaymentConditionsName
+          this.loader.loading = false;
+
+          if (this.order.status == 1) {
+            this.modal.status == 1
+            this.showAlertModal()
+          }
+          if (this.order.status == 2) {
+            this.modal.status == 2
+            this.showAlertModal()
+          }
         }
       }).catch((error) => {
                 console.log(error.response.data.error_message)

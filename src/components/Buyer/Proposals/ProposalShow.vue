@@ -369,13 +369,22 @@ export default {
         getProposal() {
             proposalService.getProposal(this.proposal.id).then((response) => {
                 const data = response.data
-                this.proposal = data.data;
-                this.estimate = data.data.estimate
-                this.seller = data.sellerz
-                this.estimateImages = data.data.estimate.images
-                this.proposalImages = data.data.images
+                const buyerId = data.data.estimate.user_id
+                const userId = localStorage.getItem('user_id')
+
+                if(buyerId != userId){
+                    this.$router.push({name: 'NotFound'})
+                }
+                else{
+                    this.proposal = data.data;
+                    this.estimate = data.data.estimate
+                    this.seller = data.sellerz
+                    this.estimateImages = data.data.estimate.images
+                    this.proposalImages = data.data.images
+                }
             }).catch((error) => {
                 console.log(error.response.data)
+                this.$router.push({name: 'NotFound'})
             })
         },
         goBack() {
