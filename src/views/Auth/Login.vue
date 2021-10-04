@@ -109,6 +109,7 @@ export default {
                         this.loader.loading = false;
                         this.$store.commit('STORE_USER', response);
                         this.$router.push('/cotacoes')
+                        localStorage.setItem('user_id', response.data.id)
 
                     }).catch((error) => {
                         const err = error.response.data.error

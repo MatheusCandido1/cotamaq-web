@@ -5,7 +5,7 @@ import Login from '../views/Auth/Login';
 import Register from '../views/Auth/Register';
 import RecoverPassword from '../views/Auth/RecoverPassword';
 import ResetPassword from '../views/Auth/ResetPassword';
-import Dashboard from '../views/Dashboard';
+//import Dashboard from '../views/Dashboard';
 import Orders from '../views/Orders';
 import Estimates from '../views/Estimates';
 import Company from '../views/Company';
@@ -24,6 +24,7 @@ import ProposalDetails from '../views/ProposalDetails'
 import OrderDetails from '../views/OrderDetails'
 import confirmEmail from '../views/Auth/confirmEmail.vue'
 import ReSendConfirm from '../views/Auth/ReSendConfirmationEmail'
+import NotFound from '../views/NotFound'
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -31,7 +32,7 @@ const routes = [
     path: '/',
     component: Layout,
     children: [
-      { path: '',  name: 'dashboard', component: Dashboard},
+      /*{ path: '',  name: 'dashboard', component: Dashboard},*/
       { path: '/pedidos',  name: 'orders', component: Orders, props: true},
       { path: '/cotacoes',  name: 'estimates', component: Estimates, props: true},
       { path: '/enderecos',  name: 'addresses', component: Addresses, props: true},
@@ -52,6 +53,11 @@ const routes = [
       {path:  '/usuarios',name:'usuarios', component:Users},
       {path:  '/notificacoes', name:'notifications', component:Notification},
     ]
+  },
+  {
+    path: '/not-found',
+    name: 'NotFound',
+    component: NotFound
   },
   {
     path: '/entrar',

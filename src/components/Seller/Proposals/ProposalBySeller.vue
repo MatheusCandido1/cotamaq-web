@@ -84,11 +84,14 @@ export default {
     methods: {
         getProposalsByEstimate() {
             proposalService.getProposalsByEstimate(this.estimate.id).then((response) => {
-
-              const data = response.data.data
-              this.proposals = data
-              this.estimate = this.proposals[0].estimate
-
+                if(response.data.data.length === 0){
+                    this.$router.push({name: 'NotFound'})
+                }
+                else{
+                    const data = response.data.data
+                    this.proposals = data
+                    this.estimate = this.proposals[0].estimate
+                }
             }).catch((error) => {
                 console.log(error.response.data)
             })

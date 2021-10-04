@@ -2,7 +2,16 @@
   <div>
     <div class="flex flex-col">
       <div
-        class="my-6 px-2 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+        class="
+          my-6
+          px-2
+          py-3
+          mb-8
+          bg-white
+          rounded-lg
+          shadow-md
+          dark:bg-gray-800
+        "
       >
         <div class="flex lg:px-3 justify-center">
           <div class="py-1">
@@ -15,7 +24,18 @@
           <div class="py-1 md:w-auto w-full">
             <span
               @click="showEstimateModal"
-              class=" items-center justify-center px-2 py-1 text-md font-bold rounded-md text-white bg-primary-main cursor-pointer"
+              class="
+                items-center
+                justify-center
+                px-2
+                py-1
+                text-md
+                font-bold
+                rounded-md
+                text-white
+                bg-primary-main
+                cursor-pointer
+              "
               >Cotação #{{ estimate.id }} - {{ estimate.description
               }}<i class="mdi mdi-file-search ml-2"></i
             ></span>
@@ -23,13 +43,35 @@
           <div class="py-1 md:w-auto w-full">
             <span
               v-if="estimate.equipment == null"
-              class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-orange-500 rounded-md cursor-pointer"
+              class="
+                items-center
+                justify-center
+                px-2
+                py-1
+                text-md
+                font-bold
+                text-white
+                bg-orange-500
+                rounded-md
+                cursor-pointer
+              "
               >Equipamento não informado<i class="mdi mdi-file-search ml-2"></i
             ></span>
             <span
               v-else
               @click="showEquipmentModal"
-              class="items-center justify-center px-2 py-1 text-md font-bold text-white bg-primary-main rounded-md cursor-pointer"
+              class="
+                items-center
+                justify-center
+                px-2
+                py-1
+                text-md
+                font-bold
+                text-white
+                bg-primary-main
+                rounded-md
+                cursor-pointer
+              "
               >Detalhes do Equipamento<i class="mdi mdi-file-search ml-2"></i
             ></span>
           </div>
@@ -37,10 +79,17 @@
 
         <div
           v-if="estimate.status !== 4 && estimate.status !== 5"
-          class="my-4 md:px-2 md:py-3  md:flex md:item-center"
+          class="my-4 md:px-2 md:py-3 md:flex md:item-center"
         >
           <h3
-            class="text-2xl md:mr-4 font-semibold md:text-center text-gray-700 dark:text-gray-200"
+            class="
+              text-2xl
+              md:mr-4
+              font-semibold
+              md:text-center
+              text-gray-700
+              dark:text-gray-200
+            "
           >
             Método de entrega:
           </h3>
@@ -49,11 +98,20 @@
             v-tooltip="{ content: 'Retirar pessoalmente' }"
             @click="setTakeOut"
             :class="formatItem(4).bg"
-            class="px-4 py-1 text-white text-sm font-semibold text-md mr-3 rounded-md mb-2"
+            class="
+              px-4
+              py-1
+              text-white text-sm
+              font-semibold
+              text-md
+              mr-3
+              rounded-md
+              mb-2
+            "
           >
             {{ formatItem(4).text
             }}<i
-              class="mdi mdi-checkbox-blank-outline  ml-2"
+              class="mdi mdi-checkbox-blank-outline ml-2"
               :class="{ 'mdi-checkbox-marked': takeOut }"
             ></i>
           </button>
@@ -61,11 +119,19 @@
             v-tooltip="{ content: 'Solicitar Entrega ' }"
             @click="setShipping"
             :class="formatItem(1).bg"
-            class="px-4 py-1 text-white text-sm font-semibold text-md  rounded-md mb-2"
+            class="
+              px-4
+              py-1
+              text-white text-sm
+              font-semibold
+              text-md
+              rounded-md
+              mb-2
+            "
           >
             {{ formatItem(1).text
             }}<i
-              class="mdi mdi-checkbox-blank-outline    ml-2"
+              class="mdi mdi-checkbox-blank-outline ml-2"
               :class="{ 'mdi-checkbox-marked': shiping }"
             ></i>
           </button>
@@ -74,23 +140,36 @@
         <div class="flex flex-row lg:px-3 justify-between mb-2 items-center">
           <div>
             <h2
-              class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200"
+              class="
+                text-2xl
+                font-semibold
+                text-center text-gray-700
+                dark:text-gray-200
+              "
             >
               Propostas
             </h2>
           </div>
         </div>
 
-        <div class="border-t-2 lg:px-3 "></div>
+        <div class="border-t-2 lg:px-3"></div>
         <div
           v-if="estimate.status !== 4 && estimate.status !== 5"
-          class="flex flex-row justify-start gap-2 mt-2 lg:px-3 "
+          class="flex flex-row justify-start gap-2 mt-2 lg:px-3"
         >
           <button
             v-tooltip="{ content: 'Ordernar Preço' }"
             @click="handleSortPrice"
             :class="formatItem(2).bg"
-            class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2"
+            class="
+              text-white text-sm
+              font-semibold
+              text-md
+              px-4
+              py-1
+              rounded-md
+              mb-2
+            "
           >
             {{ formatItem(2).text }}<i class="mdi ml-2" :class="sortPrice"></i>
           </button>
@@ -99,7 +178,15 @@
             v-tooltip="{ content: 'Click para remove desconto à vista' }"
             @click="removeDiscont"
             :class="formatItem(3).bg"
-            class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2"
+            class="
+              text-white text-sm
+              font-semibold
+              text-md
+              px-4
+              py-1
+              rounded-md
+              mb-2
+            "
           >
             Remover desconto à vista<i class="mdi mdi-sort ml-2"></i>
           </button>
@@ -108,7 +195,15 @@
             v-else
             @click="applyDiscont"
             :class="formatItem(3).bg"
-            class="text-white text-sm font-semibold text-md px-4 py-1 rounded-md mb-2"
+            class="
+              text-white text-sm
+              font-semibold
+              text-md
+              px-4
+              py-1
+              rounded-md
+              mb-2
+            "
           >
             {{ formatItem(3).text }}<i class="mdi mdi-sort ml-2"></i>
           </button>
@@ -117,7 +212,15 @@
         <div class="flex">
           <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
             <div
-              class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6"
+              class="
+                grid grid-cols-1
+                xs:grid-cols-1
+                sm:grid-cols-2
+                md:grid-cols-2
+                lg:grid-cols-2
+                xl:grid-cols-3
+                gap-x-6
+              "
             >
               <ProposalPartItem
                 v-for="proposal in proposals"
@@ -183,7 +286,7 @@ export default {
       };
     },
 
-    sortAsc: function() {
+    sortAsc: function () {
       let list = this.proposals;
       list = list.sort((a, b) => {
         if (a.total < b.total) {
@@ -197,7 +300,7 @@ export default {
 
       return list;
     },
-    sortDesc: function() {
+    sortDesc: function () {
       let list = this.proposals;
       list = list.sort((a, b) => {
         if (a.total > b.total) {
@@ -346,42 +449,46 @@ export default {
       estimateService
         .getEstimate(estimate_id)
         .then((response) => {
-          // console.log(response)
+          const data = response.data.data;
 
-          this.estimate = response.data.data;
-          this.proposals = response.data.data.proposals;
-          this.proposals.filter(
-            (proposal) =>
-              proposal.status == 2 ||
-              proposal.status == 3 ||
-              proposal.status == 4
-          );
+          if (!data || data.length == 0) {
+            this.$router.push({ name: "NotFound" });
+          } else {
+            this.estimate = response.data.data;
+            this.proposals = response.data.data.proposals;
+            this.proposals.filter(
+              (proposal) =>
+                proposal.status == 2 ||
+                proposal.status == 3 ||
+                proposal.status == 4
+            );
 
-          // this.proposals.forEach((data) => {
-          //   if (data.order != null) {
-          //     this.accept = true;
-          //   }
-          // });
+            // this.proposals.forEach((data) => {
+            //   if (data.order != null) {
+            //     this.accept = true;
+            //   }
+            // });
 
-          localStorage.setItem("bkp", JSON.stringify(this.proposals));
+            localStorage.setItem("bkp", JSON.stringify(this.proposals));
 
-          if (this.proposals.length == 0) {
-            this.$router.push("/cotacoes");
-            return this.$toast.error(
-              "Você ainda não recebeu nenhuma proposta para essa cotação.",
-              {
-                position: "bottom-right",
-                showCloseButtonOnHover: true,
-                timeout: 5000,
-              }
+            if (this.proposals.length == 0) {
+              this.$router.push("/cotacoes");
+              return this.$toast.error(
+                "Você ainda não recebeu nenhuma proposta para essa cotação.",
+                {
+                  position: "bottom-right",
+                  showCloseButtonOnHover: true,
+                  timeout: 5000,
+                }
+              );
+            }
+
+            this.proposalsDefaults = response.data.data.proposals;
+            localStorage.setItem(
+              "proposal",
+              JSON.stringify(response.data.data.proposals)
             );
           }
-
-          this.proposalsDefaults = response.data.data.proposals;
-          localStorage.setItem(
-            "proposal",
-            JSON.stringify(response.data.data.proposals)
-          );
         })
         .catch((error) => {
           console.log(error.response);

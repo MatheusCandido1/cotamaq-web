@@ -16,6 +16,9 @@ export default {
         },
         newEstimate(state){
             return state.newEstiamte
+        },
+        user(state){
+            return state.user
         }
     },    
 

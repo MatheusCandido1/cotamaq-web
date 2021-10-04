@@ -447,18 +447,31 @@ export default {
         getPart(id) {
             estimateService.getEstimate(id).then((response) => {
                 const data = response.data.data
-                this.part = data
-                this.files = data.images
-                this.oldEquipment = data.equipment
-                if(this.part.allow_similar == 1) {
-                    this.isSimilar = false
-                } else {
-                    this.isSimilar = true
+                const userId = localStorage.getItem('user_id')
+
+                if (!data || data.length == 0) {
+                    this.$router.push({name: 'NotFound'})
                 }
-                if(this.oldEquipment.id) {
-                    this.equipmentForm = 2
+                if (data.status != 1) {
+                    this.$router.push({name: 'NotFound'})
                 }
-                this.getSelectedEquipment()
+                if (data.user_id != userId) {
+                    this.$router.push({name: 'NotFound'})
+                }
+                else {
+                    this.part = data
+                    this.files = data.images
+                    this.oldEquipment = data.equipment
+                    if(this.part.allow_similar == 1) {
+                        this.isSimilar = false
+                    } else {
+                        this.isSimilar = true
+                    }
+                    if(this.oldEquipment.id) {
+                        this.equipmentForm = 2
+                    }
+                    this.getSelectedEquipment()
+                }
             }).catch((error) => {
                 console.log(error.response.data)
             })

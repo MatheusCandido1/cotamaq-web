@@ -492,10 +492,28 @@ export default {
             const estimate_id = this.$route.params.estimate_id
             estimateService.getEstimate(estimate_id).then((response) => {
               const data = response.data.data
-              this.estimate = data;
-              this.estimate.images.forEach((data) => {
-                this.estimateImages.push(data.image_path)
+              const userId = localStorage.getItem('user_id')
+
+              proposalService.getProposalsByEstimate(data.id).then((response) =>{
+                response.data.data.forEach((item) =>{
+                  if (item.user_id == userId){
+                    this.$router.push({name: 'NotFound'})
+                  }
+                })
               })
+
+              if (!data || data.length == 0) {
+                this.$router.push({name: 'NotFound'})
+              }
+              if (data.status == 4 || data.status == 5 || data.status == 1) {
+                this.$router.push({name: 'NotFound'})
+              }
+              else{
+                this.estimate = data;
+                this.estimate.images.forEach((data) => {
+                  this.estimateImages.push(data.image_path)
+                })
+              }
             }).catch((error) => {
                 console.log(error.response.data)
             })
