@@ -494,13 +494,15 @@ export default {
               const data = response.data.data
               const userId = localStorage.getItem('user_id')
 
-              proposalService.getProposalsByEstimate(data.id).then((response) =>{
-                response.data.data.forEach((item) =>{
-                  if (item.user_id == userId){
-                    this.$router.push({name: 'NotFound'})
-                  }
+              if (!data.allow_similar){
+                proposalService.getProposalsByEstimate(data.id).then((response) =>{
+                  response.data.data.forEach((item) =>{
+                    if (item.user_id == userId){
+                      this.$router.push({name: 'NotFound'})
+                    }
+                  })
                 })
-              })
+              }
 
               if (!data || data.length == 0) {
                 this.$router.push({name: 'NotFound'})
