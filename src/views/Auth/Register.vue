@@ -346,7 +346,6 @@ import { userService } from "../../services";
 import { BarLoader } from "@saeris/vue-spinners";
 import { TheMask } from "vue-the-mask";
 import { viewService } from "../../services";
-import { isValidCPF, isValidCNPJ } from "../../helpers/validations";
 
 export default {
   name: "register",
@@ -376,35 +375,6 @@ export default {
   },
   methods: {
     register() {
-      if (!this.cnpj || (this.cnpj.length !== 14 && this.cnpj.length !== 11)) {
-        this.$toast.error("Preencha o campo de CPF/CNPJ corretamente!", {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 2500,
-        });
-      } else if (this.cnpj.length === 11 && isValidCPF(this.cnpj) === false) {
-        this.$toast.error("CPF inválido!", {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 2500,
-        });
-      } else if (this.cnpj.length === 14 && isValidCNPJ(this.cnpj) === false) {
-        this.$toast.error("CNPJ inválido!", {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 2500,
-        });
-      } else if (this.phone.length !== 10 && this.phone.length !== 11) {
-        this.$toast.error("Telefone inválido!", {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 2500,
-        });
-      } else {
         this.loader.loading = true;
         const payload = {
           company_name: this.company_name,
@@ -433,7 +403,6 @@ export default {
             this.loader.loading = false;
             (this.password_confirmation = ""), (this.password = "");
           });
-      }
     },
   },
 };
