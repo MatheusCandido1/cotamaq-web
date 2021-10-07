@@ -639,10 +639,11 @@ export default {
                 } 
             }
             
-            if(this.$v.$anyError == false) {
+            if(parseFloat(this.proposal.discount) % 1 == 0 && this.$v.$anyError == false) {
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
-            }else{
+            }
+            else{
               document.getElementById('form').scrollIntoView();
 
               this.$toast.error('Preencha corretamente todos os campos', {
