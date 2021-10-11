@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="border-t-2"></div>
-        <div class="flex justify-between px-4">
+        <div class="flex justify-between px-4 cursor-pointer" @click="handleProposalClick">
             <div class="my-2">
                 <span class="font-semibold text-base mb-2">Propostas</span>
             </div>

@@ -36,10 +36,11 @@
                 && estimate.proposals_by_seller[0].status != 5"
             ></div>   
             <div 
+                @click="handleProposalsBySellerClick"
                 v-if="estimate.proposals_by_seller 
                 && estimate.proposals_by_seller.length > 0 
                 && estimate.proposals_by_seller[0].status != 5"
-                    class="flex justify-between px-2">
+                    class="flex justify-between px-2 cursor-pointer">
                 <div class="my-2">
                     <span class="font-semibold text-base mb-2">Propostas Enviadas</span>
                 </div>
