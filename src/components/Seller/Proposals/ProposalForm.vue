@@ -639,7 +639,7 @@ export default {
                 } 
             }
             
-            if(parseFloat(this.proposal.discount) % 1 == 0 && this.$v.$anyError == false) {
+            if(this.$v.$anyError == false) {
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
             }
