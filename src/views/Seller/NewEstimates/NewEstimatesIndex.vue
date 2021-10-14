@@ -5,7 +5,7 @@
                 <div class="w-full px-3 mb-5">
                     <h2 class="text-3xl font-semibold text-center text-primary-main dark:text-gray-200">
                         Suas Cotações
-                    </h2>
+                    </h2>z
                 </div>
             </div>
 
@@ -159,7 +159,7 @@ export default {
             estimateService.getAvailableEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
                 this.orderedData = this.days.sort(function(a, b) {
-                      return new Date(...b.split('/')) - new Date(...a.split('/'));
+                      return new Date(b) - new Date(a);
                 });
             }).catch((error) => {
                 console.log(error.response.data)

@@ -469,11 +469,12 @@ export default {
     formatMissingInformation,
     formatSimilar,
     showOrderPaymentConfirmModal() {
+
       if (this.selectedPaymentMethods.length == 0) {
-        this.errors.paymentMethod = 'ERROR'
+       return  this.errors.paymentMethod = 'ERROR'
       }
       if (this.selectedPaymentConditions.length == 0) {
-        this.errors.paymentCondition = 'ERROR'
+       return  this.errors.paymentCondition = 'ERROR'
       }
       if (this.selectedPaymentConditions.length > 0 && this.selectedPaymentConditions.length > 0) {
         this.modal.payment = true;

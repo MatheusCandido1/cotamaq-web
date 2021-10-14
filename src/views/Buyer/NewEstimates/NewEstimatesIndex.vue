@@ -158,7 +158,7 @@ export default {
             estimateService.getEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
                 this.orderedData = this.days.sort(function(a, b) {
-                      return new Date(...b.split('/')) - new Date(...a.split('/'));
+                  return new Date(b) - new Date(a);
                 });
             }).catch((error) => {
                 console.log('catch',error.response)
