@@ -84,10 +84,10 @@ export default {
             
             const days = new Set();
             this.products.forEach((product )=> {
-                if(product.created_at != this.today()){
+                if(this.formatDate(product.created_at) != this.today()){
                   days.add(this.today())                
                 }
-                days.add(product.created_at)
+                days.add(this.formatDate(product.created_at))
             })
 
             if(this.products.length == 0){        
@@ -174,7 +174,7 @@ export default {
         },
         dates(day) {
             return this.products
-                .filter(product => product.created_at === day)
+                .filter(product => this.formatDate(product.created_at) === this.formatDate(day))
                  .sort(function(a, b) {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })
