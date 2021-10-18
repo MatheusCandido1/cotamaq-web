@@ -5,7 +5,7 @@
                 <div class="w-full px-3 mb-5">
                     <h2 class="text-3xl font-semibold text-center text-primary-main dark:text-gray-200">
                         Suas Cotações
-                    </h2>z
+                    </h2>
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
             </div>
 
             <div v-for="(day, index) in orderedData" :key="index">
-                <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje':day}}</p>
+                <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje': formatDate(day)}}</p>
                 
                 <div class="border-t-2"></div>
                 <div class="flex ">
@@ -92,8 +92,8 @@ export default {
     computed: {
         days() {     
             const days = new Set();
-            this.products.forEach((product )=> {              
-                days.add(product.created_at)
+            this.products.forEach((product )=> {            
+                days.add(this.formatDate(product.created_at))
             })
             return Array.from(days);
         }
@@ -108,6 +108,11 @@ export default {
         }
     },
     methods: {
+        formatDate(date){
+            const formated = date.split('-');
+            const formatedIndex = formated[0];
+            return formatedIndex.trim();
+        },
          getSearch(){
             const list = [];
            if(this.MySearch.length == 0){
@@ -165,9 +170,10 @@ export default {
                 console.log(error.response.data)
             })
         },
-        dates(day) {
+        dates(value) {
+            const day = this.formatDate(value)
             return this.products
-                .filter(product => product.created_at === day)
+                .filter(product => this.formatDate(product.created_at) === day)
                  .sort(function(a, b) {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })

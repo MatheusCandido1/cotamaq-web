@@ -39,7 +39,7 @@
                 </div>  
             </div>
             <div v-for="(day, index) in orderedData" :key="index">
-                <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje':day}}</p>
+                <p class="ml-3 font-semibold text-black text-md">{{formatDate(day) == today() ? 'Hoje': formatDate(day)}}</p>
                 
                 <div class="border-t-2"></div>
                 <div class="flex ">
@@ -109,6 +109,11 @@ export default {
         }
     },
     methods: {
+        formatDate(date){
+            const formated = date.split('-');
+            const formatedIndex = formated[0];
+            return formatedIndex.trim();
+        },
         getSearch(){
            const list = [];
            if(this.MySearch.length == 0){
