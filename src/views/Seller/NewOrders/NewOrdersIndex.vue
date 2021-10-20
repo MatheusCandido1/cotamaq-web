@@ -41,7 +41,7 @@
                 </div>
          </div>
          <div v-for="(day, index) in orderedData" :key="index">
-         <p class="ml-3 font-semibold text-black text-md">{{ day == today() ? 'Hoje' : day }}</p>
+         <p class="ml-3 font-semibold text-black text-md">{{ formatDate(day) == today() ? 'Hoje' : formatDate(day) }}</p>
          <div class="border-t-2"></div>
          <div class="flex ">
             <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
@@ -88,7 +88,7 @@ export default {
     days() {
       const days = new Set();
       this.orders.forEach((order) => {
-        days.add(order.created_at)
+        days.add(this.formatDate(order.created_at))
       })
       return Array.from(days);
     }
@@ -103,6 +103,11 @@ export default {
     }
   },
   methods: {
+    formatDate(date){
+      const formated = date.split('-');
+      const formatedIndex = formated[0];
+      return formatedIndex.trim();
+    },
     getSearch() {
       const list = [];
 
@@ -164,7 +169,7 @@ export default {
     },
     dates(day) {
       return this.orders
-          .filter(order => order.created_at === day)
+          .filter(order => this.formatDate(order.created_at) === this.formatDate(day))
           .sort(function (a, b) {
             return new Date(b.created_at) - new Date(a.created_at);
           })
