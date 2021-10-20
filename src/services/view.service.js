@@ -5,11 +5,21 @@ import axios from 'axios';
 
 export const viewService = {
     setView,
-
+    setUserView,
 };
 
 function setView(data) {
     return axios.post(`${API_URL}/views/${data}`,null, {
+        headers: { 
+            ...authHeader(),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        }
+    }).then(handleResponse)
+}
+
+function setUserView(data) {
+    return axios.post(`${API_URL}/views/user/${data}`,null, {
         headers: { 
             ...authHeader(),
             'Accept': 'application/json',

@@ -70,6 +70,7 @@ export default {
     created() {
         this.getParts();
         viewService.setView('cotações')
+        viewService.setUserView('cotações');
     },
     updated() {
         bus.$off('updateProposalsByBuyer');
