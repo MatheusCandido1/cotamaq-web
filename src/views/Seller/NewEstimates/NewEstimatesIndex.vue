@@ -39,7 +39,7 @@
             </div>
 
             <div v-for="(day, index) in orderedData" :key="index">
-                <p class="ml-3 font-semibold text-black text-md">{{formatDate(day) == today() ? 'Hoje': formatDate(day)}}</p>
+                <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje': day}}</p>
                 
                 <div class="border-t-2"></div>
                 <div class="flex ">
@@ -94,7 +94,7 @@ export default {
         days() {     
             const days = new Set();
             this.products.forEach((product )=> {            
-                days.add(this.formatDate(product.created_at))
+                days.add(product.created_at)
             })
             return Array.from(days);
         }
@@ -109,11 +109,7 @@ export default {
         }
     },
     methods: {
-        formatDate(date){
-            const formated = date.split('-');
-            const formatedIndex = formated[0];
-            return formatedIndex.trim();
-        },
+
          getSearch(){
             const list = [];
            if(this.MySearch.length == 0){
@@ -164,6 +160,13 @@ export default {
         getParts() {
             estimateService.getAvailableEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
+                this.products.forEach((data)=>{
+                    if(data.created_at != null){
+                        const formated = data.created_at.split('-');
+                        const formatedIndex = formated[0];
+                        data.created_at = formatedIndex.trim()
+                    }
+                })
                 this.orderedData = this.days.sort(function(a, b) {
                       return new Date(b) - new Date(a);
                 });
@@ -173,7 +176,7 @@ export default {
         },
         dates(day) {
             return this.products
-                .filter(product => this.formatDate(product.created_at) === this.formatDate(day))
+                .filter(product => product.created_at === day)
                  .sort(function(a, b) {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })

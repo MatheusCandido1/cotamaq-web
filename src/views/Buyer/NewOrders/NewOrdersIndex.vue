@@ -48,7 +48,7 @@
 
 
             <div v-for="(day, index) in orderedData" :key="index">
-            <p class="ml-3 font-semibold text-black text-md">{{ formatDate(day) == today() ? 'Hoje' : formatDate(day) }}</p>
+            <p class="ml-3 font-semibold text-black text-md">{{ day == today() ? 'Hoje' : day }}</p>
             <div class="border-t-2"></div>
             <div class="flex ">
                 <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
@@ -69,117 +69,122 @@ import {orderService} from '../../../services'
 import {bus} from "../../../main";
 
 export default {
-  name: 'NewOrdersIndex',
-  components: {
-    OrderItem,
-  },
-  created() {
-    this.getOrders()
-  },
-  updated() {
-    bus.$off('updateProposalsByBuyer');
-    bus.$on('updateProposalsByBuyer', (data) => {
-      if (data) {
-        this.orders = []
+    name: 'NewOrdersIndex',
+    components: {
+        OrderItem,
+    },
+    created() {
         this.getOrders()
-      }
-    })
-  },
-  computed: {
-    days() {
-      const days = new Set();
-      this.orders.forEach((order) => {
-        days.add(this.formatDate(order.created_at))
-      })
-      return Array.from(days);
-    }
-  },
-  data() {
-    return {
-      modal: {
-        tracking: false,
-      },
-      orders: [],
-      orderedData: [],
-      filterDate: 0,
-      MySearch: '',
-      list: []
-    }
-  },
-  methods: {
-    formatDate(date){
-      const formated = date.split('-');
-      const formatedIndex = formated[0];
-      return formatedIndex.trim();
     },
-    getSearch() {
-      const list = [];
-
-      this.orders.forEach((data) => {
-
-        if (data.brand != null) {
-          if (data.proposal.estimate.brand.toLowerCase().match(this.MySearch.toLowerCase())) {
-            if (list.length > 0) {
-              if (list[list.length - 1].id != data.id) {
-                list.push(data);
-              }
-            } else {
-              list.push(data);
+    updated() {
+        bus.$off('updateProposalsByBuyer');
+        bus.$on('updateProposalsByBuyer', (data) => {
+            if (data) {
+                this.orders = []
+                this.getOrders()
             }
-          }
+        })
+    },
+    computed: {
+        days() {
+            const days = new Set();
+            this.orders.forEach((order) => {
+                days.add(order.created_at)
+            })
+            return Array.from(days);
         }
+    },
+    data() {
+        return {
+            modal: {
+                tracking: false,
+            },
+            orders: [],
+            orderedData: [],
+            filterDate: 0,
+            MySearch: '',
+            list: []
+        }
+    },
+    methods: {
 
-        if (data.proposal.estimate.description.toLowerCase().match(this.MySearch.toLowerCase())) {
-          if (list.length > 0) {
-            if (list[list.length - 1].id != data.id) {
-              list.push(data);
+        getSearch() {
+            const list = [];
+
+            this.orders.forEach((data) => {
+
+                if (data.brand != null) {
+                    if (data.proposal.estimate.brand.toLowerCase().match(this.MySearch.toLowerCase())) {
+                        if (list.length > 0) {
+                            if (list[list.length - 1].id != data.id) {
+                                list.push(data);
+                            }
+                        } else {
+                            list.push(data);
+                        }
+                    }
+                }
+
+                if (data.proposal.estimate.description.toLowerCase().match(this.MySearch.toLowerCase())) {
+                    if (list.length > 0) {
+                        if (list[list.length - 1].id != data.id) {
+                            list.push(data);
+                        }
+                    } else {
+                        list.push(data);
+                    }
+                }
+
+                if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase())) {
+                    if (list.length > 0) {
+                        if (list[list.length - 1].id != data.id) {
+                            console.log(data)
+                        }
+                    } else {
+                        list.push(data);
+                    }
+                }
+
+            });
+
+            if (this.MySearch.length == 0) {
+                return this.list = []
             }
-          } else {
-            list.push(data);
-          }
+            this.list = list;
+        },
+        getOrders() {
+            orderService.getOrdersByBuyer(this.filterDate).then((response) => {
+                this.orders = response.data.data
+                this.orders.forEach((data) => {
+                    if (data.created_at != null) {
+                        const formated = data.created_at.split('-');
+                        const formatedIndex = formated[0];
+                        data.created_at = formatedIndex.trim()
+                    }
+
+
+                })
+                this.orderedData = this.days.sort(function (a, b) {
+                    return new Date(b) - new Date(a);
+                });
+            }).catch((error) => {
+                console.log(error.response)
+            })
+        },
+        today() {
+            const current = new Date();
+            let date = current.toLocaleDateString('pt-BR');
+            return date
+        },
+        dates(day) {
+            return this.orders
+                .filter(order => order.created_at === day)
+                .sort(function (a, b) {
+                    return new Date(b.created_at) - new Date(a.created_at);
+                })
+                .map(order => order)
         }
-
-        if (data.proposal.estimate.category.name.toLowerCase().match(this.MySearch.toLowerCase())) {
-          if (list.length > 0) {
-            if (list[list.length - 1].id != data.id) {
-              console.log(data)
-            }
-          } else {
-            list.push(data);
-          }
-        }
-
-      });
-
-      if (this.MySearch.length == 0) {
-        return this.list = []
-      }
-      this.list = list;
     },
-    getOrders() {
-      orderService.getOrdersByBuyer(this.filterDate).then((response) => {
-        this.orders = response.data.data
-        this.orderedData = this.days.sort(function (a, b) {
-          return new Date(b) - new Date(a);
-        });
-      }).catch((error) => {
-        console.log(error.response)
-      })
-    },
-    today() {
-      const current = new Date();
-      let date = current.toLocaleDateString('pt-BR');
-      return date
-    },
-    dates(day) {
-      return this.orders
-          .filter(order => this.formatDate(order.created_at) === this.formatDate(day))
-          .sort(function (a, b) {
-            return new Date(b.created_at) - new Date(a.created_at);
-          })
-          .map(order => order)
-    }
-  },
 }
 </script>
 

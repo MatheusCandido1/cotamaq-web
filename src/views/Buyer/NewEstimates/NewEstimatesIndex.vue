@@ -18,7 +18,7 @@
             <div class="flex justify-end">
                 <div class="w-1/1 px-3 mb-5 ">
 
-                    <label for="" class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
+                    <label  class=" text-sm  font-semibold text-gray-600 px-1">Exibir</label>
                     <div class="flex">
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
                              <select @change="getParts" v-model="filterDate"  class="w-full bg-none -ml-10 pl-2    px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  border-primary-lighter">
@@ -39,13 +39,13 @@
                 </div>  
             </div>
             <div v-for="(day, index) in orderedData" :key="index">
-                <p class="ml-3 font-semibold text-black text-md">{{formatDate(day) == today() ? 'Hoje': formatDate(day)}}</p>
+                <p class="ml-3 font-semibold text-black text-md">{{day == today() ? 'Hoje': day}}</p>
                 
                 <div class="border-t-2"></div>
                 <div class="flex ">
                     <div class="w-full lg:px-3 lg:mb-5 xl:px-3 xl:mb-5">
                         <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-6">
-                            <NewProductItem v-if="formatDate(day) == today()"  @click="handleNewPartClick" />
+                            <NewProductItem v-if="day == today()"  @click="handleNewPartClick" />
                             <ProductItem v-for="(model, innerIndex) in dates(day)"   :key="innerIndex"  :estimate="model" />
                         </div>
                     </div>
@@ -85,10 +85,10 @@ export default {
             
             const days = new Set();
             this.products.forEach((product )=> {
-                if(this.formatDate(product.created_at) != this.today()){
+                if(product.created_at != this.today()){
                   days.add(this.today())                
                 }
-                days.add(this.formatDate(product.created_at))
+                days.add(product.created_at)
             })
 
             if(this.products.length == 0){        
@@ -163,11 +163,18 @@ export default {
         getParts() {
             estimateService.getEstimates(this.filterDate).then((response) => {
                 this.products = response.data.data
+                this.products.forEach((data)=>{
+                    if(data.created_at != null){
+                        const formated = data.created_at.split('-');
+                        const formatedIndex = formated[0];
+                        data.created_at = formatedIndex.trim()
+                    }
+
+
+                })
                 this.orderedData = this.days.sort(function(a, b) {
                   return new Date(b) - new Date(a);
                 });
-            }).catch((error) => {
-                console.log('catch',error.response)
             })
         },
         handleNewPartClick() {
@@ -175,7 +182,7 @@ export default {
         },
         dates(day) {
             return this.products
-                .filter(product => this.formatDate(product.created_at) === this.formatDate(day))
+                .filter(product => product.created_at === day)
                  .sort(function(a, b) {
                     return new Date(b.created_at) - new Date(a.created_at);
                 })
