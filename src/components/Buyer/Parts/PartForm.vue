@@ -116,9 +116,9 @@
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
             <div class="flex items-center">
               <label for="category_id" class="text-sm font-semibold text-gray-600 px-1">
-                Unidade de medida (opcional)
+                Unidade (opcional)
               </label>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A unidade de medida correspondente a quantidade do produto.' }"  viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A unidade correspondente a quantidade do produto.' }"  viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
               </svg>
               </div>
