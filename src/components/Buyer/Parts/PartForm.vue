@@ -64,7 +64,7 @@
         </div>
 
         <div class="-mx-3 md:flex mb-6">
-          <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+          <div class="md:w-1/3 px-3 mb-2 md:mb-0">
            <div class="flex items-center">
             <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
               Código da peça (opcional)
@@ -76,7 +76,7 @@
             <input id="part_code" v-model="part.part_code" placeholder="" type="text"
                    class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
-          <div class="md:w-1/2 px-3 mb-2 md:mb-0">
+          <div class="md:w-1/3 px-3 mb-2 md:mb-0">
           <div class="flex items-center">
             <label for="description" class="text-sm font-semibold text-gray-600 px-1">
               Descrição
@@ -92,16 +92,12 @@
               <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Descrição é obrigatório.</span>
             </div>
           </div>
-        </div>
-
-
-        <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
            <div class="flex items-center">
             <label for="quantity" class="text-sm font-semibold text-gray-600 px-1">
               Quantidade
             </label>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A quantidade de itens que você deseja comprar.' }"  viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A quantidade que você deseja comprar.' }"  viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
             </svg>
             </div>
@@ -113,6 +109,26 @@
             <div v-if="errors.part.quantity == 'ERROR'" class="flex justify-center align-items">
               <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Quantidade é obrigatório.</span>
             </div>
+          </div>
+        </div>
+
+        <div class="-mx-3 md:flex mb-6">
+          <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+            <div class="flex items-center">
+              <label for="category_id" class="text-sm font-semibold text-gray-600 px-1">
+                Unidade de medida (opcional)
+              </label>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A unidade de medida correspondente a quantidade do produto.' }"  viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+              </svg>
+              </div>
+              <select
+                      id=" measurementUnit_id" v-model="part.measurement_unit"
+                      class="w-full border-primary-main pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                <option disabled value=""> Selecione...</option>
+                <option v-for="item in measurementUnit" :key="item.id" :value="item.id">{{ item.value }}
+                </option>
+              </select>
           </div>
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
           <div>
@@ -459,6 +475,14 @@ export default {
       isSimilar: false,
       equipmentForm: null,
       form: new FormData,
+      measurementUnit: [
+        {id: 1, value: 'Grama (g)'},
+        {id: 2, value: 'Quilograma (kg)'},
+        {id: 3, value: 'Metro (m)'},
+        {id: 3, value: 'Milímetro (mm)'},
+        {id: 3, value: 'Centímetro (cm)'},
+        {id: 3, value: 'Polegada (pol)'},
+      ],
       part: {
         part_code: '',
         description: '',
@@ -470,6 +494,7 @@ export default {
         delivery: '',
         equipment_id: '',
         address_id: '',
+        measurement_unit: null,
       },
       equipmentInfo: null,
       oldEquipment: null,
