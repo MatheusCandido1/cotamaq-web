@@ -479,9 +479,9 @@ export default {
         {id: 1, value: 'Grama (g)'},
         {id: 2, value: 'Quilograma (kg)'},
         {id: 3, value: 'Metro (m)'},
-        {id: 3, value: 'Milímetro (mm)'},
-        {id: 3, value: 'Centímetro (cm)'},
-        {id: 3, value: 'Polegada (pol)'},
+        {id: 4, value: 'Milímetro (mm)'},
+        {id: 5, value: 'Centímetro (cm)'},
+        {id: 6, value: 'Polegada (pol)'},
       ],
       part: {
         part_code: '',
@@ -716,6 +716,7 @@ export default {
       this.form.append('brand', this.part.brand);
       this.form.append('address_id', this.part.address_id);
       this.form.append('category_id', this.part.category_id);
+      this.form.append('measurement_unit', this.part.measurement_unit);
       this.form.append('status', 1);
 
       if (this.equipmentForm == 2) {
@@ -772,6 +773,7 @@ export default {
       this.form.append('brand', this.part.brand);
       this.form.append('address_id', this.part.address_id);
       this.form.append('category_id', this.part.category_id);
+      this.form.append('measurement_unit', this.part.measurement_unit);
       this.form.append('status', 2);
 
       if (this.equipmentForm == 2) {
