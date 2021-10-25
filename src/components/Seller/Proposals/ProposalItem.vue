@@ -40,6 +40,12 @@
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
                      <p class="break-all"><span class="font-semibold">Observação: </span>{{selectedProposal.observation == null ? 'Não informado':selectedProposal.observation}}</p> 
                 </div>
+                <div class="flex space-x-2 text-gray-800 text-sm  my-1">
+                     <p class="break-all"><span class="font-semibold">Cidade: </span>{{selectedProposal.user.company.address.city == null ? 'Não informado':selectedProposal.user.company.address.city}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm  my-1">
+                     <p class="break-all"><span class="font-semibold">CEP: </span>{{selectedProposal.user.company.address.zipcode == null ? 'Não informado':formatZipcode(selectedProposal.user.company.address.zipcode)}}</p> 
+                </div>
                 <button @click="showModalImages" class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2">Visualizar Fotos</button>
 
                 <div class="border-t-2"></div>
@@ -81,7 +87,7 @@
 
 <script>
 import { bus } from '../../../main';
-import { formatSimilar, formatCurrency, formatDelivery } from '@/helpers/string-helper';
+import { formatSimilar, formatCurrency, formatDelivery, formatZipcode } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
 import ProposalShowImages from "./ProposalShowImages";
 
@@ -113,6 +119,7 @@ export default {
           formatSimilar,
           formatCurrency,
           formatDelivery,
+          formatZipcode,
           showModalImages(){
 
             bus.$emit('ModalOpen', true)

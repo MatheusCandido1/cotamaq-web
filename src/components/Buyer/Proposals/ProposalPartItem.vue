@@ -88,6 +88,12 @@
                 >{{ formatMissingInformation(selectedProposal.observation) }}
               </p>
             </div>
+            <div class="flex space-x-2 text-gray-800 text-sm  my-1">
+                <p class="break-all"><span class="font-semibold">Cidade: </span>{{selectedProposal.user.company.address.city == null ? 'Não informado':selectedProposal.user.company.address.city}}</p> 
+            </div>
+            <div class="flex space-x-2 text-gray-800 text-sm  my-1">
+                <p class="break-all"><span class="font-semibold">CEP: </span>{{selectedProposal.user.company.address.zipcode == null ? 'Não informado':formatZipcode(selectedProposal.user.company.address.zipcode)}}</p> 
+            </div>
             <button
               @click="showModalImages"
               class="flex-1 w-full bg-gray-600 font-semibold text-white text-xs text-md px-4 py-2 rounded-md mb-2"
@@ -204,6 +210,7 @@ import {
   formatMissingInformation,
   formatSimilar,
   formatDiscountPercent,
+  formatZipcode,
 } from "@/helpers/string-helper";
 import ProposalAccept from "./ProposalAccept";
 import ProposalDecline from "./ProposalDecline";
@@ -216,6 +223,9 @@ export default {
     ProposalDecline,
     ProposalAccept,
     ProposalShowImages,
+  },
+  created(){
+    this.teste()
   },
   data() {
     return {
@@ -238,11 +248,15 @@ export default {
     formatCurrency,
     formatDelivery,
     formatDiscountPercent,
+    formatZipcode,
     goOrder() {
       this.$router.push({
         name: "OrderDetails",
         params: { order_id: this.selectedProposal.order.id },
       });
+    },
+    teste(){
+      console.log(this.selectedProposal)
     },
     formatStatus(value) {
       let format = this.status.find((status) => status.id == value);
