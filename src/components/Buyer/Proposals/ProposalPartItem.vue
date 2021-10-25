@@ -224,9 +224,6 @@ export default {
     ProposalAccept,
     ProposalShowImages,
   },
-  created(){
-    this.teste()
-  },
   data() {
     return {
       status: [
@@ -254,9 +251,6 @@ export default {
         name: "OrderDetails",
         params: { order_id: this.selectedProposal.order.id },
       });
-    },
-    teste(){
-      console.log(this.selectedProposal)
     },
     formatStatus(value) {
       let format = this.status.find((status) => status.id == value);
