@@ -50,8 +50,11 @@
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Descrição:</span> {{formatMissingInformation(selectedEstimate.description)}}</p> 
                           </div>
-                          <div class="flex space-x-2 text-gray-800 text-sm">
+                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(selectedEstimate.quantity)}}</p> 
+                          </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm">
+                              <p><span class="font-bold">Unidade:</span> {{formatMissingInformation(selectedEstimate.measure)}}</p> 
                           </div>
                     </div>
                   </div>

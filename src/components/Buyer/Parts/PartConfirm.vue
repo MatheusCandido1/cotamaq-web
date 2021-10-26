@@ -52,9 +52,13 @@
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Quantidade:</span> {{selectedPart.quantity}}</p> 
                           </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                              <p><span class="font-bold">Unidade:</span> {{selectedPart.measure}}</p> 
+                          </div>
                           <div v-if="categories.length > 0" class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Categoria:</span> {{categories.find(category => category.id == selectedPart.category_id).name}}</p> 
                           </div>
+                          
                           
                     </div>
                   </div>
