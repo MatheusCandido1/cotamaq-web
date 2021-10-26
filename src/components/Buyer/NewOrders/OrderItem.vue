@@ -18,6 +18,9 @@
                      <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(order.proposal.estimate.quantity)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                     <p><span class="font-bold">Unidade:</span> {{formatMissingInformation(order.proposal.estimate.measure)}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Peça Similar:</span> {{formatSimilar(order.proposal.is_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">

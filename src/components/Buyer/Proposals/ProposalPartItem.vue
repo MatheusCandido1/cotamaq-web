@@ -39,6 +39,12 @@
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
               <p>
+                <span class="font-semibold">Unidade: </span
+                >{{ formatMissingInformation(selectedEstimate.measure) }}
+              </p>
+            </div>
+            <div class="flex space-x-2 text-gray-800 text-sm  my-1">
+              <p>
                 <span class="font-semibold">Subtotal: </span
                 >{{ formatCurrency(selectedProposal.subtotal) }}
               </p>

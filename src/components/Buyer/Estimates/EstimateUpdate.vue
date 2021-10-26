@@ -147,7 +147,8 @@
                     <tr class="text-xs h-10 font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <v-th  class="text-center" style="width: 10%" sortKey="part_code">Código</v-th>
                         <v-th  class="text-center" style="width: 10%" sortKey="description">Descrição</v-th>
-                        <v-th  class="text-center" style="width: 20%" sortKey="quantity">Quantidade</v-th>
+                        <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
+                        <v-th  class="text-center" style="width: 10%" sortKey="measure">Unidade</v-th>
                         <v-th  class="text-center" style="width: 10%" sortKey="allow_similar">Aceita Similar</v-th>
                         <th class="text-center" style="width: 20%" >Ações</th>
                     </tr>
@@ -157,6 +158,7 @@
                         <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                         <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                         <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
+                        <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
                         <td class="text-sm text-center text-gray-700">
                             <span :class="formatDefault(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                                 {{formatName(row.allow_similar)}}

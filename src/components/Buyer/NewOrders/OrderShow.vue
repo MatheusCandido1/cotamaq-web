@@ -122,6 +122,7 @@
                 <th  class="text-center" style="width: 10%">Descrição</th>
                 <th  class="text-center" style="width: 10%">Peça Similar?</th>
                 <th  class="text-center" style="width: 10%">Quantidade</th>
+                <th  class="text-center" style="width: 10%">Unidade</th>
                 <th  class="text-center" style="width: 10%">Valor</th>
                 <th  class="text-center" style="width: 10%">Subtotal</th>
             </tr>
@@ -136,6 +137,7 @@
                     </span>
                 </td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.quantity)}}</td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.measure)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.value)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.subtotal)}}</td>
             </tr>

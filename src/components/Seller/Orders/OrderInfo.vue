@@ -287,6 +287,7 @@
                 <v-th  class="text-center" style="width: 10%" sortKey="description">Descrição</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="is_similar">Peça Similar?</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="measure">Unidade</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="details.alue">Valor Unitário</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="details.subtotal">Subtotal</v-th>
                 <th class="text-center" style="width: 10%" >Ação</th>
@@ -302,6 +303,7 @@
                     </span>
                 </td>                     
                 <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.details.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.details.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="flex justify-center mt-2">

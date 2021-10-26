@@ -64,6 +64,12 @@
                         </label>
                         <input disabled id="quantity" v-model="estimate.quantity"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>
+                    <div class="md:w-1/6 px-3 mb-2 md:mb-0">
+                        <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
+                            Unidade
+                        </label>
+                        <input disabled id="measure" v-model="estimate.measure"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                         <label for="allow_similar" class="flex justify-center text-sm font-semibold text-gray-600 px-1">
                             Aceita Similar

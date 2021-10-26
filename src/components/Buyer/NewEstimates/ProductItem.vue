@@ -16,6 +16,9 @@
                      <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(estimate.quantity)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                     <p><span class="font-bold">Unidade:</span> {{formatMissingInformation(estimate.measure)}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Aceita Similar:</span> {{formatSimilar(estimate.allow_similar)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">

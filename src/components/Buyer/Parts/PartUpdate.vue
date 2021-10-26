@@ -64,10 +64,6 @@
                             <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Descrição é obrigatório.</span>
                         </div> 
                     </div>
-                </div>
-                
-                
-                <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                         <label for="quantity" class="text-sm font-semibold text-gray-600 px-1">
                             Quantidade
@@ -77,6 +73,30 @@
                         <div  v-if="errors.part.quantity == 'ERROR'" class="flex justify-center align-items">
                             <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Quantidade é obrigatório.</span>
                         </div> 
+                    </div>
+                </div>
+                
+                
+                <div class="-mx-3 md:flex mb-6">
+                    
+                    <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                        <div class="flex items-center">
+                        <label for="measure" class="text-sm font-semibold text-gray-600 px-1">
+                            Unidade
+                        </label>
+                        
+                        </div>
+                        <select @change="() => (errors.part.measure = 'OK')"
+                                id="measure" v-model="part.measure"
+                                :class="errors.part.measure == 'ERROR' ? 'border-red-400':'border-primary-main'"
+                                class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                            <option disabled value=""> Selecione...</option>
+                            <option v-for="item in measurementUnit" :key="item.id" :value="item.id">{{ item.value }}
+                            </option>
+                        </select>
+                        <div v-if="errors.part.measure == 'ERROR'" class="flex justify-center align-items">
+                        <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Unidade é obrigatório.</span>
+                        </div>
                     </div>
                     <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                         <label for="allow_similar" class="flex justify-center text-sm font-semibold text-gray-600 px-1">
@@ -310,12 +330,21 @@ export default {
             equipmentForm: null,
             equipmentInfo: null,
             form: new FormData,
+            measurementUnit: [
+                {id: "g", value: 'Grama (g)'},
+                {id: "kg", value: 'Quilograma (kg)'},
+                {id: "m", value: 'Metro (m)'},
+                {id: "mm", value: 'Milímetro (mm)'},
+                {id: "cm", value: 'Centímetro (cm)'},
+                {id: "pol", value: 'Polegada (pol)'},
+            ],
             part: {
                 part_code: '',
                 description: '',
                 quantity: '',
                 allow_similar: '',
                 brand: '',
+                measure: '',
                 observation: '',
                 category_id: '',
                 delivery: '',
@@ -340,6 +369,7 @@ export default {
                     category_id: null,
                     allow_similar: null,
                     brand: null,
+                    measure: null,
                     address_id: null,
                     equipment: null,
                 },
@@ -399,6 +429,10 @@ export default {
 
             if(this.$v.part.brand.$invalid) {
                 this.errors.part.brand = 'ERROR'
+            }
+
+            if(this.$v.part.measure.$invalid) {
+                this.errors.part.measure = 'ERROR'
             }
 
             // Only Validate if form is enable
@@ -554,6 +588,7 @@ export default {
             this.form.append('part_code', this.part.part_code);
             this.form.append('description', this.part.description);
             this.form.append('quantity', this.part.quantity);
+            this.form.append('measure', this.part.measure);
             this.form.append('allow_similar', this.part.allow_similar);
             this.form.append('observation', this.part.observation);
             this.form.append('brand', this.part.brand);
@@ -612,6 +647,7 @@ export default {
             this.form.append('part_code', this.part.part_code);
             this.form.append('description', this.part.description);
             this.form.append('quantity', this.part.quantity);
+            this.form.append('measure', this.part.measure);
             this.form.append('allow_similar', this.part.allow_similar);
             this.form.append('observation', this.part.observation);
             this.form.append('brand', this.part.brand);
@@ -685,6 +721,9 @@ export default {
                 required
             },
             allow_similar: {
+                required
+            },
+            measure: {
                 required
             },
             equipment: {

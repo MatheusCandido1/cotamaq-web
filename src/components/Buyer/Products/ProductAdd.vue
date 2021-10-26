@@ -49,6 +49,25 @@
             </div>
            
             <div class="flex -mx-3 mt-4">
+              <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                <div class="flex items-center">
+                  <label for="measure" class="text-sm font-semibold text-gray-600 px-1">
+                    Unidade
+                  </label>
+                  
+                  </div>
+                  <select @change="() => (errors.measure = 'OK')"
+                          id="measure" v-model="product.measure"
+                          :class="errors.measure == 'ERROR' ? 'border-red-400':'border-primary-main'"
+                          class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <option disabled value=""> Selecione...</option>
+                    <option v-for="item in measurementUnit" :key="item.id" :value="item.id">{{ item.value }}
+                    </option>
+                  </select>
+                  <div v-if="errors.measure == 'ERROR'" class="flex justify-center align-items">
+                  <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Unidade é obrigatório.</span>
+                </div>
+              </div>
                 <div class="w-1/2 px-3 mb-5">
                 <label for="" class="flex text-sm font-semibold text-gray-600 px-1 justify-center">Aceita Similar?</label>
                     <div class="flex justify-center space-x-4 mt-3">
@@ -153,11 +172,20 @@ export default {
             hover: false,
             isSimilar: false,
             form: new FormData,
+            measurementUnit: [
+              {id: "g", value: 'Grama (g)'},
+              {id: "kg", value: 'Quilograma (kg)'},
+              {id: "m", value: 'Metro (m)'},
+              {id: "mm", value: 'Milímetro (mm)'},
+              {id: "cm", value: 'Centímetro (cm)'},
+              {id: "pol", value: 'Polegada (pol)'},
+            ],
             product: {
                 part_code: null,
                 description: null,
                 quantity: null,
                 allow_similar: null,
+                measure: null,
                 observation: null,
                 brand: null,
                 estimate_id: null,
@@ -168,6 +196,7 @@ export default {
               quantity: null,
               allow_similar: null,
               brand: null,
+              measure: null,
             }
       }
   },
@@ -225,6 +254,10 @@ export default {
           this.errors.brand = 'ERROR'
         }
 
+        if(this.$v.product.measure.$invalid) {
+          this.errors.measure = 'ERROR'
+        }
+
         if(this.$v.$anyError == false) {
         this.disabled = true
             for(let i=0; i<this.files.length;i++){
@@ -233,6 +266,7 @@ export default {
             this.form.append('part_code', this.product.part_code);
             this.form.append('description', this.product.description);
             this.form.append('quantity', this.product.quantity);
+            this.form.append('measure', this.product.measure);
             this.form.append('allow_similar', this.product.allow_similar);
             this.form.append('observation', this.product.observation);
             this.form.append('brand', this.product.brand);
@@ -267,6 +301,9 @@ export default {
                 required
             },
             allow_similar: {
+                required
+            },
+            measure: {
                 required
             },
             brand: {

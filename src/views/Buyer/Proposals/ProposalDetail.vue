@@ -27,6 +27,7 @@
                 <v-th  class="text-center" style="width: 10%" sortKey="part_code">Código</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="description">Descrição</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="measure">Unidade</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="is_similar">Peça Similar?</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="value">Valor</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="value">Subtotal</v-th>
@@ -39,6 +40,7 @@
                 <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
                 <td class="text-sm text-center text-gray-700">
                     <span :class="formatDefault(row.is_similar == null ? '0':'1')" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatName(row.is_similar == null ? '0':'1')}}
@@ -264,7 +266,7 @@ export default {
 
                 this.$router.push({name:'teste',params:{teste:'teste'}})
 
-              this.var = teste
+              /* this.var = teste */
 
 
 

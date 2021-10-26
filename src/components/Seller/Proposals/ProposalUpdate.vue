@@ -77,6 +77,15 @@
                      type="text">
             </div>
             <div class="md:w-1/6 px-3 mb-2 md:mb-0">
+              <label class="text-sm font-semibold text-gray-600 px-1" for="part_code">
+                Unidade
+              </label>
+              <input id="measure" v-model="estimate.measure"
+                     class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"
+                     disabled placeholder=""
+                     type="text">
+            </div>
+            <div class="md:w-1/6 px-3 mb-2 md:mb-0">
               <label class="flex justify-center text-sm font-semibold text-gray-600 px-1" for="allow_similar">
                 Aceita Similar
               </label>

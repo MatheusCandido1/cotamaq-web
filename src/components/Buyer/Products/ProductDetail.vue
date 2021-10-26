@@ -48,6 +48,23 @@
                         <input  :disabled="!edit" v-model="selectedProduct.quantity"  placeholder="" type="number" class="w-full -ml-10 pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>                         
                 </div>
+
+                 <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                  <div class="flex items-center">
+                    <label for="measure" class="text-sm font-semibold text-gray-600 px-1">
+                      Unidade
+                    </label>
+                    
+                    </div>
+                    <select :disabled="!edit"
+                            id="measure" v-model="selectedProduct.measure"
+                            class="border-primary-main w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                      <option disabled value=""> Selecione...</option>
+                      <option v-for="item in measurementUnit" :key="item.id" :value="item.id">{{ item.value }}
+                      </option>
+                    </select>
+                    
+                </div>
             </div>
             <div class="flex -mx-3">
                 <div class="w-1/2 px-3 mb-5">
@@ -168,6 +185,14 @@ export default {
             isSimilar: false,
             index: null,
             images: [],
+            measurementUnit: [
+              {id: "g", value: 'Grama (g)'},
+              {id: "kg", value: 'Quilograma (kg)'},
+              {id: "m", value: 'Metro (m)'},
+              {id: "mm", value: 'Milímetro (mm)'},
+              {id: "cm", value: 'Centímetro (cm)'},
+              {id: "pol", value: 'Polegada (pol)'},
+            ],
       }
   },
   mounted() {
@@ -210,6 +235,7 @@ export default {
             description: this.selectedProduct.description,
             quantity: this.selectedProduct.quantity,
             allow_similar: this.selectedProduct.allow_similar,
+            measure: this.selectedProduct.measure,
             brand: this.selectedProduct.brand,
             observation: this.selectedProduct.observation,
             estimate_id: this.$route.params.id

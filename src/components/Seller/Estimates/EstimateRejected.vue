@@ -45,6 +45,7 @@
                 <v-th  class="text-center" style="width: 20%" sortKey="part_code">Código</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="description">Descrição</v-th>
                 <v-th  class="text-center" style="width: 10%" sortKey="quantity">Quantidade</v-th>
+                <v-th  class="text-center" style="width: 10%" sortKey="measure">Unidade</v-th>
                 <v-th  class="text-center" style="width: 20%" sortKey="allow_similar">Aceita Similar?</v-th>
                 <th class="text-center" style="width: 20%" >Ações</th>
             </tr>
@@ -56,6 +57,7 @@
                 <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
+                <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
                 <td class="text-sm text-center text-gray-700">
                     <span :class="formatDefaultSimilar(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatNameSimilar(row.allow_similar)}}
