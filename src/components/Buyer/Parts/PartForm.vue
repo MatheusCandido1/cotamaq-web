@@ -115,20 +115,24 @@
         <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
             <div class="flex items-center">
-              <label for="category_id" class="text-sm font-semibold text-gray-600 px-1">
-                Unidade (opcional)
+              <label for="measure" class="text-sm font-semibold text-gray-600 px-1">
+                Unidade
               </label>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-main" v-tooltip="{ content: 'A unidade correspondente a quantidade do produto.' }"  viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
               </svg>
               </div>
-              <select
-                      id=" measurementUnit_id" v-model="part.measurement_unit"
-                      class="w-full border-primary-main pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+              <select @change="() => (errors.part.measure = 'OK')"
+                      id="measure" v-model="part.measure"
+                      :class="errors.part.measure == 'ERROR' ? 'border-red-400':'border-primary-main'"
+                      class="w-full pl-2 pr-3 py-2 rounded border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                 <option disabled value=""> Selecione...</option>
                 <option v-for="item in measurementUnit" :key="item.id" :value="item.id">{{ item.value }}
                 </option>
               </select>
+              <div v-if="errors.part.measure == 'ERROR'" class="flex justify-center align-items">
+              <span class="text-xs text-red-400 font-semibold px-1 mt-1">O campo Unidade é obrigatório.</span>
+            </div>
           </div>
           <div class="md:w-1/3 px-3 mb-2 md:mb-0">
           <div>
@@ -476,25 +480,25 @@ export default {
       equipmentForm: null,
       form: new FormData,
       measurementUnit: [
-        {id: 1, value: 'Grama (g)'},
-        {id: 2, value: 'Quilograma (kg)'},
-        {id: 3, value: 'Metro (m)'},
-        {id: 4, value: 'Milímetro (mm)'},
-        {id: 5, value: 'Centímetro (cm)'},
-        {id: 6, value: 'Polegada (pol)'},
+        {id: "g", value: 'Grama (g)'},
+        {id: "kg", value: 'Quilograma (kg)'},
+        {id: "m", value: 'Metro (m)'},
+        {id: "mm", value: 'Milímetro (mm)'},
+        {id: "cm", value: 'Centímetro (cm)'},
+        {id: "pol", value: 'Polegada (pol)'},
       ],
       part: {
         part_code: '',
         description: '',
         quantity: '',
         allow_similar: '',
+        measure: '',
         brand: '',
         observation: '',
         category_id: '',
         delivery: '',
         equipment_id: '',
         address_id: '',
-        measurement_unit: null,
       },
       equipmentInfo: null,
       oldEquipment: null,
@@ -511,6 +515,7 @@ export default {
         part: {
           description: null,
           quantity: null,
+          measure: null,
           category_id: null,
           allow_similar: null,
           brand: null,
@@ -586,6 +591,10 @@ export default {
 
       if (this.$v.part.allow_similar.$invalid) {
         this.errors.part.allow_similar = 'ERROR'
+      }
+
+      if (this.$v.part.measure.$invalid) {
+        this.errors.part.measure = 'ERROR'
       }
 
       if (this.$v.part.brand.$invalid) {
@@ -716,7 +725,7 @@ export default {
       this.form.append('brand', this.part.brand);
       this.form.append('address_id', this.part.address_id);
       this.form.append('category_id', this.part.category_id);
-      this.form.append('measurement_unit', this.part.measurement_unit);
+      this.form.append('measure', this.part.measure);
       this.form.append('status', 1);
 
       if (this.equipmentForm == 2) {
@@ -773,7 +782,7 @@ export default {
       this.form.append('brand', this.part.brand);
       this.form.append('address_id', this.part.address_id);
       this.form.append('category_id', this.part.category_id);
-      this.form.append('measurement_unit', this.part.measurement_unit);
+      this.form.append('measure', this.part.measure);
       this.form.append('status', 2);
 
       if (this.equipmentForm == 2) {
@@ -840,6 +849,9 @@ export default {
         required
       },
       allow_similar: {
+        required
+      },
+      measure: {
         required
       },
       brand: {
