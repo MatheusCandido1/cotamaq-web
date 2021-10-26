@@ -1,5 +1,5 @@
 <template>
-  <div class="w-2/6 pt-3 h-screen">
+  <div class="bg-red-500 w-2/6 pt-3 h-screen">
 
     <div class="flex items-center mx-2 mb-3 px-3 py-2 rounded-full border border-solid border-gray-500">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -8,7 +8,8 @@
       <input class="w-full placeholder-gray-500" v-model="search" placeholder="Pesquise..." />
     </div>
 
-    <div @click="loadConversation()" v-for="conversation in this.$props.conversations" :key="conversation.id" class="hover:bg-gray-300 flex items-center cursor-pointer rounded-md py-2 px-2">
+    <p v-if="filteredConversations.length == 0" class="text-center">Nenhuma conversa encontrada...</p>
+    <div v-else @click="loadConversation()" v-for="conversation in filteredConversations" :key="conversation.id" class="hover:bg-gray-200 flex items-center cursor-pointer rounded-md py-2 px-2">
       <div class="flex items-center w-full">
         <div class="h-12 w-14 bg-primary-main flex items-center justify-center rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -36,6 +37,13 @@ export default {
     return {
       search: "",
     };
+  },
+  computed: {
+    filteredConversations() {
+      return this.$props.conversations.filter((conversation)=>{
+        return conversation.user.toLowerCase().match(this.search.toLowerCase())
+      })
+    }
   },
   methods: {
     loadConversation(){
