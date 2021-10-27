@@ -30,7 +30,7 @@ export default {
   },
   created() {
     this.conversations = [
-      { id: 1, user: "Pedroaaaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", lastMessage: "Ok!", lastMessageDate: '12/08/2021' },
+      { id: 1, user: "Pedroaaaaaiiiiiiiiiiiiiicgdcdhcvhdgcvhdgcvdgcvdgcvgdvcdcdcddcdcdcgdvcgdvgcvdgcvdgvcgdvcgdvdgcvdgvcgdvcgdvcdiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", lastMessage: "Ok!", lastMessageDate: '12/08/2021' },
       { id: 2, user: "Nicholas aaaaaa aaaaaa aaaaaaa aaaaaaaaaaaas de de de", lastMessage: "Combinado!", lastMessageDate: '15/08/2021' },
       { id: 3, user: "Thalita", lastMessage: "Certo!", lastMessageDate: '02/09/2021' },
       { id: 4, user: "Ana", lastMessage: "Tudo bem, não tem problemas. rfr frfrf rfrfrf rfrfrf rfrfrf rfrfrfr fr", lastMessageDate: '24/11/2021' },

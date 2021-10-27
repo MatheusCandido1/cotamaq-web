@@ -48,6 +48,8 @@ module.exports = {
     },
     variants: {
         borderWidth: ['responsive', 'last', 'hover', 'focus'],
+        width: ['responsive', 'hover', 'focus'],
+        height: ['responsive', 'hover', 'focus'],
     },
     plugins: [],
 };
