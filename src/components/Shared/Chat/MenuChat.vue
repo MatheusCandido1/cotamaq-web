@@ -57,6 +57,6 @@ export default {
 
 <style scoped>
   .div-scroll {
-    height: calc(100vh - 140px);
+    height: calc(100vh - 195px);
   }
 </style>

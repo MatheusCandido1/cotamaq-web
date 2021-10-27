@@ -47,7 +47,7 @@ export default {
 <style scoped>
   .base-card {
     width: calc(100vw - 70px);
-    height: calc(100vh - 70px);
+    height: calc(100vh - 125px);
     margin-left: 35px;
     margin-top: 35px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
