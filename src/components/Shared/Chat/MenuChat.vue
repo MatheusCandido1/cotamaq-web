@@ -13,7 +13,7 @@
       <span v-for="conversation in filteredConversations" :key="conversation.id">
         <div @click="setCurrentConversation(conversation)" :class="currentConversationId == conversation.id ? 'bg-green-100 hover:none' : 'hover:bg-gray-200'"  class="flex items-center cursor-pointer rounded-md py-2 px-2">
           <div class="flex items-center w-full">
-            <div class="h-12 w-14 bg-primary-main flex items-center justify-center rounded-full">
+            <div class="h-11 w-14 bg-primary-main flex items-center justify-center rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
               </svg>
