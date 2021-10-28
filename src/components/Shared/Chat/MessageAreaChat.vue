@@ -42,7 +42,7 @@
     </div>
 
     <div class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
-      <div v-for="message in messagesCurrentConversation" :key="message.id">
+      <div v-for="message in filteredMessages" :key="message.id">
         <div
           :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
           class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
@@ -89,6 +89,15 @@ export default {
       message: '',
       userId: '1',
     };
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    filteredMessages() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return this.$props.messagesCurrentConversation.sort(function(a,b){
+        return new Date(b.datetime) - new Date(a.datetime);
+      });
+    }
   },
   methods: {
     toggleMenuOptions(){

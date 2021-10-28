@@ -49,10 +49,10 @@ export default {
       { id: 17, user: "Thalita", lastMessage: "Certo!", lastMessageDate: '02/09/2021' },
     ]
     this.messagesCurrentConversation = [
-      { id: 1, value: 'Olá', userId: '1', datetime: '12/05/2021 14:17' },
-      { id: 2, value: 'Tudo bem?', userId: '1', datetime: '12/05/2021 14:17' },
-      { id: 3, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' },
-      { id: 4, value: 'Tudo ótimo!', userId: '2', datetime: '12/05/2021 14:17' },
+      { id: 1, value: 'Olá', userId: '1', datetime: '05/07/2021 14:17' },
+      { id: 2, value: 'Tudo bem?', userId: '1', datetime: '04/07/2021 14:18' },
+      { id: 3, value: 'Opa', userId: '2', datetime: '10/04/2021 15:17' },
+      /* { id: 4, value: 'Tudo ótimo!', userId: '2', datetime: '12/05/2021 14:17' },
       { id: 5, value: 'dbehbdjehdejdbhebdjehdbhebdjhebdjhebdjehbdjehbdjhebdjhbejhdbjehdb', userId: '2', datetime: '12/05/2021 14:17' },
       { id: 6, value: 'dckmd ckmdc kdmc kdmc dmcdmc kdmc dm cdjjuih dgtedgted ededed edededed edededed edededede dededed edededede dededed ededede', userId: '1', datetime: '12/05/2021 14:17' },
       { id: 7, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' },
@@ -60,7 +60,7 @@ export default {
       { id: 9, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' },
       { id: 10, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' },
       { id: 11, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' },
-      { id: 12, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' },
+      { id: 12, value: 'Opa', userId: '2', datetime: '12/05/2021 14:17' }, */
     ]
   },
   methods: {
