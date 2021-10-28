@@ -41,17 +41,17 @@
     </span>
     </div>
 
-    <span class="overflow-y-auto div-scroll px-3 pt-3 bg-gray-200">
-      <div class="h-full" v-for="message in messagesCurrentConversation" :key="message.id">
+    <div class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
+      <div v-for="message in messagesCurrentConversation" :key="message.id">
         <div
           :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
-          class="rounded-md break-all flex-col max-w-sm w-auto flex py-1 px-2"
+          class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
-          <p class="flex justify-start">{{message.value}}</p>
+          <p>{{message.value}}</p>
           <p class="flex justify-end text-gray-700 text-xs">{{getHour(message.datetime)}}</p>
         </div>
       </div>
-    </span>
+    </div>
 
     <form @submit.prevent="sendMessage" class="rounded-br-md bg-gray-200 flex items-center justify-between px-3 py-3">
       <input v-model="message" maxlength="255" class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-1" placeholder="Digite sua mensagem..." />
@@ -126,5 +126,9 @@ export default {
 }
 .div-scroll {
   height: calc(100vh - 195px);
+}
+.max-min-width{
+  max-width: 26rem;
+  min-width: 6rem;
 }
 </style>v
