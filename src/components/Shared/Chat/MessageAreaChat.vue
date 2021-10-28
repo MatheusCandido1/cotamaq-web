@@ -87,7 +87,12 @@ export default {
   directives: {
     clickOutside: vClickOutside.directive
   },
-  props: ["currentConversation", "messagesCurrentConversation", "deleteConversation"],
+  props: [
+    "currentConversation",
+    "messagesCurrentConversation",
+    "deleteConversation",
+    "editLastMessage"
+  ],
   data() {
     return {
       isVisibleMenuOptions: false,
@@ -112,7 +117,25 @@ export default {
       this.isVisibleMenuOptions = false
     },
     sendMessage() {
-      alert(this.message)
+      const current = new Date()
+      const date = current.toLocaleDateString('en-US')
+      const time = current.toLocaleTimeString('pt-BR')
+      const datetime = `${date} ${time}`
+      const data = {
+        datetime: datetime,
+        lastMessage: this.message
+      }
+
+      this.messagesCurrentConversation.push({ 
+        id: Math.random(),
+        conversationId: this.$props.currentConversation.id,
+        value: this.message,
+        userId: '1',
+        datetime: datetime
+      });
+
+      this.$props.editLastMessage(this.$props.currentConversation.id,data)
+
       this.message = ''
     },
     getHour(datetime){

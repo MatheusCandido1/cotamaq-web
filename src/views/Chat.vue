@@ -3,8 +3,17 @@
     <HeaderChat />
 
     <div class="flex items-center justify-between base-card shadow-lg rounded-md fixed">
-      <MenuChat :conversations="conversations" :currentConversationId="currentConversation ? currentConversation.id : null" :setCurrentConversation="setCurrentConversation" />
-      <MessageAreaChat :currentConversation="currentConversation" :messagesCurrentConversation="messagesCurrentConversation" :deleteConversation="deleteConversation" />
+      <MenuChat
+        :conversations="conversations"
+        :currentConversationId="currentConversation ? currentConversation.id : null"
+        :setCurrentConversation="setCurrentConversation"
+      />
+      <MessageAreaChat
+        :currentConversation="currentConversation"
+        :messagesCurrentConversation="messagesCurrentConversation"
+        :deleteConversation="deleteConversation"
+        :editLastMessage="editLastMessage"
+      />
     </div>
   </span>
 </template>
@@ -30,15 +39,15 @@ export default {
   },
   created() {
     this.conversations = [
-      { id: 1, user: "Nicholas", lastMessage: "Olá Nicholas!", lastMessageDateTime: '10-25-2021 14:00:25' },
-      { id: 2, user: "Thalita", lastMessage: "Olá Thalita!", lastMessageDateTime: '10-28-2021 14:00:21' },
-      { id: 3, user: "Pedro", lastMessage: "Olá!", lastMessageDateTime: '10-28-2021 14:00:00' },
+      { id: 1, user: "Nicholas", lastMessage: "Olá Nicholas!", lastMessageDateTime: '10/25/2021 14:00:25' },
+      { id: 2, user: "Thalita", lastMessage: "Olá Thalita!", lastMessageDateTime: '10/28/2021 14:00:21' },
+      { id: 3, user: "Pedro", lastMessage: "Olá!", lastMessageDateTime: '10/28/2021 14:00:00' },
     ]
     this.messagesCurrentConversation = [
-      { id: 1, conversationId: 1, value: 'Olá Nicholas!', userId: '1', datetime: '10-25-2021 14:00:25' },
-      { id: 2, conversationId: 2, value: 'Olá Thalita!', userId: '1', datetime: '10-28-2021 14:00:21' },
-      { id: 3, conversationId: 3, value: 'Olá Pedro!', userId: '1', datetime: '10-28-2021 14:00:00' },
-      { id: 4, conversationId: 3, value: 'Olá!', userId: '2', datetime: '10-28-2021 14:00:02' },
+      { id: 1, conversationId: 1, value: 'Olá Nicholas!', userId: '1', datetime: '10/25/2021 14:00:25' },
+      { id: 2, conversationId: 2, value: 'Olá Thalita!', userId: '1', datetime: '10/28/2021 14:00:21' },
+      { id: 3, conversationId: 3, value: 'Olá Pedro!', userId: '1', datetime: '10/28/2021 14:00:00' },
+      { id: 4, conversationId: 3, value: 'Olá!', userId: '2', datetime: '10/28/2021 14:00:02' },
     ]
   },
   methods: {
@@ -56,6 +65,11 @@ export default {
         showCloseButtonOnHover: true,
         timeout: 2500,
       });
+    },
+    editLastMessage(id, data){    
+      const i = this.conversations.findIndex((obj => obj.id == id));
+      this.conversations[i].lastMessage = data.lastMessage
+      this.conversations[i].lastMessageDateTime = data.datetime
     }
   }
 };
