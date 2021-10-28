@@ -27,7 +27,7 @@
           class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
           aria-label="submenu"
         >
-          <li class="flex cursor-pointer" @click="deleteConversation()">
+          <li class="flex cursor-pointer" @click="deleteConversation(currentConversation.id)">
             <div class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -43,6 +43,11 @@
 
     <div class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
       <div v-for="message in filteredMessages" :key="message.id">
+        <div v-if="isNewDay(message.datetime) == true" class=" mt-4 mb-6 flex items-center justify-center">
+          <div class="bg-blue-300 px-2 pb-1 rounded-md">
+            <span class="text-gray-700 text-xs">{{formatDate(message.datetime)}}</span>
+          </div>
+        </div>
         <div
           :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
           class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
@@ -82,7 +87,7 @@ export default {
   directives: {
     clickOutside: vClickOutside.directive
   },
-  props: ["currentConversation", "messagesCurrentConversation"],
+  props: ["currentConversation", "messagesCurrentConversation", "deleteConversation"],
   data() {
     return {
       isVisibleMenuOptions: false,
@@ -92,7 +97,9 @@ export default {
   },
   computed: {
     filteredMessages() {
-      return this.$props.messagesCurrentConversation.slice().sort(function(a,b){
+      const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
+
+      return messages.slice().sort(function(a,b){
         return new Date(a.datetime) - new Date(b.datetime);
       });
     }
@@ -104,15 +111,6 @@ export default {
     closeMenuOptions(){
       this.isVisibleMenuOptions = false
     },
-    deleteConversation(){
-      //alert(this.$props.currentConversation.id)
-      this.$toast.success('Conversa excluída com sucesso!', {
-        position: "bottom-right",
-        pauseOnHover: false,
-        showCloseButtonOnHover: true,
-        timeout: 2500,
-      });
-    },
     sendMessage() {
       alert(this.message)
       this.message = ''
@@ -120,6 +118,15 @@ export default {
     getHour(datetime){
       const time = datetime.slice(datetime.length - 8);
       return time.substring(0,5)
+    },
+    isNewDay(){
+      return true
+    },
+    formatDate(datetime){
+      if (new Date(datetime).toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')){
+        return 'Hoje'
+      }
+      return new Date(datetime).toLocaleDateString('pt-br')
     }
   },
 };

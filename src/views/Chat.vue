@@ -4,7 +4,7 @@
 
     <div class="flex items-center justify-between base-card shadow-lg rounded-md fixed">
       <MenuChat :conversations="conversations" :currentConversationId="currentConversation ? currentConversation.id : null" :setCurrentConversation="setCurrentConversation" />
-      <MessageAreaChat :currentConversation="currentConversation" :messagesCurrentConversation="messagesCurrentConversation" />
+      <MessageAreaChat :currentConversation="currentConversation" :messagesCurrentConversation="messagesCurrentConversation" :deleteConversation="deleteConversation" />
     </div>
   </span>
 </template>
@@ -30,19 +30,32 @@ export default {
   },
   created() {
     this.conversations = [
-      { id: 1, user: "41", lastMessage: "Ok!", lastMessageDateTime: '10-09-2021 14:00:25' },
-      { id: 2, user: "11", lastMessage: "Combinado!", lastMessageDateTime: '10-09-2021 14:00:05' },
-      { id: 3, user: "34", lastMessage: "Certo!", lastMessageDateTime: '10-09-2021 14:00:45' },
+      { id: 1, user: "Nicholas", lastMessage: "Olá Nicholas!", lastMessageDateTime: '10-25-2021 14:00:25' },
+      { id: 2, user: "Thalita", lastMessage: "Olá Thalita!", lastMessageDateTime: '10-28-2021 14:00:21' },
+      { id: 3, user: "Pedro", lastMessage: "Olá!", lastMessageDateTime: '10-28-2021 14:00:00' },
     ]
     this.messagesCurrentConversation = [
-      { id: 1, value: 'ta ai?', userId: '1', datetime: '10-01-2021 14:00:25' },
-      { id: 2, value: 'Quando puder me responda', userId: '1', datetime: '10-01-2021 14:00:21' },
-      { id: 3, value: 'ola desculpa a demora', userId: '1', datetime: '10-01-2021 14:00:00' },
+      { id: 1, conversationId: 1, value: 'Olá Nicholas!', userId: '1', datetime: '10-25-2021 14:00:25' },
+      { id: 2, conversationId: 2, value: 'Olá Thalita!', userId: '1', datetime: '10-28-2021 14:00:21' },
+      { id: 3, conversationId: 3, value: 'Olá Pedro!', userId: '1', datetime: '10-28-2021 14:00:00' },
+      { id: 4, conversationId: 3, value: 'Olá!', userId: '2', datetime: '10-28-2021 14:00:02' },
     ]
   },
   methods: {
     setCurrentConversation(conversation){
       this.currentConversation = conversation
+    },
+    deleteConversation(id){
+      this.conversations = this.conversations.filter(
+        (e) => e.id !== id
+      );
+      this.currentConversation = null
+      this.$toast.success('Conversa excluída com sucesso!', {
+        position: "bottom-right",
+        pauseOnHover: false,
+        showCloseButtonOnHover: true,
+        timeout: 2500,
+      });
     }
   }
 };
