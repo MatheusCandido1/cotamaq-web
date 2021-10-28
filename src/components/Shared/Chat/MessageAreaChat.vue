@@ -91,11 +91,9 @@ export default {
     };
   },
   computed: {
-    // eslint-disable-next-line vue/return-in-computed-property
     filteredMessages() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      return this.$props.messagesCurrentConversation.sort(function(a,b){
-        return new Date(b.datetime) - new Date(a.datetime);
+      return this.$props.messagesCurrentConversation.slice().sort(function(a,b){
+        return new Date(a.datetime) - new Date(b.datetime);
       });
     }
   },
@@ -120,7 +118,8 @@ export default {
       this.message = ''
     },
     getHour(datetime){
-      return datetime.slice(datetime.length - 5);
+      const time = datetime.slice(datetime.length - 8);
+      return time.substring(0,5)
     }
   },
 };

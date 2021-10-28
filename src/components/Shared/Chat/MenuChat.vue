@@ -21,7 +21,7 @@
             <div class="ml-3 w-full">
               <div class="w-full items-center flex justify-between">
                 <h5 class="font-bold truncate w-64">{{ conversation.user }}</h5>
-                <p class="text-gray-500 text-sm">{{conversation.lastMessageDate}}</p>
+                <p class="text-gray-500 text-sm">{{new Date(conversation.lastMessageDateTime).toLocaleDateString('pt-br')}}</p>
               </div>
               <p class="text-gray-500 text-sm truncate w-64">{{ conversation.lastMessage }}</p>
             </div>
@@ -43,9 +43,13 @@ export default {
   },
   computed: {
     filteredConversations() {
-      return this.$props.conversations.filter((conversation)=>{
+      return this.$props.conversations
+      .filter((conversation)=>{
         return conversation.user.toLowerCase().match(this.search.toLowerCase())
       })
+      .sort(function(a,b){
+        return new Date(b.lastMessageDateTime) - new Date(a.lastMessageDateTime);
+      });
     }
   },
 };
