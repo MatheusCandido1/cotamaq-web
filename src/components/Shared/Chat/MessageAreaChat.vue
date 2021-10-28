@@ -8,7 +8,7 @@
   </div>
 
   <span v-else class="w-full h-full flex flex-col justify-between">
-    <div class="flex items-center  px-3 py-4 flex items-center justify-between border-b border-solid border-gray-500">
+    <div class="flex items-center  px-3 py-2 flex items-center justify-between border-b border-solid border-gray-500">
       <p class="truncate w-96">{{this.$props.currentConversation.user}}</p>
       <span>
         <button type="button" class="focus:outline-none" @click="toggleMenuOptions">
@@ -43,8 +43,8 @@
 
     <div class="bg-blue-500">MESSAGE AREA</div>
 
-    <form @submit.prevent="sendMessage" class="bg-gray-200 flex items-center justify-between px-3 py-3">
-      <input v-model="message" maxlength="255" class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-2" placeholder="Digite sua mensagem..." />
+    <form @submit.prevent="sendMessage" class="rounded-br-md bg-gray-200 flex items-center justify-between px-3 py-3">
+      <input v-model="message" maxlength="255" class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-1" placeholder="Digite sua mensagem..." />
 
       <span class="buttons flex items-center justify-evenly">
         <input id="fileInput" type="file" class="hidden" />
@@ -96,10 +96,8 @@ export default {
       });
     },
     sendMessage() {
-      if (this.message != ''){
-        alert(this.message)
-        this.message = ''
-      }
+      alert(this.message)
+      this.message = ''
     }
   },
 };
