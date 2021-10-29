@@ -42,6 +42,7 @@ export default {
       { id: 1, user: "Nicholas", lastMessage: "Olá Nicholas!", lastMessageDateTime: '10/25/2021 14:00:25' },
       { id: 2, user: "Thalita", lastMessage: "Olá Thalita!", lastMessageDateTime: '10/28/2021 14:00:21' },
       { id: 3, user: "Pedro", lastMessage: "Olá!", lastMessageDateTime: '10/28/2021 14:00:00' },
+      { id: 4, user: "Leandro", lastMessage: null, lastMessageDateTime: null },
     ]
     this.messagesCurrentConversation = [
       { id: 1, conversationId: 1, value: 'Olá Nicholas!', userId: '1', datetime: '10/25/2021 14:00:25' },

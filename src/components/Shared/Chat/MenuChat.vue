@@ -21,7 +21,7 @@
             <div class="ml-3 w-full">
               <div class="w-full items-center flex justify-between">
                 <h5 class="font-bold truncate w-64">{{ conversation.user }}</h5>
-                <p class="text-gray-500 text-sm">{{new Date(conversation.lastMessageDateTime).toLocaleDateString('pt-br')}}</p>
+                <p class="text-gray-500 text-sm">{{formatDate(conversation.lastMessageDateTime)}}</p>
               </div>
               <p class="text-gray-500 text-sm truncate w-64">{{ conversation.lastMessage }}</p>
             </div>
@@ -52,6 +52,21 @@ export default {
       });
     }
   },
+  methods: {
+    formatDate(datetime){
+      const messageDateTime = new Date(datetime)
+
+      if (!datetime){
+        return ''
+      }
+      else if (messageDateTime.toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')){
+        return messageDateTime.toLocaleTimeString('pt-br').substr(0, 5)
+      }
+      else{
+        return messageDateTime.toLocaleDateString('pt-br')
+      }
+    }
+  }
 };
 </script>
 
