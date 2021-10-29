@@ -43,7 +43,7 @@
 
     <div class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
       <div v-for="message in filteredMessages" :key="message.id">
-        <div v-if="isDateAlreadyEntered(currentConversation.id, message.datetime.substring(0,10)) == false" class=" mt-4 mb-6 flex items-center justify-center">
+        <div v-if="isNewDay(message.id)" class=" mt-4 mb-6 flex items-center justify-center">
           <div class="bg-blue-300 px-2 pb-1 rounded-md">
             <span class="text-gray-700 text-xs">{{formatDate(message.datetime)}}</span>
           </div>
@@ -57,10 +57,6 @@
         </div>
       </div>
     </div>
-
-
-<button @click="showDates()">AAAAAAA</button>
-
 
     <form @submit.prevent="sendMessage" class="rounded-br-md bg-gray-200 flex items-center justify-between px-3 py-3">
       <input v-model="message" maxlength="255" class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-1" placeholder="Digite sua mensagem..." />
@@ -100,7 +96,6 @@ export default {
   data() {
     return {
       isVisibleMenuOptions: false,
-      dates: [],
       message: '',
       userId: '1',
     };
@@ -153,28 +148,20 @@ export default {
       }
       return new Date(datetime).toLocaleDateString('pt-br')
     },
-    findDatetime(id, datetime){
-      const find = this.dates.findIndex((obj => obj.conversationId === id && obj.datetime === datetime))
-      if(find != -1){
+    isNewDay(id){
+      const find = this.filteredMessages.findIndex((obj => obj.id === id))
+      const date = this.filteredMessages[find].datetime.substring(0,10)
+
+      if(find == -1 || find == 0){
         return true
       }
-      else{
+      else if(this.filteredMessages[find - 1].datetime.substring(0,10) === date){
         return false
       }
-    },
-    isDateAlreadyEntered(id, datetime){
-      if(this.findDatetime(id, datetime) == true){
+      else{
         return true
       }
-      else{
-        this.dates.push({conversationId: id, datetime: datetime})
-        return false
-      }
     },
-    showDates(){
-      console.log(this.dates)
-      console.log(this.isDateAlreadyEntered(3, '1'))
-    }
   },
 };
 </script>
