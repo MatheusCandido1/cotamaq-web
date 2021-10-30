@@ -42,8 +42,8 @@
     </div>
 
     <div class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
-      <div v-for="message in filteredMessages" :key="message.id">
-        <div v-if="isNewDay(message.id)" class=" mt-4 mb-6 flex items-center justify-center">
+      <div v-for="(message, index) in filteredMessages" :key="message.id">
+        <div v-if="isNewDay(index)" class=" mt-4 mb-6 flex items-center justify-center">
           <div class="bg-blue-300 px-2 pb-1 rounded-md">
             <span class="text-gray-700 text-xs">{{formatDate(message.datetime)}}</span>
           </div>
@@ -62,10 +62,10 @@
       <input v-model="message" maxlength="255" class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-1" placeholder="Digite sua mensagem..." />
 
       <span class="buttons flex items-center justify-evenly">
-        <input id="fileInput" type="file" class="hidden" />
-        <button type="button" v-tooltip="{ content: 'Escolher arquivo' }" onclick="document.getElementById('fileInput').click()" class="focus:outline-none">
+        <input id="fileInput" type="file" class="hidden" multiple accept="image/*" @change="onFileChange" />
+        <button type="button" v-tooltip="{ content: 'Escolher imagem' }" onclick="document.getElementById('fileInput').click()" class="focus:outline-none">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-main hover:h-7 hover:w-7 hover:opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </button>
         
@@ -77,13 +77,26 @@
       </span>
     </form>
 
+    <modal-handle-files
+      v-if="isVisibleModalHandleFiles"
+      :files="files"
+      :cleanFiles="cleanFiles"
+      :sendFiles="sendFiles"
+      @close="closeModalHandleFiles">
+    </modal-handle-files>
+
   </span>
 </template>
 
 <script>
 import vClickOutside from 'v-click-outside';
+import ModalHandleFiles from './ModalHandleFiles';
+
 export default {
   name: "MessageAreaChat",
+  components:{
+    ModalHandleFiles,
+  },
   directives: {
     clickOutside: vClickOutside.directive
   },
@@ -98,6 +111,8 @@ export default {
       isVisibleMenuOptions: false,
       message: '',
       userId: '1',
+      isVisibleModalHandleFiles: false,
+      files: [],
     };
   },
   computed: {
@@ -148,20 +163,48 @@ export default {
       }
       return new Date(datetime).toLocaleDateString('pt-br')
     },
-    isNewDay(id){
-      const find = this.filteredMessages.findIndex((obj => obj.id === id))
-      const date = this.filteredMessages[find].datetime.substring(0,10)
+    isNewDay(index){
+      const date = this.filteredMessages[index].datetime.substring(0,10)
 
-      if(find == -1 || find == 0){
+      if(index == -1 || index == 0){
         return true
       }
-      else if(this.filteredMessages[find - 1].datetime.substring(0,10) === date){
+      else if(this.filteredMessages[index - 1].datetime.substring(0,10) === date){
         return false
       }
       else{
         return true
       }
     },
+    closeModalHandleFiles(){
+      this.isVisibleModalHandleFiles = false
+    },
+    onFileChange(e) {
+      let uploadedFiles = e.target.files;
+
+      if (uploadedFiles.length > 4){
+        this.$toast.error('Máximo de 4 imagens por vez!', {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 2500,
+        });
+      }
+
+      else if (uploadedFiles.length > 0){
+        for(var x = 0; x < uploadedFiles.length;x++){
+          this.files.push(uploadedFiles[x]);
+        }
+        this.isVisibleModalHandleFiles = true
+      }
+    },
+    cleanFiles(){
+      this.files = []
+    },
+    sendFiles(files){
+      console.log(files)
+      //this.cleanFiles()
+    }
   },
 };
 </script>
@@ -180,4 +223,4 @@ export default {
   max-width: 26rem;
   min-width: 6rem;
 }
-</style>v
+</style>
