@@ -119,18 +119,15 @@ export default {
   computed: {
     filteredMessages() {
       const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
+      this.$nextTick(() => this.scrollToEnd());
 
       return messages.slice().sort(function(a,b){
         return new Date(a.datetime) - new Date(b.datetime);
       });
     }
   },
-  created() {
-    this.$nextTick(() => this.scrollToEnd());
-  },
   methods: {
     scrollToEnd() {
-      console.log('a')
       const content = this.$refs.messagesContainer;
       content.scrollTop = content.scrollHeight
     },
@@ -160,7 +157,6 @@ export default {
       });
 
       this.$props.editLastMessage(this.$props.currentConversation.id,data)
-
       this.message = ''
     },
     getHour(datetime){
@@ -219,6 +215,7 @@ export default {
       const data = {
         datetime: datetime,
         lastMessageIsImage: 1,
+        lastMessage: null,
       }
 
       files.forEach((item) => {

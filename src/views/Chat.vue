@@ -69,13 +69,10 @@ export default {
     },
     editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));
-      this.conversations[i].lastMessageDateTime = data.datetime
 
-      if (data.lastMessage == null){
-        this.conversations[i].lastMessageIsImage = data.lastMessageIsImage
-      }else{
-        this.conversations[i].lastMessage = data.lastMessage
-      }
+      this.conversations[i].lastMessageDateTime = data.datetime
+      this.conversations[i].lastMessageIsImage = data.lastMessageIsImage
+      this.conversations[i].lastMessage = data.lastMessage
     }
   }
 };
