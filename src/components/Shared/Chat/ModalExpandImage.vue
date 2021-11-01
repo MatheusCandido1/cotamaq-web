@@ -15,12 +15,12 @@
           >&#8203;</span
         >
         <div
-          class="inline-block align-bottom  rounded-lg text-left overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          class="inline-block align-bottom  text-left overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div class="zoom">
+          <div class="zoom flex items-center justify-center">
             <img v-click-outside="close" class="w-auto h-auto" :src="image" alt="image" />
           </div>
 

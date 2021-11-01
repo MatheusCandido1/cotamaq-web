@@ -119,7 +119,7 @@ export default {
     return {
       isVisibleMenuOptions: false,
       message: '',
-      userId: '1',
+      userId: this.$props.userId,
       isVisibleModalHandleFiles: false,
       files: [],
       isVisibleModalExpandImage: false,
@@ -162,7 +162,7 @@ export default {
         id: Math.random(),
         conversationId: this.$props.currentConversation.id,
         value: this.message,
-        userId: '1',
+        userId: this.userId,
         datetime: datetime
       });
 
@@ -234,7 +234,7 @@ export default {
           conversationId: this.$props.currentConversation.id,
           value: item,
           isImage: 1,
-          userId: '1',
+          userId: this.userId,
           datetime: datetime
         });
       })

@@ -57,9 +57,10 @@ const routes = [
     ]
   },
   {
-    path: '/chat',
+    path: '/chat/:id',
     name:'chat',
-    component:Chat
+    component:Chat,
+    props: true,
   },
   {
     path: '/not-found',

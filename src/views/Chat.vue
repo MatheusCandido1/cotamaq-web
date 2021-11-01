@@ -13,6 +13,7 @@
         :messagesCurrentConversation="messagesCurrentConversation"
         :deleteConversation="deleteConversation"
         :editLastMessage="editLastMessage"
+        :userId="userId"
       />
     </div>
   </span>
@@ -35,23 +36,38 @@ export default {
       messagesCurrentConversation: [],
       currentConversation: null,
       conversations: [],
+      userId: this.$route.params.id,
     };
   },
   created() {
-    this.conversations = [
-      { id: 1, user: "Nicholas", lastMessage: "Olá Nicholas!", lastMessageDateTime: '10/25/2021 14:00:25' },
-      { id: 2, user: "Thalita", lastMessage: "Olá Thalita!", lastMessageDateTime: '10/28/2021 14:00:21' },
-      { id: 3, user: "Pedro", lastMessage: "Olá!", lastMessageDateTime: '10/28/2021 14:00:00' },
-      { id: 4, user: "Leandro", lastMessage: null, lastMessageDateTime: null },
-    ]
-    this.messagesCurrentConversation = [
-      { id: 1, conversationId: 1, value: 'Olá Nicholas!', userId: '1', datetime: '10/25/2021 14:00:25' },
-      { id: 2, conversationId: 2, value: 'Olá Thalita!', userId: '1', datetime: '10/28/2021 14:00:21' },
-      { id: 3, conversationId: 3, value: 'Olá Pedro!', userId: '1', datetime: '10/28/2021 14:00:00' },
-      { id: 4, conversationId: 3, value: 'Olá!', userId: '2', datetime: '10/28/2021 14:00:02' },
-    ]
+    this.validUserId()
+    this.createConversation()
   },
   methods: {
+    validUserId(){
+      if(this.$route.params.id != localStorage.getItem('user_id')){
+        this.$router.push({name: 'NotFound'})
+      }
+    },
+    createConversation(){
+      const userReceiver = this.$route.params.userReceiver
+
+      if (userReceiver){
+        const i = this.conversations.findIndex((obj => obj.id == userReceiver.id));
+
+        if(i == -1){
+          const conversation = {
+            id: userReceiver.id,
+            user: userReceiver.name,
+            lastMessageDateTime: null,
+            lastMessageIsImage: null,
+            lastMessage: null,
+          }
+          this.conversations.push(conversation)
+          this.currentConversation = conversation
+        }
+      }
+    },
     setCurrentConversation(conversation){
       this.currentConversation = conversation
     },
