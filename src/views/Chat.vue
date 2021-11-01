@@ -67,10 +67,15 @@ export default {
         timeout: 2500,
       });
     },
-    editLastMessage(id, data){    
+    editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));
-      this.conversations[i].lastMessage = data.lastMessage
       this.conversations[i].lastMessageDateTime = data.datetime
+
+      if (data.lastMessage == null){
+        this.conversations[i].lastMessageIsImage = data.lastMessageIsImage
+      }else{
+        this.conversations[i].lastMessage = data.lastMessage
+      }
     }
   }
 };

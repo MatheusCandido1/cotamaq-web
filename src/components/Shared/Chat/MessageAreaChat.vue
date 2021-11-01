@@ -41,7 +41,7 @@
     </span>
     </div>
 
-    <div class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
+    <div ref="messagesContainer" class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
       <div v-for="(message, index) in filteredMessages" :key="message.id">
         <div v-if="isNewDay(index)" class=" mt-4 mb-6 flex items-center justify-center">
           <div class="bg-blue-300 px-2 pb-1 rounded-md">
@@ -52,7 +52,8 @@
           :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
           class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
-          <p>{{message.value}}</p>
+          <img v-if="message.isImage == 1" class="w-10 h-10" :src="message.value" alt="image" />
+          <p v-else>{{message.value}}</p>
           <p class="flex justify-end text-gray-700 text-xs">{{getHour(message.datetime)}}</p>
         </div>
       </div>
@@ -124,7 +125,15 @@ export default {
       });
     }
   },
+  created() {
+    this.$nextTick(() => this.scrollToEnd());
+  },
   methods: {
+    scrollToEnd() {
+      console.log('a')
+      const content = this.$refs.messagesContainer;
+      content.scrollTop = content.scrollHeight
+    },
     toggleMenuOptions(){
       this.isVisibleMenuOptions = !this.isVisibleMenuOptions
     },
@@ -138,7 +147,8 @@ export default {
       const datetime = `${date} ${time}`
       const data = {
         datetime: datetime,
-        lastMessage: this.message
+        lastMessage: this.message,
+        lastMessageIsImage: null,
       }
 
       this.messagesCurrentConversation.push({ 
@@ -202,8 +212,28 @@ export default {
       this.files = []
     },
     sendFiles(files){
-      console.log(files)
-      //this.cleanFiles()
+      const current = new Date()
+      const date = current.toLocaleDateString('en-US')
+      const time = current.toLocaleTimeString('pt-BR')
+      const datetime = `${date} ${time}`
+      const data = {
+        datetime: datetime,
+        lastMessageIsImage: 1,
+      }
+
+      files.forEach((item) => {
+        this.messagesCurrentConversation.push({ 
+          id: Math.random(),
+          conversationId: this.$props.currentConversation.id,
+          value: item,
+          isImage: 1,
+          userId: '1',
+          datetime: datetime
+        });
+      })
+
+      this.$props.editLastMessage(this.$props.currentConversation.id,data)
+      this.cleanFiles()
     }
   },
 };
