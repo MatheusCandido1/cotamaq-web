@@ -56,6 +56,16 @@
                          <button :class="formatStatus(selectedProposal.status).bg" class="w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white">
                               {{formatStatus(selectedProposal.status).text}}
                          </button>
+                         <button
+                              v-if="selectedProposal.status == 3"
+                              v-tooltip="{ content: 'Enviar mensagem' }"
+                              @click="goChat"
+                              class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                         >
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                              </svg>
+                         </button>
                          <button v-if="selectedProposal.status == 1" @click="handleEditClick" class="flex items-center justify-between px-2 py-2 bg-blue-500 text-sm font-medium leading-5 text-white rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -93,13 +103,14 @@ import { bus } from '../../../main';
 import { formatSimilar, formatCurrency, formatDelivery, formatZipcode, formatMissingInformation } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
 import ProposalShowImages from "./ProposalShowImages";
+import {estimateService} from '../../../services'
 
 export default {
      name: 'ProposalItem',
      props: ['proposal'],
      components: {
           ProposalDelete,
-       ProposalShowImages
+          ProposalShowImages
      },
      data() {
         return {
@@ -124,6 +135,19 @@ export default {
           formatDelivery,
           formatZipcode,
           formatMissingInformation,
+          goChat(){
+               estimateService.getEstimate(this.selectedProposal.estimate_id).then((res) => {
+                    const data =  res.data.data
+                    const userReceiver = {
+                         name: data.user.name,
+                         id: data.user_id,
+                    }
+                    this.$router.push({
+                         name: "chat",
+                         params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
+                    });
+               })
+          },
           showModalImages(){
 
             bus.$emit('ModalOpen', true)
