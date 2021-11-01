@@ -52,7 +52,7 @@
           :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
           class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
-          <img v-if="message.isImage == 1" class="w-10 h-10" :src="message.value" alt="image" />
+          <img @click="openModalExpandImage(message.value)" v-if="message.isImage == 1" class="w-auto h-auto max-min-width-height mb-1 cursor-pointer" :src="message.value" alt="image" />
           <p v-else>{{message.value}}</p>
           <p class="flex justify-end text-gray-700 text-xs">{{getHour(message.datetime)}}</p>
         </div>
@@ -86,17 +86,25 @@
       @close="closeModalHandleFiles">
     </modal-handle-files>
 
+    <modal-expand-image
+      v-if="isVisibleModalExpandImage"
+      :image="expandImage"
+      @close="closeModalExpandImage">
+    </modal-expand-image>
+
   </span>
 </template>
 
 <script>
 import vClickOutside from 'v-click-outside';
 import ModalHandleFiles from './ModalHandleFiles';
+import ModalExpandImage from './ModalExpandImage'
 
 export default {
   name: "MessageAreaChat",
   components:{
     ModalHandleFiles,
+    ModalExpandImage,
   },
   directives: {
     clickOutside: vClickOutside.directive
@@ -114,6 +122,8 @@ export default {
       userId: '1',
       isVisibleModalHandleFiles: false,
       files: [],
+      isVisibleModalExpandImage: false,
+      expandImage: null,
     };
   },
   computed: {
@@ -231,6 +241,14 @@ export default {
 
       this.$props.editLastMessage(this.$props.currentConversation.id,data)
       this.cleanFiles()
+    },
+    openModalExpandImage(image){
+      this.expandImage = image
+      this.isVisibleModalExpandImage = true
+    },
+    closeModalExpandImage(){
+      this.expandImage = null
+      this.isVisibleModalExpandImage = false
     }
   },
 };
@@ -249,5 +267,11 @@ export default {
 .max-min-width{
   max-width: 26rem;
   min-width: 6rem;
+}
+.max-min-width-height{
+  max-width: 26rem;
+  min-width: 6rem;
+  min-height: 6rem;
+  max-height: 26rem;
 }
 </style>
