@@ -20,7 +20,15 @@
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div class="zoom flex items-center justify-center">
+          <svg v-if="screenWidth < 800" @click="close" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+
+          <div v-if="screenWidth < 800" class="zoom flex items-center justify-center">
+            <img class="w-auto h-auto" :src="image" alt="image" />
+          </div>
+
+          <div v-else class="zoom flex items-center justify-center">
             <img v-click-outside="close" class="w-auto h-auto" :src="image" alt="image" />
           </div>
 
@@ -42,6 +50,11 @@ export default {
   directives: {
     clickOutside: vClickOutside.directive
   },
+  data(){
+    return{
+      screenWidth: screen.width,
+    }
+  }
 };
 </script>
 <style scoped>

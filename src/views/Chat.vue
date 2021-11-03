@@ -2,13 +2,31 @@
   <span>
     <HeaderChat />
 
-    <div class="flex items-center justify-between base-card shadow-lg rounded-md fixed">
+    <div v-if="screenWidth >= 800" class="flex items-center justify-between base-card shadow-lg rounded-md fixed">
       <MenuChat
         :conversations="conversations"
         :currentConversationId="currentConversation ? currentConversation.id : null"
         :setCurrentConversation="setCurrentConversation"
       />
       <MessageAreaChat
+        :currentConversation="currentConversation"
+        :messagesCurrentConversation="messagesCurrentConversation"
+        :deleteConversation="deleteConversation"
+        :editLastMessage="editLastMessage"
+        :userId="userId"
+      />
+    </div>
+
+    <div v-else>
+      <ResponsiveMenuChat
+        v-if="currentConversation == null"
+        :conversations="conversations"
+        :currentConversationId="currentConversation ? currentConversation.id : null"
+        :setCurrentConversation="setCurrentConversation"
+      />
+      <ResponsiveMessageAreaChat
+        v-else
+        :backToConversations="backToConversations"
         :currentConversation="currentConversation"
         :messagesCurrentConversation="messagesCurrentConversation"
         :deleteConversation="deleteConversation"
@@ -23,6 +41,8 @@
 import MenuChat from "../components/Shared/Chat/MenuChat";
 import HeaderChat from "../components/Shared/Chat/HeaderChat";
 import MessageAreaChat from "../components/Shared/Chat/MessageAreaChat";
+import ResponsiveMenuChat from "../components/Shared/Chat/ResponsiveMenuChat";
+import ResponsiveMessageAreaChat from "../components/Shared/Chat/ResponsiveMessageAreaChat";
 
 export default {
   name: "Chat",
@@ -30,6 +50,8 @@ export default {
     MenuChat,
     HeaderChat,
     MessageAreaChat,
+    ResponsiveMenuChat,
+    ResponsiveMessageAreaChat,
   },
   data() {
     return {
@@ -37,6 +59,7 @@ export default {
       currentConversation: null,
       conversations: [],
       userId: this.$route.params.id,
+      screenWidth: screen.width,
     };
   },
   created() {
@@ -44,6 +67,9 @@ export default {
     this.createConversation()
   },
   methods: {
+    backToConversations(){
+      this.currentConversation = null
+    },
     validUserId(){
       if(this.$route.params.id != localStorage.getItem('user_id')){
         this.$router.push({name: 'NotFound'})
