@@ -25,6 +25,8 @@ import OrderDetails from '../views/OrderDetails'
 import confirmEmail from '../views/Auth/confirmEmail.vue'
 import ReSendConfirm from '../views/Auth/ReSendConfirmationEmail'
 import NotFound from '../views/NotFound'
+import Chat from '../views/Chat'
+
 Vue.use(VueRouter);
 
 const routes = [ 
@@ -53,6 +55,12 @@ const routes = [
       {path:  '/usuarios',name:'usuarios', component:Users},
       {path:  '/notificacoes', name:'notifications', component:Notification},
     ]
+  },
+  {
+    path: '/chat/:id',
+    name:'chat',
+    component:Chat,
+    props: true,
   },
   {
     path: '/not-found',
