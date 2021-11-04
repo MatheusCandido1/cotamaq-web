@@ -103,7 +103,6 @@ import { bus } from '../../../main';
 import { formatSimilar, formatCurrency, formatDelivery, formatZipcode, formatMissingInformation } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
 import ProposalShowImages from "./ProposalShowImages";
-import {estimateService} from '../../../services'
 
 export default {
      name: 'ProposalItem',
@@ -136,17 +135,14 @@ export default {
           formatZipcode,
           formatMissingInformation,
           goChat(){
-               estimateService.getEstimate(this.selectedProposal.estimate_id).then((res) => {
-                    const data =  res.data.data
-                    const userReceiver = {
-                         name: data.user.name,
-                         id: data.user_id,
-                    }
-                    this.$router.push({
-                         name: "chat",
-                         params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
-                    });
-               })
+               const userReceiver = {
+                    name: this.selectedProposal.estimate.user.name,
+                    id: this.selectedProposal.estimate.user_id,
+               }
+               this.$router.push({
+                    name: "chat",
+                    params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
+               });
           },
           showModalImages(){
 

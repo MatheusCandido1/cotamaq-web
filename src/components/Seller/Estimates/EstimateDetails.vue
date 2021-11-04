@@ -68,7 +68,13 @@
                               <p class="break-all"><span class="font-bold">Marca:</span> {{formatMissingInformation(selectedEstimate.brand)}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p class="break-all"><span class="font-bold">Observação:</span> {{formatMissingInformation(selectedEstimate.observation)}}</p> 
+                              <p class="break-all"><span class="font-bold">Cidade:</span> {{formatMissingInformation(selectedEstimate.brand)}}</p> 
+                          </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                              <p class="break-all"><span class="font-bold">CEP:</span> {{formatMissingInformation(selectedEstimate.user.address.city)}}</p> 
+                          </div>
+                          <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                              <p class="break-all"><span class="font-bold">Observação:</span> {{formatZipcode(selectedEstimate.user.address.zipcode)}}</p> 
                           </div>
                     </div>
                   </div>
@@ -93,7 +99,7 @@
   </transition>
 </template>
 <script>
-import { formatSimilar, formatMissingInformation } from '@/helpers/string-helper';
+import { formatSimilar, formatMissingInformation, formatZipcode } from '@/helpers/string-helper';
 
 export default {
   name: "EstimateDetails",
@@ -109,6 +115,7 @@ export default {
   methods: {
     formatSimilar,
     formatMissingInformation,
+    formatZipcode,
     close() {
       this.$emit("close");
     },

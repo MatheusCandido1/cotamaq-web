@@ -25,8 +25,14 @@
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Marca:</span> {{!estimate.brand || estimate.brand == ''  ? 'Não informado' : estimate.brand}}</p> 
                 </div>
-                <div class="flex space-x-2 text-gray-800 text-sm">
+                <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Equipamento:</span> {{estimate.equipment == null ? 'Não informado': formatEquipment(estimate.equipment)}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                     <p><span class="font-bold">Cidade:</span> {{estimate.user.address.city == null ? 'Não informado': estimate.user.address.city}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm">
+                     <p><span class="font-bold">CEP:</span> {{estimate.user.address.zipcode == null ? 'Não informado': formatZipcode(estimate.user.address.zipcode)}}</p> 
                 </div>
           </div>
         </div>
@@ -148,7 +154,7 @@
 
 <script>
 import EstimateDecline from './EstimateDecline';
-import {formatCurrency, formatEquipment, formatSimillar, formatMissingInformation} from '@/helpers/string-helper';
+import {formatCurrency, formatEquipment, formatSimillar, formatMissingInformation, formatZipcode} from '@/helpers/string-helper';
 import {bus} from '../../../main';
 import {proposalService} from "../../../services";
 import EstimateShowImage from "../Estimates/EstimateShowImage";
@@ -194,6 +200,7 @@ export default {
         formatSimillar,
         formatCurrency,
         formatMissingInformation,
+        formatZipcode,
       showModalImages(){
         bus.$emit('ModalOpen', true)
         this.modal.images = true

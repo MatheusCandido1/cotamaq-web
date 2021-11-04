@@ -24,8 +24,14 @@
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Marca:</span> {{formatMissingInformation(estimate.brand)}}</p> 
                 </div>
-                <div class="flex space-x-2 text-gray-800 text-sm">
+                <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Equipamento:</span> {{estimate.equipment == null ? 'Não informado': formatEquipment(estimate.equipment)}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm my-3">
+                     <p><span class="font-bold">Cidade:</span> {{estimate.user.address.city == null ? 'Não informado': estimate.user.address.city}}</p> 
+                </div>
+                <div class="flex space-x-2 text-gray-800 text-sm">
+                     <p><span class="font-bold">CEP:</span> {{estimate.user.address.zipcode == null ? 'Não informado': formatZipcode(estimate.user.address.zipcode)}}</p> 
                 </div>
             </div>
         </div>
@@ -91,7 +97,7 @@
 
 <script>
 import { bus } from '../../../main';
-import { formatEquipment, formatSimilar, formatMissingInformation } from '@/helpers/string-helper';
+import { formatEquipment, formatSimilar, formatMissingInformation, formatZipcode } from '@/helpers/string-helper';
 import DuplicatePartsModal from '../../../components/Buyer/Parts/PartDuplicate.vue'
 import DeletePartsModal from '../../../components/Buyer/Parts/PartDelete.vue'
 
@@ -125,6 +131,7 @@ export default {
         formatMissingInformation,
         formatEquipment,
         formatSimilar,
+        formatZipcode,
         handleOrderClick() {
             this.$router.push({name: 'orders'})
         },
@@ -156,8 +163,6 @@ export default {
            this.isDeleteModalVisible = false  
         }
     },
-    created(){
-    }
 
 }
 </script>
