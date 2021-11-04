@@ -592,7 +592,7 @@ export default {
                 } 
             }
             
-            if(this.$v.$anyError == false) {
+            if(this.$v.$anyError == false && this.errors.proposal.value != 'ERROR' && this.errors.proposal.subtotal != 'ERROR' && this.errors.proposal.total != 'ERROR') {
                 this.modal.confirm = true;
                 bus.$emit("ModalOpen", true);
             }else{
