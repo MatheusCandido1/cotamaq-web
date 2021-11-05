@@ -43,6 +43,7 @@ import HeaderChat from "../components/Shared/Chat/HeaderChat";
 import MessageAreaChat from "../components/Shared/Chat/MessageAreaChat";
 import ResponsiveMenuChat from "../components/Shared/Chat/ResponsiveMenuChat";
 import ResponsiveMessageAreaChat from "../components/Shared/Chat/ResponsiveMessageAreaChat";
+import {chatService} from "../services";
 
 export default {
   name: "Chat",
@@ -71,15 +72,28 @@ export default {
       this.currentConversation = null
     },
     validUserId(){
-      if(this.$route.params.id != localStorage.getItem('user_id')){
-        this.$router.push({name: 'NotFound'})
-      }
+
     },
     createConversation(){
       const userReceiver = this.$route.params.userReceiver
+      chatService.getChat().then((response)=>{
+        response.data.forEach((data)=>{
+          var conversation = {
+            id: data.id,
+            user: data.user.name,
+            lastMessageDateTime: null,
+            lastMessageIsImage: null,
+            lastMessage: null,
+          }
+          this.conversations.push(conversation)
+
+        })
+      })
+
 
       if (userReceiver){
         const i = this.conversations.findIndex((obj => obj.id == userReceiver.id));
+
 
         if(i == -1){
           const conversation = {
@@ -96,6 +110,11 @@ export default {
     },
     setCurrentConversation(conversation){
       this.currentConversation = conversation
+      console.warn(this.currentConversation)
+      this.$router.push({
+        name: "chat",
+        params: { id: conversation.id },
+      });
     },
     deleteConversation(id){
       this.conversations = this.conversations.filter(

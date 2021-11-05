@@ -103,6 +103,7 @@ import { bus } from '../../../main';
 import { formatSimilar, formatCurrency, formatDelivery, formatZipcode, formatMissingInformation } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
 import ProposalShowImages from "./ProposalShowImages";
+import { chatService} from "../../../services";
 
 export default {
      name: 'ProposalItem',
@@ -134,15 +135,22 @@ export default {
           formatDelivery,
           formatZipcode,
           formatMissingInformation,
-          goChat(){
+          async goChat(){
+
                const userReceiver = {
                     name: this.selectedProposal.estimate.user.name,
                     id: this.selectedProposal.estimate.user_id,
                }
-               this.$router.push({
-                    name: "chat",
-                    params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
-               });
+
+
+              await chatService.newChat(userReceiver).then(()=>{
+                 this.$router.push({
+                   name: "chat",
+                   params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
+                 });
+
+               })
+
           },
           showModalImages(){
 

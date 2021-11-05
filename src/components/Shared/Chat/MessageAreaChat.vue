@@ -1,36 +1,42 @@
 <template>
 
   <div v-if="this.$props.currentConversation == null" class="w-full flex flex-col items-center">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-primary-main" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-primary-main" fill="none" viewBox="0 0 24 24"
+         stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
     </svg>
     <p>Selecione uma conversa...</p>
   </div>
 
   <span v-else class="w-full h-full flex flex-col justify-between">
     <div class="flex items-center  px-3 py-2 flex items-center justify-between border-b border-solid border-gray-500">
-      <p class="truncate w-96">{{this.$props.currentConversation.user}}</p>
+      <p class="truncate w-96">{{ this.$props.currentConversation.user }}</p>
       <span>
         <button type="button" class="focus:outline-none" @click="toggleMenuOptions">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
           </svg>
         </button>
         <template v-if="isVisibleMenuOptions">
-        <div  v-click-outside="closeMenuOptions">
+        <div v-click-outside="closeMenuOptions">
         <ul
-          transition:leave="transition ease-in duration-150"
-          transition:leave-start="opacity-100"
-          transition:leave-end="opacity-0"
-          @click="closeMenuOptions"
-          @keydown.escape="closeMenuOptions"
-          class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
-          aria-label="submenu"
+            transition:leave="transition ease-in duration-150"
+            transition:leave-start="opacity-100"
+            transition:leave-end="opacity-0"
+            @click="closeMenuOptions"
+            @keydown.escape="closeMenuOptions"
+            class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+            aria-label="submenu"
         >
           <li class="flex cursor-pointer" @click="deleteConversation(currentConversation.id)">
-            <div class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <div
+                class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
               </svg>
               <span class="ml-2 text-red-500">Excluir conversa</span>
             </div>
@@ -45,51 +51,59 @@
       <div v-for="(message, index) in filteredMessages" :key="message.id">
         <div v-if="isNewDay(index)" class=" mt-4 mb-6 flex items-center justify-center">
           <div class="bg-blue-300 px-2 pb-1 rounded-md">
-            <span class="text-gray-700 text-xs">{{formatDate(message.datetime)}}</span>
+            <span class="text-gray-700 text-xs">{{ formatDate(message.datetime) }}</span>
           </div>
         </div>
         <div
-          :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
-          class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
+            :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
+            class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
-          <img @click="openModalExpandImage(message.value)" v-if="message.isImage == 1" class="w-auto h-auto max-min-width-height mb-1 cursor-pointer" :src="message.value" alt="image" />
-          <p v-else>{{message.value}}</p>
-          <p class="flex justify-end text-gray-700 text-xs">{{getHour(message.datetime)}}</p>
+          <img @click="openModalExpandImage(message.value)" v-if="message.isImage == 1"
+               class="w-auto h-auto max-min-width-height mb-1 cursor-pointer" :src="message.value" alt="image"/>
+          <p v-else>{{ message.value }}</p>
+          <p class="flex justify-end text-gray-700 text-xs">{{ getHour(message.datetime) }}</p>
         </div>
       </div>
     </div>
 
     <form @submit.prevent="sendMessage" class="rounded-br-md bg-gray-200 flex items-center justify-between px-3 py-3">
-      <input v-model="message" maxlength="255" class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-1" placeholder="Digite sua mensagem..." />
+      <input v-model="message" maxlength="255"
+             class="input-send placeholder-gray-500 rounded-full border border-solid border-gray-500 px-3 py-1"
+             placeholder="Digite sua mensagem..."/>
 
       <span class="buttons flex items-center justify-evenly">
-        <input id="fileInput" type="file" class="hidden" multiple accept="image/*" @change="onFileChange" />
-        <button type="button" v-tooltip="{ content: 'Escolher imagem' }" onclick="document.getElementById('fileInput').click()" class="focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-main hover:h-7 hover:w-7 hover:opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        <input id="fileInput" type="file" class="hidden" multiple accept="image/*" @change="onFileChange"/>
+        <button type="button" v-tooltip="{ content: 'Escolher imagem' }"
+                onclick="document.getElementById('fileInput').click()" class="focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-main hover:h-7 hover:w-7 hover:opacity-60"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
         </button>
         
         <button type="submit" :disabled="message == ''" class="focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="message == '' ? 'text-gray-500' : 'text-primary-main hover:h-7 hover:w-7 hover:opacity-60'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+               :class="message == '' ? 'text-gray-500' : 'text-primary-main hover:h-7 hover:w-7 hover:opacity-60'"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
           </svg>
         </button>
       </span>
     </form>
 
     <modal-handle-files
-      v-if="isVisibleModalHandleFiles"
-      :files="files"
-      :cleanFiles="cleanFiles"
-      :sendFiles="sendFiles"
-      @close="closeModalHandleFiles">
+        v-if="isVisibleModalHandleFiles"
+        :files="files"
+        :cleanFiles="cleanFiles"
+        :sendFiles="sendFiles"
+        @close="closeModalHandleFiles">
     </modal-handle-files>
 
     <modal-expand-image
-      v-if="isVisibleModalExpandImage"
-      :image="expandImage"
-      @close="closeModalExpandImage">
+        v-if="isVisibleModalExpandImage"
+        :image="expandImage"
+        @close="closeModalExpandImage">
     </modal-expand-image>
 
   </span>
@@ -99,10 +113,11 @@
 import vClickOutside from 'v-click-outside';
 import ModalHandleFiles from './ModalHandleFiles';
 import ModalExpandImage from './ModalExpandImage'
+import {chatService} from "../../../services";
 
 export default {
   name: "MessageAreaChat",
-  components:{
+  components: {
     ModalHandleFiles,
     ModalExpandImage,
   },
@@ -115,6 +130,9 @@ export default {
     "deleteConversation",
     "editLastMessage"
   ],
+  created() {
+    this.loadMessages()
+  },
   data() {
     return {
       isVisibleMenuOptions: false,
@@ -124,27 +142,51 @@ export default {
       files: [],
       isVisibleModalExpandImage: false,
       expandImage: null,
+      chatID: this.$route.params.id
     };
+  },
+  watch:{
+    $route(to) {
+      this.chatID = to.params.id;
+      this.loadMessages();
+    }
+
   },
   computed: {
     filteredMessages() {
       const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
       this.$nextTick(() => this.scrollToEnd());
 
-      return messages.slice().sort(function(a,b){
+      return messages.slice().sort(function (a, b) {
         return new Date(a.datetime) - new Date(b.datetime);
       });
     }
   },
   methods: {
+    loadMessages() {
+      chatService.loadMessage(this.chatID).then((response)=>{
+
+        response.data.forEach((data)=>{
+          this.filteredMessages.push({
+            id: Math.random(),
+            conversationId: this.$route.params.id,
+            value: data.text,
+            userId: data.user_id,
+            datetime: data.created_at
+          });
+        })
+
+      })
+
+    },
     scrollToEnd() {
       const content = this.$refs.messagesContainer;
       content.scrollTop = content.scrollHeight
     },
-    toggleMenuOptions(){
+    toggleMenuOptions() {
       this.isVisibleMenuOptions = !this.isVisibleMenuOptions
     },
-    closeMenuOptions(){
+    closeMenuOptions() {
       this.isVisibleMenuOptions = false
     },
     sendMessage() {
@@ -158,7 +200,7 @@ export default {
         lastMessageIsImage: null,
       }
 
-      this.messagesCurrentConversation.push({ 
+      this.messagesCurrentConversation.push({
         id: Math.random(),
         conversationId: this.$props.currentConversation.id,
         value: this.message,
@@ -166,58 +208,60 @@ export default {
         datetime: datetime
       });
 
-      this.$props.editLastMessage(this.$props.currentConversation.id,data)
+      var message = {
+        chat_id: this.$route.params.id,
+        text: this.message
+      }
+      chatService.newMessage(message)
+
+      this.$props.editLastMessage(this.$props.currentConversation.id, data)
       this.message = ''
     },
-    getHour(datetime){
+    getHour(datetime) {
       const time = datetime.slice(datetime.length - 8);
-      return time.substring(0,5)
+      return time.substring(0, 5)
     },
-    formatDate(datetime){
-      if (new Date(datetime).toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')){
+    formatDate(datetime) {
+      if (new Date(datetime).toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')) {
         return 'Hoje'
       }
       return new Date(datetime).toLocaleDateString('pt-br')
     },
-    isNewDay(index){
-      const date = this.filteredMessages[index].datetime.substring(0,10)
+    isNewDay(index) {
+      const date = this.filteredMessages[index].datetime.substring(0, 10)
 
-      if(index == -1 || index == 0){
+      if (index == -1 || index == 0) {
         return true
-      }
-      else if(this.filteredMessages[index - 1].datetime.substring(0,10) === date){
+      } else if (this.filteredMessages[index - 1].datetime.substring(0, 10) === date) {
         return false
-      }
-      else{
+      } else {
         return true
       }
     },
-    closeModalHandleFiles(){
+    closeModalHandleFiles() {
       this.isVisibleModalHandleFiles = false
     },
     onFileChange(e) {
       let uploadedFiles = e.target.files;
 
-      if (uploadedFiles.length > 4){
+      if (uploadedFiles.length > 4) {
         this.$toast.error('Máximo de 4 imagens por vez!', {
           position: "bottom-right",
           pauseOnHover: false,
           showCloseButtonOnHover: true,
           timeout: 2500,
         });
-      }
-
-      else if (uploadedFiles.length > 0){
-        for(var x = 0; x < uploadedFiles.length;x++){
+      } else if (uploadedFiles.length > 0) {
+        for (var x = 0; x < uploadedFiles.length; x++) {
           this.files.push(uploadedFiles[x]);
         }
         this.isVisibleModalHandleFiles = true
       }
     },
-    cleanFiles(){
+    cleanFiles() {
       this.files = []
     },
-    sendFiles(files){
+    sendFiles(files) {
       const current = new Date()
       const date = current.toLocaleDateString('en-US')
       const time = current.toLocaleTimeString('pt-BR')
@@ -229,7 +273,7 @@ export default {
       }
 
       files.forEach((item) => {
-        this.messagesCurrentConversation.push({ 
+        this.messagesCurrentConversation.push({
           id: Math.random(),
           conversationId: this.$props.currentConversation.id,
           value: item,
@@ -239,14 +283,14 @@ export default {
         });
       })
 
-      this.$props.editLastMessage(this.$props.currentConversation.id,data)
+      this.$props.editLastMessage(this.$props.currentConversation.id, data)
       this.cleanFiles()
     },
-    openModalExpandImage(image){
+    openModalExpandImage(image) {
       this.expandImage = image
       this.isVisibleModalExpandImage = true
     },
-    closeModalExpandImage(){
+    closeModalExpandImage() {
       this.expandImage = null
       this.isVisibleModalExpandImage = false
     }
@@ -255,20 +299,24 @@ export default {
 </script>
 
 <style scoped>
-.input-send{
+.input-send {
   width: 88%;
 }
-.buttons{
+
+.buttons {
   width: 12%
 }
+
 .div-scroll {
   height: calc(100vh - 195px);
 }
-.max-min-width{
+
+.max-min-width {
   max-width: 26rem;
   min-width: 6rem;
 }
-.max-min-width-height{
+
+.max-min-width-height {
   max-width: 26rem;
   min-width: 6rem;
   min-height: 6rem;

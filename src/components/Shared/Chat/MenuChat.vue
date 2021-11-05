@@ -11,7 +11,7 @@
     <p v-if="filteredConversations.length == 0" class="text-center">Nenhuma conversa encontrada...</p>
     <div v-else class="overflow-y-auto div-scroll">
       <span v-for="conversation in filteredConversations" :key="conversation.id">
-        <div @click="setCurrentConversation(conversation)" :class="currentConversationId == conversation.id ? 'bg-green-100 hover:none' : 'hover:bg-gray-200'"  class="flex items-center cursor-pointer rounded-md py-2 px-2">
+        <div  @click="setCurrentConversation(conversation, conversation.id)" :class="currentConversationId == conversation.id ? 'bg-green-100 hover:none' : 'hover:bg-gray-200'"  class="flex items-center cursor-pointer rounded-md py-2 px-2">
           <div class="flex items-center w-full">
             <div class="h-11 w-14 bg-primary-main flex items-center justify-center rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
