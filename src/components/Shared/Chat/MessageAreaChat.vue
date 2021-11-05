@@ -12,39 +12,6 @@
   <span v-else class="w-full h-full flex flex-col justify-between">
     <div class="flex items-center  px-3 py-2 flex items-center justify-between border-b border-solid border-gray-500">
       <p class="truncate w-96">{{ this.$props.currentConversation.user }}</p>
-      <span>
-        <button type="button" class="focus:outline-none" @click="toggleMenuOptions">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-          </svg>
-        </button>
-        <template v-if="isVisibleMenuOptions">
-        <div v-click-outside="closeMenuOptions">
-        <ul
-            transition:leave="transition ease-in duration-150"
-            transition:leave-start="opacity-100"
-            transition:leave-end="opacity-0"
-            @click="closeMenuOptions"
-            @keydown.escape="closeMenuOptions"
-            class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
-            aria-label="submenu"
-        >
-          <li class="flex cursor-pointer" @click="deleteConversation(currentConversation.id)">
-            <div
-                class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24"
-                   stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
-              <span class="ml-2 text-red-500">Excluir conversa</span>
-            </div>
-          </li>
-        </ul>
-        </div>
-      </template>
-    </span>
     </div>
 
     <div ref="messagesContainer" class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
@@ -127,7 +94,6 @@ export default {
   props: [
     "currentConversation",
     "messagesCurrentConversation",
-    "deleteConversation",
     "editLastMessage"
   ],
   created() {
@@ -135,7 +101,6 @@ export default {
   },
   data() {
     return {
-      isVisibleMenuOptions: false,
       message: '',
       userId: this.$props.userId,
       isVisibleModalHandleFiles: false,
@@ -183,12 +148,6 @@ export default {
       const content = this.$refs.messagesContainer;
       content.scrollTop = content.scrollHeight
     },
-    toggleMenuOptions() {
-      this.isVisibleMenuOptions = !this.isVisibleMenuOptions
-    },
-    closeMenuOptions() {
-      this.isVisibleMenuOptions = false
-    },
     sendMessage() {
       const current = new Date()
       const date = current.toLocaleDateString('en-US')
@@ -218,8 +177,8 @@ export default {
       this.message = ''
     },
     getHour(datetime) {
-      const time = datetime.slice(datetime.length - 8);
-      return time.substring(0, 5)
+      const time = new Date(datetime).toLocaleTimeString('pt-br')
+      return time.slice(0, -3)
     },
     formatDate(datetime) {
       if (new Date(datetime).toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')) {

@@ -5,15 +5,12 @@
     <div v-if="screenWidth >= 800" class="flex items-center justify-between base-card shadow-lg rounded-md fixed">
       <MenuChat
         :conversations="conversations"
-        :currentConversationId="currentConversation ? currentConversation.id : null"
+        :currentConversationId="conversationId"
         :setCurrentConversation="setCurrentConversation"
       />
       <MessageAreaChat
         :currentConversation="currentConversation"
-        :messagesCurrentConversation="messagesCurrentConversation"
-        :deleteConversation="deleteConversation"
         :editLastMessage="editLastMessage"
-        :userId="userId"
       />
     </div>
 
@@ -21,17 +18,14 @@
       <ResponsiveMenuChat
         v-if="currentConversation == null"
         :conversations="conversations"
-        :currentConversationId="currentConversation ? currentConversation.id : null"
+        :currentConversationId="conversationId"
         :setCurrentConversation="setCurrentConversation"
       />
       <ResponsiveMessageAreaChat
         v-else
         :backToConversations="backToConversations"
         :currentConversation="currentConversation"
-        :messagesCurrentConversation="messagesCurrentConversation"
-        :deleteConversation="deleteConversation"
         :editLastMessage="editLastMessage"
-        :userId="userId"
       />
     </div>
   </span>
@@ -56,29 +50,23 @@ export default {
   },
   data() {
     return {
-      messagesCurrentConversation: [],
       currentConversation: null,
       conversations: [],
-      userId: this.$route.params.id,
       screenWidth: screen.width,
+      conversationId: this.$route.params.id,
     };
   },
   created() {
-    this.validUserId()
-    this.createConversation()
+    this.getConversation()
   },
   methods: {
     backToConversations(){
       this.currentConversation = null
     },
-    validUserId(){
-
-    },
-    createConversation(){
-      const userReceiver = this.$route.params.userReceiver
-      chatService.getChat().then((response)=>{
+    async getConversation(){
+      await chatService.getChat().then((response)=>{
         response.data.forEach((data)=>{
-          var conversation = {
+          const conversation = {
             id: data.id,
             user: data.user.name,
             lastMessageDateTime: null,
@@ -86,46 +74,15 @@ export default {
             lastMessage: null,
           }
           this.conversations.push(conversation)
-
         })
       })
-
-
-      if (userReceiver){
-        const i = this.conversations.findIndex((obj => obj.id == userReceiver.id));
-
-
-        if(i == -1){
-          const conversation = {
-            id: userReceiver.id,
-            user: userReceiver.name,
-            lastMessageDateTime: null,
-            lastMessageIsImage: null,
-            lastMessage: null,
-          }
-          this.conversations.push(conversation)
-          this.currentConversation = conversation
-        }
-      }
     },
     setCurrentConversation(conversation){
       this.currentConversation = conversation
-      console.warn(this.currentConversation)
       this.$router.push({
         name: "chat",
         params: { id: conversation.id },
       });
-    },
-    async deleteConversation(id){
-      await chatService.deleteChat(id).then(() => {
-        this.currentConversation = null
-        this.$toast.success('Conversa excluída com sucesso!', {
-          position: "bottom-right",
-          pauseOnHover: false,
-          showCloseButtonOnHover: true,
-          timeout: 2500,
-        });
-      })
     },
     editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));

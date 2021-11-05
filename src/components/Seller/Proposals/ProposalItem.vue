@@ -156,14 +156,14 @@ export default {
             if (this.isAlreadyConversation == true){
               this.$router.push({
                 name: "chat",
-                params: { id: this.alreadyConversationId, userReceiver: userReceiver },
+                params: { id: this.alreadyConversationId },
               });
             }
             else {
               await chatService.newChat(userReceiver).then((res)=>{
                 this.$router.push({
                   name: "chat",
-                  params: { id: res.data.id, userReceiver: userReceiver },
+                  params: { id: res.data.id },
                 });
               })
             }
