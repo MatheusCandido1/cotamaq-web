@@ -77,6 +77,7 @@
 import vClickOutside from 'v-click-outside';
 import ModalHandleFiles from './ModalHandleFiles';
 import ModalExpandImage from './ModalExpandImage'
+import {chatService} from "../../../services";
 
 export default {
   name: "MessageAreaChat",
@@ -89,15 +90,15 @@ export default {
   },
   props: [
     "currentConversation",
+    "editLastMessage",
     "messagesCurrentConversation",
-    "deleteConversation",
     "backToConversations",
-    "editLastMessage"
   ],
   data() {
     return {
+      loading: false,
       message: '',
-      userId: this.$props.userId,
+      userId: localStorage.getItem('user_id'),
       isVisibleModalHandleFiles: false,
       files: [],
       isVisibleModalExpandImage: false,
@@ -109,12 +110,13 @@ export default {
       const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
       this.$nextTick(() => this.scrollToEnd());
 
-      return messages.slice().sort(function(a,b){
+      return messages.slice().sort(function (a, b) {
         return new Date(a.datetime) - new Date(b.datetime);
       });
     }
   },
   methods: {
+    
     scrollToEnd() {
       const content = this.$refs.messagesContainer;
       content.scrollTop = content.scrollHeight
@@ -130,7 +132,7 @@ export default {
         lastMessageIsImage: null,
       }
 
-      this.messagesCurrentConversation.push({ 
+      this.$props.messagesCurrentConversation.push({
         id: Math.random(),
         conversationId: this.$props.currentConversation.id,
         value: this.message,
@@ -138,58 +140,61 @@ export default {
         datetime: datetime
       });
 
-      this.$props.editLastMessage(this.$props.currentConversation.id,data)
+      const message = {
+        chat_id: this.$props.currentConversation.id,
+        text: this.message
+      }
+      chatService.newMessage(message)
+
+      this.$props.editLastMessage(this.$props.currentConversation.id, data)
       this.message = ''
     },
     getHour(datetime) {
       const time = new Date(datetime).toLocaleTimeString('pt-br')
       return time.slice(0, -3)
     },
-    formatDate(datetime){
-      if (new Date(datetime).toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')){
+    formatDate(datetime) {
+      if (new Date(datetime).toLocaleDateString('pt-br') === new Date().toLocaleDateString('pt-br')) {
         return 'Hoje'
       }
       return new Date(datetime).toLocaleDateString('pt-br')
     },
-    isNewDay(index){
-      const date = this.filteredMessages[index].datetime.substring(0,10)
+    isNewDay(index) {
+      const date = new Date(this.filteredMessages[index]?.datetime).toLocaleDateString('pt-br')
+      const lastMessageDate = new Date(this.filteredMessages[index - 1]?.datetime).toLocaleDateString('pt-br')
 
-      if(index == -1 || index == 0){
+      if (index == -1 || index == 0) {
         return true
-      }
-      else if(this.filteredMessages[index - 1].datetime.substring(0,10) === date){
+      } else if (lastMessageDate === date) {
         return false
-      }
-      else{
+      } else {
         return true
       }
     },
-    closeModalHandleFiles(){
+    closeModalHandleFiles() {
       this.isVisibleModalHandleFiles = false
     },
     onFileChange(e) {
       let uploadedFiles = e.target.files;
 
-      if (uploadedFiles.length > 4){
+      if (uploadedFiles.length > 4) {
         this.$toast.error('Máximo de 4 imagens por vez!', {
           position: "bottom-right",
           pauseOnHover: false,
           showCloseButtonOnHover: true,
           timeout: 2500,
         });
-      }
-
-      else if (uploadedFiles.length > 0){
-        for(var x = 0; x < uploadedFiles.length;x++){
+      } else if (uploadedFiles.length > 0) {
+        for (var x = 0; x < uploadedFiles.length; x++) {
           this.files.push(uploadedFiles[x]);
         }
         this.isVisibleModalHandleFiles = true
       }
     },
-    cleanFiles(){
+    cleanFiles() {
       this.files = []
     },
-    sendFiles(files){
+    sendFiles(files) {
       const current = new Date()
       const date = current.toLocaleDateString('en-US')
       const time = current.toLocaleTimeString('pt-BR')
@@ -201,7 +206,7 @@ export default {
       }
 
       files.forEach((item) => {
-        this.messagesCurrentConversation.push({ 
+        this.$props.messagesCurrentConversation.push({
           id: Math.random(),
           conversationId: this.$props.currentConversation.id,
           value: item,
@@ -211,14 +216,14 @@ export default {
         });
       })
 
-      this.$props.editLastMessage(this.$props.currentConversation.id,data)
+      this.$props.editLastMessage(this.$props.currentConversation.id, data)
       this.cleanFiles()
     },
-    openModalExpandImage(image){
+    openModalExpandImage(image) {
       this.expandImage = image
       this.isVisibleModalExpandImage = true
     },
-    closeModalExpandImage(){
+    closeModalExpandImage() {
       this.expandImage = null
       this.isVisibleModalExpandImage = false
     }

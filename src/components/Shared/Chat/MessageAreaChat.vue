@@ -9,7 +9,6 @@
   </div>
 
   <span v-else class="w-full h-full flex flex-col justify-between">
-    <loadingComponent v-if="loading"/>
     <div class="flex items-center  px-3 py-2 flex items-center justify-between border-b border-solid border-gray-500">
       <p class="truncate w-96">{{ this.$props.currentConversation.user }}</p>
     </div>
@@ -81,14 +80,12 @@ import vClickOutside from 'v-click-outside';
 import ModalHandleFiles from './ModalHandleFiles';
 import ModalExpandImage from './ModalExpandImage'
 import {chatService} from "../../../services";
-import loadingComponent from "../loading";
 
 export default {
   name: "MessageAreaChat",
   components: {
     ModalHandleFiles,
     ModalExpandImage,
-    loadingComponent,
   },
   directives: {
     clickOutside: vClickOutside.directive
@@ -100,7 +97,6 @@ export default {
   ],
   data() {
     return {
-      loading: false,
       message: '',
       userId: localStorage.getItem('user_id'),
       isVisibleModalHandleFiles: false,
