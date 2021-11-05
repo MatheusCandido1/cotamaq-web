@@ -164,11 +164,12 @@ export default {
       return new Date(datetime).toLocaleDateString('pt-br')
     },
     isNewDay(index) {
-      const date = this.filteredMessages[index].datetime.substring(0, 10)
+      const date = new Date(this.filteredMessages[index]?.datetime).toLocaleDateString('pt-br')
+      const lastMessageDate = new Date(this.filteredMessages[index - 1]?.datetime).toLocaleDateString('pt-br')
 
       if (index == -1 || index == 0) {
         return true
-      } else if (this.filteredMessages[index - 1].datetime.substring(0, 10) === date) {
+      } else if (lastMessageDate === date) {
         return false
       } else {
         return true
