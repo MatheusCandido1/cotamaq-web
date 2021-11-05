@@ -231,6 +231,7 @@ import {
 import ProposalAccept from "./ProposalAccept";
 import ProposalDecline from "./ProposalDecline";
 import ProposalShowImages from "./ProposalShowImages";
+import {chatService} from '../../../services'
 
 export default {
   name: "ProposalPartItem",
@@ -248,6 +249,8 @@ export default {
       ],
       selectedProposal: this.proposal,
       selectedEstimate: this.estimate,
+      isAlreadyConversation: false,
+      alreadyConversationId: null,
       modal: {
         accept: false,
         decline: false,
@@ -262,15 +265,36 @@ export default {
     formatDelivery,
     formatDiscountPercent,
     formatZipcode,
-    goChat(){
+    async goChat(){
       const userReceiver = {
         name: this.selectedProposal.user.name,
         id: this.selectedProposal.user_id,
       }
-      this.$router.push({
-        name: "chat",
-        params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
-      });
+
+      await chatService.getChat().then((res)=>{
+        const data = res.data
+        data.forEach((item) => {
+          if(item.user.id == userReceiver.id){
+            this.isAlreadyConversation = true
+            this.alreadyConversationId = item.id
+          }
+        })
+      })
+
+      if (this.isAlreadyConversation == true){
+        this.$router.push({
+          name: "chat",
+          params: { id: this.alreadyConversationId, userReceiver: userReceiver },
+        });
+      }
+      else {
+        await chatService.newChat(userReceiver).then((res)=>{
+          this.$router.push({
+            name: "chat",
+            params: { id: res.data.id, userReceiver: userReceiver },
+          });
+        })
+      }
     },
     goOrder() {
       this.$router.push({

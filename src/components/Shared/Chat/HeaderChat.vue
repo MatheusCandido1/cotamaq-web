@@ -105,11 +105,8 @@ export default {
     };
   },
   methods: {
-    logout() {
-      alert("Teste");
-    },
-    goBack() {
-      this.$router.back()
+    goBack(){
+      this.$router.push({name: 'estimates'})
     },
     toggleProfileMenu() {
       this.isProfileMenuOpen = !this.isProfileMenuOpen;

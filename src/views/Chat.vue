@@ -116,17 +116,16 @@ export default {
         params: { id: conversation.id },
       });
     },
-    deleteConversation(id){
-      this.conversations = this.conversations.filter(
-        (e) => e.id !== id
-      );
-      this.currentConversation = null
-      this.$toast.success('Conversa excluída com sucesso!', {
-        position: "bottom-right",
-        pauseOnHover: false,
-        showCloseButtonOnHover: true,
-        timeout: 2500,
-      });
+    async deleteConversation(id){
+      await chatService.deleteChat(id).then(() => {
+        this.currentConversation = null
+        this.$toast.success('Conversa excluída com sucesso!', {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 2500,
+        });
+      })
     },
     editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));

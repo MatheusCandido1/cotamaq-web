@@ -114,6 +114,8 @@ export default {
      },
      data() {
         return {
+          isAlreadyConversation: false,
+          alreadyConversationId: null,
           imagesProposal:[],
           modal: {
                cancel: false,
@@ -136,21 +138,35 @@ export default {
           formatZipcode,
           formatMissingInformation,
           async goChat(){
+            const userReceiver = {
+              name: this.selectedProposal.estimate.user.name,
+              id: this.selectedProposal.estimate.user_id,
+            }
+            
+            await chatService.getChat().then((res)=>{
+              const data = res.data
+              data.forEach((item) => {
+                if(item.user.id == userReceiver.id){
+                  this.isAlreadyConversation = true
+                  this.alreadyConversationId = item.id
+                }
+              })
+            })
 
-               const userReceiver = {
-                    name: this.selectedProposal.estimate.user.name,
-                    id: this.selectedProposal.estimate.user_id,
-               }
-
-
-              await chatService.newChat(userReceiver).then(()=>{
-                 this.$router.push({
-                   name: "chat",
-                   params: { id: localStorage.getItem('user_id'), userReceiver: userReceiver },
-                 });
-
-               })
-
+            if (this.isAlreadyConversation == true){
+              this.$router.push({
+                name: "chat",
+                params: { id: this.alreadyConversationId, userReceiver: userReceiver },
+              });
+            }
+            else {
+              await chatService.newChat(userReceiver).then((res)=>{
+                this.$router.push({
+                  name: "chat",
+                  params: { id: res.data.id, userReceiver: userReceiver },
+                });
+              })
+            }
           },
           showModalImages(){
 
