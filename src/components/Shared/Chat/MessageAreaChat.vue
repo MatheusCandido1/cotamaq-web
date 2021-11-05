@@ -144,8 +144,8 @@ export default {
         datetime: datetime
       });
 
-      var message = {
-        chat_id: this.$route.params.id,
+      const message = {
+        chat_id: this.$props.currentConversation.id,
         text: this.message
       }
       chatService.newMessage(message)
