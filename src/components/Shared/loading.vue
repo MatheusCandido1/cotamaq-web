@@ -16,7 +16,7 @@
 // import { FlowerSpinner } from 'epic-spinners'
 import { ScalingSquaresSpinner } from "epic-spinners";
 // import { OrbitSpinner } from 'epic-spinners'
-import { bus } from "../main";
+import { bus } from "../../main";
 export default {
   components: { ScalingSquaresSpinner },
   created() {

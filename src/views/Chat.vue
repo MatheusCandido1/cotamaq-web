@@ -1,5 +1,6 @@
 <template>
   <span>
+    <loadingComponent v-if="loading"/>
     <HeaderChat />
 
     <div v-if="screenWidth >= 800" class="flex items-center justify-between base-card shadow-lg rounded-md fixed">
@@ -38,6 +39,7 @@ import MessageAreaChat from "../components/Shared/Chat/MessageAreaChat";
 import ResponsiveMenuChat from "../components/Shared/Chat/ResponsiveMenuChat";
 import ResponsiveMessageAreaChat from "../components/Shared/Chat/ResponsiveMessageAreaChat";
 import {chatService} from "../services";
+import loadingComponent from "../components/Shared/loading";
 
 export default {
   name: "Chat",
@@ -47,10 +49,12 @@ export default {
     MessageAreaChat,
     ResponsiveMenuChat,
     ResponsiveMessageAreaChat,
+    loadingComponent,
   },
   data() {
     return {
       currentConversation: null,
+      loading: false,
       conversations: [],
       screenWidth: screen.width,
       conversationId: this.$route.params.id,
@@ -64,6 +68,7 @@ export default {
       this.currentConversation = null
     },
     async getConversation(){
+      this.loading = true
       await chatService.getChat().then((response)=>{
         response.data.forEach((data)=>{
           const conversation = {
@@ -76,13 +81,11 @@ export default {
           this.conversations.push(conversation)
         })
       })
+      this.loading = false
     },
     setCurrentConversation(conversation){
       this.currentConversation = conversation
-      this.$router.push({
-        name: "chat",
-        params: { id: conversation.id },
-      });
+      this.conversationId = conversation.id
     },
     editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));

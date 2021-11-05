@@ -1,5 +1,4 @@
 <template>
-
   <div v-if="this.$props.currentConversation == null" class="w-full flex flex-col items-center">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-primary-main" fill="none" viewBox="0 0 24 24"
          stroke="currentColor">
@@ -10,6 +9,7 @@
   </div>
 
   <span v-else class="w-full h-full flex flex-col justify-between">
+    <loadingComponent v-if="loading"/>
     <div class="flex items-center  px-3 py-2 flex items-center justify-between border-b border-solid border-gray-500">
       <p class="truncate w-96">{{ this.$props.currentConversation.user }}</p>
     </div>
@@ -81,45 +81,41 @@ import vClickOutside from 'v-click-outside';
 import ModalHandleFiles from './ModalHandleFiles';
 import ModalExpandImage from './ModalExpandImage'
 import {chatService} from "../../../services";
+import loadingComponent from "../loading";
 
 export default {
   name: "MessageAreaChat",
   components: {
     ModalHandleFiles,
     ModalExpandImage,
+    loadingComponent,
   },
   directives: {
     clickOutside: vClickOutside.directive
   },
   props: [
     "currentConversation",
-    "messagesCurrentConversation",
-    "editLastMessage"
+    "editLastMessage",
+    "currentConversationId"
   ],
   created() {
     this.loadMessages()
   },
   data() {
     return {
+      loading: false,
       message: '',
-      userId: this.$props.userId,
+      userId: localStorage.getItem('user_id'),
       isVisibleModalHandleFiles: false,
       files: [],
       isVisibleModalExpandImage: false,
       expandImage: null,
-      chatID: this.$route.params.id
+      messagesCurrentConversation: [],
     };
-  },
-  watch:{
-    $route(to) {
-      this.chatID = to.params.id;
-      this.loadMessages();
-    }
-
   },
   computed: {
     filteredMessages() {
-      const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
+      const messages = this.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
       this.$nextTick(() => this.scrollToEnd());
 
       return messages.slice().sort(function (a, b) {
@@ -128,21 +124,21 @@ export default {
     }
   },
   methods: {
-    loadMessages() {
-      chatService.loadMessage(this.chatID).then((response)=>{
-
+    async loadMessages() {
+      this.loading = true
+      console.log(this.$props.currentConversationId)
+      /* await chatService.loadMessage(this.$props.currentConversation.id).then((response)=>{
         response.data.forEach((data)=>{
-          this.filteredMessages.push({
-            id: Math.random(),
-            conversationId: this.$route.params.id,
+          this.messagesCurrentConversation.push({
+            id: data.id,
+            conversationId: data.chat_id,
             value: data.text,
             userId: data.user_id,
             datetime: data.created_at
           });
         })
-
-      })
-
+      }) */
+      this.loading = false
     },
     scrollToEnd() {
       const content = this.$refs.messagesContainer;

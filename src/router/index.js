@@ -57,7 +57,7 @@ const routes = [
     ]
   },
   {
-    path: '/chat/:id',
+    path: '/chat',
     name:'chat',
     component:Chat,
     props: true,
