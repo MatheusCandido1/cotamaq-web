@@ -12,6 +12,7 @@
       <MessageAreaChat
         :currentConversation="currentConversation"
         :editLastMessage="editLastMessage"
+        :messagesCurrentConversation="messagesCurrentConversation"
       />
     </div>
 
@@ -27,6 +28,7 @@
         :backToConversations="backToConversations"
         :currentConversation="currentConversation"
         :editLastMessage="editLastMessage"
+        :messagesCurrentConversation="messagesCurrentConversation"
       />
     </div>
   </span>
@@ -58,12 +60,28 @@ export default {
       conversations: [],
       screenWidth: screen.width,
       conversationId: this.$route.params.id,
+      messagesCurrentConversation: [],
     };
   },
   created() {
     this.getConversation()
   },
   methods: {
+    async loadMessages(id) {
+      this.loading = true
+      await chatService.loadMessage(this.conversationId || id).then((response)=>{
+        response.data.forEach((data)=>{
+          this.messagesCurrentConversation.push({
+            id: data.id,
+            conversationId: data.chat_id,
+            value: data.text,
+            userId: data.user_id,
+            datetime: data.created_at
+          });
+        })
+      })
+      this.loading = false
+    },
     backToConversations(){
       this.currentConversation = null
     },
@@ -79,6 +97,10 @@ export default {
             lastMessage: null,
           }
           this.conversations.push(conversation)
+
+          if (data.id == this.conversationId) {
+            this.setCurrentConversation(conversation)
+          }
         })
       })
       this.loading = false
@@ -86,6 +108,7 @@ export default {
     setCurrentConversation(conversation){
       this.currentConversation = conversation
       this.conversationId = conversation.id
+      this.loadMessages(conversation.id)
     },
     editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));

@@ -96,11 +96,8 @@ export default {
   props: [
     "currentConversation",
     "editLastMessage",
-    "currentConversationId"
+    "messagesCurrentConversation"
   ],
-  created() {
-    this.loadMessages()
-  },
   data() {
     return {
       loading: false,
@@ -110,12 +107,11 @@ export default {
       files: [],
       isVisibleModalExpandImage: false,
       expandImage: null,
-      messagesCurrentConversation: [],
     };
   },
   computed: {
     filteredMessages() {
-      const messages = this.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
+      const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
       this.$nextTick(() => this.scrollToEnd());
 
       return messages.slice().sort(function (a, b) {
@@ -124,22 +120,7 @@ export default {
     }
   },
   methods: {
-    async loadMessages() {
-      this.loading = true
-      console.log(this.$props.currentConversationId)
-      /* await chatService.loadMessage(this.$props.currentConversation.id).then((response)=>{
-        response.data.forEach((data)=>{
-          this.messagesCurrentConversation.push({
-            id: data.id,
-            conversationId: data.chat_id,
-            value: data.text,
-            userId: data.user_id,
-            datetime: data.created_at
-          });
-        })
-      }) */
-      this.loading = false
-    },
+    
     scrollToEnd() {
       const content = this.$refs.messagesContainer;
       content.scrollTop = content.scrollHeight
@@ -155,7 +136,7 @@ export default {
         lastMessageIsImage: null,
       }
 
-      this.messagesCurrentConversation.push({
+      this.$props.messagesCurrentConversation.push({
         id: Math.random(),
         conversationId: this.$props.currentConversation.id,
         value: this.message,
@@ -228,7 +209,7 @@ export default {
       }
 
       files.forEach((item) => {
-        this.messagesCurrentConversation.push({
+        this.$props.messagesCurrentConversation.push({
           id: Math.random(),
           conversationId: this.$props.currentConversation.id,
           value: item,
