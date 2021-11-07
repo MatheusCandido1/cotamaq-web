@@ -75,6 +75,7 @@ export default {
             id: data.id,
             conversationId: data.chat_id,
             value: data.text,
+            image:data.image,
             userId: data.user_id,
             datetime: data.created_at
           });
@@ -87,15 +88,29 @@ export default {
     },
     async getConversation(){
       this.loading = true
+      var user_id = localStorage.getItem('user_id')
       await chatService.getChat().then((response)=>{
+        var conversation  = null
         response.data.forEach((data)=>{
-          const conversation = {
-            id: data.id,
-            user: data.user.name,
-            lastMessageDateTime: null,
-            lastMessageIsImage: null,
-            lastMessage: null,
+          if(data.auth.id == user_id){
+            conversation = {
+              id: data.id,
+              user: data.auth.name,
+              lastMessageDateTime: null,
+              lastMessageIsImage: null,
+              lastMessage: null,
+            }
+
+          }else{
+            conversation = {
+              id: data.id,
+              user: data.notification.name,
+              lastMessageDateTime: null,
+              lastMessageIsImage: null,
+              lastMessage: null,
+            }
           }
+
           this.conversations.push(conversation)
 
           if (data.id == this.conversationId) {

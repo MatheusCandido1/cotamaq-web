@@ -24,8 +24,8 @@
             :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
             class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
-          <img @click="openModalExpandImage(message.value)" v-if="message.isImage == 1"
-               class="w-auto h-auto max-min-width-height mb-1 cursor-pointer" :src="message.value" alt="image"/>
+          <img @click="openModalExpandImage(message.value)" v-if="message.image"
+               class="w-auto h-auto max-min-width-height mb-1 cursor-pointer" :src="message.image" alt="image"/>
           <p v-else>{{ message.value }}</p>
           <p class="flex justify-end text-gray-700 text-xs">{{ getHour(message.datetime) }}</p>
         </div>

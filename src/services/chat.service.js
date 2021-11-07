@@ -6,7 +6,8 @@ export const chatService = {
     newChat,
     getChat,
     newMessage,
-    loadMessage
+    loadMessage,
+    sendImage
 };
 function getChat() {
     return axios.get(`${API_URL}/chat`, {
@@ -14,6 +15,14 @@ function getChat() {
             ...authHeader(),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
+        }
+    }).then(handleResponse)
+}
+function sendImage(data) {
+    return axios.post(`${API_URL}/chat/image`,data, {
+        headers: {
+            ...authHeader(),
+            'Content-Type': 'multipart/form-data'
         }
     }).then(handleResponse)
 }

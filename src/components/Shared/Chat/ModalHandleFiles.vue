@@ -64,12 +64,15 @@
   </transition>
 </template>
 <script>
+import {chatService} from "../../../services";
+
 export default {
   name: "ModalHandleFiles",
   props: ['files', 'cleanFiles','sendFiles'],
   data() {
     return {
       listFiles: this.$props.files,
+      form: new FormData,
       urlImages: [],
     }
   },
@@ -80,6 +83,17 @@ export default {
     handleSend(){
       this.close()
       this.$props.sendFiles(this.urlImages)
+
+
+      this.listFiles.forEach((file) => {
+        console.log(file)
+        this.form.append('files[]', file)
+      })
+
+      this.form.append('chat_id',12)
+
+
+      chatService.sendImage(this.form)
     },
     close() {
       this.$props.cleanFiles()
