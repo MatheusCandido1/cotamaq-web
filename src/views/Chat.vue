@@ -12,7 +12,7 @@
       <MessageAreaChat
         :currentConversation="currentConversation"
         :editLastMessage="editLastMessage"
-        :messagesCurrentConversation="messagesCurrentConversation"
+        :messages="messages"
       />
     </div>
 
@@ -28,7 +28,7 @@
         :backToConversations="backToConversations"
         :currentConversation="currentConversation"
         :editLastMessage="editLastMessage"
-        :messagesCurrentConversation="messagesCurrentConversation"
+        :messages="messages"
       />
     </div>
   </span>
@@ -60,18 +60,17 @@ export default {
       conversations: [],
       screenWidth: screen.width,
       conversationId: this.$route.params.id,
-      messagesCurrentConversation: [],
+      messages: [],
     };
   },
   created() {
-    this.getConversation()
+    this.getConversations()
   },
   methods: {
     async loadMessages(id) {
-      this.loading = true
-      await chatService.loadMessage(this.conversationId || id).then((response)=>{
-        response.data.forEach((data)=>{
-          this.messagesCurrentConversation.push({
+      await chatService.loadMessage(id).then(async(response)=>{
+        await response.data.forEach((data)=>{
+          this.messages.push({
             id: data.id,
             conversationId: data.chat_id,
             value: data.text,
@@ -80,17 +79,23 @@ export default {
             datetime: data.created_at
           });
         })
+        const lastItem = this.messages[this.messages.length - 1]
+        const data = {
+          lastMessage: lastItem?.value,
+          lastMessageIsImage: lastItem?.image ? 1 : 0,
+          datetime: lastItem?.datetime,
+        }
+        this.editLastMessage(id, data)
       })
-      this.loading = false
     },
     backToConversations(){
       this.currentConversation = null
     },
-    async getConversation(){
+    async getConversations(){
       this.loading = true
       const user_id = localStorage.getItem('user_id')
       await chatService.getChat().then((response)=>{
-        let conversation  = null
+        let conversation = null
         response.data.forEach((data)=>{
           if(data.auth.id == user_id){
             conversation = {
@@ -112,6 +117,7 @@ export default {
           }
 
           this.conversations.push(conversation)
+          this.loadMessages(conversation?.id)
 
           if (data.id == this.conversationId) {
             this.setCurrentConversation(conversation)
@@ -124,7 +130,6 @@ export default {
       if (this.currentConversation?.id != conversation.id){
         this.currentConversation = conversation
         this.conversationId = conversation.id
-        this.loadMessages(conversation.id)
       }
     },
     editLastMessage(id, data){ 

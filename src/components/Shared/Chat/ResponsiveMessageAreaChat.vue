@@ -92,7 +92,7 @@ export default {
   props: [
     "currentConversation",
     "editLastMessage",
-    "messagesCurrentConversation",
+    "messages",
     "backToConversations",
   ],
   data() {
@@ -108,7 +108,7 @@ export default {
   },
   computed: {
     filteredMessages() {
-      const messages = this.$props.messagesCurrentConversation.filter(item => item.conversationId == this.$props.currentConversation.id)
+      const messages = this.$props.messages.filter(item => item.conversationId == this.$props.currentConversation.id)
       this.$nextTick(() => this.scrollToEnd());
 
       return messages.slice().sort(function (a, b) {
@@ -133,7 +133,7 @@ export default {
         lastMessageIsImage: null,
       }
 
-      this.$props.messagesCurrentConversation.push({
+      this.$props.messages.push({
         id: Math.random(),
         conversationId: this.$props.currentConversation.id,
         value: this.message,
@@ -207,7 +207,7 @@ export default {
       }
 
       files.forEach((item) => {
-        this.$props.messagesCurrentConversation.push({
+        this.$props.messages.push({
           id: Math.random(),
           conversationId: this.$props.currentConversation.id,
           image: item,
