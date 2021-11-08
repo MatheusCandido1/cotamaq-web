@@ -68,7 +68,7 @@ import {chatService} from "../../../services";
 
 export default {
   name: "ModalHandleFiles",
-  props: ['files', 'cleanFiles','sendFiles'],
+  props: ['files', 'cleanFiles','sendFiles','conversationId'],
   data() {
     return {
       listFiles: this.$props.files,
@@ -86,11 +86,10 @@ export default {
 
 
       this.listFiles.forEach((file) => {
-        console.log(file)
         this.form.append('files[]', file)
       })
 
-      this.form.append('chat_id',12)
+      this.form.append('chat_id',this.$props.conversationId)
 
 
       chatService.sendImage(this.form)

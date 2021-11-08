@@ -24,7 +24,7 @@
             :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
             class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
-          <img @click="openModalExpandImage(message.value)" v-if="message.image"
+          <img @click="openModalExpandImage(message.image)" v-if="message.image"
                class="w-auto h-auto max-min-width-height mb-1 cursor-pointer" :src="message.image" alt="image"/>
           <p v-else>{{ message.value }}</p>
           <p class="flex justify-end text-gray-700 text-xs">{{ getHour(message.datetime) }}</p>
@@ -61,6 +61,7 @@
     <modal-handle-files
         v-if="isVisibleModalHandleFiles"
         :files="files"
+        :conversationId="currentConversation.id"
         :cleanFiles="cleanFiles"
         :sendFiles="sendFiles"
         @close="closeModalHandleFiles">
@@ -209,8 +210,7 @@ export default {
         this.$props.messagesCurrentConversation.push({
           id: Math.random(),
           conversationId: this.$props.currentConversation.id,
-          value: item,
-          isImage: 1,
+          image: item,
           userId: this.userId,
           datetime: datetime
         });

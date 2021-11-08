@@ -121,9 +121,11 @@ export default {
       this.loading = false
     },
     setCurrentConversation(conversation){
-      this.currentConversation = conversation
-      this.conversationId = conversation.id
-      this.loadMessages(conversation.id)
+      if (this.currentConversation?.id != conversation.id){
+        this.currentConversation = conversation
+        this.conversationId = conversation.id
+        this.loadMessages(conversation.id)
+      }
     },
     editLastMessage(id, data){ 
       const i = this.conversations.findIndex((obj => obj.id == id));
