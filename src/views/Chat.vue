@@ -88,14 +88,14 @@ export default {
     },
     async getConversation(){
       this.loading = true
-      var user_id = localStorage.getItem('user_id')
+      const user_id = localStorage.getItem('user_id')
       await chatService.getChat().then((response)=>{
-        var conversation  = null
+        let conversation  = null
         response.data.forEach((data)=>{
           if(data.auth.id == user_id){
             conversation = {
               id: data.id,
-              user: data.auth.name,
+              user: data.notification.name,
               lastMessageDateTime: null,
               lastMessageIsImage: null,
               lastMessage: null,
@@ -104,7 +104,7 @@ export default {
           }else{
             conversation = {
               id: data.id,
-              user: data.notification.name,
+              user: data.auth.name,
               lastMessageDateTime: null,
               lastMessageIsImage: null,
               lastMessage: null,

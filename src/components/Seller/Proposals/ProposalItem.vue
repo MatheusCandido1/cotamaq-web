@@ -146,7 +146,7 @@ export default {
             await chatService.getChat().then((res)=>{
               const data = res.data
               data.forEach((item) => {
-                if(item.user.id == userReceiver.id){
+                if(item.auth.id == userReceiver.id || item.notification.id == userReceiver.id){
                   this.isAlreadyConversation = true
                   this.alreadyConversationId = item.id
                 }
