@@ -101,7 +101,7 @@ export default {
       const user_id = localStorage.getItem('user_id')
       await chatService.getChat().then((response)=>{
         let conversation = null
-        response.data.forEach((data)=>{
+        response.data.forEach(async(data)=>{
           if(data.auth.id == user_id){
             conversation = {
               id: data.id,
@@ -122,14 +122,14 @@ export default {
           }
 
           this.conversations.push(conversation)
-          this.loadMessages(conversation?.id)
+          await this.loadMessages(conversation?.id)
 
           if (data.id == this.conversationId) {
             this.setCurrentConversation(conversation)
           }
         })
       })
-      setTimeout(() => { this.loading = false }, 1500);
+      setTimeout(() => this.loading = false, 1500);
     },
     setCurrentConversation(conversation){
       if (this.currentConversation?.id != conversation.id){
