@@ -125,14 +125,19 @@ export default {
         }
         this.editLastMessage(event.message.chat_id, data)
 
-        if(this.isAudioSound && this.conversationId !== event.message.chat_id){
-          var audio = new Audio(require('../assets/notification.wav'));
-          audio.play();
+        if(this.isAudioSound && this.currentConversation?.id != event.message.chat_id){
+          var audio1 = new Audio(require('../assets/notification.wav'));
+          audio1.play();
+        }
+        else if(this.isAudioSound && this.currentConversation?.id == event.message.chat_id){
+          var audio2 = new Audio(require('../assets/vibrate-notification.mp3'));
+          audio2.play();
         }
       })
     },
     backToConversations(){
       this.currentConversation = null
+      this.conversationId = null
     },
     async getConversations(){
       this.loading = true
