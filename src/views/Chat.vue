@@ -68,11 +68,8 @@ export default {
   },
   methods: {
     async loadMessages(id) {
-      await chatService.loadMessage(id).then((response)=>{
-        const data = response.data
-        const lastIndex = data.length - 1
-
-        data.forEach((data, index)=>{
+      await chatService.loadMessage(id).then(async(response)=>{
+        await response.data.forEach((data)=>{
           this.messages.push({
             id: data.id,
             conversationId: data.chat_id,
@@ -81,16 +78,14 @@ export default {
             userId: data.user_id,
             datetime: data.created_at
           });
-
-          if (index == lastIndex){
-            const payload = {
-              lastMessage: data.text,
-              lastMessageIsImage: data.image ? 1 : 0,
-              datetime: data.created_at,
-            }
-            this.editLastMessage(id, payload)
-          }
         })
+        const lastItem = this.messages[this.messages.length - 1]
+        const data = {
+          lastMessage: lastItem?.value,
+          lastMessageIsImage: lastItem?.image ? 1 : 0,
+          datetime: lastItem?.datetime,
+        }
+        this.editLastMessage(id, data)
       })
     },
     backToConversations(){
@@ -129,7 +124,7 @@ export default {
           }
         })
       })
-      setTimeout(() => this.loading = false, 1500);
+      setTimeout(() => this.loading = false, 1000);
     },
     setCurrentConversation(conversation){
       if (this.currentConversation?.id != conversation.id){
