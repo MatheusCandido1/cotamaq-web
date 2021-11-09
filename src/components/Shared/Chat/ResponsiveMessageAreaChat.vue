@@ -131,6 +131,7 @@ export default {
         datetime: datetime,
         lastMessage: this.message,
         lastMessageIsImage: null,
+        userSend: this.userId,
       }
 
       this.$props.messages.push({
@@ -204,6 +205,7 @@ export default {
         datetime: datetime,
         lastMessageIsImage: 1,
         lastMessage: null,
+        userSend: this.userId,
       }
 
       files.forEach((item) => {

@@ -31,6 +31,12 @@
         :messages="messages"
       />
     </div>
+
+    <modal-audio-options
+      v-if="isVisibleModalAudioOptions"
+      :allowSound="allowSound"
+      @close="closeModalAudioOptions">
+    </modal-audio-options>
   </span>
 </template>
 
@@ -40,6 +46,7 @@ import HeaderChat from "../components/Shared/Chat/HeaderChat";
 import MessageAreaChat from "../components/Shared/Chat/MessageAreaChat";
 import ResponsiveMenuChat from "../components/Shared/Chat/ResponsiveMenuChat";
 import ResponsiveMessageAreaChat from "../components/Shared/Chat/ResponsiveMessageAreaChat";
+import ModalAudioOptions from "../components/Shared/Chat/ModalAudioOptions";
 import {chatService, echoService} from "../services";
 import loadingComponent from "../components/Shared/loading";
 
@@ -52,9 +59,12 @@ export default {
     ResponsiveMenuChat,
     ResponsiveMessageAreaChat,
     loadingComponent,
+    ModalAudioOptions,
   },
   data() {
     return {
+      isAudioSound: false,
+      isVisibleModalAudioOptions: true,
       currentConversation: null,
       loading: false,
       conversations: [],
@@ -62,7 +72,6 @@ export default {
       conversationId: this.$route.params.id,
       messages: [],
       chatID:0
-
     };
   },
   created() {
@@ -90,6 +99,7 @@ export default {
           lastMessage: lastItem?.value,
           lastMessageIsImage: lastItem?.image ? 1 : 0,
           datetime: lastItem?.datetime,
+          userSend: lastItem?.userId,
         }
         this.editLastMessage(id, data)
       })
@@ -107,6 +117,18 @@ export default {
           datetime: event.message.created_at
         });
 
+        const data = {
+          lastMessage: event.message.text,
+          lastMessageIsImage: event.message.image ? 1 : 0,
+          datetime: event.message.created_at,
+          userSend: event.message.user_id,
+        }
+        this.editLastMessage(event.message.chat_id, data)
+
+        if(this.isAudioSound && this.conversationId !== event.message.chat_id){
+          var audio = new Audio(require('../assets/notification.wav'));
+          audio.play();
+        }
       })
     },
     backToConversations(){
@@ -152,6 +174,9 @@ export default {
       if (this.currentConversation?.id != conversation.id){
         this.currentConversation = conversation
         this.conversationId = conversation.id
+
+        const i = this.conversations.findIndex((obj => obj.id == conversation.id));
+        this.conversations[i].notification = 0
       }
     },
     editLastMessage(id, data){ 
@@ -160,6 +185,18 @@ export default {
       this.conversations[i].lastMessageDateTime = data.datetime
       this.conversations[i].lastMessageIsImage = data.lastMessageIsImage
       this.conversations[i].lastMessage = data.lastMessage
+      this.conversations[i].userSend = data.userSend
+
+      if (id != this.currentConversation?.id){
+        this.conversations[i].notification = 1
+      }
+    },
+    closeModalAudioOptions(){
+      this.isVisibleModalAudioOptions = false
+    },
+    allowSound(){
+      this.isAudioSound = true
+      this.isVisibleModalAudioOptions =  false
     }
   }
 };
