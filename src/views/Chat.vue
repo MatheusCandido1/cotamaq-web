@@ -40,7 +40,7 @@ import HeaderChat from "../components/Shared/Chat/HeaderChat";
 import MessageAreaChat from "../components/Shared/Chat/MessageAreaChat";
 import ResponsiveMenuChat from "../components/Shared/Chat/ResponsiveMenuChat";
 import ResponsiveMessageAreaChat from "../components/Shared/Chat/ResponsiveMessageAreaChat";
-import {chatService} from "../services";
+import {chatService, echoService} from "../services";
 import loadingComponent from "../components/Shared/loading";
 
 export default {
@@ -61,13 +61,20 @@ export default {
       screenWidth: screen.width,
       conversationId: this.$route.params.id,
       messages: [],
+      chatID:0
+
     };
   },
   created() {
+    echoService.connect()
+  },
+  mounted() {
     this.getConversations()
   },
   methods: {
     async loadMessages(id) {
+      console.log(this.currentConversation)
+      this.loadMessageWS(id)
       await chatService.loadMessage(id).then((response)=>{
         const data = response.data
         const lastIndex = data.length - 1
@@ -91,6 +98,21 @@ export default {
             this.editLastMessage(id, payload)
           }
         })
+      })
+    },
+    loadMessageWS(){
+
+      window.Echo.private(`user.${localStorage.getItem('user_id')}`).listen('.newMessage', event =>{
+
+        this.messages.push({
+          id: event.message.id,
+          conversationId: event.message.chat_id,
+          value: event.message.text,
+          image:event.message.image,
+          userId: event.message.user_id,
+          datetime: event.message.created_at
+        });
+
       })
     },
     backToConversations(){
@@ -122,6 +144,7 @@ export default {
           }
 
           this.conversations.push(conversation)
+          this.chatID = conversation?.id
           await this.loadMessages(conversation?.id)
 
           if (data.id == this.conversationId) {

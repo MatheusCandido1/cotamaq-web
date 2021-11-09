@@ -11,14 +11,14 @@ console.log('connecting to socket....')
 window.Echo = new Echo({
   broadcaster: "pusher",
   key: "83cb60f1b6a7a39928a5",
-  wsHost: "prod.cotamaq.com.br",
+  wsHost: "stage.cotamaq.com.br",
   wsPort: 6002,
   encrypted: false,
   wssPort: 6002,
   cluster: 'mt1',
   disableStats: true,
   enabledTransports: ['ws', 'wss'],
-  authEndpoint:"https://prod.cotamaq.com.br/broadcasting/auth",
+  authEndpoint:"https://stage.cotamaq.com.br/broadcasting/auth",
   auth: {
     headers: {
       Authorization: token ? `Bearer ${token}`:null
