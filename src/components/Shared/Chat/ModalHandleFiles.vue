@@ -79,7 +79,9 @@ export default {
   created(){
     this.readFiles()
   },
+
   methods: {
+
     handleSend(){
       this.close()
       this.$props.sendFiles(this.urlImages)
