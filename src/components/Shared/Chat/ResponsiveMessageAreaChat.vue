@@ -20,13 +20,14 @@
     </div>
 
     <div ref="messagesContainer" class="overflow-y-auto flex flex-col div-scroll h-full px-3 pt-3 bg-gray-200">
-      <div v-for="(message, index) in filteredMessages" :key="message.id">
+      <div v-for="(message, index) in filteredMessages" :key="index">
         <div v-if="isNewDay(index)" class=" mt-4 mb-6 flex items-center justify-center">
           <div class="bg-blue-300 px-2 pb-1 rounded-md">
             <span class="text-gray-700 text-xs">{{formatDate(message.datetime)}}</span>
           </div>
         </div>
         <div
+          v-if="isDuplicateMessageId(index, message.id) == false"
           :class="message.userId == userId ? 'bg-green-300 float-right justify-end' : 'float-left bg-white justify-start'"
           class="rounded-md break-all flex-col mb-2 max-min-width w-auto flex py-1 px-2"
         >
@@ -117,7 +118,15 @@ export default {
     }
   },
   methods: {
-    
+    isDuplicateMessageId(index, id){
+      const previousMessageId = this.filteredMessages[index - 1]?.id
+      if (previousMessageId == id){
+        return true
+      }
+      else{
+        return false
+      }
+    },
     scrollToEnd() {
       const content = this.$refs.messagesContainer;
       content.scrollTop = content.scrollHeight
