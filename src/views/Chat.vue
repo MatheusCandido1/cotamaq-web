@@ -67,6 +67,7 @@ export default {
       isVisibleModalAudioOptions: true,
       currentConversation: null,
       loading: false,
+      userId: localStorage.getItem('user_id'),
       conversations: [],
       screenWidth: screen.width,
       conversationId: this.$route.params.id,
@@ -106,7 +107,7 @@ export default {
     },
     loadMessageWS(){
 
-      window.Echo.private(`user.${localStorage.getItem('user_id')}`).listen('.newMessage', event =>{
+      window.Echo.private(`user.${this.userId}`).listen('.newMessage', event =>{
 
         this.messages.push({
           id: event.message.id,
@@ -141,11 +142,10 @@ export default {
     },
     async getConversations(){
       this.loading = true
-      const user_id = localStorage.getItem('user_id')
       await chatService.getChat().then((response)=>{
         let conversation = null
         response.data.forEach(async(data)=>{
-          if(data.auth.id == user_id){
+          if(data.auth.id == this.userId){
             conversation = {
               id: data.id,
               user: data.notification.name,
@@ -192,7 +192,7 @@ export default {
       this.conversations[i].lastMessage = data.lastMessage
       this.conversations[i].userSend = data.userSend
 
-      if (id != this.currentConversation?.id){
+      if (id != this.currentConversation?.id && data.userSend != this.userId){
         this.conversations[i].notification = 1
       }
     },
