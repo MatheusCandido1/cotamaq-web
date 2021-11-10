@@ -28,7 +28,7 @@
               <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                 <span>Arraste e solte seu arquivo aqui ou <span class="font-bold"> Clique para escolher o arquivo</span></span>
               </p>
-              <input @change="onChangePdf" id="pdf" name="pdf" type="file" class="hidden" />
+              <input @change="onChangePdf" accept="application/pdf" id="pdf" name="pdf" type="file" class="hidden" />
             </header>
             </label>
             <span class="flex items-center justify-center text-primary-main mb-1" v-if="filename.pdf">{{filename.pdf}}</span>
@@ -52,7 +52,7 @@
             <div class="flex justify-center mb-2" v-if="errors.pdf">
                     <span class="text-xs text-red-500 font-semibold px-1 text-center">O arquivo deve ser do formato PDF.</span>
             </div>
-            <button v-if="files.pdf" :disabled="disabled" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2">Enviar</button>
+            <!-- <button v-if="files.pdf" :disabled="disabled" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2">Enviar</button> -->
             
           </section>  
                 </form>  
@@ -79,7 +79,7 @@
               <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                 <span>Arraste e solte seu arquivo aqui ou <span class="font-bold"> Clique para escolher o arquivo</span></span>
               </p>
-              <input @change="onChangeXml" id="xml" name="xml" type="file" class="hidden" />
+              <input @change="onChangeXml" accept="text/xml" id="xml" name="xml" type="file" class="hidden" />
             </header>
             </label>
              <span class="flex items-center justify-center text-primary-main mb-1" v-if="filename.xml">{{filename.xml}}</span>
@@ -104,7 +104,7 @@
                 <div class="flex justify-center mb-2" v-if="errors.xml">
                     <span class="text-xs text-red-500 font-semibold px-1 text-center">O arquivo deve ser do formato XML.</span>
                 </div>  
-            <button v-if="files.xml" :disabled="disabled" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2">Enviar</button>
+            <!-- <button v-if="files.xml" :disabled="disabled" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2">Enviar</button> -->
             
           </section>  
                 </form>  
@@ -129,7 +129,7 @@
               <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                 <span>Arraste e solte seu arquivo aqui ou <span class="font-bold"> Clique para escolher o arquivo</span></span>
               </p>
-              <input @change="onChangeBillet" id="billet" name="billet" type="file" class="hidden" />
+              <input @change="onChangeBillet" accept="application/pdf" id="billet" name="billet" type="file" class="hidden" />
             </header>
             </label>
             <span class="flex items-center justify-center text-primary-main mb-1" v-if="filename.billet">{{filename.billet}}</span>
@@ -154,7 +154,7 @@
                 <div class="flex justify-center mb-2" v-if="errors.billet">
                     <span class="text-xs text-red-500 font-semibold px-1 text-center">O arquivo deve ser do formato PDF.</span>
                 </div>  
-            <button v-if="files.billet" :disabled="disabled" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2">Enviar</button>
+          <!--   <button v-if="files.billet" :disabled="disabled" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-darker focus:outline-none focus:ring-2">Enviar</button> -->
             
           </section>  
                 </form>  
@@ -180,7 +180,14 @@
             >
               Cancelar
             </button>
-            
+            <button
+              v-if="files.pdf != null || files.xml != null || files.billet != null"
+              type="button"
+              @click="submitFiles"
+              class="mb-3 md:mb-0 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-main text-base font-medium text-white hover:bg-primary-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-main sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Enviar
+            </button>
           </div>
         </div>
       </div>
@@ -234,6 +241,25 @@ export default {
     this.close()
   },
   methods: {
+    submitFiles(){
+      if (this.files.pdf){
+        this.submitPdf()
+      }
+      if (this.files.xml){
+        this.submitXml()
+      }
+      if (this.files.billet) {
+        this.submitBillet()
+      }
+      if (this.errors.pdf == null && this.errors.xml == null && this.errors.billet == null){
+        this.$toast.success('Arquivo(s) enviado(s) com sucesso!', {
+          position: "bottom-right",
+          pauseOnHover: false,
+          showCloseButtonOnHover: true,
+          timeout: 2500
+        });
+      }
+    },
     getOrder() {
       this.loader.loading = true
       orderService.getOrderBySeller(this.selectedOrder.id).then((response) => {
@@ -255,22 +281,24 @@ export default {
     onChangePdf(event) {
       this.files.pdf = event.target.files[0];
       this.filename.pdf = event.target.files[0].name;
+      this.files.xml = null
+      this.filename.xml = null
     },
-    submitPdf(event) {
+    submitPdf() {
       this.progress.pdf = 0
-      event.preventDefault();
+      /* event.preventDefault(); */
       this.disabled = true
       let data = new FormData();
       data.append('pdf', this.files.pdf);
       orderService.updatePdf(data, this.selectedOrder.id, event => {
             this.progress.pdf = Math.round((100* event.loaded) / event.total)
-      }).then((response) => {
-            this.$toast.success(response.success_message, {
+      }).then(() => {
+            /* this.$toast.success(response.success_message, {
                 position: "bottom-right",
                 pauseOnHover: false,
                 showCloseButtonOnHover: true,
                 timeout: 2500
-            });
+            }); */
             bus.$emit('updatedOrders', true);
             this.disabled = false
             this.getOrder();
@@ -291,21 +319,23 @@ export default {
     onChangeXml(event) {
       this.files.xml = event.target.files[0];
       this.filename.xml = event.target.files[0].name;
+      this.files.pdf = null
+      this.filename.pdf = null
     },
-    submitXml(event) {
-      event.preventDefault();
+    submitXml() {
+      /* event.preventDefault(); */
       this.disabled = true
       let data = new FormData();
       data.append('xml', this.files.xml);
       orderService.updateXml(data, this.selectedOrder.id, event => {
             this.progress.xml = Math.round((100* event.loaded) / event.total)
-      }).then((response) => {
-            this.$toast.success(response.success_message, {
+      }).then(() => {
+            /* this.$toast.success(response.success_message, {
                 position: "bottom-right",
                 pauseOnHover: false,
                 showCloseButtonOnHover: true,
                 timeout: 2500
-            });
+            }); */
             bus.$emit('updatedOrders', true);
             this.disabled = false
             this.getOrder();
@@ -327,20 +357,20 @@ export default {
       this.files.billet = event.target.files[0];
       this.filename.billet = event.target.files[0].name;
     },
-    submitBillet(event) {
-      event.preventDefault();
+    submitBillet() {
+      /* event.preventDefault(); */
       this.disabled = true
       let data = new FormData();
       data.append('billet', this.files.billet);
       orderService.updateBillet(data, this.selectedOrder.id, event => {
             this.progress.billet = Math.round((100* event.loaded) / event.total)
-      }).then((response) => {
-            this.$toast.success(response.success_message, {
+      }).then(() => {
+            /* this.$toast.success(response.success_message, {
                 position: "bottom-right",
                 pauseOnHover: false,
                 showCloseButtonOnHover: true,
                 timeout: 2500
-            });
+            }); */
             bus.$emit('updatedOrders', true);
             this.disabled = false
             this.getOrder();
