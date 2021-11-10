@@ -68,7 +68,7 @@
                         <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                             Unidade
                         </label>
-                        <input disabled id="measure" v-model="estimate.measure"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                        <input disabled id="measure" :value="formatMeasure(estimate.measure)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                         <label for="allow_similar" class="flex justify-center text-sm font-semibold text-gray-600 px-1">
@@ -371,7 +371,7 @@ import {bus} from "../../../main";
 import {Money} from 'v-money'
 import {required, requiredIf} from 'vuelidate/lib/validators'
 import ProposalConfirm from './ProposalConfirm'
-import {formatZipcode} from '@/helpers/string-helper';
+import {formatZipcode, formatMeasure} from '@/helpers/string-helper';
 import {companyService, estimateService, proposalService} from '../../../services'
 import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
 import CoolLightBox from 'vue-cool-lightbox'
@@ -483,6 +483,7 @@ export default {
         bus.$emit("ModalOpen", true);
       },
         formatZipcode,
+        formatMeasure,
         getToday() {
             this.today = new Date().toISOString().split("T")[0];
         },

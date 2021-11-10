@@ -80,7 +80,7 @@
               <label class="text-sm font-semibold text-gray-600 px-1" for="part_code">
                 Unidade
               </label>
-              <input id="measure" v-model="estimate.measure"
+              <input id="measure" :value="formatMeasure(estimate.measure)"
                      class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter"
                      disabled placeholder=""
                      type="text">
@@ -403,6 +403,7 @@ import DropZone from "../../Shared/DropZone";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import FileList from "../../Shared/FileList";
+import {formatMeasure} from '../../../helpers/string-helper'
 
 export default {
   name: 'ProposalUpdate',
@@ -510,6 +511,7 @@ export default {
     }
   },
   methods: {
+    formatMeasure,
     getSellers() {
       companyService.getUsers().then((response) => {
         const data = response.data
