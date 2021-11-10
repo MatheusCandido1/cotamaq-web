@@ -284,7 +284,7 @@
                     </span>
                 </td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.quantity)}}</td>
-                <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.measure)}}</td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatMeasure(proposal.estimate.measure)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.value)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.subtotal)}}</td>
             </tr>
@@ -374,7 +374,7 @@ import PaymentMethodAdd from '../Payments/PaymentMethod/PaymentMethodAdd';
 import OrderPaymentConfirmModal from './OrderPaymentConfirm';
 import OrderPayments from './OrderPayments'
 import OrderStatus from './OrderStatus'
-import {formatCurrency, formatDelivery, formatMissingInformation, formatSimilar} from '@/helpers/string-helper';
+import {formatCurrency, formatDelivery, formatMissingInformation, formatSimilar, formatMeasure} from '@/helpers/string-helper';
 import EquipmentDetail from "../../Shared/Equipment/EquipmentDetail";
 
 export default {
@@ -466,6 +466,7 @@ export default {
     }
   },
   methods: {
+    formatMeasure,
     formatDelivery,
     formatCurrency,
     formatMissingInformation,

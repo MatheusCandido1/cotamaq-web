@@ -40,7 +40,7 @@
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
               <p>
                 <span class="font-semibold">Unidade: </span
-                >{{ formatMissingInformation(selectedEstimate.measure) }}
+                >{{ formatMeasure(selectedEstimate.measure) }}
               </p>
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
@@ -227,6 +227,7 @@ import {
   formatSimilar,
   formatDiscountPercent,
   formatZipcode,
+  formatMeasure,
 } from "@/helpers/string-helper";
 import ProposalAccept from "./ProposalAccept";
 import ProposalDecline from "./ProposalDecline";
@@ -265,6 +266,7 @@ export default {
     formatDelivery,
     formatDiscountPercent,
     formatZipcode,
+    formatMeasure,
     async goChat(){
       const userReceiver = {
         name: this.selectedProposal.user.name,

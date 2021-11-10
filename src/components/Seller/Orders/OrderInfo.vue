@@ -303,7 +303,7 @@
                     </span>
                 </td>                     
                 <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
+                <td class="text-sm text-center text-gray-700">{{formatMeasure(row.measure)}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.details.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.details.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
                 <td class="flex justify-center mt-2">
@@ -418,7 +418,7 @@ import { BarLoader } from '@saeris/vue-spinners';
 import PaymentConditionAdd from '../Payments/PaymentCondition/PaymentConditionAdd';
 import PaymentMethodAdd from '../Payments/PaymentMethod/PaymentMethodAdd';
 import OrderPaymentAlert from './OrderPaymentAlert';
-
+import {formatMeasure} from '../../../helpers/string-helper'
 
 export default {
     name: 'OrderInfo',
@@ -500,6 +500,7 @@ export default {
         }
     },
     methods: {
+        formatMeasure,
         selectPayment() {
             this.disabled = true
             const payload = {

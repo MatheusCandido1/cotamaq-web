@@ -17,7 +17,7 @@
                      <p><span class="font-bold">Quantidade:</span> {{estimate.quantity}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Unidade:</span> {{formatMissingInformation(estimate.measure)}}</p> 
+                     <p><span class="font-bold">Unidade:</span> {{formatMeasure(estimate.measure)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Aceita Similar:</span> {{formatSimillar(estimate.allow_similar)}}</p> 
@@ -154,7 +154,7 @@
 
 <script>
 import EstimateDecline from './EstimateDecline';
-import {formatCurrency, formatEquipment, formatSimillar, formatMissingInformation, formatZipcode} from '@/helpers/string-helper';
+import {formatCurrency, formatEquipment, formatSimillar, formatMissingInformation, formatZipcode, formatMeasure} from '@/helpers/string-helper';
 import {bus} from '../../../main';
 import {proposalService} from "../../../services";
 import EstimateShowImage from "../Estimates/EstimateShowImage";
@@ -201,6 +201,7 @@ export default {
         formatCurrency,
         formatMissingInformation,
         formatZipcode,
+        formatMeasure,
       showModalImages(){
         bus.$emit('ModalOpen', true)
         this.modal.images = true

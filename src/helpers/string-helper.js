@@ -38,6 +38,24 @@ export const formatDelivery = (delivery, days) => {
     }
 }
 
+export const formatMeasure = (measure) => {
+    if (measure == 'g'){
+        return 'Grama (g)'
+    } else if (measure == 'kg'){
+        return 'Quilograma (kg)'
+    } else if (measure == 'm'){
+        return 'Metro (m)'
+    } else if (measure == 'mm'){
+        return 'Milímetro (mm)'
+    } else if (measure == 'cm'){
+        return 'Centímetro (cm)'
+    } else if (measure == 'pol'){
+        return 'Polegada (pol)'
+    } else {
+        return 'Não informado'
+    }
+}
+
 export const formatZipcode = (value) => {
     var regex = /^([\d]{2})\.*([\d]{3})-*([\d]{3})/;
 	if(regex.test(value)){

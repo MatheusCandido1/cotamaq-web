@@ -53,7 +53,7 @@
                               <p><span class="font-bold">Quantidade:</span> {{selectedPart.quantity}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                              <p><span class="font-bold">Unidade:</span> {{selectedPart.measure}}</p> 
+                              <p><span class="font-bold">Unidade:</span> {{formatMeasure(selectedPart.measure)}}</p> 
                           </div>
                           <div v-if="categories.length > 0" class="flex space-x-2 text-gray-800 text-sm my-3">
                               <p><span class="font-bold">Categoria:</span> {{categories.find(category => category.id == selectedPart.category_id).name}}</p> 
@@ -116,7 +116,7 @@
 </template>
 <script>
 import { estimateService } from '../../../services';
-import { formatSimilar, formatEquipment } from '@/helpers/string-helper';
+import { formatSimilar, formatEquipment, formatMeasure } from '@/helpers/string-helper';
 export default {
   name: "PartConfirm",
   props: ['part','equipment','categories'],
@@ -133,6 +133,7 @@ export default {
   methods: {
     formatEquipment,
     formatSimilar,
+    formatMeasure,
     close() {
       this.$emit("close");
     },

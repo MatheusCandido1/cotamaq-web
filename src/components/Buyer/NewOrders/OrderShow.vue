@@ -137,7 +137,7 @@
                     </span>
                 </td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.quantity)}}</td>
-                <td class="text-sm font-semibold text-center text-gray-700">{{formatMissingInformation(proposal.estimate.measure)}}</td>
+                <td class="text-sm font-semibold text-center text-gray-700">{{formatMeasure(proposal.estimate.measure)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.value)}}</td>
                 <td class="text-sm font-semibold text-center text-gray-700">{{formatCurrency(proposal.subtotal)}}</td>
             </tr>
@@ -203,7 +203,7 @@ import { orderService } from '../../../services'
 import OrderPayment from './OrderPayment';
 import { BarLoader } from "@saeris/vue-spinners";
 import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
-import { formatMissingInformation, formatSimilar, formatCurrency,formatDelivery } from '@/helpers/string-helper';
+import { formatMissingInformation, formatSimilar, formatCurrency,formatDelivery, formatMeasure } from '@/helpers/string-helper';
 export default {
     name: 'OrderShow',
     components: {
@@ -253,6 +253,7 @@ export default {
       formatCurrency,
       formatMissingInformation,
       formatSimilar,
+      formatMeasure,
       goBack() {
         this.$router.back()
       },

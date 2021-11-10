@@ -49,7 +49,7 @@
                         <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
                             Unidade
                         </label>
-                        <input disabled id="measure" :value="formatMissingInformation(estimate.measure)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                        <input disabled id="measure" :value="formatMeasure(estimate.measure)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                     </div>
                         <div class="md:w-1/6 px-3 mb-2 md:mb-0">
                         <label for="allow_similar" class="flex justify-center text-sm font-semibold text-gray-600 px-1">
@@ -280,7 +280,7 @@ import { bus } from "../../../main";
 import { Money } from 'v-money'
 import { proposalService } from '../../../services'
 import EquipmentDetails from '../../../components/Shared/Equipment/EquipmentDetail'
-import { formatMissingInformation } from '@/helpers/string-helper';
+import { formatMissingInformation, formatMeasure } from '@/helpers/string-helper';
 import CoolLightBox from "vue-cool-lightbox";
 import CoolLightBox2 from "vue-cool-lightbox";
 import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
@@ -372,6 +372,7 @@ export default {
     },
     methods: {
         formatMissingInformation,
+        formatMeasure,
         getProposal() {
             proposalService.getProposal(this.proposal.id).then((response) => {
                 const data = response.data

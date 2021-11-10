@@ -158,7 +158,7 @@
                         <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                         <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                         <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
-                        <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
+                        <td class="text-sm text-center text-gray-700">{{formatMeasure(row.measure)}}</td>
                         <td class="text-sm text-center text-gray-700">
                             <span :class="formatDefault(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                                 {{formatName(row.allow_similar)}}
@@ -288,7 +288,7 @@ import EquipmentAdd from '../Equipments/EquipmentAdd';
 import EstimateConfirm from './EstimateConfirm';
 import ProductDuplicate from '../Products/ProductDuplicate';
 import { BarLoader } from '@saeris/vue-spinners'
-import { formatEquipment } from '@/helpers/string-helper';
+import { formatEquipment, formatMeasure } from '@/helpers/string-helper';
 
 export default {
     name: 'EstimateUpdate',
@@ -377,6 +377,7 @@ export default {
     },
     methods: {
         formatEquipment,
+        formatMeasure,
         updateEstimate(status) {
             this.$v.$touch()
                 if(this.$v.estimate.equipment_id.$invalid) {

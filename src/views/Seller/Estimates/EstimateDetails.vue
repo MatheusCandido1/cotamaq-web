@@ -52,7 +52,7 @@
                 <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
+                <td class="text-sm text-center text-gray-700">{{formatMeasure(row.measure)}}</td>
                 <td class="text-sm text-center text-gray-700">
                     <span :class="formatDefaultSimilar(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatNameSimilar(row.allow_similar)}}
@@ -145,7 +145,7 @@ import ProductDetail from '../../../components/Seller/Products/ProductDetail';
 import EstimateConfirm from '../../../components/Seller/Estimates/EstimateConfirm';
 import EstimateDecline from '../../../components/Seller/Estimates/EstimateDecline';
 import EstimateDetailsModal from '../../../components/Seller/Estimates/EstimateDetailsModal';
-
+import {formatMeasure} from '../../../helpers/string-helper'
 import { bus } from '../../../main';
 import {TheMask} from 'vue-the-mask';
 import { BarLoader } from '@saeris/vue-spinners';
@@ -193,6 +193,7 @@ export default {
 
     },
     methods: {
+        formatMeasure,
         showEstimateModal() {
             this.isEstimateModalOpen = true
             bus.$emit('ModalOpen', true);

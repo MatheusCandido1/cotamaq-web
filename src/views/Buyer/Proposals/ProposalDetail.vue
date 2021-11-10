@@ -40,7 +40,7 @@
                 <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                 <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
-                <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
+                <td class="text-sm text-center text-gray-700">{{formatMeasure(row.measure)}}</td>
                 <td class="text-sm text-center text-gray-700">
                     <span :class="formatDefault(row.is_similar == null ? '0':'1')" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                         {{formatName(row.is_similar == null ? '0':'1')}}
@@ -206,6 +206,7 @@ import { productService } from '../../../services';
 import OrderConfirm from '../../../components/Buyer/Orders/OrderConfirm';
 import ProposalProduct from '../../../components/Buyer/Proposals/ProposalProduct';
 import EstimateDetailsModal from '../../../components/Seller/Estimates/EstimateDetailsModal';
+import {formatMeasure} from '../../../helpers/string-helper'
 
 export default {
     name: 'ProposalDetail',
@@ -248,6 +249,7 @@ export default {
         this.getProducts()
     },
     methods: {
+        formatMeasure,
         showEstimateModal() {
             this.isEstimateModalOpen = true
             bus.$emit('ModalOpen', true);

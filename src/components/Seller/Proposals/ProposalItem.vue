@@ -20,7 +20,7 @@
                      <p><span class="font-semibold">Quantidade: </span>{{selectedProposal.estimate.quantity}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                     <p><span class="font-semibold">Unidade: </span>{{ formatMissingInformation(selectedProposal.estimate.measure) }}</p> 
+                     <p><span class="font-semibold">Unidade: </span>{{ formatMeasure(selectedProposal.estimate.measure) }}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm">
                      <p><span class="font-semibold">Subtotal: </span>{{formatCurrency(selectedProposal.subtotal)}}</p> 
@@ -100,7 +100,7 @@
 
 <script>
 import { bus } from '../../../main';
-import { formatSimilar, formatCurrency, formatDelivery, formatZipcode, formatMissingInformation } from '@/helpers/string-helper';
+import { formatSimilar, formatCurrency, formatDelivery, formatZipcode, formatMissingInformation, formatMeasure } from '@/helpers/string-helper';
 import ProposalDelete from './ProposalDelete'
 import ProposalShowImages from "./ProposalShowImages";
 import { chatService} from "../../../services";
@@ -137,6 +137,7 @@ export default {
           formatDelivery,
           formatZipcode,
           formatMissingInformation,
+          formatMeasure,
           async goChat(){
             const userReceiver = {
               name: this.selectedProposal.estimate.user.name,

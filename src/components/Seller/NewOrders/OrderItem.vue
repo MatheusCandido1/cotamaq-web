@@ -18,7 +18,7 @@
                      <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(order.proposal.estimate.quantity)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Unidade:</span> {{formatMissingInformation(order.proposal.estimate.measure)}}</p> 
+                     <p><span class="font-bold">Unidade:</span> {{formatMeasure(order.proposal.estimate.measure)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
                      <p><span class="font-bold">Peça Similar:</span> {{formatSimilar(order.proposal.is_similar)}}</p> 
@@ -76,7 +76,8 @@ import {
     formatMissingInformation, 
     formatCurrency, 
     formatSimilar, 
-    formatEquipment 
+    formatEquipment,
+    formatMeasure,
 } from '@/helpers/string-helper';
 import OrderFile from './OrderFile'
 
@@ -105,6 +106,7 @@ export default {
         formatSimilar,
         formatCurrency,
         formatMissingInformation,
+        formatMeasure,
         openFileModal() {
             this.modal.file = true;
             bus.$emit('ModalOpen', true);

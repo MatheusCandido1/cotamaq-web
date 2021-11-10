@@ -44,7 +44,7 @@
                         <td class="text-sm text-center text-gray-700">{{row.part_code != '' ? row.part_code:'Sem código'}}</td>
                         <td class="text-sm text-center text-gray-700">{{row.description}}</td>
                         <td class="text-sm text-center text-gray-700">{{row.quantity}}</td>
-                        <td class="text-sm text-center text-gray-700">{{row.measure}}</td>
+                        <td class="text-sm text-center text-gray-700">{{formatMeasure(row.measure)}}</td>
                         <td class="text-sm text-center text-gray-700">
                             <span :class="formatDefault(row.allow_similar)" class="text-sm px-2 py-1 font-semibold text-white rounded-full dark:text-white">
                                 {{formatName(row.allow_similar)}}
@@ -131,7 +131,7 @@ import ProductAdd from './ProductAdd';
 import ProductDelete from './ProductDelete';
 import ProductDetail from './ProductDetail';
 import { productService } from '../../../services';
-
+import {formatMeasure} from '../../../helpers/string-helper'
 import { BarLoader } from '@saeris/vue-spinners';
 
 export default {
@@ -174,6 +174,7 @@ export default {
         }
     },
     methods: {
+        formatMeasure,
         saveDraft() {
 
         },

@@ -54,7 +54,7 @@
                               <p><span class="font-bold">Quantidade:</span> {{formatMissingInformation(selectedEstimate.quantity)}}</p> 
                           </div>
                           <div class="flex space-x-2 text-gray-800 text-sm">
-                              <p><span class="font-bold">Unidade:</span> {{formatMissingInformation(selectedEstimate.measure)}}</p> 
+                              <p><span class="font-bold">Unidade:</span> {{formatMeasure(selectedEstimate.measure)}}</p> 
                           </div>
                     </div>
                   </div>
@@ -93,7 +93,7 @@
   </transition>
 </template>
 <script>
-import { formatSimilar, formatMissingInformation } from '@/helpers/string-helper';
+import { formatSimilar, formatMissingInformation, formatMeasure } from '@/helpers/string-helper';
 
 export default {
   name: "EstimateDetails",
@@ -109,6 +109,7 @@ export default {
   methods: {
     formatSimilar,
     formatMissingInformation,
+    formatMeasure,
     close() {
       this.$emit("close");
     },
