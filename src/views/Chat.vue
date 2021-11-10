@@ -123,6 +123,7 @@ export default {
           lastMessageIsImage: event.message.image ? 1 : 0,
           datetime: event.message.created_at,
           userSend: event.message.user_id,
+          notification: 1,
         }
         this.editLastMessage(event.message.chat_id, data)
 
@@ -193,7 +194,7 @@ export default {
       this.conversations[i].userSend = data.userSend
 
       if (id != this.currentConversation?.id && data.userSend != this.userId){
-        this.conversations[i].notification = 1
+        this.conversations[i].notification = data?.notification
       }
     },
     closeModalAudioOptions(){
