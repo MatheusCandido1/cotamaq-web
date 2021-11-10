@@ -172,6 +172,27 @@
                 ><span class="ml-4">Pedidos</span>
               </router-link>
             </li>
+
+            <li
+              class="relative px-6 py-3 hover:text-gray-800 "
+              style="cursor: pointer"
+            >
+              <span
+                v-if="getRouteName == 'chat'"
+                class="absolute inset-y-0 left-0 w-1 bg-primary-main rounded-tr-lg rounded-br-lg"
+                aria-hidden="true"
+              ></span>
+              <router-link
+                v-on:click.native="closePagesMenu"
+                :to="{ path: '/chat' }"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-700 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="ml-4">Chat</span>
+              </router-link>
+            </li>
           </ul>
           <ul>
             <li class="relative px-6 py-3">
@@ -351,6 +372,23 @@
               >
                 <i class="mdi mdi-format-list-numbered  text-2xl"></i
                 ><span class="ml-4">Pedidos</span>
+              </router-link>
+            </li>
+
+            <li
+              class="relative px-6 py-3 hover:text-gray-800 "
+              style="cursor: pointer"
+              @click="closeSideMenu"
+              @keydown.escape="closeSideMenu"
+            >
+              <router-link
+                :to="{ path: '/chat' }"
+                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="ml-4">Chat</span>
               </router-link>
             </li>
           </ul>

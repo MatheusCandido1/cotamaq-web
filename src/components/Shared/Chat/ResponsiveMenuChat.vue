@@ -21,7 +21,7 @@
 
             <div class="ml-3 w-full">
               <div class="w-full items-center flex justify-between">
-                <h5 class="font-bold truncate w-64">{{ conversation.user }}</h5>
+                <h5 class="font-bold truncate w-48">{{ conversation.user }}</h5>
                 <p class="text-gray-500 text-sm">{{formatDate(conversation.lastMessageDateTime)}}</p>
               </div>
 

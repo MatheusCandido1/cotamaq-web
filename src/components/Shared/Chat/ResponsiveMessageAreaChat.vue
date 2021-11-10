@@ -250,7 +250,7 @@ export default {
   width: 20%
 }
 .div-scroll {
-  height: calc(100vh - 215px);
+  height: calc(100vh - 210px);
 }
 .max-min-width{
   max-width: 18rem;

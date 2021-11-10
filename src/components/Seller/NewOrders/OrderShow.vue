@@ -11,13 +11,13 @@
                     <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                 </div>
                 <div v-if="order.status != null" class="py-1 flex items-center whitespace-nowrap flex-col md:flex-row">
-                    <button v-if="order.status == 1" class="mr-2 pointer-events-none bg-yellow-500 mt-5 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white md:h-8">
+                    <button v-if="order.status == 1" class="md:mr-2 md:mb-5 pointer-events-none bg-yellow-500 mt-5 text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white md:h-8">
                         <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Métodos e Condições de Pagamento <span class="font-bold"> NÃO </span> enviados</span>
                     </button>
-                    <button @click="showPaymentsModal" v-if="order.status == 2" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white md:h-8">
+                    <button @click="showPaymentsModal" v-if="order.status == 2" class="md:mr-2 bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white md:h-8">
                         <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Métodos e Condições de Pagamento enviados</span>
                     </button> 
-                    <div class=" relative inline-block text-left dropdown">
+                    <div class="w-full relative inline-block text-left dropdown">
                             <span class="rounded-md shadow-sm"
                             ><button :class="formatStatus(order.status).bg" class="md:h-8 inline-flex my-5 text-white justify-center w-full px-4 py-1 text-sm font-medium leading-5 transition duration-150 ease-in-out border rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
                                 <span>
