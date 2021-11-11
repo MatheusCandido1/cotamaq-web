@@ -95,10 +95,10 @@
               </p>
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                <p class="break-all"><span class="font-semibold">Cidade: </span>{{selectedProposal.user.company.address == null ? 'Não informado': selectedProposal.user.company.address.city}}</p> 
+                <p class="break-all"><span class="font-semibold">Cidade: </span>{{selectedProposal.user.company.address == null ? 'Não informado': validateCity(selectedProposal.user.company.address.city)}}</p> 
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                <p class="break-all"><span class="font-semibold">CEP: </span>{{selectedProposal.user.company.address == null ? 'Não informado':formatZipcode(selectedProposal.user.company.address.zipcode)}}</p> 
+                <p class="break-all"><span class="font-semibold">CEP: </span>{{selectedProposal.user.company.address == null ? 'Não informado':validateZipcode(selectedProposal.user.company.address.zipcode)}}</p> 
             </div>
             <button
               @click="showModalImages"
@@ -273,6 +273,18 @@ export default {
     formatDiscountPercent,
     formatZipcode,
     formatMeasure,
+    validateCity(city){
+      if(!city){
+        return 'Não informado'
+      }
+      return city
+    },
+    validateZipcode(zipcode){
+      if(!zipcode){
+        return 'Não informado'
+      }
+      return this.formatZipcode(zipcode)
+    },
     async goChat(){
       const userReceiver = {
         name: this.selectedProposal.user.name,

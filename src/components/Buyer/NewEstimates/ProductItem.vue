@@ -28,10 +28,10 @@
                      <p><span class="font-bold">Equipamento:</span> {{estimate.equipment == null ? 'Não informado': formatEquipment(estimate.equipment)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm my-3">
-                     <p><span class="font-bold">Cidade:</span> {{estimate.user.address.city == null ? 'Não informado': estimate.user.address.city}}</p> 
+                     <p><span class="font-bold">Cidade:</span> {{estimate.user.address == null ? 'Não informado': validateCity(estimate.user.address.city)}}</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-800 text-sm">
-                     <p><span class="font-bold">CEP:</span> {{estimate.user.address.zipcode == null ? 'Não informado': formatZipcode(estimate.user.address.zipcode)}}</p> 
+                     <p><span class="font-bold">CEP:</span> {{estimate.user.address == null ? 'Não informado': validateZipcode(estimate.user.address.zipcode)}}</p> 
                 </div>
             </div>
         </div>
@@ -133,6 +133,18 @@ export default {
         formatSimilar,
         formatZipcode,
         formatMeasure,
+        validateCity(city){
+            if(!city){
+                return 'Não informado'
+            }
+            return city
+        },
+        validateZipcode(zipcode){
+            if(!zipcode){
+                return 'Não informado'
+            }
+            return this.formatZipcode(zipcode)
+        },
         handleOrderClick() {
             this.$router.push({name: 'orders'})
         },
