@@ -95,10 +95,10 @@
               </p>
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                <p class="break-all"><span class="font-semibold">Cidade: </span>{{selectedProposal.user.company.address.city == null ? 'Não informado':selectedProposal.user.company.address.city}}</p> 
+                <p class="break-all"><span class="font-semibold">Cidade: </span>{{selectedProposal.user.company.address == null ? 'Não informado': selectedProposal.user.company.address.city}}</p> 
             </div>
             <div class="flex space-x-2 text-gray-800 text-sm  my-1">
-                <p class="break-all"><span class="font-semibold">CEP: </span>{{selectedProposal.user.company.address.zipcode == null ? 'Não informado':formatZipcode(selectedProposal.user.company.address.zipcode)}}</p> 
+                <p class="break-all"><span class="font-semibold">CEP: </span>{{selectedProposal.user.company.address == null ? 'Não informado':formatZipcode(selectedProposal.user.company.address.zipcode)}}</p> 
             </div>
             <button
               @click="showModalImages"
