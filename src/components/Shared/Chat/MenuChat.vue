@@ -37,7 +37,7 @@
               </span>
 
               <span v-else  class="flex items-center justify-between">
-                <p class="text-gray-500 text-sm truncate w-64">{{conversation.userSend == userId ? `Você: ${conversation.lastMessage}` : `${conversation.lastMessage || ''}`}}</p>
+                <p class="text-gray-500 text-sm truncate w-64">{{conversation.userSend == userId ? `Você: ${conversation.lastMessage}` : `${conversation.lastMessage != undefined ? conversation.lastMessage : ''}`}}</p>
                 <div v-if="conversation.notification === 1" class="flex items-center justify-center text-sm h-5 w-5 rounded-full bg-primary-main text-white">!</div>
               </span>
 
