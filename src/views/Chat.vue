@@ -132,10 +132,12 @@ export default {
         if(this.isAudioSound && this.currentConversation?.id != event.message.chat_id){
           var audio1 = new Audio(require('../assets/notification.wav'));
           audio1.play();
+          return;
         }
         else if(this.isAudioSound && this.currentConversation?.id == event.message.chat_id){
           var audio2 = new Audio(require('../assets/vibrate-notification.mp3'));
           audio2.play();
+          return;
         }
       })
     },
