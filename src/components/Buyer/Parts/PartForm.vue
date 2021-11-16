@@ -486,6 +486,8 @@ export default {
         {id: "mm", value: 'Milímetro (mm)'},
         {id: "cm", value: 'Centímetro (cm)'},
         {id: "pol", value: 'Polegada (pol)'},
+        {id: "l", value: 'Litro (l)'},
+        {id: "o", value: 'Outro'},
       ],
       part: {
         part_code: '',

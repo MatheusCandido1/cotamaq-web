@@ -51,6 +51,10 @@ export const formatMeasure = (measure) => {
         return 'Centímetro (cm)'
     } else if (measure == 'pol'){
         return 'Polegada (pol)'
+    } else if (measure == 'l'){
+        return 'Litro (l)'
+    } else if (measure == 'o'){
+        return 'Outro'
     } else {
         return 'Não informado'
     }
