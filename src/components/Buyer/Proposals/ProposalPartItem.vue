@@ -123,12 +123,12 @@
               >
                 Comprar
               </button>
-              <button
+              <!-- <button
                 @click="goChat"
                 class="flex-1 bg-blue-600 font-semibold text-white text-md text-sm px-4 py-2 rounded-md mb-2"
               >
                 Enviar mensagem
-              </button>
+              </button> -->
             </ul>
 
             <div
