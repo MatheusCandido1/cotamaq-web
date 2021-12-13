@@ -149,8 +149,10 @@
                   :to="{ path: '/cotacoes' }"
                   class="inline-flex items-center w-full text-sm font-semibold text-gray-700 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
-                <i class="mdi mdi-file-document-edit text-2xl"></i
-                ><span class="ml-4">Cotações</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+                </svg>
+                <span class="ml-4">Cotações</span>
               </router-link>
             </li>
 
@@ -168,8 +170,10 @@
                   :to="{ path: '/pedidos' }"
                   class="inline-flex items-center w-full text-sm font-semibold text-gray-700 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
-                <i class="mdi mdi-format-list-numbered  text-2xl"></i
-                ><span class="ml-4">Pedidos</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span class="ml-4">Pedidos</span>
               </router-link>
             </li>
 
@@ -192,7 +196,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                 </svg>
-                <span class="ml-4">Chat</span>
+                <span class="ml-4">Conversas</span>
               </router-link>
             </li>
           </ul>
@@ -213,8 +217,10 @@
                  aria-haspopup="true"
              >
                 <span class="inline-flex items-center">
-                  <i class="mdi mdi-cog-sync  text-2xl"></i>
-                  <span class="ml-4">Configurações</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  <span class="ml-4">Outros</span>
                 </span>
                 <svg
                     class="w-4 h-4"
@@ -357,8 +363,10 @@
                   :to="{ path: '/cotacoes' }"
                   class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
-                <i class="mdi mdi-file-document-edit text-2xl"></i
-                ><span class="ml-4">Cotações</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+                </svg>
+                <span class="ml-4">Cotações</span>
               </router-link>
             </li>
 
@@ -372,8 +380,10 @@
                   :to="{ path: '/pedidos' }"
                   class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               >
-                <i class="mdi mdi-format-list-numbered  text-2xl"></i
-                ><span class="ml-4">Pedidos</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span class="ml-4">Pedidos</span>
               </router-link>
             </li>
 
@@ -392,7 +402,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                 </svg>
-                <span class="ml-4">Chat</span>
+                <span class="ml-4">Conversas</span>
               </router-link>
             </li>
           </ul>
@@ -404,8 +414,10 @@
                   aria-haspopup="true"
               >
                 <span class="inline-flex items-center">
-                  <i class="mdi mdi-cog-sync  text-2xl"></i>
-                  <span class="ml-4">Configurações</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  <span class="ml-4">Outros</span>
                 </span>
                 <svg
                     class="w-4 h-4"

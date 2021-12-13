@@ -34,37 +34,43 @@
       </div>
       <form v-if="order.proposal != null">
         <div class="-mx-3 md:flex mb-6">
-          <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
             <label  class="text-sm font-semibold text-gray-600 px-1">
               Fornecedor
             </label>
             <input disabled :value="formatMissingInformation(seller.company.company_name)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
-          <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label  class="text-sm font-semibold text-gray-600 px-1">
                   CNPJ
               </label>
               <input disabled :value="formatMissingInformation(seller.company.cnpj)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
-          <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label for="description" class="text-sm font-semibold text-gray-600 px-1">
                   CEP
               </label>
               <input disabled :value="formatMissingInformation(seller.address.zipcode)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
-        </div>
-        <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
             <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
               Endereço
             </label>
             <input disabled :value="formatMissingInformation(seller.address.address)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
+        </div>
+        <div class="-mx-3 md:flex mb-6">
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1">
                 Bairro
               </label>
               <input disabled :value="formatMissingInformation(seller.address.neighborhood)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+          </div>
+          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+            <label for="part_code" class="text-sm font-semibold text-gray-600 px-1">
+              Número
+            </label>
+            <input disabled :value="formatMissingInformation(seller.address.number)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label  class="text-sm font-semibold text-gray-600 px-1">
@@ -84,7 +90,7 @@
             <label class="text-sm font-semibold text-gray-600 px-1">
               E-mail
             </label>
-            <input disabled :value="formatMissingInformation(seller.company.email)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+            <input disabled :value="formatMissingInformation(seller.email)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label  class="text-sm font-semibold text-gray-600 px-1">
