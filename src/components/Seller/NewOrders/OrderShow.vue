@@ -25,10 +25,10 @@
                                     <i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>
                                     {{formatStatus(order.status).text}}
                                 </span>
-                                <svg v-if="order.payment_method != null || order.payment_condition != null" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <svg v-if="order.payment_method != null || order.payment_condition != null || order.status != 5" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </button
                             ></span>
-                            <div v-if="order.payment_method != null || order.payment_condition != null" class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+                            <div v-if="order.payment_method != null || order.payment_condition != null || order.status != 5" class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
                             <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
                                 <div class="">                                 
                                     <button v-if="order.status == 1" class="hover:bg-gray-100 text-black w-full flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-alert-octagon-outline mr-2"></i>Não Disponível</button>
@@ -471,7 +471,7 @@ export default {
         {id: 2, bg: 'bg-orange-400', text: 'Aguardando comprador', icon: 'mdi mdi-progress-clock'},
         {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
         {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-        {id: 5, bg: 'bg-primary-main', text: `${this.order.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
+        {id: 5, bg: 'bg-primary-main', text: `${this.order?.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
       ],
     }
   },

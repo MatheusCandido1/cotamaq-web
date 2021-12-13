@@ -5,7 +5,8 @@
         <div class="py-1">
           <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
             Pedido #{{order.id}}
-            <span class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
+            <span v-if="order.delivery" class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Entrega</span>
+                      <span v-else class="bg-primary-main w-full text-sm px-2 py-1 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">Retirada</span>
            </h2>
           <bar-loader class="mt-3 mb-2" :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
         </div>
@@ -16,9 +17,9 @@
             <div v-if="order.status === 2" class="bg-yellow-500 text-center w-full md:h-8 text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-alert-outline text-white mr-1"></i>Método e Condição de Pagamento <span class="font-bold"> NÃO </span> escolhidos</span>
             </div> -->
-            <div :class="formatStatus(order.status).bg" class="text-center my-5 w-full md:h-8 text-sm px-2 py-1.5 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
+            <button v-tooltip="{ content: order.status != 1 ? 'Status do pedido' : 'O vendedor ainda não anexou os métodos ou condições de pagamento.' }" :class="formatStatus(order.status).bg" class="text-center my-5 w-full md:h-8 text-sm px-2 py-1.5  font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
-            </div> 
+            </button> 
             <a target="_blank" :href="`${url}/orders/` + order.id + '/pdf'" class="md:h-8 bg-gray-600 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
             </a> 
@@ -246,7 +247,7 @@ export default {
                 {id: 2, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
                 {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
                 {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-                {id: 5, bg: 'bg-primary-main', text: `${this.order.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
+                {id: 5, bg: 'bg-primary-main', text: `${this.order?.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
             ],
         }
     },

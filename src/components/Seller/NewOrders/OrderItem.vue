@@ -30,7 +30,7 @@
                      <p><span class="font-bold">Equipamento:</span> {{formatEquipment(order.proposal.estimate.equipment)}}</p> 
                 </div>
             </div>
-            <ul class="flex space-x-2 mb-2 justify-start my-3">
+            <ul @click="showTrackingModal" class="flex space-x-2 mb-2 justify-start my-3">
                 <li v-if="order.delivery" class="w-full text-center cursor-pointer bg-indigo-500 text-sm px-2 py-1 font-medium text-white rounded-md"><i class="mdi mdi-truck-fast-outline"></i> Entrega </li>
                 <li v-else class="w-full text-center bg-orange-500 text-sm px-2 cursor-pointer py-1 font-medium text-white rounded-md"><i class=" mdi mdi-package-variant"></i> Retirada </li>
             </ul>
@@ -68,11 +68,13 @@
             </div>
         </div>
         <OrderFile :order="order" v-if="modal.file" @close="closeFileModal" />
+        <OrderTracking :order="order" v-if="modal.tracking" @close="closeTrackingModal"/>
     </div>
 </template>
 <script>
 import { bus } from '../../../main'
 import {API_URL} from '../../../API_URL'
+import OrderTracking from '../../../components/Buyer/NewOrders/OrderTracking'
 import { 
     formatMissingInformation, 
     formatCurrency, 
@@ -86,12 +88,14 @@ export default {
     name: 'OrderItem',
     props: ['order'],
     components:{
+        OrderTracking,
         OrderFile
     },
     data() {
         return {
             url: API_URL,
             modal: {
+                tracking: false,
                 file: false,
             },
             status: [
@@ -123,6 +127,14 @@ export default {
         formatStatus(value) {
             let format = this.status.find(status => status.id == value)
             return format
+        },
+        showTrackingModal() {
+            this.modal.tracking = true;
+            bus.$emit("ModalOpen", true);
+        },
+        closeTrackingModal() {
+            this.modal.tracking = false;
+            bus.$emit("ModalOpen", false);
         },
     }
 

@@ -1,7 +1,7 @@
 <template>
     <transition name="modal-fade">
         <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
-            <div class="relative w-1/2 my-6 mx-auto max-w-6xl">
+            <div class="relative md:w-1/2 w-full my-6 mx-auto md:max-w-6xl">
                 <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                     <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
                 </div>
