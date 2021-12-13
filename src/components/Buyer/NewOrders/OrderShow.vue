@@ -19,7 +19,7 @@
             <div :class="formatStatus(order.status).bg" class="text-center my-5 w-full md:h-8 text-sm px-2 py-1.5 pointer-events-none font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>{{formatStatus(order.status).text}}</span>
             </div> 
-            <a target="_blank" :href="'https://prod.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class="md:h-8 bg-gray-600 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white ml-2">
+            <a target="_blank" :href="`${url}/orders/` + order.id + '/pdf'" class="md:h-8 bg-gray-600 text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
             </a> 
           </div>
@@ -91,12 +91,12 @@
               </label>
               <input disabled :value="formatMissingInformation(seller.company.phone)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
           </div>
-          <div class="md:w-1/4 px-3 mb-2 md:mb-0">
+          <!-- <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1">
                   Celular
               </label>
-              <input disabled :value="formatMissingInformation(seller.company.phone)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-          </div>
+              <input disabled :value="formatMissingInformation(seller.phone)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+          </div> -->
           <div class="md:w-1/4 px-3 mb-2 md:mb-0">
               <label class="text-sm font-semibold text-gray-600 px-1">
                   Vendedor
@@ -144,16 +144,16 @@
          </tbody>
        </table>
          <div v-if="order.proposal != null" class="flex flex-row justify-center mt-4">
-          <div class="py-1">
+          <div v-if="order.status == 3" class="py-1 flex whitespace-nowrap">
+            <div class="py-1">
             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
               Pagamento -
             </h2>
           </div>
-          <div v-if="order.status != null" class="py-1 flex whitespace-nowrap">
-            <div v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+            <div v-if="order.status == 3" class="flex items-center justify-center bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center">Método: {{order.payment_method}} <span class="font-bold"></span></span>
             </div>
-            <div v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
+            <div v-if="order.status == 3" class="flex items-center justify-center bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center">Condição: {{order.payment_condition}} <span class="font-bold"></span></span>
             </div>
           </div>
@@ -199,6 +199,7 @@
 
 <script>
 import { bus } from '../../../main';
+import {API_URL} from '../../../API_URL'
 import { orderService } from '../../../services'
 import OrderPayment from './OrderPayment';
 import { BarLoader } from "@saeris/vue-spinners";
@@ -224,6 +225,7 @@ export default {
     },
     data() {
         return {
+          url: API_URL,
           loader: {
             loading: false,
             color: "#0bc95b",
@@ -244,7 +246,7 @@ export default {
                 {id: 2, bg: 'bg-orange-400', text: 'Pendente', icon: 'mdi mdi-progress-clock'},
                 {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
                 {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-                {id: 5, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
+                {id: 5, bg: 'bg-primary-main', text: `${this.order.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
             ],
         }
     },

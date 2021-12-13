@@ -77,7 +77,7 @@ export default {
     return {
         selectedOrder: JSON.parse(JSON.stringify(this.$props.order)),
         newStatus: JSON.parse(JSON.stringify(this.$props.status)),
-        names: ['Pendente','Em preparo','Em trânsito','Entregue'],
+        names: ['Pendente','Em preparo','Em trânsito',`${this.$props.order.delivery ? 'Entregue' : 'Pronto para retirada'}`],
         disabled: false,
     }
   },

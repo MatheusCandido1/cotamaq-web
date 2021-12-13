@@ -44,9 +44,9 @@
                                 <span v-if="loader.loading" class="flex justify-center align-center mb-3">
                                     <bar-loader :color="loader.color" :loading="loader.loading" :size="150"></bar-loader>
                                 </span>
-                                <p class="text-sm text-center text-gray-600">Ainda não tem uma conta? <router-link :to="{name: 'register'}">Registre-se. </router-link> </p>
-                                <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
-                                <p class="text-sm text-center text-gray-600">O e-mail de confirmação de cadastro não chegou? <router-link :to="{name: 'ResendConfirmEmail'}">Reenviar!</router-link> </p>
+                                <p class="text-sm text-center text-gray-600">Ainda não tem uma conta? <router-link class="text-primary-main underline font-bold" :to="{name: 'register'}">Registre-se. </router-link> </p>
+                                <p class="text-sm text-center text-gray-600">Esqueceu sua senha? <router-link class="text-primary-main underline font-bold" :to="{name: 'recoverPassword'}">Recuperar senha!</router-link> </p>
+                                <p class="text-sm text-center text-gray-600">O e-mail de confirmação de cadastro não chegou? <router-link class="text-primary-main underline font-bold" :to="{name: 'ResendConfirmEmail'}">Reenviar!</router-link> </p>
                             </div>
                         </div>
                     </form>

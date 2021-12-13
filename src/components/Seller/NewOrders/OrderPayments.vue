@@ -60,7 +60,7 @@
   </transition>
 </template>
 <script>
-import { formatMissingInformation } from '@/helpers/string-helper';
+
 
 export default {
   name: "OrderPayments",
@@ -76,7 +76,13 @@ export default {
     }
   },
   methods: {
-    formatMissingInformation,
+    formatMissingInformation(value){
+      if(value == 'null' || value == null || value == '' || value == null){
+        return 'Nenhum'
+      }else {
+          return value
+      }
+    },
     getPaymentMethodName(id) {
       const { description } = this.paymentMethods.find(pay => pay.id == id)
       return description

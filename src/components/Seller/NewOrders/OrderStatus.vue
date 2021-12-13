@@ -83,7 +83,7 @@ export default {
             {id: 2, bg: 'bg-orange-400', text: 'Aguardando comprador', icon: 'mdi mdi-progress-clock'},
             {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
             {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-            {id: 5, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
+            {id: 5, bg: 'bg-primary-main', text: `${this.$props.order.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
         ],
         disabled: false,
     }

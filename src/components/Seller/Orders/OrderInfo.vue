@@ -109,11 +109,16 @@
             </div>
             <div class="w-1/5 px-3 mb-5">
                  <div class="flex">
-                    <select :disabled="order.status < 3" v-model="order.status" @change="showStatusModal()"  class="w-full -ml-10 pl-2  border-primary-main px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                    <select v-if="order.delivery" :disabled="order.status < 3" v-model="order.status" @change="showStatusModal()"  class="w-full -ml-10 pl-2  border-primary-main px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
                         <option value="1"> Pendente </option>
                         <option value="2"> Em preparo </option>
                         <option value="3"> Em trânsito </option>
                         <option value="4"> Entregue </option>
+                    </select> 
+                    <select v-else :disabled="order.status < 3" v-model="order.status" @change="showStatusModal()"  class="w-full -ml-10 pl-2  border-primary-main px-3 py-2 rounded-l border-b-2 shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                        <option value="1"> Pendente </option>
+                        <option value="2"> Em preparo </option>
+                        <option value="4"> Pronto para retirada </option>
                     </select> 
                     </div>  
             </div>
@@ -494,7 +499,7 @@ export default {
             selectedPaymentConditions: [],
             colors: ["bg-red-500", "bg-primary-main"],
             defaults: ['Não', 'Sim'],
-            statusName: ['Pendente','Em preparo','Em trânsito','Entregue'],
+            statusName: ['Pendente','Em preparo','Em trânsito',`${this.order.delivery ? 'Entregue' : 'Pronto para retirada'}`],
             statusColor: ['bg-orange-400','bg-blue-400','bg-indigo-600','bg-primary-main'],
             statusIcon: ['mdi mdi-progress-clock','mdi mdi-package-variant-closed','mdi mdi-truck-fast-outline','mdi mdi-calendar-check-outline']
         }

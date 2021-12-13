@@ -324,11 +324,11 @@
                 </span>
                 <p class="text-sm text-center text-gray-600">
                   Já tem uma conta?
-                  <router-link :to="{ name: 'login' }">Entrar </router-link>
+                  <router-link class="text-primary-main underline font-bold" :to="{ name: 'login' }">Entrar </router-link>
                 </p>
                 <p class="text-sm text-center text-gray-600">
                   Esqueceu sua senha?
-                  <router-link :to="{ name: 'recoverPassword' }"
+                  <router-link class="text-primary-main underline font-bold" :to="{ name: 'recoverPassword' }"
                     >Recuperar senha!</router-link
                   >
                 </p>

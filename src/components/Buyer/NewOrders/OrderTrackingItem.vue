@@ -11,7 +11,7 @@
     <div class="bg-green-500 h-20 pl-4 pt-2 col-start-4 col-end-12  rounded-xl my-2  mr-auto shadow-md w-full">
       <h3 class="font-semibold text-lg mb-1">{{status}}</h3>
         <p class="leading-tight text-justify w-full">
-          {{time}}
+          {{formatTime(time)}}
         </p>
       </div>
     </div>
@@ -24,6 +24,16 @@ export default {
     data() {
         return {
         }
+    },
+    methods: {
+      formatTime(time) {
+        if (time.length === 10){
+          return time
+        }
+        else {
+          return new Date(time).toLocaleString('pt-BR')
+        }
+      }
     }
 }
 </script>

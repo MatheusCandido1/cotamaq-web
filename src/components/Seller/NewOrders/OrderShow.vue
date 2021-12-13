@@ -19,17 +19,18 @@
                     </button> 
                     <div class="w-full relative inline-block text-left dropdown">
                             <span class="rounded-md shadow-sm"
-                            ><button :class="formatStatus(order.status).bg" class="md:h-8 inline-flex my-5 text-white justify-center w-full px-4 py-1 text-sm font-medium leading-5 transition duration-150 ease-in-out border rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
+                            >
+                            <button v-tooltip="{ content: order.payment_method != null || order.payment_condition != null ? 'Status do pedido' : 'O comprador ainda não escolheu o método ou condição de pagamento.' }" :class="formatStatus(order.status).bg" class="md:h-8 inline-flex my-5 text-white justify-center w-full px-4 py-1 text-sm font-medium leading-5 transition duration-150 ease-in-out border rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
                                 <span>
                                     <i :class="formatStatus(order.status).icon" class="text-white mr-1"></i>
                                     {{formatStatus(order.status).text}}
                                 </span>
-                                <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <svg v-if="order.payment_method != null || order.payment_condition != null" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </button
                             ></span>
-                            <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+                            <div v-if="order.payment_method != null || order.payment_condition != null" class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
                             <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                                <div class="">                                    
+                                <div class="">                                 
                                     <button v-if="order.status == 1" class="hover:bg-gray-100 text-black w-full flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-alert-octagon-outline mr-2"></i>Não Disponível</button>
                                     <button v-if="order.status == 2" @click="showStatusModal(3)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-package-variant-closed mr-2"></i>Em preparo</button>
                                     <button v-if="order.status == 3 && order.delivery == 1" @click="showStatusModal(4)" class="hover:bg-gray-100 text-black flex justify-start w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" ><i class="mdi mdi-truck-fast-outline mr-2"></i>Em trânsito</button>
@@ -42,7 +43,7 @@
                             </div>
                         </div>
                         </div>
-                        <a target="_blank" :href="'https://prod.cotamaq.com.br/api/v1/orders/' + order.id + '/pdf'" class=" bg-gray-600  text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white md:ml-2 md:h-8">
+                        <a target="_blank" :href="`${url}/orders/` + order.id + '/pdf'" class=" bg-gray-600  text-center w-full text-sm px-2 py-1.5 font-semibold text-white rounded-md dark:text-white md:ml-2 md:h-8">
                             <span class="justify-center"><i class="mdi mdi-printer text-white mr-1"></i>Imprimir</span>
                         </a> 
                 </div>
@@ -240,10 +241,16 @@
                 </div>
                 <div class="md:w-1/3 px-3 mb-2 md:mb-0">
                     <label class="text-sm font-semibold text-gray-600 px-1">
+                    Comprador
+                    </label>
+                    <input disabled :value="formatMissingInformation(buyer.name)"  placeholder="" type="text" class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
+                </div>
+                <!-- <div class="md:w-1/3 px-3 mb-2 md:mb-0">
+                    <label class="text-sm font-semibold text-gray-600 px-1">
                         Celular
                     </label>
                     <input disabled :value="formatMissingInformation(buyer.phone)" type="text"  class="w-full pl-2 pr-3 py-2 rounded border-b-2 border-primary-main shadow-md py-2 px-6 outline-none  focus:border-primary-lighter">
-                </div>
+                </div> -->
                 </div>
             </form>
             <div v-if="order.proposal != null" class="flex flex-row justify-between mt-4">
@@ -291,12 +298,13 @@
          </tbody>
        </table>
        <div v-if="order.proposal != null && order.status == 3" class="flex flex-row justify-center mt-4">
-          <div class="py-1">
+          
+          <div v-if="order.status != null && order.status == 3" class="py-1 flex whitespace-nowrap">
+            <div class="py-1">
             <h2 class="text-2xl font-semibold text-center text-gray-700 dark:text-gray-200">
               Pagamento -
             </h2>
           </div>
-          <div v-if="order.status != null && order.status == 3" class="py-1 flex whitespace-nowrap">
             <button @click="showPaymentsModal" v-if="order.status == 3" class="bg-primary-main text-center w-full text-sm px-2 py-1 font-semibold text-white rounded-md dark:text-white ml-2">
               <span class="justify-center"><i class="mdi mdi-check text-white mr-1"></i>Método: {{order.payment_method}} <span class="font-bold"></span></span>
             </button>
@@ -366,6 +374,7 @@
 
 <script>
 import {bus} from '../../../main';
+import {API_URL} from '../../../API_URL'
 import {orderService} from '../../../services'
 import OrderAlert from './OrderAlert';
 import {BarLoader} from '@saeris/vue-spinners';
@@ -418,6 +427,7 @@ export default {
   },
   data() {
     return {
+      url: API_URL,
       errors: {
         paymentMethod: null,
         paymentCondition: null
@@ -461,7 +471,7 @@ export default {
         {id: 2, bg: 'bg-orange-400', text: 'Aguardando comprador', icon: 'mdi mdi-progress-clock'},
         {id: 3, bg: 'bg-blue-500', text: 'Em preparo', icon: 'mdi mdi-package-variant-closed'},
         {id: 4, bg: 'bg-indigo-600', text: 'Em trânsito', icon: 'mdi mdi-truck-fast-outline'},
-        {id: 5, bg: 'bg-primary-main', text: 'Entregue', icon: 'mdi mdi-calendar-check-outline'},
+        {id: 5, bg: 'bg-primary-main', text: `${this.order.delivery ? 'Entregue' : 'Pronto para retirada'}`, icon: 'mdi mdi-calendar-check-outline'},
       ],
     }
   },

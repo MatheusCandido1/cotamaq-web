@@ -1,6 +1,20 @@
 module.exports = {
     purge: [],
     theme: {
+        fontSize: {
+            'xs': '.85rem',
+            'sm': '.975rem',
+            'tiny': '.975rem',
+            'base': '1.1rem',
+            'lg': '1.225rem',
+            'xl': '1.35rem',
+            '2xl': '1.6rem',
+            '3xl': '1.975rem',
+            '4xl': '2.35rem',
+            '5xl': '3.1rem',
+            '6xl': '4.1rem',
+            '7xl': '5.1rem'
+          },
         extend: {
             colors: {
                 primary: {

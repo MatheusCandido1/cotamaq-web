@@ -323,7 +323,7 @@ export default {
             },
             colors: ["bg-red-500", "bg-primary-main"],
             defaults: ['Não', 'Sim'],
-            statusName: ['Pendente','Em preparo','Em trânsito','Entregue'],
+            statusName: ['Pendente','Em preparo','Em trânsito',`${this.order.delivery ? 'Entregue' : 'Pronto para retirada'}`],
             statusColor: ['bg-orange-400','bg-blue-400','bg-indigo-600','bg-primary-main'],
             statusIcon: ['mdi mdi-progress-clock','mdi mdi-package-variant-closed','mdi mdi-truck-fast-outline','mdi mdi-calendar-check-outline']
         }
